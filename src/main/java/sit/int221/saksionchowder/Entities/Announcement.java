@@ -30,9 +30,6 @@ public class Announcement {
     private ZonedDateTime closeDate;
 
     @Enumerated(EnumType.STRING)
-    public AnnouncementDisplay announcementDisplay;
-
-
-
+    private AnnouncementDisplay announcementDisplay;
 
 }

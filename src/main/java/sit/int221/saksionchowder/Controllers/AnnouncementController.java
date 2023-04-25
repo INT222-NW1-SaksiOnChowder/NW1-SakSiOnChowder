@@ -23,7 +23,7 @@ public class AnnouncementController {
     public List<Announcement> getAllAnnouncements() {
         List<Announcement> announcements = announcementService.getAllAnnouncements();
         if (announcements.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Announcement ID ... do not exist!.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No any Announcements");
         }
         return announcements;
     }
