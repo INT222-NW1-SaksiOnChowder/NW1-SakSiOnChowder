@@ -16,8 +16,7 @@ import lombok.Setter;
 public class Category {
     @Id
     @Column(name = "categoryId", nullable = false)
-    @JsonIgnore
-    private Integer categoryId;
+    private Integer categoryId1;
 
     @Column(name = "categoryName", nullable = false, length = 50)
     private String categoryName;

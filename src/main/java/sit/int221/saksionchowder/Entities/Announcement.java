@@ -21,9 +21,6 @@ public class Announcement {
     @Column(name = "announcementDescription", nullable = false, length = 10000)
     private String announcementDescription;
 
-    @ManyToOne
-    @JoinColumn(name = "categoryId")
-    private Category announcementCategory;
     @Column(name = "publishDate", nullable = true)
     private ZonedDateTime publishDate;
     @Column(name = "closeDate", nullable = true)
@@ -31,5 +28,9 @@ public class Announcement {
 
     @Enumerated(EnumType.STRING)
     private AnnouncementDisplay announcementDisplay;
+
+    @ManyToOne
+    @JoinColumn(name = "categoryId")
+    private Category categoryId;
 
 }
