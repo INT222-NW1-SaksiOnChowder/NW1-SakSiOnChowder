@@ -1,5 +1,6 @@
 package sit.int221.saksionchowder.Services;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,17 +18,16 @@ public class AnnouncementService {
 
     public List<Announcement> getAllAnnouncements() {
         List<Announcement> announcements = announcementRepository.findAllAnnouncementsByIdDesc();
+        if (announcements.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No any Announcements");
+        }
         return announcements;
     }
 
-    public Announcement getDetailsById(Integer id){
-        Announcement announcement = announcementRepository.findById(id).orElseThrow
-                (() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Announcement ID … do not exist!."));
-        return announcement;
+    public Announcement getDetailsById(Integer id) {
+        return announcementRepository.findById(id).orElseThrow(() -> new ResponseStatusException
+                (HttpStatus.NOT_FOUND, "Announcement ID " + id + " do not exist!."));
     }
-
-
-
 
 
 }
