@@ -1,122 +1,80 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { getAnnouncements } from '../composable/getInformation.js'
+import { ref, onMounted } from "vue"
+
+const announcements = ref([])
+
+onMounted(async () => {
+  announcements.value = await getAnnouncements()
+})
+
 </script>
 
 <template>
-    
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3">
-                    Product name
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Color
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Category
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Price
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Action
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Apple MacBook Pro 17"
-                </th>
-                <td class="px-6 py-4">
-                    Silver
-                </td>
-                <td class="px-6 py-4">
-                    Laptop
-                </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-            <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Microsoft Surface Pro
-                </th>
-                <td class="px-6 py-4">
-                    White
-                </td>
-                <td class="px-6 py-4">
-                    Laptop PC
-                </td>
-                <td class="px-6 py-4">
-                    $1999
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Magic Mouse 2
-                </th>
-                <td class="px-6 py-4">
-                    Black
-                </td>
-                <td class="px-6 py-4">
-                    Accessories
-                </td>
-                <td class="px-6 py-4">
-                    $99
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-            <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Google Pixel Phone
-                </th>
-                <td class="px-6 py-4">
-                    Gray
-                </td>
-                <td class="px-6 py-4">
-                    Phone
-                </td>
-                <td class="px-6 py-4">
-                    $799
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Apple Watch 5
-                </th>
-                <td class="px-6 py-4">
-                    Red
-                </td>
-                <td class="px-6 py-4">
-                    Wearables
-                </td>
-                <td class="px-6 py-4">
-                    $999
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+  <div class="w-full h-full my-5">
+    <h1 class="flex justify-center items-center text-3xl font-bold">
+      SIT Announcement System (SAS)
+    </h1>
+    <p class="mx-10 mt-5">Date/Time shown in Timezone : {{ text }}</p>
+  </div>
+  <div class="mx-3 relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left dark:text-gray-400">
+      <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">
+            No.
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Title
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Category
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Publish Date
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Close Date
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Display
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Action
+          </th>
+        </tr>
+      </thead>
 
+      <tbody>
+        <tr v-for="(announcement, index) in announcements" :key="index"
+          class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {{ ++index }}
+          </th>
+          <td class="px-6 py-4">
+            {{ announcement.announcementTitle }}
+          </td>
+          <td class="px-6 py-4">
+            {{ announcement.announcementCategory.categoryName }}
+          </td>
+          <td class="px-6 py-4">
+            {{ announcement.publishDate }}
+          </td>
+          <td class="px-6 py-4">
+            {{ announcement.closeDate }}
+          </td>
+          <td class="px-6 py-4">
+            {{ announcement.announcementDisplay }}
+          </td>
+          <td class="px-6 py-4">
+            <router-link :to="{ name: 'announcementDetail' }" active-class="active">
+              <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
+            </router-link>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
