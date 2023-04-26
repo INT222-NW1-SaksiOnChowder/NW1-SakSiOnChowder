@@ -7,7 +7,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <thead>
     <tr>
       <th class="text-pink-300">Song</th>
-      <th>Artist</th>
+      <th class="text-4xl">Artist</th>
       <th>Year</th>
     </tr>
   </thead>
