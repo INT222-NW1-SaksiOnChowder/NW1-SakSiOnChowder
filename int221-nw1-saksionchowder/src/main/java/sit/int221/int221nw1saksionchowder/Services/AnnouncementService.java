@@ -1,0 +1,32 @@
+package sit.int221.int221nw1saksionchowder.Services;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import sit.int221.int221nw1saksionchowder.Entities.Announcement;
+import sit.int221.int221nw1saksionchowder.Repositories.AnnouncementRepository;
+
+import java.util.List;
+
+@Service
+public class AnnouncementService {
+    @Autowired
+    private AnnouncementRepository announcementRepository;
+
+    public List<Announcement> getAllAnnouncements() {
+        List<Announcement> announcements = announcementRepository.findAllAnnouncementsByIdDesc();
+        if (announcements.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No any Announcements");
+        }
+        return announcements;
+    }
+
+    public Announcement getDetailsById(Integer id) {
+        return announcementRepository.findById(id).orElseThrow(() -> new ResponseStatusException
+                (HttpStatus.NOT_FOUND, "Announcement ID " + id + " do not exist!."));
+    }
+
+
+}
