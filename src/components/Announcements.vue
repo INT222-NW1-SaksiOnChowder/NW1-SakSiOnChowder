@@ -1,22 +1,34 @@
 <script setup>
 import { getAnnouncements } from '../composable/getInformation.js'
 import { ref, onMounted } from "vue"
-
 const announcements = ref([])
+
+const date = new Date()
+const discrepancy = date.getTimezoneOffset()
+const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
 
 onMounted(async () => {
   announcements.value = await getAnnouncements()
+  const dateutc = announcements.value[0].closeDate
+  const dateict = new Date(dateutc)
+  const idate = dateict.toLocaleString()
+  console.log(dateutc);
+  console.log(dateict);
+  console.log(idate);
 })
 
 </script>
 
 <template>
+
   <div class="w-full h-full my-5">
     <h1 class="flex justify-center items-center text-3xl font-bold">
       SIT Announcement System (SAS)
     </h1>
-    <p class="mx-10 mt-5">Date/Time shown in Timezone : {{ text }}</p>
+    <p class="mx-10 mt-5">Date/Time shown in Timezone : {{ timezone }}</p>
   </div>
+
   <div class="mx-3 relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left dark:text-gray-400">
       <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -74,7 +86,20 @@ onMounted(async () => {
         </tr>
       </tbody>
     </table>
+
+    <div class="m-5">
+      เวลาปัจจุบันของเครื่อง : {{ date }}
+    </div>
+
+    <div class="m-5">
+      เวลาที่คลาดเคลื่อน : {{ discrepancy }} minute
+    </div>
+
+    <div class="m-5">
+      เวลาที่คลาดเคลื่อน : {{  }} minute
+    </div>
   </div>
 </template>
 
 <style scoped></style>
+
