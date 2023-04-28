@@ -4,45 +4,37 @@
             "id": 4,
             "announcementTitle": "กิจกรรมพี่อ้อย พี่ฉอด On Tour 2566",
             "announcementDescription": "ขอเชิญนักศึกษาทุกชั้นปี เข้าร่วมกิจกรรมพี่อ้อย พี่ฉอด On Tour",
-            "announcementCategory": {
-                "categoryName": "ทั่วไป"
-            },
             "publishDate": "2023-04-18T23:00:00Z",
             "closeDate": "2023-05-08T11:00:00Z",
-            "announcementDisplay": "Y"
+            "announcementDisplay": "Y",
+            "announcementCategory": "หางาน"
         },
         {
             "id": 3,
             "announcementTitle": "แนวปฎิบัติการสอบออนไลน์ พ.ศ. 2565",
             "announcementDescription": "ประกาศมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี เรื่องแนวทางปฎิบัติการสอบออนไลน์ พ.ศ. 2565",
-            "announcementCategory": {
-                "categoryName": "ทั่วไป"
-            },
             "publishDate": "2023-01-26T23:00:00Z",
             "closeDate": null,
-            "announcementDisplay": "Y"
+            "announcementDisplay": "Y",
+            "announcementCategory": "หางาน"
         },
         {
             "id": 2,
             "announcementTitle": "รายชื่อนักศึกษาที่ได้รับทุนการศึกษาประเภท \"ทุนจ้างงาน\" 2/2565",
             "announcementDescription": "คณะ ฯ ประกาศรายชื่อนักศึกษาที่ได้รับทุนการศึกษาประเภท \"ทุนจ้างงาน\" ประจําภาคการศึกษา 2/2565",
-            "announcementCategory": {
-                "categoryName": "ทุนการศึกษา"
-            },
             "publishDate": null,
             "closeDate": "2023-05-31T11:00:00Z",
-            "announcementDisplay": "Y"
+            "announcementDisplay": "Y",
+            "announcementCategory": "ทุนการศึกษา"
         },
         {
             "id": 1,
             "announcementTitle": "บริษัท เน็ตเซอร์พลัส จํากัด รับสมัครงาน 2 ตําแหน่ง",
-            "announcementDescription": "บริษัท เน็ตเซอร์พลัส จํากัด เปิดรับสมัครงาน 2 ตําแหน่ง Application Support และ Customer Support",
-            "announcementCategory": {
-                "categoryName": "หางาน"
-            },
+            "announcementDescription": "บริษัท เน็ตเซอร์พลัส จํากัด เปิดรับสมังาน 2 ตําแหน่ง Application Support และ Customer Support",
             "publishDate": null,
             "closeDate": null,
-            "announcementDisplay": "N"
+            "announcementDisplay": "N",
+            "announcementCategory": "ทั่วไป"
         }
     ]
   }

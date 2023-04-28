@@ -1,19 +1,32 @@
 <script setup>
 
 import { getAnnouncement } from '../composable/getInformation.js'
-import { ref, onMounted } from "vue"
+import { ref, onMounted, watchEffect } from "vue"
+import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
 
 const announcement = ref([])
+// const announcementID = ref()
 
-onMounted(async () => {
-  announcement.value = await getAnnouncement(2)
+const props = defineProps({
+    id : {
+        type: Number
+    }
 })
+
+watchEffect(async() => {
+    if (props.id === null || props.id === undefined) {
+        return ""
+    }
+    return announcement.value = await getAnnouncement(props.id)
+})
+
+
 
 </script>
 
 <template>
     <div>
-        <h1>
+        <h1 class="text-2xl">
             Announcement Detail:
         </h1>
     </div>
@@ -28,8 +41,7 @@ onMounted(async () => {
             <h1 class="mx-5">
                 Category
             </h1>
-            <p>--</p> 
-            <!-- announcement.announcementCategory.categoryName ยังใช้ไม่ได้ -->
+            <p>{{announcement.announcementCategory}}</p> 
         </div>
         <div class="flex my-5">
             <h1 class="mx-5">
@@ -41,13 +53,13 @@ onMounted(async () => {
             <h1 class="mx-5">
                 Publish Date
             </h1>
-            <p>{{ announcement.publishDate }}</p>
+            <p>{{ changeDateTimeFormat(announcement.publishDate) }}</p>
         </div>
         <div class="flex my-5">
             <h1 class="mx-5">
                 Close Date
             </h1>
-            <p>{{ announcement.closeDate }}</p>
+            <p>{{ changeDateTimeFormat(announcement.closeDate) }}</p>
         </div>
         <div class="flex my-5">
             <h1 class="mx-5">
@@ -56,6 +68,7 @@ onMounted(async () => {
             <p>{{ announcement.announcementDisplay }}</p>
         </div>
     </div>
+    <slot></slot>
 </template>
 
 <style scoped></style>

@@ -3,7 +3,7 @@ const getAnnouncements= async () => {
         const res = await fetch(`http://localhost:5000/announcements`)
         if (res.status === 200) {
             const user = await res.json()
-            console.log('Successfully')
+            console.log('All Successfully')
             return user
         } else {
             throw new Error('Announcement not found')
@@ -18,7 +18,7 @@ const getAnnouncement= async (id) => {
         const res = await fetch(`http://localhost:5000/announcements/${id}`)
         if (res.status === 200) {
             const user = await res.json()
-            console.log('Successfully')
+            console.log('Detail Successfully')
             return user
         } else {
             throw new Error('Announcement not found')
