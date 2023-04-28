@@ -9,7 +9,7 @@ import sit.int221.nw1apisas.Enums.AnnouncementDisplay;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "announcements")
+@Table(name = "Announcements")
 @Setter
 @Getter
 
