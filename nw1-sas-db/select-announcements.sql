@@ -1,2 +1,2 @@
 use SAS;
-select * from announcements;
+select * from Announcements;
