@@ -1,2 +1,2 @@
-use sas;
+use SAS;
 select * from announcements;
