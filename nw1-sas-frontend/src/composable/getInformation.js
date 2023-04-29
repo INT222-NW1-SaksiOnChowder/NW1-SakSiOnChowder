@@ -24,10 +24,8 @@ const getAnnouncement= async (id) => {
             console.log('Detail Successfully')
             return announcement
         } else {
-            return announcement
             throw new Error(`Announcement id ${id} doesn't exist`)
         }
-        // return announcement
     } catch (error) {
         console.log(`ERROR cannot read data: ${error}`);
     }   

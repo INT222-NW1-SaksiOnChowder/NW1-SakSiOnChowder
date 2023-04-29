@@ -10,16 +10,11 @@ const router = useRouter()
 watchEffect(async() => {
     const route = useRoute()
     announcement.value = await getAnnouncement(route.params.id)
-    console.log(announcement.value);
-    if (announcement.value == undefined) {
+    if (!announcement.value) {
         alert('KUY')
         router.push({name: "announcements"})
+        announcement.value = ""
     }
-    // console.log(typeof announcement.value);
-    // if (announcement.value.length === 0 || announcement.value === undefined) {
-    //     alert('133')
-        
-    // }
 })
 
 
