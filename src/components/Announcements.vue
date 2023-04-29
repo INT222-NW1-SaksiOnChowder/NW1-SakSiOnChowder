@@ -1,6 +1,6 @@
 <script setup>
 import { getAnnouncements } from "../composable/getInformation.js";
-import { ref, onMounted, onUpdated } from "vue";
+import { ref, onMounted, onUpdated, watch } from "vue";
 import AnnouncementDetail from "./AnnouncementDetail.vue";
 import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
 const announcements = ref([]);
@@ -20,11 +20,14 @@ const idDetail = (id) => {
   announcementID.value = Number(id);
 };
 
+onUpdated(()=>{
+  noAnnouncement()
+})
+
 const isAnnouncementFound = ref(false);
 const noAnnouncement = () => { 
   if (announcements.value.length <= 0) {
     isAnnouncementFound.value = true
-    return "No announcement found"
   } else {
     isAnnouncementFound.value = false
   }
@@ -94,7 +97,7 @@ const noAnnouncement = () => {
           </tr>
         </tbody>
       </table>
-      <div v-if="isAnnouncementFound" class="text-center text-3xl my-10">{{ noAnnouncement() }}</div>
+      <div v-if="isAnnouncementFound" class="text-center text-3xl my-10">No Announcement found</div>
     </div>
   </div>
   <AnnouncementDetail
