@@ -11,6 +11,7 @@ onMounted(async () => {
   announcements.value = await getAnnouncements();
 });
 
+
 const showDetail = ref(true);
 const idDetail = (id) => {
   showDetail.value = !showDetail.value;
