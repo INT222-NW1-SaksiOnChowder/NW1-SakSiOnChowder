@@ -3,18 +3,23 @@
 import { getAnnouncement } from '../composable/getInformation.js'
 import { ref, watchEffect} from "vue"
 import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
-import { useRoute } from 'vue-router';
+import { useRoute , useRouter } from 'vue-router';
 const announcement = ref([])
-
+const router = useRouter()
 
 watchEffect(async() => {
     const route = useRoute()
     announcement.value = await getAnnouncement(route.params.id)
-    console.log(typeof announcement.value);
-    if (announcement.value.length === 0 || announcement.value === undefined) {
-        alert('133')
-        
+    console.log(announcement.value);
+    if (announcement.value == undefined) {
+        alert('KUY')
+        router.push({name: "announcements"})
     }
+    // console.log(typeof announcement.value);
+    // if (announcement.value.length === 0 || announcement.value === undefined) {
+    //     alert('133')
+        
+    // }
 })
 
 
