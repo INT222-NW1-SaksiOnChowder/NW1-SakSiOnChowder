@@ -6,12 +6,15 @@ import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
 import { useRoute } from 'vue-router';
 const announcement = ref([])
 
+
 watchEffect(async() => {
     const route = useRoute()
-    if (route.params.id === null || route.params.id === undefined) {
-        return ""
+    announcement.value = await getAnnouncement(route.params.id)
+    console.log(typeof announcement.value);
+    if (announcement.value.length === 0 || announcement.value === undefined) {
+        alert('133')
+        
     }
-    return announcement.value = await getAnnouncement(route.params.id)
 })
 
 

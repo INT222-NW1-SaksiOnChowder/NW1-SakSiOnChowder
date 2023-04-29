@@ -6,12 +6,12 @@ const router = createRouter({
   routes:
     [
       {
-        path: '/',
+        path: '/admin/announcement',
         name: 'announcements',
         component: Announcements
       },
       {
-        path:'/announcementDetail/:id',
+        path:'/admin/announcement/:id',
         name:'announcementDetail',
         component: AnnouncementDetail
       }
