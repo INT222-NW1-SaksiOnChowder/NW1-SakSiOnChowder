@@ -6,7 +6,7 @@ insert into Categories(categoryName) values ("หางาน");
 insert into Categories(categoryName) values ("ฝึกงาน");
 
 insert into Announcements(announcementTitle,announcementDescription,announcementDisplay,categoryId) 
-values ('บริษัท เน็ตเซอร์พลัส จำกัด รับสมัครงาน 2 ตำแหน่ง','บริษัท เน็ตเซอร์พลัส จำกัด เปิดรับสมังาน 2 ตำแหน่ง Application Support และ Customer Support','N',3);
+values ('บริษัท เน็ตเซอร์พลัส จำกัด รับสมัครงาน 2 ตำแหน่ง','บริษัท เน็ตเซอร์พลัส จำกัด เปิดรับสมัครงาน 2 ตำแหน่ง Application Support และ Customer Support','N',3);
 
 insert into Announcements(announcementTitle,announcementDescription,closeDate,announcementDisplay,categoryId) 
 values ('รายชื่อนักศึกษาที่ได้รับทุนการศึกษาประเภท "ทุนจ้างงาน" 2/2565','คณะ ฯ ประกาศรายชื่อนักศึกษาที่ได้รับทุนการศึกษาประเภท "ทุนจ้างงาน" ประจําภาคการศึกษา 2/2565','2023-05-31 11:00:00','Y',2);
