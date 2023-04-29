@@ -22,7 +22,7 @@ public class AnnouncementService {
 
     public Announcement getDetailsById(Integer id) {
         return announcementRepository.findById(id).orElseThrow(() -> new ResponseStatusException
-                (HttpStatus.NOT_FOUND, "Announcement id does not exist"));
+                (HttpStatus.NOT_FOUND, "Announcement id"+ id +"does not exist"));
     }
 
 
