@@ -1,6 +1,6 @@
 <script setup>
 import { getAnnouncements } from "../composable/getInformation.js";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUpdated } from "vue";
 import AnnouncementDetail from "./AnnouncementDetail.vue";
 import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
 const announcements = ref([]);
@@ -9,20 +9,9 @@ const announcementID = ref();
 
 onMounted(async () => {
   announcements.value = await getAnnouncements();
-  const dateutc = announcements.value[0].closeDate;
-  const dateict = new Date(dateutc);
-
-  const dateString = dateict.toDateString();
-  const hour = dateict.getHours();
-  const minute = dateict.getMinutes();
-  const formattedTime = `${hour < 10 ? "0" : ""}${hour}:${
-    minute < 10 ? "0" : ""
-  }${minute}`;
-
-  const splitDate = dateString.split(" ");
-  const dateFormat = `${splitDate[2]} ${splitDate[1]} ${splitDate[3]}, ${formattedTime}`;
-  return dateFormat;
 });
+
+
 
 
 const showDetail = ref(true);
@@ -30,6 +19,16 @@ const idDetail = (id) => {
   showDetail.value = !showDetail.value;
   announcementID.value = Number(id);
 };
+
+const isAnnouncementFound = ref(false);
+const noAnnouncement = () => { 
+  if (announcements.value.length <= 0) {
+    isAnnouncementFound.value = true
+    return "No announcement found"
+  } else {
+    isAnnouncementFound.value = false
+  }
+}
 </script>
 
 <template>
@@ -95,6 +94,7 @@ const idDetail = (id) => {
           </tr>
         </tbody>
       </table>
+      <div v-if="isAnnouncementFound" class="text-center text-3xl my-10">{{ noAnnouncement() }}</div>
     </div>
   </div>
   <AnnouncementDetail
