@@ -1,24 +1,16 @@
 <script setup>
 import { getAnnouncements } from "../composable/getInformation.js";
 import { ref, onMounted, onUpdated, watch } from "vue";
-import AnnouncementDetail from "./AnnouncementDetail.vue";
 import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
 const announcements = ref([]);
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const announcementID = ref();
 
+
 onMounted(async () => {
   announcements.value = await getAnnouncements();
 });
 
-
-
-
-const showDetail = ref(true);
-const idDetail = (id) => {
-  showDetail.value = !showDetail.value;
-  announcementID.value = Number(id);
-};
 
 onUpdated(()=>{
   noAnnouncement()
@@ -35,7 +27,7 @@ const noAnnouncement = () => {
 </script>
 
 <template>
-  <div v-if="showDetail">
+  <div>
     <div class="w-full h-full my-5">
       <h1 class="flex justify-center items-center text-3xl font-bold">
         SIT Announcement System (SAS)
@@ -87,12 +79,11 @@ const noAnnouncement = () => {
               {{ announcement.announcementDisplay }}
             </td>
             <td class="px-6 py-4">
-              <button
+              <router-link :to="{name: 'announcementDetail', params: { id: announcement.id }}"><button
                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                @click="idDetail(announcement.id)"
               >
                 View
-              </button>
+              </button></router-link>
             </td>
           </tr>
         </tbody>
@@ -100,10 +91,6 @@ const noAnnouncement = () => {
       <div v-if="isAnnouncementFound" class="text-center text-3xl my-10">No Announcement found</div>
     </div>
   </div>
-  <AnnouncementDetail
-        v-else
-        :id="announcementID"
-      ><button class="bg-red-200" @click="idDetail">Back</button></AnnouncementDetail>
 </template>
 
 <style scoped></style>
