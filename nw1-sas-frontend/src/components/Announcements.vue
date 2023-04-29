@@ -11,7 +11,6 @@ onMounted(async () => {
   announcements.value = await getAnnouncements();
 });
 
-
 onUpdated(()=>{
   noAnnouncement()
 })
