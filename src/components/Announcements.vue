@@ -73,7 +73,7 @@ const idDetail = (id) => {
               {{ announcement.announcementTitle }}
             </td>
             <td class="px-6 py-4">
-              {{ announcement.announcementCategory.categoryName }}
+              {{ announcement.announcementCategory}}
             </td>
             <td class="px-6 py-4">
               {{ changeDateTimeFormat(announcement.publishDate) }}
