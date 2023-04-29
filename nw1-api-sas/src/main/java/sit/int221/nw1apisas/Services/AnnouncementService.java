@@ -17,15 +17,12 @@ public class AnnouncementService {
 
     public List<Announcement> getAllAnnouncements() {
         List<Announcement> announcements = announcementRepository.findAllAnnouncementsByIdDesc();
-        if (announcements.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No any Announcements");
-        }
         return announcements;
     }
 
     public Announcement getDetailsById(Integer id) {
         return announcementRepository.findById(id).orElseThrow(() -> new ResponseStatusException
-                (HttpStatus.NOT_FOUND, "Announcement ID " + id + " do not exist!."));
+                (HttpStatus.NOT_FOUND, "Announcement id does not exist"));
     }
 
 
