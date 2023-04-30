@@ -21,13 +21,7 @@ public class AnnouncementService {
     }
 
     public Announcement getDetailsById(Integer id) {
-        if(id==null || !(id instanceof Integer)){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad Request");
-        }else{
-            return announcementRepository.findById(id).orElseThrow(() -> new ResponseStatusException
-                    (HttpStatus.NOT_FOUND, "Announcement id"+ id +"does not exist"));
-        }
+        return announcementRepository.findById(id).orElseThrow(() -> new ResponseStatusException
+                (HttpStatus.NOT_FOUND, "Announcement id" + id + "does not exist"));
     }
-
-
 }
