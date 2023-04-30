@@ -4,8 +4,6 @@ import { ref, onMounted, onUpdated, watch } from "vue";
 import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
 const announcements = ref([]);
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-const announcementID = ref();
-
 
 onMounted(async () => {
   announcements.value = await getAnnouncements();
@@ -26,7 +24,8 @@ const noAnnouncement = () => {
 </script>
 
 <template>
-  <div>
+  <div v-if="isAnnouncementFound" class="text-center text-3xl my-10">No Announcement</div>
+  <div v-else>
     <div class="w-full h-full my-5">
       <h1 class="flex justify-center items-center text-3xl font-bold">
         SIT Announcement System (SAS)
@@ -45,7 +44,7 @@ const noAnnouncement = () => {
             <th scope="col" class="px-6 py-3">Category</th>
             <th scope="col" class="px-6 py-3">Publish Date</th>
             <th scope="col" class="px-6 py-3">Close Date</th>
-            <th scope="col" class="px-6 py-3">Display</th>
+            <th scope="col" class="px-6 py-3 text-center">Display</th>
             <th scope="col" class="px-6 py-3">Action</th>
           </tr>
         </thead>
@@ -74,7 +73,7 @@ const noAnnouncement = () => {
             <td class="px-6 py-4">
               {{ changeDateTimeFormat(announcement.closeDate) }}
             </td>
-            <td class="px-6 py-4">
+            <td class="px-6 py-4 text-center justify-items-center">
               {{ announcement.announcementDisplay }}
             </td>
             <td class="px-6 py-4">
@@ -87,7 +86,6 @@ const noAnnouncement = () => {
           </tr>
         </tbody>
       </table>
-      <div v-if="isAnnouncementFound" class="text-center text-3xl my-10">No Announcement found</div>
     </div>
   </div>
 </template>

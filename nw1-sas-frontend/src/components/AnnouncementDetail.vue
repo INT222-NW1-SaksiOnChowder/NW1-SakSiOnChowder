@@ -3,15 +3,18 @@
 import { getAnnouncement } from '../composable/getInformation.js'
 import { ref, watchEffect} from "vue"
 import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
-import { useRoute } from 'vue-router';
+import { useRoute , useRouter } from 'vue-router';
 const announcement = ref([])
+const router = useRouter()
 
 watchEffect(async() => {
     const route = useRoute()
-    if (route.params.id === null || route.params.id === undefined) {
-        return ""
+    announcement.value = await getAnnouncement(route.params.id)
+    if (!announcement.value) {
+        alert('The requested page is not available!')
+        router.push({name: "announcements"})
+        announcement.value = ""
     }
-    return announcement.value = await getAnnouncement(route.params.id)
 })
 
 
