@@ -9,6 +9,7 @@ import sit.int221.nw1apisas.Entities.Announcement;
 import sit.int221.nw1apisas.Repositories.AnnouncementRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnnouncementService {
@@ -21,7 +22,12 @@ public class AnnouncementService {
     }
 
     public Announcement getDetailsById(Integer id) {
-        return announcementRepository.findById(id).orElseThrow(() -> new ResponseStatusException
-                (HttpStatus.NOT_FOUND, "Announcement id" + id + "does not exist"));
+        if(!(id instanceof Integer)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }else{
+            return announcementRepository.findById(id).orElseThrow(() -> new ResponseStatusException
+                    (HttpStatus.NOT_FOUND, "Announcement id" + id + "does not exist"));
+        }
     }
 }
+
