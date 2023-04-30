@@ -21,8 +21,8 @@ watchEffect(async() => {
 </script>
 
 <template>
-    <div>
-        <h1 class="text-2xl ml-5">
+    <div class="mt-3">
+        <h1 class="text-2xl ml-5 font-bold">
             Announcement Detail:
         </h1>
     </div>
@@ -64,7 +64,7 @@ watchEffect(async() => {
             <p>{{ announcement.announcementDisplay }}</p>
         </div>
     </div>
-    <router-link :to="{name: 'announcements'}"><button class="bg-red-200 rounded-lg p-2 ml-5" @click="idDetail">Back</button></router-link>
+    <router-link :to="{name: 'announcements'}"><button class="bg-gray-200 rounded-md py-2 px-5 ml-5 hover:bg-red-200" @click="idDetail">Back</button></router-link>
 </template>
 
 <style scoped></style>

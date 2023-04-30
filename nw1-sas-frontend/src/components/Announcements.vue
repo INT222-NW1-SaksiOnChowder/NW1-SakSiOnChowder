@@ -30,10 +30,10 @@ const noAnnouncement = () => {
       <h1 class="flex justify-center items-center text-3xl font-bold">
         SIT Announcement System (SAS)
       </h1>
-      <p class="mx-10 mt-5">Date/Time shown in Timezone : {{ timezone }}</p>
+      <p class="mx-5 mt-5 font-semibold">Date/Time shown in Timezone : <span class="font-normal">{{ timezone }}</span></p>
     </div>
 
-    <div class="mx-3 relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div class="mx-5 relative overflow-x-auto shadow-md sm:rounded-lg">
       <table class="w-full text-sm text-left dark:text-gray-400">
         <thead
           class="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
@@ -45,7 +45,7 @@ const noAnnouncement = () => {
             <th scope="col" class="px-6 py-3">Publish Date</th>
             <th scope="col" class="px-6 py-3">Close Date</th>
             <th scope="col" class="px-6 py-3 text-center">Display</th>
-            <th scope="col" class="px-6 py-3">Action</th>
+            <th scope="col" class="px-6 py-3 text-center">Action</th>
           </tr>
         </thead>
 
@@ -76,11 +76,11 @@ const noAnnouncement = () => {
             <td class="px-6 py-4 text-center justify-items-center">
               {{ announcement.announcementDisplay }}
             </td>
-            <td class="px-6 py-4">
+            <td class="px-6 py-4 text-center">
               <router-link :to="{name: 'announcementDetail', params: { id: announcement.id }}"><button
-                class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                class="font-medium text-blue-600 dark:text-blue-500 hover:underline rounded-md bg-gray-200 px-5 py-2"
               >
-                View
+                view
               </button></router-link>
             </td>
           </tr>
