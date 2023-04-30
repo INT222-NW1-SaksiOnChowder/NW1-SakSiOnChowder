@@ -11,12 +11,13 @@ import sit.int221.nw1apisas.Entities.Announcement;
 import sit.int221.nw1apisas.Dtos.AnnouncementDto;
 import sit.int221.nw1apisas.Services.AnnouncementService;
 import sit.int221.nw1apisas.Utils.ListMapper;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/api/announcements")
+@CrossOrigin
 public class AnnouncementController {
     @Autowired
     private AnnouncementService announcementService;
