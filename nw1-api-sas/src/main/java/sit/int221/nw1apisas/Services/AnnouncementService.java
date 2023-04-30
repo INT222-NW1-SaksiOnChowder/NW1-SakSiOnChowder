@@ -21,7 +21,7 @@ public class AnnouncementService {
     }
 
     public Announcement getDetailsById(Integer id) {
-        if(!(id instanceof Integer)){
+        if(id==null || !(id instanceof Integer)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad Request");
         }else{
             return announcementRepository.findById(id).orElseThrow(() -> new ResponseStatusException
