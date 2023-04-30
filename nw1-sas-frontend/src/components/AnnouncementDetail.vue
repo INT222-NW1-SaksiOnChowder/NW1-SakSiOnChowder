@@ -11,7 +11,7 @@ watchEffect(async() => {
     const route = useRoute()
     announcement.value = await getAnnouncement(route.params.id)
     if (!announcement.value) {
-        alert('The requested page is not available!')
+        alert('The request page is not available')
         router.push({name: "announcements"})
         announcement.value = ""
     }
@@ -31,40 +31,40 @@ watchEffect(async() => {
             <h1 class="mx-5">
                 Title
             </h1>
-            <p>{{ announcement.announcementTitle }}</p>
+            <p class="ann-title">{{ announcement.announcementTitle }}</p>
         </div>
         <div class="flex my-5">
             <h1 class="mx-5">
                 Category
             </h1>
-            <p>{{announcement.announcementCategory}}</p> 
+            <p class="ann-category">{{announcement.announcementCategory}}</p> 
         </div>
         <div class="flex my-5">
             <h1 class="mx-5">
                 Description
             </h1>
-            <p>{{ announcement.announcementDescription }}</p>
+            <p class="ann-description">{{ announcement.announcementDescription }}</p>
         </div>
         <div class="flex my-5">
             <h1 class="mx-5">
                 Publish Date
             </h1>
-            <p>{{ changeDateTimeFormat(announcement.publishDate) }}</p>
+            <p class="ann-publish-date">{{ changeDateTimeFormat(announcement.publishDate) }}</p>
         </div>
         <div class="flex my-5">
             <h1 class="mx-5">
                 Close Date
             </h1>
-            <p>{{ changeDateTimeFormat(announcement.closeDate) }}</p>
+            <p class="ann-close-date">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
         </div>
         <div class="flex my-5">
             <h1 class="mx-5">
                 Display
             </h1>
-            <p>{{ announcement.announcementDisplay }}</p>
+            <p class="ann-display">{{ announcement.announcementDisplay }}</p>
         </div>
     </div>
-    <router-link :to="{name: 'announcements'}"><button class="bg-gray-200 rounded-md py-2 px-5 ml-5 hover:bg-red-200" @click="idDetail">Back</button></router-link>
+    <router-link :to="{name: 'announcements'}"><button class="ann-button bg-gray-200 rounded-md py-2 px-5 ml-5 hover:bg-red-200" @click="idDetail">Back</button></router-link>
 </template>
 
 <style scoped></style>
