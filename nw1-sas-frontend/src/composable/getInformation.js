@@ -7,7 +7,7 @@ const getAnnouncements= async () => {
             console.log('All Successfully')
             return announcement
         } else {
-            throw new Error('No announcement')
+            throw new Error('No Announcement')
         }
     } catch (error) {
         console.log(`ERROR cannot read data: ${error}`);
