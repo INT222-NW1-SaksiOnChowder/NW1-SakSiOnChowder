@@ -11,7 +11,7 @@ watchEffect(async() => {
     const route = useRoute()
     announcement.value = await getAnnouncement(route.params.id)
     if (!announcement.value) {
-        alert('KUY')
+        alert('The requested page is not available!')
         router.push({name: "announcements"})
         announcement.value = ""
     }

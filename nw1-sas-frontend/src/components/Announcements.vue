@@ -44,7 +44,7 @@ const noAnnouncement = () => {
             <th scope="col" class="px-6 py-3">Category</th>
             <th scope="col" class="px-6 py-3">Publish Date</th>
             <th scope="col" class="px-6 py-3">Close Date</th>
-            <th scope="col" class="px-6 py-3">Display</th>
+            <th scope="col" class="px-6 py-3 text-center">Display</th>
             <th scope="col" class="px-6 py-3">Action</th>
           </tr>
         </thead>
@@ -73,7 +73,7 @@ const noAnnouncement = () => {
             <td class="px-6 py-4">
               {{ changeDateTimeFormat(announcement.closeDate) }}
             </td>
-            <td class="px-6 py-4">
+            <td class="px-6 py-4 text-center justify-items-center">
               {{ announcement.announcementDisplay }}
             </td>
             <td class="px-6 py-4">
