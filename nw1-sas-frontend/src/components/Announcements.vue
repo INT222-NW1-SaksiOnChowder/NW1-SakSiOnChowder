@@ -24,7 +24,7 @@ const noAnnouncement = () => {
 </script>
 
 <template>
-  <div v-if="isAnnouncementFound" class="text-center text-3xl my-10">No Announcement</div>
+  <div v-if="isAnnouncementFound" class="text-center text-3xl my-10">No Announcements</div>
   <div v-else>
     <div class="w-full h-full my-5">
       <h1 class="flex justify-center items-center text-3xl font-bold">
@@ -53,7 +53,7 @@ const noAnnouncement = () => {
           <tr
             v-for="(announcement, index) in announcements"
             :key="index"
-            class="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+            class="ann-item bg-white border-b dark:bg-gray-900 dark:border-gray-700"
           >
             <th
               scope="row"
@@ -61,19 +61,19 @@ const noAnnouncement = () => {
             >
               {{ ++index }}
             </th>
-            <td class="px-6 py-4">
+            <td class="ann-title px-6 py-4">
               {{ announcement.announcementTitle }}
             </td>
-            <td class="px-6 py-4">
+            <td class="ann-category px-6 py-4">
               {{ announcement.announcementCategory}}
             </td>
-            <td class="px-6 py-4">
+            <td class="ann-publish-date px-6 py-4">
               {{ changeDateTimeFormat(announcement.publishDate) }}
             </td>
-            <td class="px-6 py-4">
+            <td class="ann-close-date px-6 py-4">
               {{ changeDateTimeFormat(announcement.closeDate) }}
             </td>
-            <td class="px-6 py-4 text-center justify-items-center">
+            <td class="ann-display px-6 py-4 text-center justify-items-center">
               {{ announcement.announcementDisplay }}
             </td>
             <td class="px-6 py-4 text-center">
