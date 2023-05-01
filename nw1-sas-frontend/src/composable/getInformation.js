@@ -11,7 +11,7 @@ const getAnnouncements= async () => {
         }
     } catch (error) {
         console.log(`ERROR cannot read data: ${error}`);
-    }
+    }   
 }
 
 const getAnnouncement= async (id) => {
