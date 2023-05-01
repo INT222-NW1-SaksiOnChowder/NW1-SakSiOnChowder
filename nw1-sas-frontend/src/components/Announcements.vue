@@ -24,7 +24,15 @@ const noAnnouncement = () => {
 </script>
 
 <template>
-  <div v-if="isAnnouncementFound" class="text-center text-3xl my-10">No Announcements</div>
+  <div v-if="isAnnouncementFound">
+    <div class="w-full h-full my-5">
+      <h1 class="flex justify-center items-center text-3xl font-bold">
+        SIT Announcement System (SAS)
+      </h1>
+      <p class="mx-5 mt-5 font-semibold">Date/Time shown in Timezone : <span class="font-normal">{{ timezone }}</span></p>
+      <div class="text-center text-3xl my-10">No Announcement</div>
+    </div>
+  </div>
   <div v-else>
     <div class="w-full h-full my-5">
       <h1 class="flex justify-center items-center text-3xl font-bold">
