@@ -2,10 +2,7 @@ package sit.int221.nw1apisas.Controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sit.int221.nw1apisas.Dtos.AnnouncementIdDto;
 import sit.int221.nw1apisas.Entities.Announcement;
 import sit.int221.nw1apisas.Dtos.AnnouncementDto;
@@ -34,6 +31,11 @@ public class AnnouncementController {
     @GetMapping("/{id}")
     public AnnouncementIdDto getDetailsById(@PathVariable Integer id){
         return modelMapper.map(announcementService.getDetailsById(id), AnnouncementIdDto.class);
+    }
+
+    @PostMapping("")
+    public Announcement createAnnouncement(Announcement announcement){
+        return announcementService.createAnnouncement(announcement);
     }
 
 }
