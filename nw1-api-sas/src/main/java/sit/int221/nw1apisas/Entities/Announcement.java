@@ -15,6 +15,7 @@ import java.time.ZonedDateTime;
 
 public class Announcement {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "announcementTitle", nullable = false, length = 200)
@@ -31,7 +32,7 @@ public class Announcement {
     private AnnouncementDisplay announcementDisplay;
 
     @ManyToOne
-    @JoinColumn(name = "categoryId")
+    @JoinColumn(name = "categoryId", nullable = false)
     private Category categoryId;
 
 }
