@@ -2,11 +2,15 @@
 import { getAnnouncements } from "../composable/getInformation.js"
 import { ref, onMounted, onUpdated, watch } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
+import { deleteAcc } from "../composable/deleteAnnouncement.js"
+import { useRoute , useRouter } from 'vue-router';
+const router = useRouter()
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 onMounted(async () => {
   announcements.value = await getAnnouncements()
+  announcements.value.sort((a,b) => b.id - a.id)
 })
 
 onUpdated(() => {
@@ -21,6 +25,17 @@ const noAnnouncement = () => {
     isAnnouncementFound.value = false
   }
 }
+
+const deleteAnnouncement = async(id) => {
+  router.push({name:'deleteAnnouncement', params: {id: id}})
+  const confirmed = confirm(`Are you sure you want to delete`)
+  if(confirmed){
+     await deleteAcc(id)
+   }
+  announcements.value = await getAnnouncements()
+  announcements.value.sort((a,b) => b.id - a.id)
+  router.push({name:'announcements'})
+  }
 </script>
 
 <template>
@@ -36,7 +51,7 @@ const noAnnouncement = () => {
         </p>
         <div class="mr-5 border hover:bg-red-200 font-semibold bg-gray-200 rounded-md items-center justify-center">
           <router-link :to="{ 
-                 name: 'addAnnouncements'
+                 name: 'addAnnouncement'
               }">
               <button class="px-5 py-2 text-sm ">Add Announcement</button>
             </router-link>
@@ -84,7 +99,9 @@ const noAnnouncement = () => {
                 }"><button
                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline rounded-md bg-gray-200 px-5 py-2">
                     view
-                  </button></router-link>
+                  </button>
+                </router-link>
+                    <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline rounded-md bg-gray-200 px-5 py-2 ml-2" @click="deleteAnnouncement(announcement.id)">Delete</button>
               </td>
             </tr>
           </tbody>

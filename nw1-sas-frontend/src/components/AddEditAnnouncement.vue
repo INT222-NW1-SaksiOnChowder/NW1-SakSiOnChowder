@@ -1,15 +1,14 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { createAnnouncement } from '../composable/addAnnouncement.js'
+import { useRoute , useRouter } from 'vue-router';
+const router = useRouter()
 
 const props = defineProps({
     announcement: { type: Object }
 })
 
 const displayShow = ref(false)
-const isDisplayShow = () => {
-    displayShow.value = !displayShow.value
-}
 
 const selectedPublishDate = ref()
 const selectedPublishTime = ref()
@@ -27,14 +26,6 @@ const announcementObj = ref({
         categoryName: ""
     }
 })
-
-
-
-// const timer = (date, time) => {
-//     const localDateTime = new Date(`${date} ${time}`)
-//     console.log(localDateTime)
-//     return localDateTime
-// }
 
 const setCategoryName = (addAnnouncement) => {
     switch (Number(addAnnouncement.categoryId.categoryId)) {
@@ -76,12 +67,8 @@ const submit = (addAnnouncement) => {
         // console.log(addAnnouncement);
         // console.log(addAnnouncement.publishDate);
         // console.log(addAnnouncement.closeDate);
-        const nulladd = null
-        console.log(nulladd);
-        console.log(addAnnouncement)
-
     }
-
+    router.push({name: 'announcements'})
 }
 
 </script>

@@ -4,6 +4,7 @@ import { getAnnouncement } from '../composable/getInformation.js'
 import { ref, watchEffect} from "vue"
 import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
 import { useRoute , useRouter } from 'vue-router';
+import AddEditAnnouncementVue from './AddEditAnnouncement.vue';
 const announcement = ref([])
 const router = useRouter()
 
@@ -17,10 +18,15 @@ watchEffect(async() => {
     }
 })
 
+const isShowEditTemplate = ref(false)
+const toggleEdit = () =>{
+    isShowEditTemplate.value = !isShowEditTemplate.value
+}
 
 </script>
 
 <template>
+    <div v-show="!isShowEditTemplate">
     <div class="mt-3">
         <h1 class="text-2xl ml-5 font-bold">
             Announcement Detail:
@@ -65,6 +71,12 @@ watchEffect(async() => {
         </div>
     </div>
     <router-link :to="{name: 'announcements'}"><button class="ann-button bg-gray-200 rounded-md py-2 px-5 ml-5 hover:bg-red-200" @click="idDetail">Back</button></router-link>
+    <!-- <router-link :to="{name: 'editAnnouncement', params:{id: announcement.id}}"> -->
+        <button class="bg-gray-200 rounded-md py-2 px-5" @click="toggleEdit">Edit</button>
+    <!-- </router-link> -->
+    </div>
+    <AddEditAnnouncementVue v-show="isShowEditTemplate"/>
+
 </template>
 
 <style scoped></style>
