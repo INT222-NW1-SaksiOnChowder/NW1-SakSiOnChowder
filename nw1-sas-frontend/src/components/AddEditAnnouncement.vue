@@ -34,8 +34,7 @@ const timer = () => {
     const seconds = String(utcDatetime.getUTCSeconds()).padStart(2, '0');
     const isoString = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`
     console.log(isoString)
-
-
+    return isoString
 };
 
 </script>
