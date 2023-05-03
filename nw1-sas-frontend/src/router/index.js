@@ -22,8 +22,18 @@ const router = createRouter({
       },
       {
         path: '/admin/announcement/add',
-        name:'addAnnouncements',
+        name:'addAnnouncement',
         component: AddEditAnnouncement
+      },
+      {
+        path: '/admin/announcement/:id/delete',
+        name: 'deleteAnnouncement',
+        component: Announcements
+      },
+      {
+        path: '/admin/announcement/:id/edit',
+        name: 'editAnnouncement',
+        component: AnnouncementDetail
       }
     ]
 })
