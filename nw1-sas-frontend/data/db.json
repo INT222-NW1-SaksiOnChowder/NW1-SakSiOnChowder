@@ -1,38 +1,420 @@
 {
-    "announcements" : 
-        [
-            {
-                "id": 4,
-                "announcementTitle": "กิจกรรมพี่อ้อย พี่ฉอด On Tour 2566",
-                "publishDate": "2023-04-18T23:00:00Z",
-                "closeDate": "2023-05-08T11:00:00Z",
-                "announcementDisplay": "Y",
-                "announcementCategory": "ทั่วไป"
-            },
-            {
-                "id": 3,
-                "announcementTitle": "แนวปฎิบัติการสอบออนไลน์ พ.ศ. 2565",
-                "publishDate": "2023-01-26T23:00:00Z",
-                "closeDate": null,
-                "announcementDisplay": "Y",
-                "announcementCategory": "ทั่วไป"
-            },
-            {
-                "id": 2,
-                "announcementTitle": "รายชื่อนักศึกษาที่ได้รับทุนการศึกษาประเภท \"ทุนจ้างงาน\" 2/2565",
-                "publishDate": null,
-                "closeDate": "2023-05-31T11:00:00Z",
-                "announcementDisplay": "Y",
-                "announcementCategory": "ทุนการศึกษา"
-            },
-            {
-                "id": 1,
-                "announcementTitle": "บริษัท เน็ตเซอร์พลัส จำกัด รับสมัครงาน 2 ตำแหน่ง",
-                "publishDate": null,
-                "closeDate": null,
-                "announcementDisplay": "N",
-                "announcementCategory": "หางาน"
-            }
-        ]
-    
+  "announcements": [
+    {
+      "id": 4,
+      "announcementTitle": "กิจกรรมพี่อ้อย พี่ฉอด On Tour 2566",
+      "publishDate": "2023-04-18T23:00:00Z",
+      "closeDate": "2023-05-08T11:00:00Z",
+      "announcementDisplay": "Y",
+      "announcementCategory": "ทั่วไป"
+    },
+    {
+      "id": 3,
+      "announcementTitle": "แนวปฎิบัติการสอบออนไลน์ พ.ศ. 2565",
+      "publishDate": "2023-01-26T23:00:00Z",
+      "closeDate": null,
+      "announcementDisplay": "Y",
+      "announcementCategory": "ทั่วไป"
+    },
+    {
+      "id": 2,
+      "announcementTitle": "รายชื่อนักศึกษาที่ได้รับทุนการศึกษาประเภท \"ทุนจ้างงาน\" 2/2565",
+      "publishDate": null,
+      "closeDate": "2023-05-31T11:00:00Z",
+      "announcementDisplay": "Y",
+      "announcementCategory": "ทุนการศึกษา"
+    },
+    {
+      "id": 1,
+      "announcementTitle": "บริษัท เน็ตเซอร์พลัส จำกัด รับสมัครงาน 2 ตำแหน่ง",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "announcementCategory": "หางาน"
+    },
+    {
+      "announcementTitle": "ทดสอบ",
+      "announcementDescription": "01",
+      "publishDate": "2023-05-04T00:49:00.000Z",
+      "closeDate": "2023-05-07T00:49:00.000Z",
+      "announcementDisplay": "Y",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": ""
+      },
+      "id": 5
+    },
+    {
+      "announcementTitle": "ทดสอบ",
+      "announcementDescription": "01",
+      "publishDate": "2023-05-04T00:49:00.000Z",
+      "closeDate": "2023-05-07T00:49:00.000Z",
+      "announcementDisplay": "Y",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": ""
+      },
+      "id": 6
+    },
+    {
+      "announcementTitle": "",
+      "announcementDescription": "",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": ""
+      },
+      "id": 7
+    },
+    {
+      "announcementTitle": "",
+      "announcementDescription": "",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "Y",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": ""
+      },
+      "id": 8
+    },
+    {
+      "announcementTitle": "",
+      "announcementDescription": "",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": ""
+      },
+      "id": 9
+    },
+    {
+      "announcementTitle": "",
+      "announcementDescription": "",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": ""
+      },
+      "id": 10
+    },
+    {
+      "announcementTitle": "",
+      "announcementDescription": "",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "Y",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": ""
+      },
+      "id": 11
+    },
+    {
+      "announcementTitle": "",
+      "announcementDescription": "",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": ""
+      },
+      "id": 12
+    },
+    {
+      "announcementTitle": "กหกหกเ",
+      "announcementDescription": "กเหเหกเ",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "Y",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": ""
+      },
+      "id": 13
+    },
+    {
+      "announcementTitle": "กหกหกเ",
+      "announcementDescription": "กเหเหกเ",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": ""
+      },
+      "id": 14
+    },
+    {
+      "announcementTitle": "gregdr",
+      "announcementDescription": "fdhdfhdf",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": ""
+      },
+      "id": 15
+    },
+    {
+      "announcementTitle": "gdrgd",
+      "announcementDescription": "dgdg",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 16
+    },
+    {
+      "announcementTitle": "gdrgd",
+      "announcementDescription": "dgdg",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": "2",
+        "categoryName": "ทั่วไป"
+      },
+      "id": 17
+    },
+    {
+      "announcementTitle": "drgrdhfdh",
+      "announcementDescription": "fdhdfh",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": "4",
+        "categoryName": ""
+      },
+      "id": 18
+    },
+    {
+      "announcementTitle": "หกดหกด",
+      "announcementDescription": "กหดหกด",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 19
+    },
+    {
+      "announcementTitle": "กดเกดเ",
+      "announcementDescription": "กดเดกเ",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": "3",
+        "categoryName": ""
+      },
+      "id": 20
+    },
+    {
+      "announcementTitle": "ก",
+      "announcementDescription": "ก",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "Y",
+      "categoryId": {
+        "categoryId": "3",
+        "categoryName": "หางาน"
+      },
+      "id": 21
+    },
+    {
+      "announcementTitle": "d",
+      "announcementDescription": "d",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 22
+    },
+    {
+      "announcementTitle": "f",
+      "announcementDescription": "f",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 23
+    },
+    {
+      "announcementTitle": "f",
+      "announcementDescription": "f",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 3,
+        "categoryName": "หางาน"
+      },
+      "id": 24
+    },
+    {
+      "announcementTitle": "f",
+      "announcementDescription": "f",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 25
+    },
+    {
+      "announcementTitle": "f",
+      "announcementDescription": "f",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 3,
+        "categoryName": "หางาน"
+      },
+      "id": 26
+    },
+    {
+      "announcementTitle": "c",
+      "announcementDescription": "c",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": "3",
+        "categoryName": "หางาน"
+      },
+      "id": 27
+    },
+    {
+      "announcementTitle": "a",
+      "announcementDescription": "a",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 4,
+        "categoryName": "ฝึกงาน"
+      },
+      "id": 28
+    },
+    {
+      "announcementTitle": "w",
+      "announcementDescription": "aaaa",
+      "publishDate": "2023-05-18T09:43:00.000Z",
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 2,
+        "categoryName": "ทุนการศึกษา"
+      },
+      "id": 29
+    },
+    {
+      "announcementTitle": "v",
+      "announcementDescription": "c",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 30
+    },
+    {
+      "announcementTitle": "fgdf",
+      "announcementDescription": "dfgdfg",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 31
+    },
+    {
+      "announcementTitle": "fgdf",
+      "announcementDescription": "dfgdfg",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 32
+    },
+    {
+      "announcementTitle": "r",
+      "announcementDescription": "r",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 33
+    },
+    {
+      "announcementTitle": "c",
+      "announcementDescription": "d",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 34
+    },
+    {
+      "announcementTitle": "f",
+      "announcementDescription": "cd",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 35
+    },
+    {
+      "announcementTitle": "ddvv",
+      "announcementDescription": "vv",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 36
+    }
+  ]
 }
