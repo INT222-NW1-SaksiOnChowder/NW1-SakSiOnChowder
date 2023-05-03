@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 const updatedAnnouncement = ref({
     announcementTitle: "",
@@ -16,21 +16,27 @@ const props = defineProps({
     announcement: { type: Object }
 })
 
-const time = ref()
-const time2 = ref()
+const selectedDate = ref()
+const selectedTime = ref()
+
+
 
 const timer = () => {
-    const x = time2 + ':00'
-    const y = time + ' '+ x
-    console.log(y);
-    const ict = 7*60*60*1000
-    const date = new Date(y)
-    date.setTime(date.getTime()+ict)
-    console.log(date);
-    date.toISOString()
-    console.log(date);
+    // const localDateTime = new Date(`${selectedDate.value} ${selectedTime.value}`)
+    const utcDatetime = new Date(`${selectedDate.value} ${selectedTime.value}`)
+    console.log(utcDatetime)
+   
+    const year = utcDatetime.getUTCFullYear();
+    const month = String(utcDatetime.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(utcDatetime.getUTCDate()).padStart(2, '0');
+    const hours = String(utcDatetime.getUTCHours()).padStart(2, '0');
+    const minutes = String(utcDatetime.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(utcDatetime.getUTCSeconds()).padStart(2, '0');
+    const isoString = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`
+    console.log(isoString)
 
-}
+
+};
 
 </script>
  
@@ -62,9 +68,9 @@ const timer = () => {
         </div>
         <div class="my-3">
             <label>Publish Date</label><br>
-            <input class="bg-gray-400 w-1/5 mr-5 rounded-sm" type="date" v-model="time">
-            <input class="bg-gray-400 w-1/5 rounded-sm" type="time" v-model="time2">
-            {{ timer()}}
+            <input class="bg-gray-400 w-1/5 mr-5 rounded-sm" type="date" v-model="selectedDate">
+            <input class="bg-gray-400 w-1/5 rounded-sm" type="time" v-model="selectedTime">
+            {{ timer() }}
         </div>
         <div class="my-3">
             <label>Close Date</label><br>
