@@ -5,6 +5,7 @@ import { ref, watchEffect} from "vue"
 import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
 import { useRoute , useRouter } from 'vue-router';
 import AddEditAnnouncementVue from './AddEditAnnouncement.vue';
+import Announcements from './Announcements.vue';
 const announcement = ref([])
 const router = useRouter()
 
@@ -43,7 +44,7 @@ const toggleEdit = () =>{
             <h1 class="mx-5">
                 Category
             </h1>
-            <p class="ann-category">{{announcement.announcementCategory}}</p> 
+            <p class="ann-category">{{ announcement.categoryId?.categoryName }}</p> 
         </div>
         <div class="flex my-5">
             <h1 class="mx-5">
@@ -72,10 +73,10 @@ const toggleEdit = () =>{
     </div>
     <router-link :to="{name: 'announcements'}"><button class="ann-button bg-gray-200 rounded-md py-2 px-5 ml-5 hover:bg-red-200" @click="idDetail">Back</button></router-link>
     <!-- <router-link :to="{name: 'editAnnouncement', params:{id: announcement.id}}"> -->
-        <button class="bg-gray-200 rounded-md py-2 px-5" @click="toggleEdit">Edit</button>
+        <button class="bg-gray-200 rounded-md py-2 px-5 ml-5" @click="toggleEdit">Edit</button>
     <!-- </router-link> -->
     </div>
-    <AddEditAnnouncementVue v-show="isShowEditTemplate"/>
+    <AddEditAnnouncementVue :announcement="announcement"  v-show="isShowEditTemplate"/>
 
 </template>
 

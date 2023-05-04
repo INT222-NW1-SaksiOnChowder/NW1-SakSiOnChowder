@@ -1,12 +1,14 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { createAnnouncement } from '../composable/addAnnouncement.js'
-import { useRoute , useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 const router = useRouter()
 
 const props = defineProps({
     announcement: { type: Object }
 })
+
+const announcementObj = ref()
 
 const displayShow = ref(false)
 
@@ -15,17 +17,26 @@ const selectedPublishTime = ref()
 const selectedCloseDate = ref()
 const selectedCloseTime = ref()
 
-const announcementObj = ref({
-    announcementTitle: "",
-    announcementDescription: "",
-    publishDate: "",
-    closeDate: "",
-    announcementDisplay: displayShow.value,
-    categoryId: {
-        categoryId: 1,
-        categoryName: ""
+//เพิ่มเงื่อนไข ตรงนี้
+if (props.announcement === undefined) {
+    announcementObj.value = {
+        announcementTitle: "hhh",
+        announcementDescription: "",
+        publishDate: "",
+        closeDate: "",
+        announcementDisplay: displayShow.value,
+        categoryId: {
+            categoryId: 1,
+            categoryName: ""
+        }
     }
-})
+} else {
+    announcementObj.value = props.announcement
+    console.log(announcementObj.value);
+}
+
+
+
 
 const setCategoryName = (addAnnouncement) => {
     switch (Number(addAnnouncement.categoryId.categoryId)) {
@@ -45,13 +56,17 @@ const setCategoryName = (addAnnouncement) => {
 }
 
 const submit = (addAnnouncement) => {
+
     setCategoryName(addAnnouncement)
-    addAnnouncement.categoryId.categoryId = Number(addAnnouncement.categoryId.categoryId)  
+
+    addAnnouncement.categoryId.categoryId = Number(addAnnouncement.categoryId.categoryId)
+
     if (addAnnouncement.announcementDisplay === true) {
         addAnnouncement.announcementDisplay = 'Y'
     } else {
         addAnnouncement.announcementDisplay = 'N'
     }
+
     addAnnouncement.publishDate = new Date(`${selectedPublishDate.value} ${selectedPublishTime.value}`)
     addAnnouncement.closeDate = new Date(`${selectedCloseDate.value} ${selectedCloseTime.value}`)
 
@@ -68,7 +83,7 @@ const submit = (addAnnouncement) => {
         // console.log(addAnnouncement.publishDate);
         // console.log(addAnnouncement.closeDate);
     }
-    router.push({name: 'announcements'})
+    router.push({ name: 'announcements' })
 }
 
 </script>
@@ -86,13 +101,13 @@ const submit = (addAnnouncement) => {
         </div>
         <div class="my-3">
             <label class="">Catagory</label><br>
-            <select class="bg-gray-400 w-2/5 rounded-sm" v-model="announcementObj.categoryId.categoryId">
+            <select class="bg-gray-400 w-2/5 rounded-sm" v-model="announcementObj.categoryId.category">
                 <option value="1">ทั่วไป</option>
                 <option value="2">ทุนการศึกษา</option>
                 <option value="3">หางาน</option>
                 <option value="4">ฝึกงาน</option>
             </select>
-            {{ announcementObj.categoryId.categoryId }}
+            {{ announcementObj.categoryId?.category }}
         </div>
         <div class="my-3">
             <label>Description</label><br>

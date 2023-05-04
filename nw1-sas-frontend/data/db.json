@@ -1,48 +1,40 @@
 {
   "announcements": [
     {
-      "id": 4,
-      "announcementTitle": "กิจกรรมพี่อ้อย พี่ฉอด On Tour 2566",
-      "publishDate": "2023-04-18T23:00:00Z",
-      "closeDate": "2023-05-08T11:00:00Z",
+      "announcementTitle": "1",
+      "announcementDescription": "1",
+      "publishDate": "2023-05-01T06:01:00.000Z",
+      "closeDate": "2023-05-09T06:00:00.000Z",
       "announcementDisplay": "Y",
-      "announcementCategory": "ทั่วไป"
+      "categoryId": {
+        "category": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 1
     },
     {
-      "id": 3,
-      "announcementTitle": "แนวปฎิบัติการสอบออนไลน์ พ.ศ. 2565",
-      "publishDate": "2023-01-26T23:00:00Z",
-      "closeDate": null,
-      "announcementDisplay": "Y",
-      "announcementCategory": "ทั่วไป"
-    },
-    {
-      "id": 2,
-      "announcementTitle": "รายชื่อนักศึกษาที่ได้รับทุนการศึกษาประเภท \"ทุนจ้างงาน\" 2/2565",
-      "publishDate": null,
-      "closeDate": "2023-05-31T11:00:00Z",
-      "announcementDisplay": "Y",
-      "announcementCategory": "ทุนการศึกษา"
-    },
-    {
-      "id": 1,
-      "announcementTitle": "บริษัท เน็ตเซอร์พลัส จำกัด รับสมัครงาน 2 ตำแหน่ง",
+      "announcementTitle": "2",
+      "announcementDescription": "2",
       "publishDate": null,
       "closeDate": null,
-      "announcementDisplay": "N",
-      "announcementCategory": "หางาน"
+      "announcementDisplay": "Y",
+      "categoryId": {
+        "category": 2,
+        "categoryName": "ทุนการศึกษา"
+      },
+      "id": 2
     },
     {
-      "id": 5
-    },
-    {
-      "id": 6
-    },
-    {
-      "id": 7
-    },
-    {
-      "id": 8
+      "announcementTitle": "hhh",
+      "announcementDescription": "2",
+      "publishDate": "2023-05-02T06:00:00.000Z",
+      "closeDate": null,
+      "announcementDisplay": "Y",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 3
     }
   ]
 }

@@ -3,14 +3,15 @@ import { getAnnouncements } from "../composable/getInformation.js"
 import { ref, onMounted, onUpdated, watch } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
 import { deleteAcc } from "../composable/deleteAnnouncement.js"
-import { useRoute , useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 const router = useRouter()
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+const categoryName = ref()
 
 onMounted(async () => {
   announcements.value = await getAnnouncements()
-  announcements.value.sort((a,b) => b.id - a.id)
+  announcements.value.sort((a, b) => b.id - a.id)
 })
 
 onUpdated(() => {
@@ -26,16 +27,16 @@ const noAnnouncement = () => {
   }
 }
 
-const deleteAnnouncement = async(id) => {
-  router.push({name:'deleteAnnouncement', params: {id: id}})
+const deleteAnnouncement = async (id) => {
+  router.push({ name: 'deleteAnnouncement', params: { id: id } })
   const confirmed = confirm(`Are you sure you want to delete`)
-  if(confirmed){
-     await deleteAcc(id)
-   }
-  announcements.value = await getAnnouncements()
-  announcements.value.sort((a,b) => b.id - a.id)
-  router.push({name:'announcements'})
+  if (confirmed) {
+    await deleteAcc(id)
   }
+  announcements.value = await getAnnouncements()
+  announcements.value.sort((a, b) => b.id - a.id)
+  router.push({ name: 'announcements' })
+}
 </script>
 
 <template>
@@ -50,11 +51,11 @@ const deleteAnnouncement = async(id) => {
           <span class="font-normal">{{ timezone }}</span>
         </p>
         <div class="mr-5 border hover:bg-red-200 font-semibold bg-gray-200 rounded-md items-center justify-center">
-          <router-link :to="{ 
-                 name: 'addAnnouncement'
-              }">
-              <button class="px-5 py-2 text-sm ">Add Announcement</button>
-            </router-link>
+          <router-link :to="{
+            name: 'addAnnouncement'
+          }">
+            <button class="px-5 py-2 text-sm ">Add Announcement</button>
+          </router-link>
         </div>
       </div>
       <div class="mx-5 mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -81,7 +82,7 @@ const deleteAnnouncement = async(id) => {
                 {{ announcement.announcementTitle }}
               </td>
               <td class="ann-category px-6 py-4">
-                {{ announcement.announcementCategory }}
+                {{ announcement.categoryId.categoryName }}
               </td>
               <td class="ann-publish-date px-6 py-4">
                 {{ changeDateTimeFormat(announcement.publishDate) }}
@@ -101,7 +102,9 @@ const deleteAnnouncement = async(id) => {
                     view
                   </button>
                 </router-link>
-                    <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline rounded-md bg-gray-200 px-5 py-2 ml-2" @click="deleteAnnouncement(announcement.id)">Delete</button>
+                <button
+                  class="font-medium text-blue-600 dark:text-blue-500 hover:underline rounded-md bg-gray-200 px-5 py-2 ml-2"
+                  @click="deleteAnnouncement(announcement.id)">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -110,7 +113,6 @@ const deleteAnnouncement = async(id) => {
       </div>
     </div>
   </div>
-
 </template>
 
 <style scoped></style>
