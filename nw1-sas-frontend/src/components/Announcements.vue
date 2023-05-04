@@ -4,6 +4,7 @@ import { ref, onMounted, onUpdated, watch } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
 import { deleteAcc } from "../composable/deleteAnnouncement.js"
 import { useRoute, useRouter } from 'vue-router';
+import EditAnnouncement from "./EditAnnouncement.vue";
 const router = useRouter()
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -96,7 +97,7 @@ const deleteAnnouncement = async (id) => {
               <td class="px-6 py-4 text-center">
                 <router-link :to="{
                   name: 'announcementDetail',
-                  params: { id: announcement.id },
+                  params: { id: announcement.id }
                 }"><button
                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline rounded-md bg-gray-200 px-5 py-2">
                     view

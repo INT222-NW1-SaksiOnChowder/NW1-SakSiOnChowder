@@ -7,34 +7,22 @@
       "closeDate": "2023-05-09T06:00:00.000Z",
       "announcementDisplay": "Y",
       "categoryId": {
-        "category": 1,
+        "categoryId": 1,
         "categoryName": "ทั่วไป"
       },
       "id": 1
     },
     {
-      "announcementTitle": "2",
-      "announcementDescription": "2",
-      "publishDate": null,
-      "closeDate": null,
+      "announcementTitle": "sm",
+      "announcementDescription": "am",
+      "publishDate": "2023-05-11T13:38:00.000Z",
+      "closeDate": "2023-05-12T13:38:00.000Z",
       "announcementDisplay": "Y",
       "categoryId": {
-        "category": 2,
+        "categoryId": 2,
         "categoryName": "ทุนการศึกษา"
       },
       "id": 2
-    },
-    {
-      "announcementTitle": "hhh",
-      "announcementDescription": "2",
-      "publishDate": "2023-05-02T06:00:00.000Z",
-      "closeDate": null,
-      "announcementDisplay": "Y",
-      "categoryId": {
-        "categoryId": 1,
-        "categoryName": "ทั่วไป"
-      },
-      "id": 3
     }
   ]
 }

@@ -4,10 +4,6 @@ import { createAnnouncement } from '../composable/addAnnouncement.js'
 import { useRoute, useRouter } from 'vue-router';
 const router = useRouter()
 
-const props = defineProps({
-    announcement: { type: Object }
-})
-
 const announcementObj = ref()
 
 const displayShow = ref(false)
@@ -18,22 +14,18 @@ const selectedCloseDate = ref()
 const selectedCloseTime = ref()
 
 //เพิ่มเงื่อนไข ตรงนี้
-if (props.announcement === undefined) {
-    announcementObj.value = {
-        announcementTitle: "hhh",
-        announcementDescription: "",
-        publishDate: "",
-        closeDate: "",
-        announcementDisplay: displayShow.value,
-        categoryId: {
-            categoryId: 1,
-            categoryName: ""
-        }
+announcementObj.value = {
+    announcementTitle: "",
+    announcementDescription: "",
+    publishDate: "",
+    closeDate: "",
+    announcementDisplay: displayShow.value,
+    categoryId: {
+        categoryId: 1,
+        categoryName: ""
     }
-} else {
-    announcementObj.value = props.announcement
-    console.log(announcementObj.value);
 }
+
 
 
 
@@ -82,8 +74,9 @@ const submit = (addAnnouncement) => {
         // console.log(addAnnouncement);
         // console.log(addAnnouncement.publishDate);
         // console.log(addAnnouncement.closeDate);
+        router.push({ name: 'announcements' })
     }
-    router.push({ name: 'announcements' })
+    // router.push({ name: 'announcements' })
 }
 
 </script>
@@ -107,7 +100,7 @@ const submit = (addAnnouncement) => {
                 <option value="3">หางาน</option>
                 <option value="4">ฝึกงาน</option>
             </select>
-            {{ announcementObj.categoryId?.category }}
+            {{ announcementObj.categoryId.category }}
         </div>
         <div class="my-3">
             <label>Description</label><br>
