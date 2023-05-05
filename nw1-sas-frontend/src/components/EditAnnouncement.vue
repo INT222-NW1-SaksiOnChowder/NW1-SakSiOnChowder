@@ -66,6 +66,7 @@ const submit = (addAnnouncement) => {
     // router.push({ name: 'announcements' })
 }
 
+
 </script>
  
 <template>
@@ -77,7 +78,7 @@ const submit = (addAnnouncement) => {
         </div>
         <div class="my-3">
             <label>Title</label><br>
-            <input class="bg-gray-400 w-full rounded-sm" type="text" v-model.trim="announcementObj.announcementTitle">
+            <input maxlength="200" class="bg-gray-400 w-full rounded-sm" type="text" v-model.trim="announcementObj.announcementTitle">
         </div>
         <div class="my-3">
             <label class="">Catagory</label><br>
@@ -91,7 +92,7 @@ const submit = (addAnnouncement) => {
         </div>
         <div class="my-3">
             <label>Description</label><br>
-            <textarea class="bg-gray-400 w-full rounded-sm" name="desc" id="three" cols="100" rows="5"
+            <textarea maxlength="10000" class="bg-gray-400 w-full rounded-sm" name="desc" id="three" cols="100" rows="5"
                 v-model.trim="announcementObj.announcementDescription"></textarea>
         </div>
         <div class="my-3">
