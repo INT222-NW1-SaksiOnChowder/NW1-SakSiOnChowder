@@ -52,6 +52,7 @@ const submit = (addAnnouncement) => {
     setCategoryName(addAnnouncement)
 
     addAnnouncement.categoryId.categoryId = Number(addAnnouncement.categoryId.categoryId)
+    console.log(addAnnouncement.categoryId.categoryId)
 
     if (addAnnouncement.announcementDisplay === true) {
         addAnnouncement.announcementDisplay = 'Y'

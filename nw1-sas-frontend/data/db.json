@@ -23,6 +23,57 @@
         "categoryName": "ทุนการศึกษา"
       },
       "id": 2
+    },
+    {
+      "announcementTitle": "AAA",
+      "announcementDescription": "AAAd",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป",
+        "category": "1"
+      },
+      "id": 3
+    },
+    {
+      "announcementTitle": "d",
+      "announcementDescription": "d",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป"
+      },
+      "id": 4
+    },
+    {
+      "announcementTitle": "เทส",
+      "announcementDescription": "เทสๆๆๆ",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "Y",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป",
+        "category": "1"
+      },
+      "id": 5
+    },
+    {
+      "announcementTitle": "dddd",
+      "announcementDescription": "ddddddd",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": {
+        "categoryId": 1,
+        "categoryName": "ทั่วไป",
+        "category": "1"
+      },
+      "id": 6
     }
   ]
 }
