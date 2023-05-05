@@ -9,8 +9,10 @@ onMounted(async () => {
     announcementObj.value = await getAnnouncement(route.params.id)
 })
 
-const findCategoryId = announcementObj.value.categoryId.categoryId
-console.log(findCategoryId)
+console.log(announcementObj.value)
+
+// const findCategoryId = announcementObj.value.categoryId.categoryId
+// console.log(findCategoryId)
 
 const displayShow = ref(false)
 const router = useRouter()
@@ -75,20 +77,20 @@ const submit = (addAnnouncement) => {
 
 </script>
  
-<template>
+<template>  
     <div class="mx-5">
         <div class="mt-3">
             <h1 class="text-2xl font-bold ">
                 Announcement Detail:
             </h1>
         </div>
-        <div class="my-3">
-            <label>Title</label><br>
-            <input maxlength="200" class="bg-gray-400 w-full rounded-sm" type="text" v-model.trim="announcementObj.announcementTitle">
+        <div class="my-3 flex">
+            <label class="font-semibold">Title</label>
+            <input maxlength="200" class="bg-gray-400 w-full rounded-sm ml-28" type="text" v-model.trim="announcementObj.announcementTitle">
         </div>
-        <div class="my-3">
-            <label class="">Catagory</label><br>
-            <select class="bg-gray-400 w-2/5 rounded-sm">
+        <div class="my-3 flex">
+            <label class="font-semibold">Catagory</label><br>
+            <select class="bg-gray-400 w-2/5 rounded-sm ml-20">
                 <option value="1">ทั่วไป</option>
                 <option value="2">ทุนการศึกษา</option>
                 <option value="3">หางาน</option>
@@ -125,3 +127,51 @@ const submit = (addAnnouncement) => {
 </template>
  
 <style scoped></style>
+
+
+<!-- <div class="mx-5">
+    <div class="mt-3">
+        <h1 class="text-2xl font-bold ">
+            Announcement Detail:
+        </h1>
+    </div>
+    <div class="my-3">
+        <label>Title</label><br>
+        <input maxlength="200" class="bg-gray-400 w-full rounded-sm" type="text" v-model.trim="announcementObj.announcementTitle">
+    </div>
+    <div class="my-3">
+        <label class="">Catagory</label><br>
+        <select class="bg-gray-400 w-2/5 rounded-sm">
+            <option value="1">ทั่วไป</option>
+            <option value="2">ทุนการศึกษา</option>
+            <option value="3">หางาน</option>
+            <option value="4">ฝึกงาน</option>
+        </select>
+        {{ announcementObj.categoryId?.category }}
+    </div>
+    <div class="my-3">
+        <label>Description</label><br>
+        <textarea maxlength="10000" class="bg-gray-400 w-full rounded-sm" name="desc" id="three" cols="100" rows="5"
+            v-model.trim="announcementObj.announcementDescription"></textarea>
+    </div>
+    <div class="my-3">
+        <label>Publish Date</label><br>
+        <input class="bg-gray-400 w-1/5 mr-5 rounded-sm" type="date" v-model="selectedPublishDate">
+        <input class="bg-gray-400 w-1/5 rounded-sm" type="time" v-model="selectedPublishTime">
+    </div>
+    <div class="my-3">
+        <label>Close Date</label><br>
+        <input class="bg-gray-400 w-1/5 mr-5 rounded-sm" type="date" v-model="selectedCloseDate">
+        <input class="bg-gray-400 w-1/5 rounded-sm" type="time" v-model="selectedCloseTime">
+    </div>
+    <div>
+        <label>Display</label><br>
+        <input type="checkbox" id="displayShow" v-model="announcementObj.announcementDisplay" />
+        <label for="displayShow" class="ml-2">Check to show this announcement</label>
+    </div>
+    <div class="mt-5">
+        <button class="mr-2 rounded-sm bg-gray-400 px-3 py-1" @click="submit(announcementObj)">Submit</button>
+        <router-link :to="{ name: 'announcementDetail' }"><button
+                class="rounded-sm bg-gray-400 px-3 py-1">Cancel</button></router-link>
+    </div>
+</div> -->
