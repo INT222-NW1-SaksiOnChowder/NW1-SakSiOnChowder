@@ -1,15 +1,16 @@
 <script setup>
 import { ref, onMounted } from "vue"
 import { getAnnouncement } from '../composable/getInformation.js'
-import { useRoute, useRouter} from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { updateAnnouncement } from '../composable/editAnnouncement'
 const announcementObj = ref({})
 onMounted(async () => {
     const route = useRoute()
     announcementObj.value = await getAnnouncement(route.params.id)
+    announcementObj.value.announcementDisplay = showAnnouncementDisplay(announcementObj.value)
+    setTime(announcementObj.value)
 })
 
-const displayShow = ref(false)
 const router = useRouter()
 const selectedPublishDate = ref()
 const selectedPublishTime = ref()
@@ -17,28 +18,50 @@ const selectedCloseDate = ref()
 const selectedCloseTime = ref()
 
 
-const setCategoryName = (addAnnouncement) => {
-    switch (Number(addAnnouncement.categoryId.categoryId)) {
-        case 1:
-            addAnnouncement.categoryId.categoryName = 'ทั่วไป'
-            break;
-        case 2:
-            addAnnouncement.categoryId.categoryName = 'ทุนการศึกษา'
-            break;
-        case 3:
-            addAnnouncement.categoryId.categoryName = 'หางาน'
-            break;
-        case 4:
-            addAnnouncement.categoryId.categoryName = 'ฝึกงาน'
-            break;
+const showAnnouncementDisplay = (announcement) => {
+    if (announcement.announcementDisplay === "Y") {
+        return true
+    } else {
+        return false
     }
+}
+
+const setTime = (announcement) => {
+    if (announcement.publishDate !== null) {
+        // PublishDate
+        const publishDateTime = new Date(announcement.publishDate)
+
+        // selectedPublishDate
+        const publishDay = `${publishDateTime.getUTCDate() < 10 ? "0" : ""}${publishDateTime.getUTCDate()}`
+        const publishMonth = `${publishDateTime.getMonth() + 1 < 10 ? "0" : ""}${publishDateTime.getMonth() + 1}`
+        const publishYear = publishDateTime.getFullYear()
+        selectedPublishDate.value = `${publishYear}-${publishMonth}-${publishDay}`
+
+        // selectedPublishTime
+        selectedPublishTime.value = `${publishDateTime.getHours() < 10 ? "0" : ""}${publishDateTime.getHours()}:${publishDateTime.getMinutes() < 10 ? "0" : ""}${publishDateTime.getMinutes()}`
+    }
+
+    if (announcement.closeDate !== null) {
+        //CloseDate
+        const closeDateTime = new Date(announcement.closeDate)
+
+        // selectedCloseDate
+        const closeDay = `${closeDateTime.getUTCDate() < 10 ? "0" : ""}${closeDateTime.getUTCDate()}`
+        const closeMonth = `${closeDateTime.getMonth() + 1 < 10 ? "0" : ""}${closeDateTime.getMonth() + 1}`
+        const closeYear = closeDateTime.getFullYear()
+        selectedCloseDate.value = `${closeYear}-${closeMonth}-${closeDay}`
+
+        // selectedCloseTime
+        selectedCloseTime.value = `${closeDateTime.getHours() < 10 ? "0" : ""}${closeDateTime.getHours()}:${closeDateTime.getMinutes() < 10 ? "0" : ""}${closeDateTime.getMinutes()}`
+    }
+
 }
 
 const submit = (addAnnouncement) => {
 
-    setCategoryName(addAnnouncement)
+    // setCategoryName(addAnnouncement)
 
-    addAnnouncement.categoryId.categoryId = Number(addAnnouncement.categoryId.categoryId)
+    addAnnouncement.categoryId = Number(addAnnouncement.categoryId)
 
     if (addAnnouncement.announcementDisplay === true) {
         addAnnouncement.announcementDisplay = 'Y'
@@ -54,7 +77,7 @@ const submit = (addAnnouncement) => {
         addAnnouncement.closeDate = null
     }
 
-    if (!addAnnouncement.announcementTitle || !addAnnouncement.announcementDescription || !addAnnouncement.categoryId.categoryId) {
+    if (!addAnnouncement.announcementTitle || !addAnnouncement.announcementDescription || !addAnnouncement.categoryId) {
         alert('cannot edit data')
     } else {
         updateAnnouncement(addAnnouncement)
@@ -65,6 +88,23 @@ const submit = (addAnnouncement) => {
     }
     // router.push({ name: 'announcements' })
 }
+
+// const setCategoryName = (addAnnouncement) => {
+//     switch (Number(addAnnouncement.categoryId.categoryId)) {
+//         case 1:
+//             addAnnouncement.categoryId.categoryName = 'ทั่วไป'
+//             break;
+//         case 2:
+//             addAnnouncement.categoryId.categoryName = 'ทุนการศึกษา'
+//             break;
+//         case 3:
+//             addAnnouncement.categoryId.categoryName = 'หางาน'
+//             break;
+//         case 4:
+//             addAnnouncement.categoryId.categoryName = 'ฝึกงาน'
+//             break;
+//     }
+// }
 
 
 </script>
@@ -78,17 +118,18 @@ const submit = (addAnnouncement) => {
         </div>
         <div class="my-3">
             <label>Title</label><br>
-            <input maxlength="200" class="bg-gray-400 w-full rounded-sm" type="text" v-model.trim="announcementObj.announcementTitle">
+            <input maxlength="200" class="bg-gray-400 w-full rounded-sm" type="text"
+                v-model.trim="announcementObj.announcementTitle">
         </div>
         <div class="my-3">
             <label class="">Catagory</label><br>
-            <select class="bg-gray-400 w-2/5 rounded-sm">
+            <select class="bg-gray-400 w-2/5 rounded-sm" v-model="announcementObj.categoryId">
                 <option value="1">ทั่วไป</option>
                 <option value="2">ทุนการศึกษา</option>
                 <option value="3">หางาน</option>
                 <option value="4">ฝึกงาน</option>
             </select>
-            {{ announcementObj.categoryId?.category }}
+            {{ announcementObj.categoryId }}
         </div>
         <div class="my-3">
             <label>Description</label><br>
