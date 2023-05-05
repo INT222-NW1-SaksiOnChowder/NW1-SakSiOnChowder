@@ -38,7 +38,7 @@ onMounted(async() => {
                 <h1 class="mx-5">
                     Category
                 </h1>
-                <p class="ann-category">{{ announcement.categoryId?.categoryName }}</p>
+                <p class="ann-category">{{ announcement.categoryId }}</p>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5">

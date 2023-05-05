@@ -83,7 +83,7 @@ const deleteAnnouncement = async (id) => {
                 {{ announcement.announcementTitle }}
               </td>
               <td class="ann-category px-6 py-4">
-                {{ announcement.categoryId.categoryName }}
+                {{ announcement.categoryId }}
               </td>
               <td class="ann-publish-date px-6 py-4">
                 {{ changeDateTimeFormat(announcement.publishDate) }}

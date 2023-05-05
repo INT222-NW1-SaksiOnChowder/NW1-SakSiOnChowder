@@ -20,38 +20,35 @@ announcementObj.value = {
     publishDate: "",
     closeDate: "",
     announcementDisplay: displayShow.value,
-    categoryId: {
-        categoryId: 1,
-        categoryName: ""
-    }
+    categoryId: 1
 }
 
 
 
 
 
-const setCategoryName = (addAnnouncement) => {
-    switch (Number(addAnnouncement.categoryId.categoryId)) {
-        case 1:
-            addAnnouncement.categoryId.categoryName = 'ทั่วไป'
-            break;
-        case 2:
-            addAnnouncement.categoryId.categoryName = 'ทุนการศึกษา'
-            break;
-        case 3:
-            addAnnouncement.categoryId.categoryName = 'หางาน'
-            break;
-        case 4:
-            addAnnouncement.categoryId.categoryName = 'ฝึกงาน'
-            break;
-    }
-}
+// const setCategoryName = (addAnnouncement) => {
+//     switch (Number(addAnnouncement.categoryId)) {
+//         case 1:
+//             addAnnouncement.categoryId.categoryName = 'ทั่วไป'
+//             break;
+//         case 2:
+//             addAnnouncement.categoryId.categoryName = 'ทุนการศึกษา'
+//             break;
+//         case 3:
+//             addAnnouncement.categoryId.categoryName = 'หางาน'
+//             break;
+//         case 4:
+//             addAnnouncement.categoryId.categoryName = 'ฝึกงาน'
+//             break;
+//     }
+// }
 
 const submit = (addAnnouncement) => {
 
-    setCategoryName(addAnnouncement)
+    // setCategoryName(addAnnouncement)
 
-    addAnnouncement.categoryId.categoryId = Number(addAnnouncement.categoryId.categoryId)
+    addAnnouncement.categoryId = Number(addAnnouncement.categoryId)
 
     if (addAnnouncement.announcementDisplay === true) {
         addAnnouncement.announcementDisplay = 'Y'
@@ -67,7 +64,7 @@ const submit = (addAnnouncement) => {
         addAnnouncement.closeDate = null
     }
 
-    if (!addAnnouncement.announcementTitle || !addAnnouncement.announcementDescription || !addAnnouncement.categoryId.categoryId) {
+    if (!addAnnouncement.announcementTitle || !addAnnouncement.announcementDescription || !addAnnouncement.categoryId) {
         alert('cannot create data')
     } else {
         createAnnouncement(addAnnouncement)
@@ -94,13 +91,13 @@ const submit = (addAnnouncement) => {
         </div>
         <div class="my-3">
             <label class="">Catagory</label><br>
-            <select class="bg-gray-400 w-2/5 rounded-sm" v-model="announcementObj.categoryId.category">
+            <select class="bg-gray-400 w-2/5 rounded-sm" v-model="announcementObj.categoryId">
                 <option value="1">ทั่วไป</option>
                 <option value="2">ทุนการศึกษา</option>
                 <option value="3">หางาน</option>
                 <option value="4">ฝึกงาน</option>
             </select>
-            {{ announcementObj.categoryId.category }}
+            {{ announcementObj.categoryId }}
         </div>
         <div class="my-3">
             <label>Description</label><br>

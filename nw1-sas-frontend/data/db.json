@@ -3,26 +3,29 @@
     {
       "announcementTitle": "1",
       "announcementDescription": "1",
-      "publishDate": "2023-05-01T06:01:00.000Z",
-      "closeDate": "2023-05-09T06:00:00.000Z",
+      "publishDate": "2023-05-11T15:43:00.000Z",
+      "closeDate": "2023-05-12T15:42:00.000Z",
       "announcementDisplay": "Y",
-      "categoryId": {
-        "categoryId": 1,
-        "categoryName": "ทั่วไป"
-      },
+      "categoryId": 1,
       "id": 1
     },
     {
-      "announcementTitle": "ป๋าที",
+      "announcementTitle": "ป๋าที///",
       "announcementDescription": "ทรี่ซั่ม",
-      "publishDate": "2023-05-01T07:27:00.000Z",
-      "closeDate": "+222121-02-11T04:59:00.000Z",
-      "announcementDisplay": "Y",
-      "categoryId": {
-        "categoryId": 2,
-        "categoryName": "ทุนการศึกษา"
-      },
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": 2,
       "id": 2
+    },
+    {
+      "announcementTitle": "ssss",
+      "announcementDescription": "sss",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "Y",
+      "categoryId": 2,
+      "id": 3
     }
   ]
 }
