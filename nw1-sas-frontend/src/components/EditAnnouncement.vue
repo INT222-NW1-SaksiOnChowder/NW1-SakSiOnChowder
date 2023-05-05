@@ -9,12 +9,16 @@ onMounted(async () => {
     announcementObj.value = await getAnnouncement(route.params.id)
 })
 
+const findCategoryId = announcementObj.value.categoryId.categoryId
+console.log(findCategoryId)
+
 const displayShow = ref(false)
 const router = useRouter()
 const selectedPublishDate = ref()
 const selectedPublishTime = ref()
 const selectedCloseDate = ref()
 const selectedCloseTime = ref()
+
 
 
 const setCategoryName = (addAnnouncement) => {
@@ -65,6 +69,8 @@ const submit = (addAnnouncement) => {
     }
     // router.push({ name: 'announcements' })
 }
+
+
 
 
 </script>
