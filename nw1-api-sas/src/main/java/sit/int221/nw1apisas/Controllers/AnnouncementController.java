@@ -44,8 +44,9 @@ public class AnnouncementController {
 
 
     @DeleteMapping("/{id}")
-    public void deleteAnnouncement(@PathVariable Integer id){
+    public String deleteAnnouncement(@PathVariable Integer id){
             announcementService.deleteAnnouncement(id);
+            return "Delete id "+ id + " successfully";
     }
 
     @PutMapping("/{id}")
