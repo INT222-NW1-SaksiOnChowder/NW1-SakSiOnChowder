@@ -1,7 +1,7 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref } from 'vue'
 import { createAnnouncement } from '../composable/addAnnouncement.js'
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 const router = useRouter()
 
 const announcementObj = ref()
@@ -24,30 +24,7 @@ announcementObj.value = {
 }
 
 
-
-
-
-// const setCategoryName = (addAnnouncement) => {
-//     switch (Number(addAnnouncement.categoryId)) {
-//         case 1:
-//             addAnnouncement.categoryId.categoryName = 'ทั่วไป'
-//             break;
-//         case 2:
-//             addAnnouncement.categoryId.categoryName = 'ทุนการศึกษา'
-//             break;
-//         case 3:
-//             addAnnouncement.categoryId.categoryName = 'หางาน'
-//             break;
-//         case 4:
-//             addAnnouncement.categoryId.categoryName = 'ฝึกงาน'
-//             break;
-//     }
-// }
-
 const submit = async(addAnnouncement) => {
-
-    // setCategoryName(addAnnouncement)
-
     addAnnouncement.categoryId = Number(addAnnouncement.categoryId)
 
     if (addAnnouncement.announcementDisplay === true) {
@@ -67,14 +44,10 @@ const submit = async(addAnnouncement) => {
     if (!addAnnouncement.announcementTitle || !addAnnouncement.announcementDescription || !addAnnouncement.categoryId) {
         alert('cannot create data')
     } else {
-        
         await createAnnouncement(addAnnouncement)
-        // console.log(addAnnouncement);
-        // console.log(addAnnouncement.publishDate);
-        // console.log(addAnnouncement.closeDate);
         router.push({ name: 'announcements' })
     }
-    // router.push({ name: 'announcements' })
+
 }
 
 </script>

@@ -70,16 +70,10 @@ onMounted(async() => {
                 @click="idDetail">Back</button>
         </router-link>
 
-
         <router-link :to="{ name: 'editAnnouncement', params: { id: route.params.id } }">
             <button class="bg-gray-200 rounded-md py-2 px-5 ml-5 hover:bg-emerald-200">Edit</button>
         </router-link>
 
-        <!-- <router-link :to="{ name: 'announcementDetail', params: { id: announcement.id } }">
-            <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline rounded-md bg-gray-200 px-5 py-2">
-                view
-            </button>
-        </router-link> -->
 
     </div>
 </template>

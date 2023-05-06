@@ -1,8 +1,8 @@
 const createAnnouncement = async(announcement) => {
         try {
-            // const res = await fetch(`http://ip22nw1.sit.kmutt.ac.th:8080/api/announcements`,
+            const res = await fetch(`http://intproj22.sit.kmutt.ac.th:8080/nw1/api/announcements`,
             // const res = await fetch(`http://localhost:5000/announcements`,
-            const res = await fetch(`http://localhost:8080/api/announcements`,
+            // const res = await fetch(`http://localhost:8080/api/announcements`,
                 {
                     method: 'POST',
                     headers: {

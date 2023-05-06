@@ -1,10 +1,9 @@
 <script setup>
 import { getAnnouncements } from "../composable/getInformation.js"
-import { ref, onMounted, onUpdated, watch } from "vue"
+import { ref, onMounted, onUpdated } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
 import { deleteAcc } from "../composable/deleteAnnouncement.js"
-import { useRoute, useRouter } from 'vue-router';
-import EditAnnouncement from "./EditAnnouncement.vue";
+import { useRouter } from 'vue-router';
 const router = useRouter()
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
