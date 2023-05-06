@@ -44,7 +44,7 @@ announcementObj.value = {
 //     }
 // }
 
-const submit = (addAnnouncement) => {
+const submit = async(addAnnouncement) => {
 
     // setCategoryName(addAnnouncement)
 
@@ -68,7 +68,7 @@ const submit = (addAnnouncement) => {
         alert('cannot create data')
     } else {
         
-        createAnnouncement(addAnnouncement)
+        await createAnnouncement(addAnnouncement)
         // console.log(addAnnouncement);
         // console.log(addAnnouncement.publishDate);
         // console.log(addAnnouncement.closeDate);
@@ -87,42 +87,41 @@ const submit = (addAnnouncement) => {
             </h1>
         </div>
         <div class="my-3">
-            <label>Title</label><br>
-            <input class="bg-gray-400 w-full rounded-sm" type="text" v-model.trim="announcementObj.announcementTitle">
+            <label class="font-semibold">Title</label><br>
+            <input class="border border-black w-full rounded-sm" type="text" v-model.trim="announcementObj.announcementTitle">
         </div>
         <div class="my-3">
-            <label class="">Catagory</label><br>
-            <select class="bg-gray-400 w-2/5 rounded-sm" v-model="announcementObj.categoryId">
+            <label class="font-semibold">Catagory</label><br>
+            <select class="border border-black w-2/5 rounded-sm" v-model="announcementObj.categoryId">
                 <option value="1">ทั่วไป</option>
                 <option value="2">ทุนการศึกษา</option>
                 <option value="3">หางาน</option>
                 <option value="4">ฝึกงาน</option>
             </select>
-            {{ announcementObj.categoryId }}
         </div>
         <div class="my-3">
-            <label>Description</label><br>
-            <textarea class="bg-gray-400 w-full rounded-sm" name="desc" id="three" cols="100" rows="5"
+            <label class="font-semibold">Description</label><br>
+            <textarea class="border border-black w-full rounded-sm" name="desc" id="three" cols="100" rows="5"
                 v-model.trim="announcementObj.announcementDescription"></textarea>
         </div>
         <div class="my-3">
-            <label>Publish Date</label><br>
-            <input class="bg-gray-400 w-1/5 mr-5 rounded-sm" type="date" v-model="selectedPublishDate">
-            <input class="bg-gray-400 w-1/5 rounded-sm" type="time" v-model="selectedPublishTime">
+            <label class="font-semibold">Publish Date</label><br>
+            <input class="border border-black w-1/5 mr-5 rounded-sm px-5 py-1" type="date" v-model="selectedPublishDate">
+            <input class="border border-black w-1/5 rounded-sm px-5 py-1" type="time" v-model="selectedPublishTime">
         </div>
         <div class="my-3">
-            <label>Close Date</label><br>
-            <input class="bg-gray-400 w-1/5 mr-5 rounded-sm" type="date" v-model="selectedCloseDate">
-            <input class="bg-gray-400 w-1/5 rounded-sm" type="time" v-model="selectedCloseTime">
+            <label class="font-semibold">Close Date</label><br>
+            <input class="border border-black w-1/5 mr-5 rounded-sm px-5 py-1" type="date" v-model="selectedCloseDate">
+            <input class="border border-black w-1/5 rounded-sm px-5 py-1" type="time" v-model="selectedCloseTime">
         </div>
         <div>
-            <label>Display</label><br>
+            <label class="font-semibold">Display</label><br>
             <input type="checkbox" id="displayShow" v-model="announcementObj.announcementDisplay" />
             <label for="displayShow" class="ml-2">Check to show this announcement</label>
         </div>
         <div class="mt-5">
-            <button class="mr-2 rounded-sm bg-gray-400 px-3 py-1" @click="submit(announcementObj)">Submit</button>
-            <button class="rounded-sm bg-gray-400 px-3 py-1"><a href="/">Cancel</a></button>
+            <button class="mr-2 rounded-sm bg-gray-400 px-3 py-1 font-semibold" @click="submit(announcementObj)">Submit</button>
+            <button class="rounded-sm bg-gray-400 px-3 py-1 font-semibold"><a href="/">Cancel</a></button>
         </div>
     </div>
 </template>

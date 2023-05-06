@@ -47,7 +47,7 @@ const deleteAnnouncement = async (id) => {
       </h1>
       <div class="flex mt-5 w-full justify-between">
         <p class="mx-5 items-center font-semibold flex">
-          Date/Time shown in Timezone :
+          Date/Time shown in Timezone : &nbsp;
           <span class="font-normal">{{ timezone }}</span>
         </p>
         <div class="mr-5 border hover:bg-red-200 font-semibold bg-gray-200 rounded-md items-center justify-center">
@@ -78,7 +78,7 @@ const deleteAnnouncement = async (id) => {
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {{ ++index }}
               </th>
-              <td class="ann-title px-6 py-4">
+              <td class="ann-title px-6 py-4 w-1/2">
                 {{ announcement.announcementTitle }}
               </td>
               <td class="ann-category px-6 py-4">
@@ -104,7 +104,7 @@ const deleteAnnouncement = async (id) => {
                 </router-link>
                 <button
                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline rounded-md bg-gray-200 px-5 py-2 ml-2"
-                  @click="deleteAnnouncement(announcement.id)">Delete</button>
+                  @click="deleteAnnouncement(announcement.id)">delete</button>
               </td>
             </tr>
           </tbody>

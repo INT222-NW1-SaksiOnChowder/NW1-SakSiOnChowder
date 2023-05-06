@@ -11,7 +11,7 @@ const updateAnnouncement = async(announcement) => {
                 body: JSON.stringify(announcement)
             }
         )
-        if (res.status === 201) {
+        if (res.status === 200) {
             console.log('Create successfully')
         } else {
             throw new Error('Cannot created!')
