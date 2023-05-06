@@ -67,6 +67,7 @@ const submit = (addAnnouncement) => {
     if (!addAnnouncement.announcementTitle || !addAnnouncement.announcementDescription || !addAnnouncement.categoryId) {
         alert('cannot create data')
     } else {
+        
         createAnnouncement(addAnnouncement)
         // console.log(addAnnouncement);
         // console.log(addAnnouncement.publishDate);
