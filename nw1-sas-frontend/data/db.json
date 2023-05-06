@@ -35,6 +35,15 @@
       "announcementDisplay": "N",
       "announcementDescription": "บริษัท เน็ตเซอร์พลัส จำกัด รับสมัครงาน 2 ตำแหน่ง ข้อมูล",
       "announcementCategory": "หางาน"
+    },
+    {
+      "announcementTitle": "ddddddd",
+      "announcementDescription": "ddd",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": 1,
+      "id": 5
     }
   ]
 }

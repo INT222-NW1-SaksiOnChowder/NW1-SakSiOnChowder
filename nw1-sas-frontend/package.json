@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "backend": "json-server --watch ./data/db.json --port 5000",
+    "backend": "json-server --watch ./data/db.json --port 8080",
     " ": "cypress open"
   },
   "dependencies": {
