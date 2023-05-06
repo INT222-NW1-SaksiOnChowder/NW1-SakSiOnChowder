@@ -19,8 +19,6 @@ public class AnnouncementController {
     @Autowired
     private AnnouncementService announcementService;
     @Autowired
-    private CategoryService categoryService;
-    @Autowired
     private ModelMapper modelMapper;
     @Autowired
     private ListMapper listMapper;

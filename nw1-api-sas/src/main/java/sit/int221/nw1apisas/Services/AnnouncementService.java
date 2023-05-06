@@ -17,8 +17,6 @@ import java.util.List;
 public class AnnouncementService {
     @Autowired
     private AnnouncementRepository announcementRepository;
-    @Autowired
-    private CategoryRepository categoryRepository;
 
     @Autowired
     private CategoryService categoryService;
