@@ -8,7 +8,6 @@ import EditAnnouncement from "./EditAnnouncement.vue";
 const router = useRouter()
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-const categoryName = ref()
 
 onMounted(async () => {
   announcements.value = await getAnnouncements()
@@ -83,7 +82,7 @@ const deleteAnnouncement = async (id) => {
                 {{ announcement.announcementTitle }}
               </td>
               <td class="ann-category px-6 py-4">
-                {{ announcement.categoryId }}
+                {{ announcement.announcementCategory }}
               </td>
               <td class="ann-publish-date px-6 py-4">
                 {{ changeDateTimeFormat(announcement.publishDate) }}
