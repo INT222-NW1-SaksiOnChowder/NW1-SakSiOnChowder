@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import sit.int221.nw1apisas.Dtos.*;
 import sit.int221.nw1apisas.Entities.Announcement;
-import sit.int221.nw1apisas.Entities.Category;
 import sit.int221.nw1apisas.Services.AnnouncementService;
 import sit.int221.nw1apisas.Services.CategoryService;
 import sit.int221.nw1apisas.Utils.ListMapper;
