@@ -1,5 +1,6 @@
 package sit.int221.nw1apisas.Dtos;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,17 +14,20 @@ import java.time.ZonedDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class AnnouncementIdDto {
+public class AddAnnouncementItemDto {
     private Integer id;
     private String announcementTitle;
     private String announcementDescription;
     private ZonedDateTime publishDate;
     private ZonedDateTime closeDate;
     private AnnouncementDisplay announcementDisplay;
-    @JsonIgnore
     private CategoryDto categoryId;
+    public Integer getCategoryId(){
+        return categoryId.getCategoryId();
+    }
     public String getAnnouncementCategory() {
         return categoryId.getCategoryName();
     }
+
+
 }

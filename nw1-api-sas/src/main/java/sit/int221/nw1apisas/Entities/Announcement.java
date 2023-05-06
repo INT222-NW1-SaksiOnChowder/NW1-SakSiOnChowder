@@ -2,7 +2,9 @@ package sit.int221.nw1apisas.Entities;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sit.int221.nw1apisas.Enums.AnnouncementDisplay;
 
