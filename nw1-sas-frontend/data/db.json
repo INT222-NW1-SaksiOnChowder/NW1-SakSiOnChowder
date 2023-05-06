@@ -1,22 +1,22 @@
 {
   "announcements": [
     {
-      "id": 4,
       "announcementTitle": "กิจกรรมพี่อ้อย พี่ฉอด On Tour 2566",
-      "publishDate": "2023-04-18T23:00:00Z",
-      "closeDate": "2023-05-08T11:00:00Z",
-      "announcementDisplay": "Y",
       "announcementDescription": "กิจกรรมพี่อ้อย พี่ฉอด On Tour 2566 ข้อมูล",
-      "announcementCategory": "ทั่วไป"
+      "publishDate": "2023-04-16T23:00:00.000Z",
+      "closeDate": "2023-05-08T11:00:00.000Z",
+      "announcementDisplay": "Y",
+      "announcementCategory": "หางาน",
+      "id": 4
     },
     {
-      "id": 3,
       "announcementTitle": "แนวปฎิบัติการสอบออนไลน์ พ.ศ. 2565",
-      "publishDate": "2023-01-26T23:00:00Z",
-      "closeDate": null,
-      "announcementDisplay": "Y",
       "announcementDescription": "แนวปฎิบัติการสอบออนไลน์ พ.ศ. 2565 ข้อมูล",
-      "announcementCategory": "ทั่วไป"
+      "publishDate": "2023-01-25T23:00:00.000Z",
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "announcementCategory": "หางาน",
+      "id": 3
     },
     {
       "id": 2,
@@ -35,6 +35,24 @@
       "announcementDisplay": "N",
       "announcementDescription": "บริษัท เน็ตเซอร์พลัส จำกัด รับสมัครงาน 2 ตำแหน่ง ข้อมูล",
       "announcementCategory": "หางาน"
+    },
+    {
+      "announcementTitle": "sdsd",
+      "announcementDescription": "ddssff",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "Y",
+      "announcementCategory": "หางาน",
+      "id": 5
+    },
+    {
+      "announcementTitle": "ccc",
+      "announcementDescription": "ccc",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "Y",
+      "announcementCategory": "หางาน",
+      "id": 6
     }
   ]
 }

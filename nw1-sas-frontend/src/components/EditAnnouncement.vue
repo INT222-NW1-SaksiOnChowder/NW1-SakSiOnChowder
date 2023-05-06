@@ -137,28 +137,39 @@ const setTime = (announcement) => {
 
 
 
-const submit = (addAnnouncement) => {
+const submit = (announcement) => {
 
-    addAnnouncement.announcementCategory = Number(addAnnouncement.announcementCategory)
+    const editAnnouncement = {
+        announcementTitle: announcement.announcementTitle,
+        announcementDescription: announcement.announcementDescription,
+        publishDate: announcement.publishDate,
+        closeDate: announcement.closeDate,
+        announcementDisplay: announcement.announcementDisplay,
+        categoryId: announcement.announcementCategory,
+        id: announcement.id
+    }
 
-    if (addAnnouncement.announcementDisplay === true) {
-        addAnnouncement.announcementDisplay = 'Y'
+    editAnnouncement.categoryId = Number(editAnnouncement.categoryId)
+
+    if (editAnnouncement.announcementDisplay === true) {
+        editAnnouncement.announcementDisplay = 'Y'
     } else {
-        addAnnouncement.announcementDisplay = 'N'
+        editAnnouncement.announcementDisplay = 'N'
     }
 
-    addAnnouncement.publishDate = new Date(`${selectedPublishDate.value} ${selectedPublishTime.value}`)
-    addAnnouncement.closeDate = new Date(`${selectedCloseDate.value} ${selectedCloseTime.value}`)
+    editAnnouncement.publishDate = new Date(`${selectedPublishDate.value} ${selectedPublishTime.value}`)
+    editAnnouncement.closeDate = new Date(`${selectedCloseDate.value} ${selectedCloseTime.value}`)
 
-    if (addAnnouncement.publishDate === undefined || addAnnouncement.closeDate === undefined) {
-        addAnnouncement.publishDate = null
-        addAnnouncement.closeDate = null
+    if (editAnnouncement.publishDate === undefined || editAnnouncement.closeDate === undefined) {
+        editAnnouncement.publishDate = null
+        editAnnouncement.closeDate = null
     }
 
-    if (!addAnnouncement.announcementTitle || !addAnnouncement.announcementDescription || !addAnnouncement.announcementCategory) {
+    // announcementCategory กับ categoryId
+    if (!editAnnouncement.announcementTitle || !editAnnouncement.announcementDescription || !editAnnouncement.categoryId) {
         alert('cannot edit data')
     } else {
-        updateAnnouncement(addAnnouncement)
+        updateAnnouncement(editAnnouncement)
         router.push({ name: 'announcements' })
     }
 }
