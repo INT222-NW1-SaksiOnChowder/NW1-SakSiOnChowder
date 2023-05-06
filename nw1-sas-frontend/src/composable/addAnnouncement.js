@@ -1,5 +1,3 @@
-
-
 const createAnnouncement = async(announcement) => {
         try {
             // const res = await fetch(`http://intproj22.sit.kmutt.ac.th:8080/nw1/api/announcements`,

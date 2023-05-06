@@ -1,4 +1,3 @@
-const API_ROOT = import.meta.env.VITE_API_ROOT
 const getAnnouncements= async () => {
     try {
         // const res = await fetch(`http://intproj22.sit.kmutt.ac.th:8080/nw1/api/announcements`)
