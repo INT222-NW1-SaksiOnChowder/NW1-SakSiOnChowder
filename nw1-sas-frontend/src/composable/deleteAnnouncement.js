@@ -1,6 +1,7 @@
 const deleteAcc = async (id) => {
     try {
-        const res = await fetch(`http://localhost:5000/announcements/${id}`,
+        // const res = await fetch(`http://localhost:5000/announcements/${id}`,
+        const res = await fetch(`http://localhost:8080/api/announcements/${id}`,
         { method: 'DELETE' })
         if (res.ok) {
             console.log('Delete Successfully');
