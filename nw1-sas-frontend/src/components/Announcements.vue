@@ -28,7 +28,7 @@ const noAnnouncement = () => {
 
 const deleteAnnouncement = async (id) => {
   router.push({ name: 'deleteAnnouncement', params: { id: id } })
-  const confirmed = confirm(`Are you sure you want to delete`)
+  const confirmed = confirm(`Do you want to delete`)
   if (confirmed) {
     await deleteAcc(id)
   }
@@ -102,7 +102,7 @@ const deleteAnnouncement = async (id) => {
                   </button>
                 </router-link>
                 <button
-                  class="font-medium text-blue-600 dark:text-blue-500 hover:underline rounded-md bg-gray-200 px-5 py-2 ml-2"
+                  class="ann-button font-medium text-blue-600 dark:text-blue-500 hover:underline rounded-md bg-gray-200 px-5 py-2 ml-2"
                   @click="deleteAnnouncement(announcement.id)">delete</button>
               </td>
             </tr>
