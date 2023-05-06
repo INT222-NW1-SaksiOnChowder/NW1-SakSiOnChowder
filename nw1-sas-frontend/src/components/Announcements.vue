@@ -53,7 +53,7 @@ const deleteAnnouncement = async (id) => {
           <router-link :to="{
             name: 'addAnnouncement'
           }">
-            <button class="px-5 py-2 text-sm ">Add Announcement</button>
+            <button class="ann-button px-5 py-2 text-sm ">Add Announcement</button>
           </router-link>
         </div>
       </div>
