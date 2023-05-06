@@ -1,0 +1,10 @@
+FROM maven:3.8.4-openjdk-17 AS build
+COPY ./ /backend
+WORKDIR /backend
+RUN mvn clean package -Dmaven.test.skip=true
+
+FROM openjdk:17-alpine
+WORKDIR /backend
+COPY --from=build /backend/target/*.jar /backend/app.jar
+ENV mysql_url="172.17.0.2"
+CMD ["java", "-jar", "app.jar"]
