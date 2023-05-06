@@ -74,7 +74,7 @@ const submit = async(addAnnouncement) => {
         </div>
         <div class="my-3">
             <label class="font-semibold">Description</label><br>
-            <textarea class="ann-description border border-black w-full rounded-sm" name="desc" id="three" cols="100" rows="5"
+            <textarea class="ann-description border border-black w-full rounded-sm" name="desc" id="three" cols="100" rows="5" maxlength="10000"
                 v-model.trim="announcementObj.announcementDescription"></textarea>
         </div>
         <div class="my-3">
