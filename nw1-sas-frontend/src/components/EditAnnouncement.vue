@@ -160,10 +160,10 @@ const submitEdit = async(announcement) => {
     editAnnouncement.publishDate = new Date(`${selectedPublishDate.value} ${selectedPublishTime.value}`)
     editAnnouncement.closeDate = new Date(`${selectedCloseDate.value} ${selectedCloseTime.value}`)
 
-    if (editAnnouncement.publishDate === undefined) {
+    if (editAnnouncement.publishDate === undefined || editAnnouncement.publishDate === '') {
         editAnnouncement.publishDate = null
     }
-    if(editAnnouncement.closeDate === undefined){
+    if(editAnnouncement.closeDate === undefined || editAnnouncement.closeDate === ''){
         editAnnouncement.closeDate = null
     }
 
