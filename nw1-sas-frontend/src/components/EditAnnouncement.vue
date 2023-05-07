@@ -22,24 +22,19 @@ const selectedPublishTime = ref('')
 const selectedCloseDate = ref('')
 const selectedCloseTime = ref('')
 
-const beforeAnnouncementPublishDate = ref('')
-const beforeAnnouncementPublishTime = ref('')
-const beforeAnnouncementCloseDate = ref('')
-const beforeAnnouncementCloseTime = ref('')
-const showSubmit = ref(true)
+const isDisabled = ref(true)
+
+const setButton = () =>{
+    isDisabled.value = false
+}
+
 const checkAnnouncement = computed(() => {
             if (selectedPublishTime.value !== '' && selectedPublishDate.value === '' ||
                 selectedCloseTime.value !== '' && selectedCloseDate.value === '') {
                 return true
             } else{
-                showSubmit.value = false
                 return false
             }
-        }
-    } else {
-        showSubmit.value = false
-        return false
-    }
 })
 
 const showAnnouncementDisplay = (announcement) => {
@@ -191,7 +186,7 @@ const submitEdit = async (announcement) => {
                 <button
                     class="ann-button rounded-md bg-gray-300 px-5 py-2 font-semibold hover:bg-amber-100">Back</button></router-link>
             <button
-                :disabled="showSubmit || !announcementObj.announcementTitle || !announcementObj.announcementDescription"
+                :disabled="isDisabled || checkAnnouncement "
                 class="ann-button ml-5 font-semibold rounded-md px-3 py-2 buttonEdit"
                 @click="submitEdit(announcementObj)">submit</button>
 
