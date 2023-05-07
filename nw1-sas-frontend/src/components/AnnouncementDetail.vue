@@ -71,7 +71,7 @@ onMounted(async() => {
         </router-link>
 
         <router-link :to="{ name: 'editAnnouncement', params: { id: route.params.id } }">
-            <button class="bg-gray-200 rounded-md py-2 px-5 ml-5 hover:bg-emerald-200">Edit</button>
+            <button class="ann-button bg-gray-200 rounded-md py-2 px-5 ml-5 hover:bg-emerald-200">Edit</button>
         </router-link>
 
 

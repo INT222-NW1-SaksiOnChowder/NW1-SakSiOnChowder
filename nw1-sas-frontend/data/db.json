@@ -37,22 +37,22 @@
       "announcementCategory": "หางาน"
     },
     {
-      "announcementTitle": "sdsd",
-      "announcementDescription": "ddssff",
-      "publishDate": null,
+      "announcementTitle": "(PBI5-1)ประกาศ (ร่าง) ตารางสอบปลายภาค 2/65",
+      "announcementDescription": "หลักสูตรขอแจ้งตารางสอบปลายภาค (ร่าง) 2/65 โดยนักศึกษาที่สอบซ้อนในวันเดียวกัน ขอให้แจ้งกลับมาที่พี่ตุ๊ก ภายในวันที่ 8 พ.ค. 66",
+      "publishDate": "2023-05-02T23:00:00.000Z",
       "closeDate": null,
-      "announcementDisplay": "Y",
-      "announcementCategory": "หางาน",
-      "id": 5
+      "announcementDisplay": "N",
+      "categoryId": 3,
+      "id": 7
     },
     {
-      "announcementTitle": "ccc",
-      "announcementDescription": "ccc",
-      "publishDate": null,
+      "announcementTitle": "(PBI5-1)ประกาศ (ร่าง) ตารางสอบปลายภาค 2/65",
+      "announcementDescription": "หลักสูตรขอแจ้งตารางสอบปลายภาค (ร่าง) 2/65 โดยนักศึกษาที่สอบซ้อนในวันเดียวกัน ขอให้แจ้งกลับมาที่พี่ตุ๊ก ภายในวันที่ 8 พ.ค. 66",
+      "publishDate": "2023-05-02T23:00:00.000Z",
       "closeDate": null,
-      "announcementDisplay": "Y",
-      "announcementCategory": "หางาน",
-      "id": 6
+      "announcementDisplay": "N",
+      "categoryId": 3,
+      "id": 8
     }
   ]
 }

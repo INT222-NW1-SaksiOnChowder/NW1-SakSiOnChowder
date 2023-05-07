@@ -81,7 +81,7 @@ const beforeAnnouncementSetTime = (announcement) => {
         const publishDateTime = new Date(announcement.publishDate)
 
         // selectedPublishDate
-        const publishDay = `${publishDateTime.getUTCDate() < 10 ? "0" : ""}${publishDateTime.getUTCDate()}`
+        const publishDay = `${publishDateTime.getUTCDate() + 1 < 10 ? "0" : ""}${publishDateTime.getUTCDate() + 1}`
         const publishMonth = `${publishDateTime.getMonth() + 1 < 10 ? "0" : ""}${publishDateTime.getMonth() + 1}`
         const publishYear = publishDateTime.getFullYear()
         beforeAnnouncementPublishDate.value = `${publishYear}-${publishMonth}-${publishDay}`
@@ -95,7 +95,7 @@ const beforeAnnouncementSetTime = (announcement) => {
         const closeDateTime = new Date(announcement.closeDate)
 
         // selectedCloseDate
-        const closeDay = `${closeDateTime.getUTCDate() < 10 ? "0" : ""}${closeDateTime.getUTCDate()}`
+        const closeDay = `${closeDateTime.getUTCDate() + 1 < 10 ? "0" : ""}${closeDateTime.getUTCDate() + 1}`
         const closeMonth = `${closeDateTime.getMonth() + 1 < 10 ? "0" : ""}${closeDateTime.getMonth() + 1}`
         const closeYear = closeDateTime.getFullYear()
         beforeAnnouncementCloseDate.value = `${closeYear}-${closeMonth}-${closeDay}`
@@ -111,7 +111,7 @@ const setTime = (announcement) => {
         const publishDateTime = new Date(announcement.publishDate)
 
         // selectedPublishDate
-        const publishDay = `${publishDateTime.getUTCDate() < 10 ? "0" : ""}${publishDateTime.getUTCDate()}`
+        const publishDay = `${publishDateTime.getUTCDate() + 1 < 10 ? "0" : ""}${publishDateTime.getUTCDate() + 1}`
         const publishMonth = `${publishDateTime.getMonth() + 1 < 10 ? "0" : ""}${publishDateTime.getMonth() + 1}`
         const publishYear = publishDateTime.getFullYear()
         selectedPublishDate.value = `${publishYear}-${publishMonth}-${publishDay}`
@@ -125,7 +125,7 @@ const setTime = (announcement) => {
         const closeDateTime = new Date(announcement.closeDate)
 
         // selectedCloseDate
-        const closeDay = `${closeDateTime.getUTCDate() < 10 ? "0" : ""}${closeDateTime.getUTCDate()}`
+        const closeDay = `${closeDateTime.getUTCDate() + 1 < 10 ? "0" : ""}${closeDateTime.getUTCDate() + 1}`
         const closeMonth = `${closeDateTime.getMonth() + 1 < 10 ? "0" : ""}${closeDateTime.getMonth() + 1}`
         const closeYear = closeDateTime.getFullYear()
         selectedCloseDate.value = `${closeYear}-${closeMonth}-${closeDay}`
@@ -160,8 +160,10 @@ const submitEdit = async(announcement) => {
     editAnnouncement.publishDate = new Date(`${selectedPublishDate.value} ${selectedPublishTime.value}`)
     editAnnouncement.closeDate = new Date(`${selectedCloseDate.value} ${selectedCloseTime.value}`)
 
-    if (editAnnouncement.publishDate === undefined || editAnnouncement.closeDate === undefined) {
+    if (editAnnouncement.publishDate === undefined || editAnnouncement.publishDate === '') {
         editAnnouncement.publishDate = null
+    }
+    if(editAnnouncement.closeDate === undefined || editAnnouncement.closeDate === ''){
         editAnnouncement.closeDate = null
     }
 
@@ -185,12 +187,12 @@ const submitEdit = async(announcement) => {
         </div>
         <div class="my-5 flex">
             <label class="font-semibold">Title</label><br>
-            <input maxlength="200" class="border border-black w-full rounded-sm ml-[7em]" type="text"
+            <input maxlength="200" class="ann-title border border-black w-full rounded-sm ml-[7em]" type="text"
                 v-model.trim="announcementObj.announcementTitle">
         </div>
         <div class="my-5 flex">
             <label class="font-semibold">Catagory</label><br>
-            <select class="border border-black w-2/5 rounded-sm ml-[4.9em]" v-model="announcementObj.announcementCategory">
+            <select class="ann-category border border-black w-2/5 rounded-sm ml-[4.9em]" v-model="announcementObj.announcementCategory">
                 <option value="1">ทั่วไป</option>
                 <option value="2">ทุนการศึกษา</option>
                 <option value="3">หางาน</option>
@@ -199,30 +201,30 @@ const submitEdit = async(announcement) => {
         </div>
         <div class="my-5 flex">
             <label class="font-semibold">Description</label><br>
-            <textarea maxlength="10000" class="border border-black w-full rounded-sm ml-[3.8em]" name="desc" id="three" cols="100" rows="5"
+            <textarea maxlength="10000" class="ann-description border border-black w-full rounded-sm ml-[3.8em]" name="desc" id="three" cols="100" rows="5"
                 v-model.trim="announcementObj.announcementDescription"></textarea>
         </div>
         <div class="my-5 flex">
             <label class="font-semibold">Publish Date</label><br>
-            <input class="border border-black w-1/5 mr-5 rounded-sm ml-[3.3em]" type="date" v-model="selectedPublishDate">
-            <input class="border border-black w-1/5 rounded-sm" type="time" v-model="selectedPublishTime">
+            <input class="ann-publish-date border border-black w-1/5 mr-5 rounded-sm ml-[3.3em]" type="date" v-model="selectedPublishDate">
+            <input class="ann-publish-time border border-black w-1/5 rounded-sm" type="time" v-model="selectedPublishTime">
         </div>
         <div class="my-5 flex">
             <label class="font-semibold">Close Date</label><br>
-            <input class="border border-black w-1/5 mr-5 rounded-sm ml-[4.2em]" type="date" v-model="selectedCloseDate">
-            <input class="border border-black w-1/5 rounded-sm" type="time" v-model="selectedCloseTime">
+            <input class="ann-close-date border border-black w-1/5 mr-5 rounded-sm ml-[4.2em]" type="date" v-model="selectedCloseDate">
+            <input class="ann-close-time border border-black w-1/5 rounded-sm" type="time" v-model="selectedCloseTime">
         </div>
         <div class="my-5 flex">
             <label class="font-semibold">Display</label><br>
-            <input type="checkbox" id="displayShow" class="ml-[5.8em]" v-model="announcementObj.announcementDisplay" />
+            <input type="checkbox" id="displayShow" class="ann-display ml-[5.8em]" v-model="announcementObj.announcementDisplay" />
             <label for="displayShow" class="ml-2">Check to show this announcement</label>
         </div>
         <div class="my-5">
             <router-link :to="{ name: 'announcementDetail' }">
                 <button class="rounded-md bg-gray-300 px-5 py-2 font-semibold hover:bg-amber-100">Back</button></router-link>
-            <button :disabled="checkAnnouncement" class="ml-5 font-semibold rounded-md px-3 py-1 buttonEdit"
-            :style="checkAnnouncement ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1; background-color:lightgreen;'"
-                @click="submitEdit(announcementObj)">Edit</button>
+            <button :disabled="checkAnnouncement || !announcementObj.announcementTitle ||!announcementObj.announcementDescription" class="ann-button ml-5 font-semibold rounded-md px-3 py-2 buttonEdit"
+            :style="checkAnnouncement || !announcementObj.announcementTitle || !announcementObj.announcementDescription ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1; background-color:lightgreen;'"    
+            @click="submitEdit(announcementObj)">Submit</button>
     
         </div>
     </div>

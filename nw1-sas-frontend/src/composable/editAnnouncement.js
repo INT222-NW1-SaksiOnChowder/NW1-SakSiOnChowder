@@ -1,6 +1,7 @@
+const API_ROOT = import.meta.env.VITE_API_ROOT
 const updateAnnouncement = async(announcement) => {
     try {
-        const res = await fetch(`http://intproj22.sit.kmutt.ac.th:8080/nw1/api/announcements`,
+        const res = await fetch(`${API_ROOT}/nw1/api/announcements`,
         // const res = await fetch(`http://localhost:5000/announcements/${announcement.id}`,
         // const res = await fetch(`http://localhost:8080/api/announcements/${announcement.id}`,
             {
