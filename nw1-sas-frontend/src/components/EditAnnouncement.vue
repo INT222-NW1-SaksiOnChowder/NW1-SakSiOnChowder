@@ -125,12 +125,13 @@ const submitEdit = async (announcement) => {
     }
 
     // announcementCategory กับ categoryId
-    
+ 
         console.log(selectedPublishDate.value);
         console.log(selectedCloseDate.value);
         await updateAnnouncement(editAnnouncement)
         console.log(editAnnouncement)
         router.push({ name: 'announcements' })
+
 
 }
 
@@ -186,8 +187,9 @@ const submitEdit = async (announcement) => {
                 <button
                     class="ann-button rounded-md bg-gray-300 px-5 py-2 font-semibold hover:bg-amber-100">Back</button></router-link>
             <button
-                :disabled="isDisabled || checkAnnouncement "
+                :disabled="isDisabled || checkAnnouncement || !announcementObj.announcementTitle || !announcementObj.announcementDescription"
                 class="ann-button ml-5 font-semibold rounded-md px-3 py-2 buttonEdit"
+                :style="isDisabled || checkAnnouncement || !announcementObj.announcementTitle || !announcementObj.announcementDescription ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1; background-color:lightgreen;'"
                 @click="submitEdit(announcementObj)">submit</button>
 
         </div>
