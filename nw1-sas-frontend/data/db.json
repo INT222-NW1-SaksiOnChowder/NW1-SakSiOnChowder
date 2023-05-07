@@ -1,0 +1,58 @@
+{
+  "announcements": [
+    {
+      "announcementTitle": "กิจกรรมพี่อ้อย พี่ฉอด On Tour 2566",
+      "announcementDescription": "กิจกรรมพี่อ้อย พี่ฉอด On Tour 2566 ข้อมูล",
+      "publishDate": "2023-04-16T23:00:00.000Z",
+      "closeDate": "2023-05-08T11:00:00.000Z",
+      "announcementDisplay": "Y",
+      "announcementCategory": "หางาน",
+      "id": 4
+    },
+    {
+      "announcementTitle": "แนวปฎิบัติการสอบออนไลน์ พ.ศ. 2565",
+      "announcementDescription": "แนวปฎิบัติการสอบออนไลน์ พ.ศ. 2565 ข้อมูล",
+      "publishDate": "2023-01-25T23:00:00.000Z",
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "announcementCategory": "หางาน",
+      "id": 3
+    },
+    {
+      "id": 2,
+      "announcementTitle": "รายชื่อนักศึกษาที่ได้รับทุนการศึกษาประเภท \"ทุนจ้างงาน\" 2/2565",
+      "publishDate": null,
+      "closeDate": "2023-05-31T11:00:00Z",
+      "announcementDisplay": "Y",
+      "announcementDescription": "รายชื่อนักศึกษาที่ได้รับทุนการศึกษาประเภท \"ทุนจ้างงาน\" 2/2565 ข้อมูล",
+      "announcementCategory": "ทุนการศึกษา"
+    },
+    {
+      "id": 1,
+      "announcementTitle": "บริษัท เน็ตเซอร์พลัส จำกัด รับสมัครงาน 2 ตำแหน่ง",
+      "publishDate": null,
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "announcementDescription": "บริษัท เน็ตเซอร์พลัส จำกัด รับสมัครงาน 2 ตำแหน่ง ข้อมูล",
+      "announcementCategory": "หางาน"
+    },
+    {
+      "announcementTitle": "(PBI5-1)ประกาศ (ร่าง) ตารางสอบปลายภาค 2/65",
+      "announcementDescription": "หลักสูตรขอแจ้งตารางสอบปลายภาค (ร่าง) 2/65 โดยนักศึกษาที่สอบซ้อนในวันเดียวกัน ขอให้แจ้งกลับมาที่พี่ตุ๊ก ภายในวันที่ 8 พ.ค. 66",
+      "publishDate": "2023-05-02T23:00:00.000Z",
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": 3,
+      "id": 7
+    },
+    {
+      "announcementTitle": "(PBI5-1)ประกาศ (ร่าง) ตารางสอบปลายภาค 2/65",
+      "announcementDescription": "หลักสูตรขอแจ้งตารางสอบปลายภาค (ร่าง) 2/65 โดยนักศึกษาที่สอบซ้อนในวันเดียวกัน ขอให้แจ้งกลับมาที่พี่ตุ๊ก ภายในวันที่ 8 พ.ค. 66",
+      "publishDate": "2023-05-02T23:00:00.000Z",
+      "closeDate": null,
+      "announcementDisplay": "N",
+      "categoryId": 3,
+      "id": 8
+    }
+  ]
+}
