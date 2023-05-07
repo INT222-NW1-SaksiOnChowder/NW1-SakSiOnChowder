@@ -31,30 +31,36 @@ const beforeAnnouncementPublishTime = ref('')
 const beforeAnnouncementCloseDate = ref('')
 const beforeAnnouncementCloseTime = ref('')
 
-const checkAnnouncement = computed(() => {
-    if (announcementObj.value.announcementTitle === beforeAnnouncement.value.announcementTitle &&
-        announcementObj.value.announcementDescription === beforeAnnouncement.value.announcementDescription &&
-        announcementObj.value.publishDate === beforeAnnouncement.value.publishDate &&
-        announcementObj.value.closeDate === beforeAnnouncement.value.closeDate &&
-        announcementObj.value.announcementDisplay === beforeAnnouncement.value.announcementDisplay &&
-        announcementObj.value.announcementCategory === beforeAnnouncement.value.announcementCategory) {
-        if (selectedPublishDate.value === beforeAnnouncementPublishDate.value &&
-            selectedPublishTime.value === beforeAnnouncementPublishTime.value &&
-            selectedCloseDate.value === beforeAnnouncementCloseDate.value &&
-            selectedCloseTime.value === beforeAnnouncementCloseTime.value) {
-            return true
-        } else {
-            if (selectedPublishTime.value !== '' && selectedPublishDate.value === '' ||
-                selectedCloseTime.value !== '' && selectedCloseDate.value === '') {
-                return true
-            } else{
-                return false
-            }
-        }
-    } else {
-        return false
-    }
-})
+const isDisabled = ref(true)
+
+const setButton = () =>{
+    isDisabled.value = false
+}
+
+// const checkAnnouncement = computed(() => {
+//     if (announcementObj.value.announcementTitle === beforeAnnouncement.value.announcementTitle &&
+//         announcementObj.value.announcementDescription === beforeAnnouncement.value.announcementDescription &&
+//         announcementObj.value.publishDate === beforeAnnouncement.value.publishDate &&
+//         announcementObj.value.closeDate === beforeAnnouncement.value.closeDate &&
+//         announcementObj.value.announcementDisplay === beforeAnnouncement.value.announcementDisplay &&
+//         announcementObj.value.announcementCategory === beforeAnnouncement.value.announcementCategory) {
+//         if (selectedPublishDate.value === beforeAnnouncementPublishDate.value &&
+//             selectedPublishTime.value === beforeAnnouncementPublishTime.value &&
+//             selectedCloseDate.value === beforeAnnouncementCloseDate.value &&
+//             selectedCloseTime.value === beforeAnnouncementCloseTime.value) {
+//             return true
+//         } else {
+//             if (selectedPublishTime.value !== '' && selectedPublishDate.value === '' ||
+//                 selectedCloseTime.value !== '' && selectedCloseDate.value === '') {
+//                 return true
+//             } else{
+//                 return false
+//             }
+//         }
+//     } else {
+//         return false
+//     }
+// })
 
 const showAnnouncementDisplay = (announcement) => {
     if (announcement.announcementDisplay === "Y") {
@@ -194,13 +200,13 @@ const submitEdit = async (announcement) => {
         </div>
         <div class="my-5 flex">
             <label class="font-semibold">Title</label><br>
-            <input maxlength="200" class="ann-title border border-black w-full rounded-sm ml-[7em]" type="text"
+            <input maxlength="200" class="ann-title border border-black w-full rounded-sm ml-[7em]" type="text" @input="setButton"
                 v-model.trim="announcementObj.announcementTitle">
         </div>
         <div class="my-5 flex">
             <label class="font-semibold">Catagory</label><br>
             <select class="ann-category border border-black w-2/5 rounded-sm ml-[4.9em]"
-                v-model="announcementObj.announcementCategory">
+                v-model="announcementObj.announcementCategory" @input="setButton">
                 <option value="1">ทั่วไป</option>
                 <option value="2">ทุนการศึกษา</option>
                 <option value="3">หางาน</option>
@@ -210,24 +216,24 @@ const submitEdit = async (announcement) => {
         <div class="my-5 flex">
             <label class="font-semibold">Description</label><br>
             <textarea maxlength="10000" class="ann-description border border-black w-full rounded-sm ml-[3.8em]" name="desc"
-                id="three" cols="100" rows="5" v-model.trim="announcementObj.announcementDescription"></textarea>
+                id="three" cols="100" rows="5" v-model.trim="announcementObj.announcementDescription" @input="setButton"></textarea>
         </div>
         <div class="my-5 flex">
             <label class="font-semibold">Publish Date</label><br>
             <input class="ann-publish-date border border-black w-1/5 mr-5 rounded-sm ml-[3.3em]" type="date"
-                v-model="selectedPublishDate">
-            <input class="ann-publish-time border border-black w-1/5 rounded-sm" type="time" v-model="selectedPublishTime">
+                v-model="selectedPublishDate" @input="setButton">
+            <input class="ann-publish-time border border-black w-1/5 rounded-sm" type="time" v-model="selectedPublishTime" @input="setButton">
         </div>
         <div class="my-5 flex">
             <label class="font-semibold">Close Date</label><br>
             <input class="ann-close-date border border-black w-1/5 mr-5 rounded-sm ml-[4.2em]" type="date"
-                v-model="selectedCloseDate">
-            <input class="ann-close-time border border-black w-1/5 rounded-sm" type="time" v-model="selectedCloseTime">
+                v-model="selectedCloseDate" @input="setButton">
+            <input class="ann-close-time border border-black w-1/5 rounded-sm" type="time" v-model="selectedCloseTime" @input="setButton">
         </div>
         <div class="my-5 flex">
             <label class="font-semibold">Display</label><br>
             <input type="checkbox" id="displayShow" class="ann-display ml-[5.8em]"
-                v-model="announcementObj.announcementDisplay" />
+                v-model="announcementObj.announcementDisplay" @input="setButton"/>
             <label for="displayShow" class="ml-2">Check to show this announcement</label>
         </div>
         <div class="my-5">
@@ -235,9 +241,9 @@ const submitEdit = async (announcement) => {
                 <button
                     class="rounded-md bg-gray-300 px-5 py-2 font-semibold hover:bg-amber-100">Back</button></router-link>
             <button
-                :disabled="checkAnnouncement || !announcementObj.announcementTitle || !announcementObj.announcementDescription"
+                :disabled="isDisabled || !announcementObj.announcementTitle || !announcementObj.announcementDescription"
                 class="ann-button ml-5 font-semibold rounded-md px-3 py-2 buttonEdit"
-                :style="checkAnnouncement || !announcementObj.announcementTitle || !announcementObj.announcementDescription ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1; background-color:lightgreen;'"
+                :style="isDisabled || !announcementObj.announcementTitle || !announcementObj.announcementDescription ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1; background-color:lightgreen;'"
                 @click="submitEdit(announcementObj)">Submit</button>
 
         </div>
