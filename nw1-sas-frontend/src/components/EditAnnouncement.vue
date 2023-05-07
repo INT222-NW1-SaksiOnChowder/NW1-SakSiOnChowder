@@ -30,7 +30,7 @@ const beforeAnnouncementPublishDate = ref('')
 const beforeAnnouncementPublishTime = ref('')
 const beforeAnnouncementCloseDate = ref('')
 const beforeAnnouncementCloseTime = ref('')
-
+const showSubmit = ref(true)
 const checkAnnouncement = computed(() => {
     if (announcementObj.value.announcementTitle === beforeAnnouncement.value.announcementTitle &&
         announcementObj.value.announcementDescription === beforeAnnouncement.value.announcementDescription &&
@@ -48,10 +48,12 @@ const checkAnnouncement = computed(() => {
                 selectedCloseTime.value !== '' && selectedCloseDate.value === '') {
                 return true
             } else{
+                showSubmit.value = false
                 return false
             }
         }
     } else {
+        showSubmit.value = false
         return false
     }
 })
@@ -235,7 +237,7 @@ const submitEdit = async (announcement) => {
                 <button
                     class="rounded-md bg-gray-300 px-5 py-2 font-semibold hover:bg-amber-100">Back</button></router-link>
             <button
-                :disabled="checkAnnouncement || !announcementObj.announcementTitle || !announcementObj.announcementDescription"
+                :disabled="showSubmit || !announcementObj.announcementTitle || !announcementObj.announcementDescription"
                 class="ann-button ml-5 font-semibold rounded-md px-3 py-2 buttonEdit"
                 :style="checkAnnouncement || !announcementObj.announcementTitle || !announcementObj.announcementDescription ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1; background-color:lightgreen;'"
                 @click="submitEdit(announcementObj)">Submit</button>
