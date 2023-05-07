@@ -1,9 +1,9 @@
 const API_ROOT = import.meta.env.VITE_API_ROOT
 const deleteAcc = async (id) => {
     try {
-        // const res = await fetch(`http://localhost:5000/announcements/${id}`,
+        const res = await fetch(`http://localhost:5000/announcements/${id}`,
         // const res = await fetch(`http://localhost:8080/api/announcements/${id}`,
-        const res = await fetch(`${API_ROOT}/api/announcements/${id}`,
+        // const res = await fetch(`${API_ROOT}/api/announcements/${id}`,
         { method: 'DELETE' })
         if (res.ok) {
             console.log('Delete Successfully');
