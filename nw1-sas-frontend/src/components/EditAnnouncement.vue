@@ -245,7 +245,7 @@ const submitEdit = async (announcement) => {
                 :disabled="isDisabled || checkAnnouncement"
                 class="ann-button ml-5 font-semibold rounded-md px-3 py-2 buttonEdit"
                 :style="isDisabled || checkAnnouncement ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1; background-color:lightgreen;'"
-                @click="submitEdit(announcementObj)">submit</button>
+                @click="submitEdit(announcementObj)">Submit</button>
 
         </div>
     </div>
