@@ -97,7 +97,7 @@ const deleteAnnouncement = async (id) => {
                   name: 'announcementDetail',
                   params: { id: announcement.id }
                 }"><button
-                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline rounded-md bg-gray-200 px-5 py-2">
+                    class="ann-button font-medium text-blue-600 dark:text-blue-500 hover:underline rounded-md bg-gray-200 px-5 py-2">
                     view
                   </button>
                 </router-link>

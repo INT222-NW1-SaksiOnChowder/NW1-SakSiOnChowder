@@ -94,7 +94,9 @@ const submit = async(addAnnouncement) => {
         </div>
         <div class="mt-5">
             <button class="ann-button mr-2 rounded-sm bg-gray-400 px-3 py-1 font-semibold" @click="submit(announcementObj)">Submit</button>
-            <button class="rounded-sm bg-gray-400 px-3 py-1 font-semibold"><a href="/">Cancel</a></button>
+            <router-link :to="{ name: 'announcements' }">
+                <button class="rounded-sm bg-gray-400 px-3 py-1 font-semibold">Cancel</button>
+            </router-link>
         </div>
     </div>
 </template>
