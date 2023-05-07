@@ -5,14 +5,18 @@ import { useRoute, useRouter } from 'vue-router'
 import { updateAnnouncement } from '../composable/editAnnouncement'
 
 const announcementObj = ref({})
-
+const beforeAnnouncement = ref({})
 
 onMounted(async () => {
     const route = useRoute()
     announcementObj.value = await getAnnouncement(route.params.id)
+    beforeAnnouncement.value = await getAnnouncement(route.params.id)
     announcementObj.value.announcementDisplay = showAnnouncementDisplay(announcementObj.value)
+    beforeAnnouncement.value.announcementDisplay = showAnnouncementDisplay(beforeAnnouncement.value)
     setTime(announcementObj.value)
+    beforeAnnouncementSetTime(beforeAnnouncement.value)
     showAnnouncementCategory(announcementObj.value)
+    showAnnouncementCategory(beforeAnnouncement.value)
 })
 
 const router = useRouter()
@@ -22,6 +26,11 @@ const selectedPublishTime = ref('')
 const selectedCloseDate = ref('')
 const selectedCloseTime = ref('')
 
+const beforeAnnouncementPublishDate = ref('')
+const beforeAnnouncementPublishTime = ref('')
+const beforeAnnouncementCloseDate = ref('')
+const beforeAnnouncementCloseTime = ref('')
+
 const isDisabled = ref(true)
 
 const setButton = () =>{
@@ -29,12 +38,28 @@ const setButton = () =>{
 }
 
 const checkAnnouncement = computed(() => {
+    if (announcementObj.value.announcementTitle === beforeAnnouncement.value.announcementTitle &&
+        announcementObj.value.announcementDescription === beforeAnnouncement.value.announcementDescription &&
+        announcementObj.value.publishDate === beforeAnnouncement.value.publishDate &&
+        announcementObj.value.closeDate === beforeAnnouncement.value.closeDate &&
+        announcementObj.value.announcementDisplay === beforeAnnouncement.value.announcementDisplay &&
+        announcementObj.value.announcementCategory === beforeAnnouncement.value.announcementCategory) {
+        if (selectedPublishDate.value === beforeAnnouncementPublishDate.value &&
+            selectedPublishTime.value === beforeAnnouncementPublishTime.value &&
+            selectedCloseDate.value === beforeAnnouncementCloseDate.value &&
+            selectedCloseTime.value === beforeAnnouncementCloseTime.value) {
+            return true
+        } else {
             if (selectedPublishTime.value !== '' && selectedPublishDate.value === '' ||
                 selectedCloseTime.value !== '' && selectedCloseDate.value === '') {
                 return true
             } else{
                 return false
             }
+        }
+    } else {
+        return false
+    }
 })
 
 const showAnnouncementDisplay = (announcement) => {
@@ -59,6 +84,36 @@ const showAnnouncementCategory = (announcement) => {
         case 'ฝึกงาน':
             announcement.announcementCategory = 4
             break;
+    }
+}
+
+const beforeAnnouncementSetTime = (announcement) => {
+    if (announcement.publishDate !== null) {
+        // PublishDate
+        const publishDateTime = new Date(announcement.publishDate)
+
+        // selectedPublishDate
+        const publishDay = `${publishDateTime.getUTCDate() + 1 < 10 ? "0" : ""}${publishDateTime.getUTCDate() + 1}`
+        const publishMonth = `${publishDateTime.getMonth() + 1 < 10 ? "0" : ""}${publishDateTime.getMonth() + 1}`
+        const publishYear = publishDateTime.getFullYear()
+        beforeAnnouncementPublishDate.value = `${publishYear}-${publishMonth}-${publishDay}`
+
+        // selectedPublishTime
+        beforeAnnouncementPublishTime.value = `${publishDateTime.getHours() < 10 ? "0" : ""}${publishDateTime.getHours()}:${publishDateTime.getMinutes() < 10 ? "0" : ""}${publishDateTime.getMinutes()}`
+    }
+
+    if (announcement.closeDate !== null) {
+        //CloseDate
+        const closeDateTime = new Date(announcement.closeDate)
+
+        // selectedCloseDate
+        const closeDay = `${closeDateTime.getUTCDate() + 1 < 10 ? "0" : ""}${closeDateTime.getUTCDate() + 1}`
+        const closeMonth = `${closeDateTime.getMonth() + 1 < 10 ? "0" : ""}${closeDateTime.getMonth() + 1}`
+        const closeYear = closeDateTime.getFullYear()
+        beforeAnnouncementCloseDate.value = `${closeYear}-${closeMonth}-${closeDay}`
+
+        // selectedCloseTime
+        beforeAnnouncementCloseTime.value = `${closeDateTime.getHours() < 10 ? "0" : ""}${closeDateTime.getHours()}:${closeDateTime.getMinutes() < 10 ? "0" : ""}${closeDateTime.getMinutes()}`
     }
 }
 
@@ -187,9 +242,9 @@ const submitEdit = async (announcement) => {
                 <button
                     class="ann-button rounded-md bg-gray-300 px-5 py-2 font-semibold hover:bg-amber-100">Back</button></router-link>
             <button
-                :disabled="isDisabled || checkAnnouncement || !announcementObj.announcementTitle || !announcementObj.announcementDescription"
+                :disabled="isDisabled || checkAnnouncement"
                 class="ann-button ml-5 font-semibold rounded-md px-3 py-2 buttonEdit"
-                :style="isDisabled || checkAnnouncement || !announcementObj.announcementTitle || !announcementObj.announcementDescription ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1; background-color:lightgreen;'"
+                :style="isDisabled || checkAnnouncement ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1; background-color:lightgreen;'"
                 @click="submitEdit(announcementObj)">submit</button>
 
         </div>
