@@ -1,8 +1,9 @@
+const API_ROOT = import.meta.env.VITE_API_ROOT
 const getAnnouncements= async () => {
     try {
-        // const res = await fetch(`http://intproj22.sit.kmutt.ac.th:8080/nw1/api/announcements`)
+        const res = await fetch(`${API_ROOT}/api/announcements`)
         // const res = await fetch(`http://localhost:5000/announcements`)
-        const res = await fetch(`http://localhost:8080/api/announcements`)
+        // const res = await fetch(`http://localhost:8080/api/announcements`)
         
         if (res.status === 200) {
             const announcement = await res.json()
