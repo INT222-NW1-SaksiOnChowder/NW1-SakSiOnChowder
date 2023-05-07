@@ -55,22 +55,13 @@
       "id": 8
     },
     {
-      "announcementTitle": "dsadas",
-      "announcementDescription": "asdasd",
-      "publishDate": "2023-05-13T17:00:00.000Z",
-      "closeDate": "2023-05-10T17:00:00.000Z",
+      "announcementTitle": "ขายน้ำ",
+      "announcementDescription": "ปั่น",
+      "publishDate": "2023-05-02T17:00:00.000Z",
+      "closeDate": "2023-05-01T17:00:00.000Z",
       "announcementDisplay": "Y",
       "categoryId": 2,
       "id": 9
-    },
-    {
-      "announcementTitle": "sadasd",
-      "announcementDescription": "asdasd",
-      "publishDate": null,
-      "closeDate": null,
-      "announcementDisplay": "N",
-      "categoryId": 3,
-      "id": 10
     }
   ]
 }
