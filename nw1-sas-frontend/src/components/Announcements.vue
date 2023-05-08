@@ -77,7 +77,7 @@ const deleteAnnouncement = async (id) => {
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {{ ++index }}
               </th>
-              <td class="ann-title px-6 py-4 w-1/2">
+              <td class="ann-title px-6 py-4 w-1/3">
                 {{ announcement.announcementTitle }}
               </td>
               <td class="ann-category px-6 py-4">
