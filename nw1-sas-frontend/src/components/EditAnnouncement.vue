@@ -37,6 +37,15 @@ const setButton = () =>{
     isDisabled.value = false
 }
 
+const setButtonBySelect = () =>{
+    if(beforeAnnouncement.value.announcementCategory == announcementObj.value.announcementCategory){
+        isDisabled.value = true
+    }else{
+        isDisabled.value = false
+    }
+}
+
+
 const checkAnnouncement = computed(() => {
     if (announcementObj.value.announcementTitle === beforeAnnouncement.value.announcementTitle &&
         announcementObj.value.announcementDescription === beforeAnnouncement.value.announcementDescription &&
@@ -207,7 +216,7 @@ const submitEdit = async (announcement) => {
         <div class="my-5 flex">
             <label class="font-semibold">Catagory</label><br>
             <select class="ann-category border border-black w-2/5 rounded-sm ml-[4.9em]"
-                v-model="announcementObj.announcementCategory" @input="setButton">
+                v-model="announcementObj.announcementCategory" @change="setButtonBySelect">
                 <option value="1">ทั่วไป</option>
                 <option value="2">ทุนการศึกษา</option>
                 <option value="3">หางาน</option>
