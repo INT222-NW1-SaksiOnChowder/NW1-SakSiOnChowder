@@ -37,8 +37,18 @@ public class AnnouncementService {
 
     public Announcement createAnnouncement(AnnouncementItemDto announcementItemDto) {
         Announcement announcement = new Announcement();
-        announcement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
-        announcement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
+        if(announcementItemDto.getAnnouncementTitle()!=null && announcementItemDto.getAnnouncementTitle().trim() != ""
+                && announcementItemDto.getAnnouncementTitle().length() > 0 && announcementItemDto.getAnnouncementTitle().length() <= 200){
+            announcement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
+        }else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill the announcement title and must be less than or equal 200 characters");
+        }
+        if(announcementItemDto.getAnnouncementDescription()!=null && announcementItemDto.getAnnouncementDescription().trim() != ""
+                && announcementItemDto.getAnnouncementDescription().length() > 0 && announcementItemDto.getAnnouncementDescription().length() <= 10000){
+            announcement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
+        }else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill the announcement description and must be less than or equal 10000 characters");
+        }
         announcement.setPublishDate(announcementItemDto.getPublishDate());
         announcement.setCloseDate(announcementItemDto.getCloseDate());
         announcement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
@@ -55,6 +65,18 @@ public class AnnouncementService {
     public Announcement updateAnnouncement(AnnouncementItemDto announcementItemDto, Integer id) {
         Announcement existingAnnouncement = announcementRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The announcement is not found"));
+        if(announcementItemDto.getAnnouncementTitle()!=null && announcementItemDto.getAnnouncementTitle().trim() != ""
+                && announcementItemDto.getAnnouncementTitle().length() > 0 && announcementItemDto.getAnnouncementTitle().length() <= 200){
+            existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
+        }else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill the announcement title and must be less than or equal 200 characters");
+        }
+        if(announcementItemDto.getAnnouncementDescription()!=null && announcementItemDto.getAnnouncementDescription().trim() != ""
+                && announcementItemDto.getAnnouncementDescription().length() > 0 && announcementItemDto.getAnnouncementDescription().length() <= 10000){
+            existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
+        }else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill the announcement description and must be less than or equal 10000 characters");
+        }
         existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
         existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
         existingAnnouncement.setPublishDate(announcementItemDto.getPublishDate());
