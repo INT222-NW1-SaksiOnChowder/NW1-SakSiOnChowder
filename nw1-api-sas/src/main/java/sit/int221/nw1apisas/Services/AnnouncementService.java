@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 import sit.int221.nw1apisas.Dtos.AnnouncementItemDto;
 import sit.int221.nw1apisas.Entities.Announcement;
 import sit.int221.nw1apisas.Repositories.AnnouncementRepository;
-import sit.int221.nw1apisas.Repositories.CategoryRepository;
+
 
 import java.util.List;
 
@@ -41,18 +41,22 @@ public class AnnouncementService {
                 && announcementItemDto.getAnnouncementTitle().length() > 0 && announcementItemDto.getAnnouncementTitle().length() <= 200){
             announcement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
         }else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill the announcement title and must be less than or equal 200 characters");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill a announcement title and must be less than or equal 200 characters");
         }
         if(announcementItemDto.getAnnouncementDescription()!=null && announcementItemDto.getAnnouncementDescription().trim() != ""
                 && announcementItemDto.getAnnouncementDescription().length() > 0 && announcementItemDto.getAnnouncementDescription().length() <= 10000){
             announcement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
         }else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill the announcement description and must be less than or equal 10000 characters");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill a announcement description and must be less than or equal 10000 characters");
+        }
+        if(announcementItemDto.getCategoryId() != null){
+            announcement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
+        }else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill a category");
         }
         announcement.setPublishDate(announcementItemDto.getPublishDate());
         announcement.setCloseDate(announcementItemDto.getCloseDate());
         announcement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
-        announcement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
         return announcementRepository.saveAndFlush(announcement);
 
     }
@@ -69,20 +73,24 @@ public class AnnouncementService {
                 && announcementItemDto.getAnnouncementTitle().length() > 0 && announcementItemDto.getAnnouncementTitle().length() <= 200){
             existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
         }else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill the announcement title and must be less than or equal 200 characters");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill a announcement title and must be less than or equal 200 characters");
         }
         if(announcementItemDto.getAnnouncementDescription()!=null && announcementItemDto.getAnnouncementDescription().trim() != ""
                 && announcementItemDto.getAnnouncementDescription().length() > 0 && announcementItemDto.getAnnouncementDescription().length() <= 10000){
             existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
         }else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill the announcement description and must be less than or equal 10000 characters");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill a announcement description and must be less than or equal 10000 characters");
+        }
+        if(announcementItemDto.getCategoryId() != null){
+            existingAnnouncement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
+        }else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill a category");
         }
         existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
         existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
         existingAnnouncement.setPublishDate(announcementItemDto.getPublishDate());
         existingAnnouncement.setCloseDate(announcementItemDto.getCloseDate());
         existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
-        existingAnnouncement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
         return announcementRepository.saveAndFlush(existingAnnouncement);
     }
 
