@@ -61,7 +61,7 @@ const submit = async(addAnnouncement) => {
         </div>
         <div class="my-3">
             <label class="font-semibold">Title</label><br>
-            <input class="ann-title border border-black w-full rounded-sm" type="text" v-model.trim="announcementObj.announcementTitle">
+            <input class="ann-title border border-black w-full rounded-sm" type="text" v-model.trim="announcementObj.announcementTitle" maxlength="200">
         </div>
         <div class="my-3">
             <label class="font-semibold">Catagory</label><br>
