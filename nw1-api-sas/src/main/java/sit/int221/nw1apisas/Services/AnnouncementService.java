@@ -2,7 +2,6 @@ package sit.int221.nw1apisas.Services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,9 +11,7 @@ import sit.int221.nw1apisas.Enums.AnnouncementDisplay;
 import sit.int221.nw1apisas.Repositories.AnnouncementRepository;
 
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -27,6 +24,9 @@ public class AnnouncementService {
 
     public List<Announcement> getAllAnnouncements() {
         List<Announcement> announcements = announcementRepository.findAllAnnouncementsByIdDesc();
+        if(announcements==null || announcements.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No announcement");
+        }
         return announcements;
     }
 
@@ -100,15 +100,22 @@ public class AnnouncementService {
 
     public List<Announcement> getUserViewAnnouncement(String mode) {
         ZonedDateTime currentTime = ZonedDateTime.now();
-        if(mode.toLowerCase().equals("active")){
+        if(mode.equals("active")){
             List<Announcement> announcements = announcementRepository.findActiveAnnouncement(AnnouncementDisplay.Y, currentTime);
+            if(announcements==null || announcements.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No announcement");
+            }
             return announcements;
-        } if(mode.toLowerCase().equals("close")){
+        } else if(mode.equals("close")){
             List<Announcement> announcements = announcementRepository.findCloseAnnouncement(AnnouncementDisplay.Y, currentTime);
+            if(announcements==null || announcements.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No announcement");
+            }
             return announcements;
         }else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No announcement");
+            return getAllAnnouncements();
         }
+
     }
 }
 

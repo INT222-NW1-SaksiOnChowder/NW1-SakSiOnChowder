@@ -56,7 +56,7 @@ public class AnnouncementController {
     }
 
     @GetMapping("/user")
-    public List<AnnouncementDto> getUserViewAnnouncement(@RequestParam(defaultValue = "Active") String mode){
+    public List<AnnouncementDto> getUserViewAnnouncement(@RequestParam(defaultValue = "admin") String mode){
         List<Announcement> announcements = announcementService.getUserViewAnnouncement(mode);
         return listMapper.mapList(announcements, AnnouncementDto.class, modelMapper);
     }
