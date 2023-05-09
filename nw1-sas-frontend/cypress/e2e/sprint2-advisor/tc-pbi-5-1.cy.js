@@ -1,4 +1,4 @@
-describe('TC-CREATE-ANNOUNCEMENT-1: normal - nominal data', () => {
+describe('[Advisor] TC-CREATE-ANNOUNCEMENT-1: normal - nominal data', () => {
   
     it('should contain SAS and Timezone',()=>{
       cy.visit('/admin/announcement')

@@ -1,4 +1,4 @@
-describe('TC-UPDATE-ANNOUNCEMENT-3: normal - update category and display', () => {
+describe('[Advisor] TC-UPDATE-ANNOUNCEMENT-3: normal - update category and display', () => {
 
     it('Add an announcement "(PBI7-3)ประกาศ (ร่าง) ตารางสอบปลายภาค 2/65"',()=>{
         cy.visit('/admin/announcement/add')

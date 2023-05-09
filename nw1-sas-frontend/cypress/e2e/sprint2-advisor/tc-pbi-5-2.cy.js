@@ -1,4 +1,4 @@
-describe('TC-CREATE-ANNOUNCEMENT-2: nomal - at boundary data', () => {
+describe('[Advisor] TC-CREATE-ANNOUNCEMENT-2: nomal - at boundary data', () => {
   
     it('should contain SAS and Timezone',()=>{
       cy.visit('/admin/announcement')
@@ -34,7 +34,7 @@ describe('TC-CREATE-ANNOUNCEMENT-2: nomal - at boundary data', () => {
         cy.get('.ann-publish-date').type('2023-05-08')
         cy.get('.ann-publish-time').type('06:00')
         cy.get('.ann-button').contains(/submit|save|update|add|edit/g,{matchCase: false}).should('exist').click()
-        cy.wait(200)
+        cy.wait(4000)
     })
 
     it('should show the new announcement "AAAAAAAA-BBBBBBBB-CCCCCCCC-....."',()=>{
