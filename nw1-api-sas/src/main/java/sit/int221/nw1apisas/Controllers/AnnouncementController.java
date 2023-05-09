@@ -54,4 +54,11 @@ public class AnnouncementController {
         Announcement updateAnnouncement = announcementService.updateAnnouncement(newAnnouncement, id);
         return modelMapper.map(updateAnnouncement, AddAnnouncementItemDto.class);
     }
+
+    @GetMapping("/user")
+    public List<AnnouncementDto> getUserViewAnnouncement(@RequestParam(defaultValue = "Active") String mode){
+        List<Announcement> announcements = announcementService.getUserViewAnnouncement(mode);
+        return listMapper.mapList(announcements, AnnouncementDto.class, modelMapper);
+    }
+
 }
