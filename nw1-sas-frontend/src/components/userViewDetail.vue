@@ -1,20 +1,21 @@
 <script setup>
-import { getAnnouncement } from '../composable/getInformation.js'
+import { getAnnouncementUser } from '../composable/getAnnouncementUser.js'
 import { ref, onMounted} from "vue"
 import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
 import { useRoute , useRouter } from 'vue-router';
 
 const announcement = ref({})
 const router = useRouter()
-const route = useRoute()
+const route = useRoute();
+console.log(route.params.id);
 
 onMounted(async() => {
     const route = useRoute()
-    announcement.value = await getAnnouncement(route.params.id)
+    announcement.value = await getAnnouncementUser(route.params.id)
     console.log(route.params.id);
     if (!announcement.value) {
         alert('The request page is not available')
-        router.push({name: "announcements"})
+        router.push({name: "userViewAnnouncement"})
         announcement.value = ""
     }
 })
@@ -47,7 +48,7 @@ onMounted(async() => {
                 <p class="ann-description">{{ announcement.announcementDescription }}</p>
             </div>
         </div>
-        <router-link :to="{ name: 'announcements' }"><button
+        <router-link :to="{ name: 'userViewAnnouncement' }"><button
                 class="ann-button bg-gray-200 rounded-md py-2 px-5 ml-5 hover:bg-amber-100"
                 @click="idDetail">Back</button>
         </router-link>

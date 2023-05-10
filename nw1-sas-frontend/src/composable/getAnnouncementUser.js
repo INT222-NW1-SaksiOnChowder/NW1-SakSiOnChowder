@@ -1,5 +1,5 @@
 const ROOT_API = import.meta.env.VITE_ROOT_API
-const getAnnouncements= async () => {
+const getAnnouncementsUser= async () => {
     try {
         // const res = await fetch(`${ROOT_API}/api/announcements`)
         const res = await fetch(`http://localhost:5000/announcements`)
@@ -17,11 +17,11 @@ const getAnnouncements= async () => {
     }   
 }
 
-const getAnnouncement= async (id) => {
+const getAnnouncementUser= async (id) => {
     let announcement = undefined
     try {
-        const res = await fetch(`${ROOT_API}/api/announcements/${id}`)
-        // const res = await fetch(`http://localhost:5000/announcements/${id}`)
+        // const res = await fetch(`${ROOT_API}/api/announcements/${id}`)
+        const res = await fetch(`http://localhost:5000/announcements/${id}`)
         // const res = await fetch(`http://localhost:8080/api/announcements/${id}`)
         if (res.status === 200) {
             announcement = await res.json()
@@ -35,4 +35,4 @@ const getAnnouncement= async (id) => {
     }   
 }
 
-export { getAnnouncements, getAnnouncement }
+export { getAnnouncementsUser, getAnnouncementUser }

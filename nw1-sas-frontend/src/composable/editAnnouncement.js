@@ -1,8 +1,8 @@
 const ROOT_API = import.meta.env.VITE_ROOT_API
 const updateAnnouncement = async(announcement) => {
     try {
-        const res = await fetch(`${ROOT_API}/api/announcements/${announcement.id}`,
-        // const res = await fetch(`http://localhost:5000/announcements/${announcement.id}`,
+        // const res = await fetch(`${ROOT_API}/api/announcements/${announcement.id}`,
+        const res = await fetch(`http://localhost:5000/announcements/${announcement.id}`,
         // const res = await fetch(`http://localhost:8080/api/announcements/${announcement.id}`,
             {
                 method: 'PUT',

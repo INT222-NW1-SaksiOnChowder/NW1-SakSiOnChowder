@@ -1,21 +1,35 @@
 <script setup>
-import { getAnnouncements } from "../composable/getInformation.js"
+import { getAnnouncementsUser } from "../composable/getAnnouncementUser.js"
 import { ref, onMounted, onUpdated } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
 import { deleteAcc } from "../composable/deleteAnnouncement.js"
-import { useRouter } from 'vue-router';
-const router = useRouter()
+import { useRouter, useRoute } from 'vue-router';
+
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 onMounted(async () => {
-  announcements.value = await getAnnouncements()
+  announcements.value = await getAnnouncementsUser()
   announcements.value.sort((a, b) => b.id - a.id)
 })
 
 onUpdated(() => {
   noAnnouncement()
 })
+
+const isActiveOrClosed = ref(false)
+const wordButton = ref("Closed Announcements")
+const toggleAnnouncement = async() =>{
+  isActiveOrClosed.value = !isActiveOrClosed.value
+  if (isActiveOrClosed.value === true) {
+    wordButton.value = "Active Announcements"
+    announcements.value = await getAnnouncementsUser()
+  }
+  if (isActiveOrClosed.value === false) {
+    wordButton.value = "Closed Announcements"
+    announcements.value = await getAnnouncementsUser()
+  }
+}
 
 const isAnnouncementFound = ref(false)
 const noAnnouncement = () => {
@@ -26,16 +40,6 @@ const noAnnouncement = () => {
   }
 }
 
-const deleteAnnouncement = async (id) => {
-  router.push({ name: 'deleteAnnouncement', params: { id: id } })
-  const confirmed = confirm(`Do you want to delete`)
-  if (confirmed) {
-    await deleteAcc(id)
-  }
-  announcements.value = await getAnnouncements()
-  announcements.value.sort((a, b) => b.id - a.id)
-  router.push({ name: 'announcements' })
-}
 </script>
 
 <template>
@@ -50,11 +54,7 @@ const deleteAnnouncement = async (id) => {
           <span class="font-normal">{{ timezone }}</span>
         </p>
         <div class="mr-5 border hover:bg-red-200 font-semibold bg-gray-200 rounded-md items-center justify-center">
-          <router-link :to="{
-            name: 'addAnnouncement'
-          }">
-            <button class="ann-button px-5 py-2 text-sm ">Closed Announcements</button>
-          </router-link>
+            <button @click="toggleAnnouncement" class="ann-button px-5 py-2 text-sm ">{{wordButton}}</button>
         </div>
       </div>
       <div class="mx-5 mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -62,8 +62,9 @@ const deleteAnnouncement = async (id) => {
           <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-6 py-3">No.</th>
-              <th scope="col" class="px-6 py-3">Title</th>
-              <th scope="col" class="px-6 py-3">Category</th>
+              <th scope="col" class="px-6 py-3 text-left">Title</th>
+              <th v-show="isActiveOrClosed" scope="col" class="px-6 py-3 text-left">Close Time</th>
+              <th scope="col" class="px-6 py-3 text-left">Category</th>
             </tr>
           </thead>
 
@@ -73,10 +74,15 @@ const deleteAnnouncement = async (id) => {
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {{ ++index }}
               </th>
-              <td class="ann-title px-6 py-4 w-1/3">
-                {{ announcement.announcementTitle }}
+              <router-link :to="{name:'userViewDetail', params:{id : announcement.id}}">                
+                  <td class="ann-title px-6 py-4">
+                     {{ announcement.announcementTitle }}
+                  </td>                
+              </router-link>
+              <td v-show="isActiveOrClosed" class="ann-category px-6 py-4 text-left">
+                {{ changeDateTimeFormat(announcement.closeDate) }}
               </td>
-              <td class="ann-category px-6 py-4">
+              <td class="ann-category px-6 py-4 text-left">
                 {{ announcement.announcementCategory }}
               </td>
             </tr>
