@@ -2,6 +2,9 @@ package sit.int221.nw1apisas.Services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,23 +24,6 @@ public class AnnouncementService {
 
     @Autowired
     private CategoryService categoryService;
-
-    public List<Announcement> getAllAnnouncements() {
-        List<Announcement> announcements = announcementRepository.findAllAnnouncementsByIdDesc();
-        if(announcements==null || announcements.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No announcement");
-        }
-        return announcements;
-    }
-
-    public Announcement getDetailsById(Integer id) {
-        if (!(id instanceof Integer)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Type");
-        } else {
-            return announcementRepository.findById(id).orElseThrow(() -> new ResponseStatusException
-                    (HttpStatus.NOT_FOUND, "Announcement id" + id + "does not exist"));
-        }
-    }
 
     public Announcement createAnnouncement(AnnouncementItemDto announcementItemDto) {
         Announcement announcement = new Announcement();
@@ -98,25 +84,66 @@ public class AnnouncementService {
         return announcementRepository.saveAndFlush(existingAnnouncement);
     }
 
-    public List<Announcement> getUserViewAnnouncement(String mode) {
+    public List<Announcement> getAllAnnouncements(String mode) {
         ZonedDateTime currentTime = ZonedDateTime.now();
-        if(mode.equals("active")){
-            List<Announcement> announcements = announcementRepository.findActiveAnnouncement(AnnouncementDisplay.Y, currentTime);
-            if(announcements==null || announcements.isEmpty()){
+        AnnouncementDisplay announcementDisplay = AnnouncementDisplay.Y;
+        if (mode.equals("active")) {
+            List<Announcement> announcements = announcementRepository.findActiveAnnouncement(announcementDisplay, currentTime);
+            if (announcements == null || announcements.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No announcement");
             }
             return announcements;
-        } else if(mode.equals("close")){
-            List<Announcement> announcements = announcementRepository.findCloseAnnouncement(AnnouncementDisplay.Y, currentTime);
-            if(announcements==null || announcements.isEmpty()){
+        } else if (mode.equals("close")) {
+            List<Announcement> announcements = announcementRepository.findCloseAnnouncement(announcementDisplay, currentTime);
+            if (announcements == null || announcements.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No announcement");
             }
             return announcements;
-        }else {
-            return getAllAnnouncements();
+        } else {
+            return announcementRepository.findAllAnnouncementsByIdDesc();
         }
 
     }
+
+    public boolean isActive(Announcement announcement){
+        ZonedDateTime currentTime = ZonedDateTime.now();
+        if (announcement.getAnnouncementDisplay() == AnnouncementDisplay.Y && (announcement.getPublishDate() == null
+                ||  currentTime.isAfter(announcement.getPublishDate()) || currentTime.isEqual(announcement.getPublishDate()))
+                && (announcement.getCloseDate() == null || currentTime.isBefore(announcement.getCloseDate()))){
+            return true;
+        }
+        return false;
+    }
+    public boolean isClose(Announcement announcement) {
+        ZonedDateTime currentTime = ZonedDateTime.now();
+        if (announcement.getAnnouncementDisplay() == AnnouncementDisplay.Y &&
+                (announcement.getCloseDate() != null && (currentTime.isAfter(announcement.getCloseDate()) || currentTime.isEqual(announcement.getCloseDate())))) {
+            return true;
+        }
+        return false;
+    }
+
+
+
+    public Announcement getDetailsById(Integer id) {
+        Announcement announcement = announcementRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Announcement not found"));
+        return announcement;
+    }
+
+    public Page<Announcement> getAnnouncementWithPagination(int page, int size, String sortBy, String mode) {
+        Sort sort = Sort.by(sortBy).descending();
+        AnnouncementDisplay announcementDisplayShow = AnnouncementDisplay.Y;
+        ZonedDateTime currentTime = ZonedDateTime.now();
+        if (mode.equals("active")) {
+            return announcementRepository.findActiveAnnouncementWithPagination(announcementDisplayShow, currentTime, PageRequest.of(page, size, sort));
+        } else if (mode.equals("closed")) {
+            return announcementRepository.findCloseAnnouncementWithPagination(announcementDisplayShow, currentTime, PageRequest.of(page, size, sort));
+        } else {
+            return announcementRepository.findAll(PageRequest.of(page, size, sort));
+        }
+    }
+
 }
 
 
