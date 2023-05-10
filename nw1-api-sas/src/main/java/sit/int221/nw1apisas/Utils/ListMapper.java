@@ -1,6 +1,8 @@
 package sit.int221.nw1apisas.Utils;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import sit.int221.nw1apisas.Dtos.PageDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +19,12 @@ public class ListMapper {
 
     public static ListMapper getInstance() {
         return listMapper;
+    }
+
+    public <S, T> PageDto<T> toPageDTO(Page<S> source, Class<T> targetClass, ModelMapper modelMapper) {
+        PageDto<T> page = modelMapper.map(source, PageDto.class);
+        page.setContent(mapList(source.getContent(), targetClass, modelMapper));
+        return page;
     }
 
 }
