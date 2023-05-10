@@ -123,8 +123,6 @@ public class AnnouncementService {
         return false;
     }
 
-
-
     public Announcement getDetailsById(Integer id) {
         Announcement announcement = announcementRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Announcement not found"));
@@ -137,7 +135,7 @@ public class AnnouncementService {
         ZonedDateTime currentTime = ZonedDateTime.now();
         if (mode.equals("active")) {
             return announcementRepository.findActiveAnnouncementWithPagination(announcementDisplayShow, currentTime, PageRequest.of(page, size, sort));
-        } else if (mode.equals("closed")) {
+        } else if (mode.equals("close")) {
             return announcementRepository.findCloseAnnouncementWithPagination(announcementDisplayShow, currentTime, PageRequest.of(page, size, sort));
         } else {
             return announcementRepository.findAll(PageRequest.of(page, size, sort));
