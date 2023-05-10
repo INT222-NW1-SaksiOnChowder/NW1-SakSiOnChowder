@@ -84,13 +84,21 @@ public class AnnouncementController {
     }
 
 
-    @GetMapping("/page")
-    public PageDto<ActiveAnnouncementDto> getAnnouncementWithPagination(@RequestParam(defaultValue = "0") int page,
-                                                                        @RequestParam(defaultValue = "5") int size,
-                                                                        @RequestParam(defaultValue = "id") String sortBy,
-                                                                        @RequestParam(defaultValue = "admin") String mode){
+    @GetMapping("/pages")
+    public PageDto<?> getAnnouncementWithPagination(@RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "5") int size,
+                                                    @RequestParam(defaultValue = "id") String sortBy,
+                                                    @RequestParam(defaultValue = "admin") String mode){
         Page<Announcement> announcementList = announcementService.getAnnouncementWithPagination(page, size, sortBy, mode);
-        return listMapper.toPageDTO(announcementList, ActiveAnnouncementDto.class, modelMapper);
+        if(mode.equals("active")){
+            return listMapper.toPageDTO(announcementList, ActiveAnnouncementDto.class, modelMapper);
+        }else if(mode.equals("close")){
+            return listMapper.toPageDTO(announcementList, CloseAnnouncementDto.class, modelMapper);
+        }else {
+            return listMapper.toPageDTO(announcementList, AnnouncementDto.class, modelMapper);
+        }
+
+
     }
 
 }
