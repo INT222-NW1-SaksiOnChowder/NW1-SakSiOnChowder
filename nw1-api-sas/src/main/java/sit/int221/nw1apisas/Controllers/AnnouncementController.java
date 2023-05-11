@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import sit.int221.nw1apisas.Dtos.*;
 import sit.int221.nw1apisas.Entities.Announcement;
+import sit.int221.nw1apisas.Entities.Category;
 import sit.int221.nw1apisas.Services.AnnouncementService;
 import sit.int221.nw1apisas.Utils.ListMapper;
 
@@ -88,8 +89,9 @@ public class AnnouncementController {
     public PageDto<?> getAnnouncementWithPagination(@RequestParam(defaultValue = "0") int page,
                                                     @RequestParam(defaultValue = "5") int size,
                                                     @RequestParam(defaultValue = "id") String sortBy,
-                                                    @RequestParam(defaultValue = "admin") String mode){
-        Page<Announcement> announcementList = announcementService.getAnnouncementWithPagination(page, size, sortBy, mode);
+                                                    @RequestParam(defaultValue = "admin") String mode,
+                                                    @RequestParam(required = false) Integer categoryId){
+        Page<Announcement> announcementList = announcementService.getAnnouncementWithPagination(page, size, sortBy, mode, categoryId);
         if(mode.equals("active")){
             return listMapper.toPageDTO(announcementList, ActiveAnnouncementDto.class, modelMapper);
         }else if(mode.equals("close")){

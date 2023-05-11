@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import sit.int221.nw1apisas.Dtos.AnnouncementItemDto;
 import sit.int221.nw1apisas.Entities.Announcement;
+import sit.int221.nw1apisas.Entities.Category;
 import sit.int221.nw1apisas.Enums.AnnouncementDisplay;
 import sit.int221.nw1apisas.Repositories.AnnouncementRepository;
 
@@ -124,21 +125,34 @@ public class AnnouncementService {
     }
 
     public Announcement getDetailsById(Integer id) {
+        if(id instanceof Integer){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid type");
+        }
         Announcement announcement = announcementRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Announcement not found"));
         return announcement;
     }
 
-    public Page<Announcement> getAnnouncementWithPagination(int page, int size, String sortBy, String mode) {
+    public Page<Announcement> getAnnouncementWithPagination(int page, int size, String sortBy, String mode, Integer categoryId) {
         Sort sort = Sort.by(sortBy).descending();
         AnnouncementDisplay announcementDisplayShow = AnnouncementDisplay.Y;
+        PageRequest pageRequest = PageRequest.of(page,size,sort);
         ZonedDateTime currentTime = ZonedDateTime.now();
         if (mode.equals("active")) {
-            return announcementRepository.findActiveAnnouncementWithPagination(announcementDisplayShow, currentTime, PageRequest.of(page, size, sort));
+            if (categoryId != null){
+                return announcementRepository.findActiveAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
+            }
+            return announcementRepository.findActiveAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
         } else if (mode.equals("close")) {
-            return announcementRepository.findCloseAnnouncementWithPagination(announcementDisplayShow, currentTime, PageRequest.of(page, size, sort));
+            if (categoryId != null){
+                return announcementRepository.findCloseAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
+            }
+            return announcementRepository.findCloseAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
         } else {
-            return announcementRepository.findAll(PageRequest.of(page, size, sort));
+            if (categoryId!= null){
+                return announcementRepository.findAllByCategoryWithPagination(pageRequest, categoryId);
+            }
+            return announcementRepository.findAll(pageRequest);
         }
     }
 
