@@ -1,36 +1,67 @@
 <script setup>
-import { getAnnouncementsUser,getClosedAnnouncementsUser } from "../composable/getAnnouncementUser.js"
+import { getAnnouncementsUser } from "../composable/getAnnouncementUser.js"
 import { ref, onMounted, onUpdated } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
 import { deleteAcc } from "../composable/deleteAnnouncement.js"
 import { useRouter, useRoute } from 'vue-router';
+import { annStores } from '../stores/counter.js'
 
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+const announcementStores = annStores()
+
+const showCloseTime = ref(false)
+const setShowCloseTime = () => {
+  if (announcementStores.mode === 'close') {
+    showCloseTime.value = true
+  } else {
+    showCloseTime.value = false
+  }
+}
 
 onMounted(async () => {
   noAnnouncement()
-  announcements.value = await getAnnouncementsUser()
+  setShowCloseTime()
+  announcements.value = await getAnnouncementsUser(announcementStores.mode)
   announcements.value.sort((a, b) => b.id - a.id)
-})
-
-onUpdated(() => {
   noAnnouncement()
 })
 
-const isActiveOrClosed = ref(false)
+
+
+onUpdated(() => {
+  noAnnouncement()
+  setShowCloseTime()
+})
+
+
+// const isActiveOrClosed = ref(false)
 const wordButton = ref("Closed Announcements")
-const toggleAnnouncement = async() =>{
-  isActiveOrClosed.value = !isActiveOrClosed.value
-  if (isActiveOrClosed.value === true) {
+
+// const toggleAnnouncement = async() =>{
+//   isActiveOrClosed.value = !isActiveOrClosed.value
+//   if (isActiveOrClosed.value === true) {
+//     wordButton.value = "Active Announcements"
+//     announcements.value = await getClosedAnnouncementsUser()
+//     noAnnouncement()
+//   }
+//   if (isActiveOrClosed.value === false) {
+//     wordButton.value = "Closed Announcements"
+//     announcements.value = await getAnnouncementsUser()
+//     noAnnouncement()
+//   }
+// }
+
+const getListAnnouncement = async() => {
+  if (announcementStores.mode === 'active') {
+    announcementStores.setmode('close')
+    announcements.value = await getAnnouncementsUser(announcementStores.mode)
     wordButton.value = "Active Announcements"
-    announcements.value = await getClosedAnnouncementsUser()
-    noAnnouncement()
   }
-  if (isActiveOrClosed.value === false) {
+  else {
+    announcementStores.setmode('active')
+    announcements.value = await getAnnouncementsUser(announcementStores.mode)
     wordButton.value = "Closed Announcements"
-    announcements.value = await getAnnouncementsUser()
-    noAnnouncement()
   }
 }
 
@@ -60,7 +91,7 @@ const noAnnouncement = () => {
           <span class="font-normal">{{ timezone }}</span>
         </p>
         <div class="mr-5 border hover:bg-red-200 font-semibold bg-gray-200 rounded-md items-center justify-center">
-            <button @click="toggleAnnouncement" class="ann-button px-5 py-2 text-sm ">{{wordButton}}</button>
+            <button @click="getListAnnouncement" class="ann-button px-5 py-2 text-sm ">{{ wordButton }}</button>
         </div>
       </div>
       <div class="mx-5 mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -69,7 +100,7 @@ const noAnnouncement = () => {
             <tr>
               <th scope="col" class="px-6 py-3">No.</th>
               <th scope="col" class="px-6 py-3 text-left">Title</th>
-              <th v-show="isActiveOrClosed" scope="col" class="px-6 py-3 text-left">Close Time</th>
+              <th v-show="showCloseTime" scope="col" class="px-6 py-3 text-left">Close Time</th>
               <th scope="col" class="px-6 py-3 text-left">Category</th>
             </tr>
           </thead>
@@ -85,7 +116,7 @@ const noAnnouncement = () => {
                      {{ announcement.announcementTitle }}
                   </td>                
               </router-link>
-              <td v-show="isActiveOrClosed" class="ann-category px-6 py-4 text-left">
+              <td v-show="showCloseTime" class="ann-category px-6 py-4 text-left">
                 {{ changeDateTimeFormat(announcement.closeDate) }}
               </td>
               <td class="ann-category px-6 py-4 text-left">

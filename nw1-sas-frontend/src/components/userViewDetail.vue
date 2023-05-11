@@ -1,8 +1,8 @@
 <script setup>
 import { getAnnouncementUser } from '../composable/getAnnouncementUser.js'
 import { ref, onMounted} from "vue"
-import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
 import { useRoute , useRouter } from 'vue-router';
+import { changeDateTimeFormat } from '../composable/changeFormatDate';
 
 const announcement = ref({})
 const router = useRouter()
@@ -45,7 +45,7 @@ onMounted(async() => {
                 <h1 class="mx-5">
                     Closed on
                 </h1>
-                <p class="ann-category">{{ announcement.closeDate }}</p>
+                <p class="ann-category">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5">
@@ -55,8 +55,9 @@ onMounted(async() => {
             </div>
         </div>
         <router-link :to="{ name: 'userViewAnnouncement' }"><button
-                class="ann-button bg-gray-200 rounded-md py-2 px-5 ml-5 hover:bg-amber-100"
-                @click="idDetail">Back</button>
+                class="ann-button bg-gray-200 rounded-md py-2 px-5 ml-5 hover:bg-amber-100">
+                Back
+                </button>
         </router-link>
 
 
