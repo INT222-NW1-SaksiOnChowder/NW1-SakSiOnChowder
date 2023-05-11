@@ -95,13 +95,13 @@ public class AnnouncementService {
         AnnouncementDisplay announcementDisplay = AnnouncementDisplay.Y;
         if (mode.equals("active")) {
             List<Announcement> announcements = announcementRepository.findActiveAnnouncement(announcementDisplay, currentTime);
-            if (announcements == null || announcements.isEmpty()) {
+            if (announcements == null || announcements.size() == 0) {
                 throw new ItemNotFoundException("No announcement");
             }
             return announcements;
         } else if (mode.equals("close")) {
             List<Announcement> announcements = announcementRepository.findCloseAnnouncement(announcementDisplay, currentTime);
-            if (announcements == null || announcements.isEmpty()) {
+            if (announcements == null || announcements.size() == 0) {
                 throw new ItemNotFoundException("No announcement");
             }
             return announcements;
