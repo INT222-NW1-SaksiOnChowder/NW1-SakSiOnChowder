@@ -1,5 +1,5 @@
 <script setup>
-import { getAnnouncementsUser } from "../composable/getAnnouncementUser.js"
+import { getAnnouncementsUser,getClosedAnnouncementsUser } from "../composable/getAnnouncementUser.js"
 import { ref, onMounted, onUpdated } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
 import { deleteAcc } from "../composable/deleteAnnouncement.js"
@@ -9,6 +9,7 @@ const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 onMounted(async () => {
+  noAnnouncement()
   announcements.value = await getAnnouncementsUser()
   announcements.value.sort((a, b) => b.id - a.id)
 })
@@ -23,11 +24,13 @@ const toggleAnnouncement = async() =>{
   isActiveOrClosed.value = !isActiveOrClosed.value
   if (isActiveOrClosed.value === true) {
     wordButton.value = "Active Announcements"
-    announcements.value = await getAnnouncementsUser()
+    announcements.value = await getClosedAnnouncementsUser()
+    noAnnouncement()
   }
   if (isActiveOrClosed.value === false) {
     wordButton.value = "Closed Announcements"
     announcements.value = await getAnnouncementsUser()
+    noAnnouncement()
   }
 }
 
@@ -35,10 +38,13 @@ const isAnnouncementFound = ref(false)
 const noAnnouncement = () => {
   if (announcements.value.length <= 0) {
     isAnnouncementFound.value = true
+    console.log(isAnnouncementFound.value);
   } else {
     isAnnouncementFound.value = false
+    console.log(isAnnouncementFound.value);
   }
 }
+
 
 </script>
 

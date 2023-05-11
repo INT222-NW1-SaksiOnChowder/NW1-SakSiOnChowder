@@ -43,6 +43,12 @@ onMounted(async() => {
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5">
+                    Closed on
+                </h1>
+                <p class="ann-category">{{ announcement.closeDate }}</p>
+            </div>
+            <div class="flex my-5">
+                <h1 class="mx-5">
                     Description
                 </h1>
                 <p class="ann-description">{{ announcement.announcementDescription }}</p>

@@ -2,14 +2,36 @@ const ROOT_API = import.meta.env.VITE_ROOT_API
 const getAnnouncementsUser= async () => {
     try {
         // const res = await fetch(`${ROOT_API}/api/announcements`)
-        const res = await fetch(`http://localhost:5000/announcements`)
-        // const res = await fetch(`http://localhost:8080/api/announcements`)
+        // const res = await fetch(`http://localhost:5000/announcements`)
+        const res = await fetch(`http://localhost:8080/api/announcements?mode=active`)
         
         if (res.status === 200) {
             const announcement = await res.json()
             console.log('All Successfully')
             return announcement
-        } else {
+        }else if(res.status===404){
+            th
+            // throw new Error(res.statusText)
+            
+        }
+        
+    } catch (error) {
+        console.log(`ERROR cannot read data: ${error}`);
+        
+    }   
+}
+
+const getClosedAnnouncementsUser= async () => {
+    try {
+        // const res = await fetch(`${ROOT_API}/api/announcements`)
+        // const res = await fetch(`http://localhost:5000/announcements`)
+        const res = await fetch(`http://localhost:8080/api/announcements?mode=close`)
+        
+        if (res.status === 200) {
+            const announcement = await res.json()
+            console.log('All Successfully')
+            return announcement
+        }else {
             throw new Error('No Announcement')
         }
     } catch (error) {
@@ -21,8 +43,8 @@ const getAnnouncementUser= async (id) => {
     let announcement = undefined
     try {
         // const res = await fetch(`${ROOT_API}/api/announcements/${id}`)
-        const res = await fetch(`http://localhost:5000/announcements/${id}`)
-        // const res = await fetch(`http://localhost:8080/api/announcements/${id}`)
+        // const res = await fetch(`http://localhost:5000/announcements/${id}`)
+        const res = await fetch(`http://localhost:8080/api/announcements/${id}`)
         if (res.status === 200) {
             announcement = await res.json()
             console.log('Detail Successfully')
@@ -35,4 +57,4 @@ const getAnnouncementUser= async (id) => {
     }   
 }
 
-export { getAnnouncementsUser, getAnnouncementUser }
+export { getAnnouncementsUser, getAnnouncementUser, getClosedAnnouncementsUser }
