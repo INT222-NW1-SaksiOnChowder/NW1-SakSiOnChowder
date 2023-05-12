@@ -41,12 +41,10 @@ const submit = async(addAnnouncement) => {
         addAnnouncement.closeDate = null
     }
 
-    if (!addAnnouncement.announcementTitle || !addAnnouncement.announcementDescription || !addAnnouncement.categoryId) {
-        alert('cannot create data')
-    } else {
+   
         await createAnnouncement(addAnnouncement)
         router.push({ name: 'announcements' })
-    }
+    
 
 }
 
