@@ -31,61 +31,83 @@ public class AnnouncementService {
         Announcement announcement = new Announcement();
         if (announcementItemDto.getAnnouncementTitle() != null && !(announcementItemDto.getAnnouncementTitle().isEmpty())
                 && announcementItemDto.getAnnouncementTitle().trim() != ""
-                && announcementItemDto.getAnnouncementTitle().length() > 0 && announcementItemDto.getAnnouncementTitle().length() <= 200) {
+                && announcementItemDto.getAnnouncementTitle().length() <= 200) {
             announcement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
         } else {
-            throw new BadRequestException("Please fill a announcement title and must be less than or equal 200 characters");
+            throw new BadRequestException("Please fill a announcement title and must be less than or equal 200 characters.");
         }
         if (announcementItemDto.getAnnouncementDescription() != null && !(announcementItemDto.getAnnouncementDescription().isEmpty())
                 && announcementItemDto.getAnnouncementDescription().trim() != ""
-                && announcementItemDto.getAnnouncementDescription().length() > 0 && announcementItemDto.getAnnouncementDescription().length() <= 10000) {
+                && announcementItemDto.getAnnouncementDescription().length() <= 10000) {
             announcement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
         } else {
-            throw new BadRequestException("Please fill a announcement description and must be less than or equal 10000 characters");
+            throw new BadRequestException("Please fill a announcement description and must be less than or equal 10000 characters.");
         }
-        if (announcementItemDto.getCategoryId() != null) {
+        if (announcementItemDto.getCategoryId() == null) {
+            throw new BadRequestException("Please choose a category.");
+        }else {
             announcement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
-        } else {
-            throw new BadRequestException("Please choose a category");
         }
-        announcement.setPublishDate(announcementItemDto.getPublishDate());
-        announcement.setCloseDate(announcementItemDto.getCloseDate());
+        ZonedDateTime publishDate = announcementItemDto.getPublishDate();
+        ZonedDateTime closeDate = announcementItemDto.getCloseDate();
+        ZonedDateTime now = ZonedDateTime.now();
+        if (publishDate != null && closeDate != null && (closeDate.isBefore(publishDate) || closeDate.isEqual(publishDate))) {
+            throw new BadRequestException("The close date must be after the publish date.");
+        }
+        if (publishDate != null && publishDate.isBefore(now)) {
+            throw new BadRequestException("The publish date must be in the future.");
+        }
+        if (closeDate != null && closeDate.isBefore(now)) {
+            throw new BadRequestException("The close date must be in the future.");
+        }
+        announcement.setPublishDate(publishDate);
+        announcement.setCloseDate(closeDate);
         announcement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
         return announcementRepository.saveAndFlush(announcement);
 
     }
 
     public void deleteAnnouncement(Integer id) {
-        announcementRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("The announcement is not found"));
+        announcementRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("The announcement is not found."));
         announcementRepository.deleteById(id);
     }
 
     public Announcement updateAnnouncement(AnnouncementItemDto announcementItemDto, Integer id) {
         Announcement existingAnnouncement = announcementRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The announcement is not found"));
+                .orElseThrow(() -> new ItemNotFoundException("The announcement is not found."));
         if (announcementItemDto.getAnnouncementTitle() != null && !(announcementItemDto.getAnnouncementTitle().isEmpty())
                 && announcementItemDto.getAnnouncementTitle().trim() != ""
                 && announcementItemDto.getAnnouncementTitle().length() > 0 && announcementItemDto.getAnnouncementTitle().length() <= 200) {
             existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
         } else {
-            throw new BadRequestException("Please fill a announcement title and must be less than or equal 200 characters");
+            throw new BadRequestException("Please fill a announcement title and must be less than or equal 200 characters.");
         }
         if (announcementItemDto.getAnnouncementDescription() != null && !(announcementItemDto.getAnnouncementDescription().isEmpty())
                 && announcementItemDto.getAnnouncementDescription().trim() != ""
                 && announcementItemDto.getAnnouncementDescription().length() > 0 && announcementItemDto.getAnnouncementDescription().length() <= 10000) {
             existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
         } else {
-            throw new BadRequestException("Please fill a announcement description and must be less than or equal 10000 characters");
+            throw new BadRequestException("Please fill a announcement description and must be less than or equal 10000 characters.");
         }
-        if (announcementItemDto.getCategoryId() != null) {
-            existingAnnouncement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
+        if (announcementItemDto.getCategoryId() == null) {
+            throw new BadRequestException("Please choose a category.");
         } else {
-            throw new BadRequestException("Please fill a category");
+            existingAnnouncement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
         }
-        existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
-        existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
-        existingAnnouncement.setPublishDate(announcementItemDto.getPublishDate());
-        existingAnnouncement.setCloseDate(announcementItemDto.getCloseDate());
+        ZonedDateTime publishDate = announcementItemDto.getPublishDate();
+        ZonedDateTime closeDate = announcementItemDto.getCloseDate();
+        ZonedDateTime now = ZonedDateTime.now();
+        if (publishDate != null && closeDate != null && (closeDate.isBefore(publishDate) || closeDate.isEqual(publishDate))) {
+            throw new BadRequestException("The close date must be after the publish date.");
+        }
+        if (publishDate != null && publishDate.isBefore(now)) {
+            throw new BadRequestException("The publish date must be in the future.");
+        }
+        if (closeDate != null && closeDate.isBefore(now)) {
+            throw new BadRequestException("The close date must be in the future.");
+        }
+        existingAnnouncement.setPublishDate(publishDate);
+        existingAnnouncement.setCloseDate(closeDate);
         existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
         return announcementRepository.saveAndFlush(existingAnnouncement);
     }
@@ -96,13 +118,13 @@ public class AnnouncementService {
         if (mode.equals("active")) {
             List<Announcement> announcements = announcementRepository.findActiveAnnouncement(announcementDisplay, currentTime);
             if (announcements == null || announcements.size() == 0) {
-                throw new ItemNotFoundException("No announcement");
+                throw new ItemNotFoundException("No announcement.");
             }
             return announcements;
         } else if (mode.equals("close")) {
             List<Announcement> announcements = announcementRepository.findCloseAnnouncement(announcementDisplay, currentTime);
             if (announcements == null || announcements.size() == 0) {
-                throw new ItemNotFoundException("No announcement");
+                throw new ItemNotFoundException("No announcement.");
             }
             return announcements;
         } else {
@@ -131,10 +153,10 @@ public class AnnouncementService {
 
     public Announcement getDetailsById(Integer id) {
         if(id == null){
-            throw new BadRequestException("id is need to be an integer");
+            throw new BadRequestException("The request page is not available.");
         }
         Announcement announcement = announcementRepository.findById(id).orElseThrow(
-                () -> new ItemNotFoundException("Announcement id "+ id +" does not exist"));
+                () -> new ItemNotFoundException("Announcement id "+ id +" does not exist."));
         return announcement;
     }
 
