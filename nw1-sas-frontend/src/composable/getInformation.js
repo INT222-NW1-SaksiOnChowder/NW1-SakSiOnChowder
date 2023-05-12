@@ -9,8 +9,9 @@ const getAnnouncements= async () => {
             const announcement = await res.json()
             console.log('All Successfully')
             return announcement
-        } else {
-            throw new Error('No Announcement')
+        }else if(res.status !== 200){
+            const error = await res.json()
+            alert(error.message)
         }
     } catch (error) {
         console.log(`ERROR cannot read data: ${error}`);
@@ -27,8 +28,9 @@ const getAnnouncement= async (id) => {
             announcement = await res.json()
             console.log('Detail Successfully')
             return announcement
-        } else {
-            throw new Error(`Announcement id ${id} doesn't exist`)
+        }else if(res.status !== 200){
+            const error = await res.json()
+            alert(error.message)
         }
     } catch (error) {
         console.log(`ERROR cannot read data: ${error}`);
