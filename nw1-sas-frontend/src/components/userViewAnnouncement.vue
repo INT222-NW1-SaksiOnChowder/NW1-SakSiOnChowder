@@ -34,23 +34,7 @@ onUpdated(() => {
   setShowCloseTime()
 })
 
-
-// const isActiveOrClosed = ref(false)
 const wordButton = ref("Closed Announcements")
-
-// const toggleAnnouncement = async() =>{
-//   isActiveOrClosed.value = !isActiveOrClosed.value
-//   if (isActiveOrClosed.value === true) {
-//     wordButton.value = "Active Announcements"
-//     announcements.value = await getClosedAnnouncementsUser()
-//     noAnnouncement()
-//   }
-//   if (isActiveOrClosed.value === false) {
-//     wordButton.value = "Closed Announcements"
-//     announcements.value = await getAnnouncementsUser()
-//     noAnnouncement()
-//   }
-// }
 
 const getListAnnouncement = async() => {
   if (announcementStores.mode === 'active') {

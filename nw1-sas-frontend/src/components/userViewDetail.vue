@@ -3,7 +3,18 @@ import { getAnnouncementUser } from '../composable/getAnnouncementUser.js'
 import { ref, onMounted} from "vue"
 import { useRoute , useRouter } from 'vue-router';
 import { changeDateTimeFormat } from '../composable/changeFormatDate';
+import { annStores } from '../stores/counter.js'
 
+const announcementStores = annStores()
+
+const showCloseTime = ref(false)
+const setShowCloseTime = () => {
+  if (announcementStores.mode === 'close') {
+    showCloseTime.value = true
+  } else {
+    showCloseTime.value = false
+  }
+}
 const announcement = ref({})
 const router = useRouter()
 const route = useRoute();
@@ -11,6 +22,7 @@ console.log(route.params.id);
 
 onMounted(async() => {
     const route = useRoute()
+    setShowCloseTime()
     announcement.value = await getAnnouncementUser(route.params.id)
     console.log(route.params.id);
     if (!announcement.value) {
@@ -41,7 +53,7 @@ onMounted(async() => {
                 </h1>
                 <p class="ann-category">{{ announcement.announcementCategory }}</p>
             </div>
-            <div class="flex my-5">
+            <div v-show="showCloseTime" class="flex my-5">
                 <h1 class="mx-5">
                     Closed on
                 </h1>
