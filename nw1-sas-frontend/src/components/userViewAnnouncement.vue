@@ -58,24 +58,35 @@ const noAnnouncement = () => {
     console.log(isAnnouncementFound.value);
   }
 }
-
+const slicePageNumberArr = ref([])
 const pageNumberArr = ref([])
 const isMoreThanFiveElements = ref(true)
 const checkPageButton = () => {
   for (let i = 1; i <= announcements.value.totalPages; i++) {
       pageNumberArr.value.push(i)
   }
-
+  slicePageNumberArr.value = pageNumberArr.value
   if (announcements.value.totalElements <= 5) {
     isMoreThanFiveElements.value = false
   }
+  if (announcements.value.totalPages > 10) {
+    slicePageNumberArr.value = pageNumberArr.value.slice(0,10)
+  }
 }
+
+console.log(announcementStores.page);
 
 const changeToCurrentPage = async(page) => {
   if (announcements.value.totalPages !== page-1) {
     announcements.value = await getAnnouncementsUser(announcementStores.mode, page-1)
     annoucementContent.value = announcements.value.content
     announcementStores.setPage(page-1)
+  }
+  if (announcements.value.page+1 > 10) {
+    slicePageNumberArr.value = pageNumberArr.value.slice(announcements.value.page-9,announcements.value.page+1)
+  }
+  if (announcements.value.page+1 <= 10) {
+    slicePageNumberArr.value = pageNumberArr.value.slice(0,10)
   }
 }
 
@@ -87,8 +98,6 @@ const nextOrPrevButton = (move) =>{
       changeToCurrentPage(announcementStores.page)
     }
 }
-
-
 
 </script>
 
@@ -143,7 +152,7 @@ const nextOrPrevButton = (move) =>{
     </div>
     <div v-show="isMoreThanFiveElements" class="flex justify-center">
         <button @click="nextOrPrevButton('prev')" class="border border-black px-4 py-2 mx-1 rounded-lg ">Prev</button>
-        <button @click="changeToCurrentPage(pageNumber)" v-for="(pageNumber,index) in pageNumberArr" :key="index" 
+        <button @click="changeToCurrentPage(pageNumber)" v-for="(pageNumber,index) in slicePageNumberArr" :key="index" 
         :class="pageNumber === announcementStores.page+1 ? 'bg-red-200 border border-black px-4 py-2 mx-1 rounded-lg' : 'border border-black px-4 py-2 mx-1 rounded-lg'">
           {{ pageNumber }}
         </button>
