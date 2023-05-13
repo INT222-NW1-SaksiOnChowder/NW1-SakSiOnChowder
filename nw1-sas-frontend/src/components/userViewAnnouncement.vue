@@ -18,16 +18,15 @@ const setShowCloseTime = () => {
     showCloseTime.value = false
   }
 }
-
+const annoucementContent = ref()
 onMounted(async () => {
   noAnnouncement()
   setShowCloseTime()
-  announcements.value = await getAnnouncementsUser(announcementStores.mode)
-  announcements.value.sort((a, b) => b.id - a.id)
+  announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page)
+  annoucementContent.value = announcements.value.content
   noAnnouncement()
+  checkPageButton()
 })
-
-
 
 onUpdated(() => {
   noAnnouncement()
@@ -60,6 +59,36 @@ const noAnnouncement = () => {
   }
 }
 
+const pageNumberArr = ref([])
+const isMoreThanFiveElements = ref(true)
+const checkPageButton = () => {
+  for (let i = 1; i <= announcements.value.totalPages; i++) {
+      pageNumberArr.value.push(i)
+  }
+
+  if (announcements.value.totalElements <= 5) {
+    isMoreThanFiveElements.value = false
+  }
+}
+
+const changeToCurrentPage = async(page) => {
+  if (announcements.value.totalPages !== page-1) {
+    announcements.value = await getAnnouncementsUser(announcementStores.mode, page-1)
+    annoucementContent.value = announcements.value.content
+    announcementStores.setPage(page-1)
+  }
+}
+
+
+const nextOrPrevButton = (move) =>{
+    if (move === 'next') {
+      changeToCurrentPage(announcementStores.page+2)
+    } else {
+      changeToCurrentPage(announcementStores.page)
+    }
+}
+
+
 
 </script>
 
@@ -90,7 +119,7 @@ const noAnnouncement = () => {
           </thead>
 
           <tbody v-if="!isAnnouncementFound">
-            <tr v-for="(announcement, index) in announcements" :key="index"
+            <tr v-for="(announcement, index) in annoucementContent" :key="index"
               class="ann-item bg-white border-b dark:bg-gray-900 dark:border-gray-700">
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {{ ++index }}
@@ -112,6 +141,14 @@ const noAnnouncement = () => {
         <div v-if="isAnnouncementFound" class="text-center text-3xl my-10">No Announcement</div>
       </div>
     </div>
+    <div v-show="isMoreThanFiveElements" class="flex justify-center">
+        <button @click="nextOrPrevButton('prev')" class="border border-black px-4 py-2 mx-1 rounded-lg ">Prev</button>
+        <button @click="changeToCurrentPage(pageNumber)" v-for="(pageNumber,index) in pageNumberArr" :key="index" 
+        :class="pageNumber === announcementStores.page+1 ? 'bg-red-200 border border-black px-4 py-2 mx-1 rounded-lg' : 'border border-black px-4 py-2 mx-1 rounded-lg'">
+          {{ pageNumber }}
+        </button>
+        <button @click="nextOrPrevButton('next')" class="border border-black px-4 py-2 mx-1 rounded-lg ">Next</button>
+      </div>
   </div>
 </template>
 
