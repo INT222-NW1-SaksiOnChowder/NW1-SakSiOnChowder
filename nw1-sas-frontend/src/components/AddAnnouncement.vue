@@ -41,7 +41,7 @@ const submit = async(addAnnouncement) => {
         addAnnouncement.closeDate = null
     }
 
-   
+    
         await createAnnouncement(addAnnouncement)
         router.push({ name: 'announcements' })
     

@@ -23,7 +23,9 @@ console.log(route.params.id);
 onMounted(async() => {
     const route = useRoute()
     setShowCloseTime()
-    announcement.value = await getAnnouncementUser(route.params.id)
+    announcement.value = await getAnnouncementUser(route.params.id, announcementStores.mode)
+    console.log(announcementStores.mode);
+    console.log(announcement.value);
     console.log(route.params.id);
     if (!announcement.value) {
         alert('The request page is not available')
