@@ -141,10 +141,9 @@ public class AnnouncementService {
 
     }
 
-    public Page<Announcement> getAnnouncementWithPagination(int page, int size, String sortBy, String mode, Integer categoryId) {
-        Sort sort = Sort.by(sortBy).descending();
+    public Page<Announcement> getAnnouncementWithPagination(int page, int size, String mode, Integer categoryId) {
         AnnouncementDisplay announcementDisplayShow = AnnouncementDisplay.Y;
-        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        PageRequest pageRequest = PageRequest.of(page, size);
         ZonedDateTime currentTime = ZonedDateTime.now();
         if (mode.equals("active")) {
             if (categoryId != null) {
