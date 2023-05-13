@@ -77,7 +77,7 @@ public class AnnouncementController {
     @GetMapping("/pages")
     public PageDto<?> getAnnouncementWithPagination(@RequestParam(defaultValue = "0") int page,
                                                     @RequestParam(defaultValue = "5") int size,
-                                                    @RequestParam(defaultValue = "admin") String mode,
+                                                    @RequestParam(defaultValue = "active") String mode,
                                                     @RequestParam(required = false) Integer category){
         Page<Announcement> announcementList = announcementService.getAnnouncementWithPagination(page, size, mode, category);
 //        if(mode.equals("active")){

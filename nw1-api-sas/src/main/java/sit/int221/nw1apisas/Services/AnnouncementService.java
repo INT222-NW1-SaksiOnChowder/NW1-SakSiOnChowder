@@ -150,17 +150,20 @@ public class AnnouncementService {
                 return announcementRepository.findActiveAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
             }
             return announcementRepository.findActiveAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
-        } else if (mode.equals("close")) {
+        } else if(mode.equals("close")){
             if (categoryId != null) {
                 return announcementRepository.findCloseAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
             }
             return announcementRepository.findCloseAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
-        } else {
-            if (categoryId != null) {
-                return announcementRepository.findAllByCategoryWithPagination(pageRequest, categoryId);
-            }
-            return announcementRepository.findAll(pageRequest);
         }
+        return Page.empty(pageRequest);
+//        else {
+//            if (categoryId != null) {
+//                return announcementRepository.findAllByCategoryWithPagination(pageRequest, categoryId);
+//            }
+//            return announcementRepository.findAll(pageRequest);
+//        }
+
     }
 
 }
