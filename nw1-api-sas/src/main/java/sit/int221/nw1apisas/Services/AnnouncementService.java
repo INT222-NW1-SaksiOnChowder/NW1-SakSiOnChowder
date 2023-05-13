@@ -141,28 +141,28 @@ public class AnnouncementService {
 
     }
 
-//    public Page<Announcement> getAnnouncementWithPagination(int page, int size, String sortBy, String mode, Integer categoryId) {
-//        Sort sort = Sort.by(sortBy).descending();
-//        AnnouncementDisplay announcementDisplayShow = AnnouncementDisplay.Y;
-//        PageRequest pageRequest = PageRequest.of(page, size, sort);
-//        ZonedDateTime currentTime = ZonedDateTime.now();
-//        if (mode.equals("active")) {
-//            if (categoryId != null) {
-//                return announcementRepository.findActiveAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
-//            }
-//            return announcementRepository.findActiveAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
-//        } else if (mode.equals("close")) {
-//            if (categoryId != null) {
-//                return announcementRepository.findCloseAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
-//            }
-//            return announcementRepository.findCloseAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
-//        } else {
-//            if (categoryId != null) {
-//                return announcementRepository.findAllByCategoryWithPagination(pageRequest, categoryId);
-//            }
-//            return announcementRepository.findAll(pageRequest);
-//        }
-//    }
+    public Page<Announcement> getAnnouncementWithPagination(int page, int size, String sortBy, String mode, Integer categoryId) {
+        Sort sort = Sort.by(sortBy).descending();
+        AnnouncementDisplay announcementDisplayShow = AnnouncementDisplay.Y;
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        ZonedDateTime currentTime = ZonedDateTime.now();
+        if (mode.equals("active")) {
+            if (categoryId != null) {
+                return announcementRepository.findActiveAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
+            }
+            return announcementRepository.findActiveAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
+        } else if (mode.equals("close")) {
+            if (categoryId != null) {
+                return announcementRepository.findCloseAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
+            }
+            return announcementRepository.findCloseAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
+        } else {
+            if (categoryId != null) {
+                return announcementRepository.findAllByCategoryWithPagination(pageRequest, categoryId);
+            }
+            return announcementRepository.findAll(pageRequest);
+        }
+    }
 
 }
 
