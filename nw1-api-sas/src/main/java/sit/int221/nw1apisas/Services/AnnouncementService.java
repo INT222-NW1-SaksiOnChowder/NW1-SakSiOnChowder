@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import sit.int221.nw1apisas.Dtos.AnnouncementItemDto;
 import sit.int221.nw1apisas.Entities.Announcement;
 import sit.int221.nw1apisas.Enums.AnnouncementDisplay;
@@ -34,32 +32,32 @@ public class AnnouncementService {
                 && announcementItemDto.getAnnouncementTitle().length() <= 200) {
             announcement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
         } else {
-            throw new BadRequestException("Please fill a announcement title and must be less than or equal 200 characters.");
+            throw new BadRequestException("Announcement title must between 1 and 200 characters.");
         }
         if (announcementItemDto.getAnnouncementDescription() != null && !(announcementItemDto.getAnnouncementDescription().isEmpty())
                 && announcementItemDto.getAnnouncementDescription().trim() != ""
                 && announcementItemDto.getAnnouncementDescription().length() <= 10000) {
             announcement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
         } else {
-            throw new BadRequestException("Please fill a announcement description and must be less than or equal 10000 characters.");
+            throw new BadRequestException("Announcement description must between 1 and 10000 characters.");
         }
         if (announcementItemDto.getCategoryId() == null) {
             throw new BadRequestException("Please choose a category.");
-        }else {
+        } else {
             announcement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
         }
         ZonedDateTime publishDate = announcementItemDto.getPublishDate();
         ZonedDateTime closeDate = announcementItemDto.getCloseDate();
-        ZonedDateTime now = ZonedDateTime.now();
-        if (publishDate != null && closeDate != null && (closeDate.isBefore(publishDate) || closeDate.isEqual(publishDate))) {
-            throw new BadRequestException("The close date must be after the publish date.");
-        }
-        if (publishDate != null && publishDate.isBefore(now)) {
-            throw new BadRequestException("The publish date must be in the future.");
-        }
-        if (closeDate != null && closeDate.isBefore(now)) {
-            throw new BadRequestException("The close date must be in the future.");
-        }
+//        ZonedDateTime now = ZonedDateTime.now();
+//        if (publishDate != null && closeDate != null && (closeDate.isBefore(publishDate) || closeDate.isEqual(publishDate))) {
+//            throw new BadRequestException("The closeDate must be later than publish date.");
+//        }
+//        if (publishDate != null && publishDate.isBefore(now)) {
+//            throw new BadRequestException("The publishDate must be a future date.");
+//        }
+//        if (closeDate != null && closeDate.isBefore(now)) {
+//            throw new BadRequestException("The closeDate must be a future date.");
+//        }
         announcement.setPublishDate(publishDate);
         announcement.setCloseDate(closeDate);
         announcement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
@@ -80,14 +78,14 @@ public class AnnouncementService {
                 && announcementItemDto.getAnnouncementTitle().length() > 0 && announcementItemDto.getAnnouncementTitle().length() <= 200) {
             existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
         } else {
-            throw new BadRequestException("Please fill a announcement title and must be less than or equal 200 characters.");
+            throw new BadRequestException("Announcement title must between 1 and 200 characters.");
         }
         if (announcementItemDto.getAnnouncementDescription() != null && !(announcementItemDto.getAnnouncementDescription().isEmpty())
                 && announcementItemDto.getAnnouncementDescription().trim() != ""
                 && announcementItemDto.getAnnouncementDescription().length() > 0 && announcementItemDto.getAnnouncementDescription().length() <= 10000) {
             existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
         } else {
-            throw new BadRequestException("Please fill a announcement description and must be less than or equal 10000 characters.");
+            throw new BadRequestException("Announcement description must between 1 and 10000 characters.");
         }
         if (announcementItemDto.getCategoryId() == null) {
             throw new BadRequestException("Please choose a category.");
@@ -96,16 +94,16 @@ public class AnnouncementService {
         }
         ZonedDateTime publishDate = announcementItemDto.getPublishDate();
         ZonedDateTime closeDate = announcementItemDto.getCloseDate();
-        ZonedDateTime now = ZonedDateTime.now();
-        if (publishDate != null && closeDate != null && (closeDate.isBefore(publishDate) || closeDate.isEqual(publishDate))) {
-            throw new BadRequestException("The close date must be after the publish date.");
-        }
-        if (publishDate != null && publishDate.isBefore(now)) {
-            throw new BadRequestException("The publish date must be in the future.");
-        }
-        if (closeDate != null && closeDate.isBefore(now)) {
-            throw new BadRequestException("The close date must be in the future.");
-        }
+//        ZonedDateTime now = ZonedDateTime.now();
+//        if (publishDate != null && closeDate != null && (closeDate.isBefore(publishDate) || closeDate.isEqual(publishDate))) {
+//            throw new BadRequestException("The closeDate must be later than publish date.");
+//        }
+//        if (publishDate != null && publishDate.isBefore(now)) {
+//            throw new BadRequestException("The publishDate must be a future date.");
+//        }
+//        if (closeDate != null && closeDate.isBefore(now)) {
+//            throw new BadRequestException("The closeDate must be a future date.");
+//        }
         existingAnnouncement.setPublishDate(publishDate);
         existingAnnouncement.setCloseDate(closeDate);
         existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
@@ -133,55 +131,38 @@ public class AnnouncementService {
 
     }
 
-    public boolean isActive(Announcement announcement){
-        ZonedDateTime currentTime = ZonedDateTime.now();
-        if (announcement.getAnnouncementDisplay() == AnnouncementDisplay.Y && (announcement.getPublishDate() == null
-                ||  currentTime.isAfter(announcement.getPublishDate()) || currentTime.isEqual(announcement.getPublishDate()))
-                && (announcement.getCloseDate() == null || currentTime.isBefore(announcement.getCloseDate()))){
-            return true;
-        }
-        return false;
-    }
-    public boolean isClose(Announcement announcement) {
-        ZonedDateTime currentTime = ZonedDateTime.now();
-        if (announcement.getAnnouncementDisplay() == AnnouncementDisplay.Y &&
-                (announcement.getCloseDate() != null && (currentTime.isAfter(announcement.getCloseDate()) || currentTime.isEqual(announcement.getCloseDate())))) {
-            return true;
-        }
-        return false;
-    }
-
     public Announcement getDetailsById(Integer id) {
-        if(id == null){
+        if (id == null) {
             throw new BadRequestException("The request page is not available.");
         }
         Announcement announcement = announcementRepository.findById(id).orElseThrow(
-                () -> new ItemNotFoundException("Announcement id "+ id +" does not exist."));
+                () -> new ItemNotFoundException("Announcement id " + id + " does not exist."));
         return announcement;
+
     }
 
-    public Page<Announcement> getAnnouncementWithPagination(int page, int size, String sortBy, String mode, Integer categoryId) {
-        Sort sort = Sort.by(sortBy).descending();
-        AnnouncementDisplay announcementDisplayShow = AnnouncementDisplay.Y;
-        PageRequest pageRequest = PageRequest.of(page,size,sort);
-        ZonedDateTime currentTime = ZonedDateTime.now();
-        if (mode.equals("active")) {
-            if (categoryId != null){
-                return announcementRepository.findActiveAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
-            }
-            return announcementRepository.findActiveAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
-        } else if (mode.equals("close")) {
-            if (categoryId != null){
-                return announcementRepository.findCloseAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
-            }
-            return announcementRepository.findCloseAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
-        } else {
-            if (categoryId!= null){
-                return announcementRepository.findAllByCategoryWithPagination(pageRequest, categoryId);
-            }
-            return announcementRepository.findAll(pageRequest);
-        }
-    }
+//    public Page<Announcement> getAnnouncementWithPagination(int page, int size, String sortBy, String mode, Integer categoryId) {
+//        Sort sort = Sort.by(sortBy).descending();
+//        AnnouncementDisplay announcementDisplayShow = AnnouncementDisplay.Y;
+//        PageRequest pageRequest = PageRequest.of(page, size, sort);
+//        ZonedDateTime currentTime = ZonedDateTime.now();
+//        if (mode.equals("active")) {
+//            if (categoryId != null) {
+//                return announcementRepository.findActiveAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
+//            }
+//            return announcementRepository.findActiveAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
+//        } else if (mode.equals("close")) {
+//            if (categoryId != null) {
+//                return announcementRepository.findCloseAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
+//            }
+//            return announcementRepository.findCloseAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
+//        } else {
+//            if (categoryId != null) {
+//                return announcementRepository.findAllByCategoryWithPagination(pageRequest, categoryId);
+//            }
+//            return announcementRepository.findAll(pageRequest);
+//        }
+//    }
 
 }
 
