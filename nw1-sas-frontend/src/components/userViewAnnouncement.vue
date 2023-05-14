@@ -2,10 +2,7 @@
 import { getAnnouncementsUser } from "../composable/getAnnouncementUser.js"
 import { ref, onMounted, onUpdated, computed } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
-import { deleteAcc } from "../composable/deleteAnnouncement.js"
-import { useRouter, useRoute } from 'vue-router';
 import { annStores } from '../stores/counter.js'
-
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const announcementStores = annStores()
@@ -19,22 +16,6 @@ const setShowCloseTime = () => {
   }
 }
 
-const showAnnouncementCategory = (announcement) => {
-    switch (announcement.announcementCategory) {
-        case 'ทั่วไป':
-            announcement.announcementCategory = 1
-            break;
-        case 'ทุนการศึกษา':
-            announcement.announcementCategory = 2
-            break;
-        case 'หางาน':
-            announcement.announcementCategory = 3
-            break;
-        case 'ฝึกงาน':
-            announcement.announcementCategory = 4
-            break;
-    }
-}
 
 const annoucementContent = ref()
 onMounted(async () => {
@@ -73,7 +54,7 @@ const getListAnnouncement = async() => {
 
 const isAnnouncementFound = ref(false)
 const noAnnouncement = () => {
-  if (announcements.value.length <= 0) {
+  if (announcements.value.totalElements <= 0) {
     isAnnouncementFound.value = true
     console.log(isAnnouncementFound.value);
   } else {
@@ -136,12 +117,15 @@ const nextOrPrevButton = (move) =>{
 const selectedCategory = ref("")
 const changeCategory = async (event) =>{
   if(event.target.value !== announcementStores.category){
-  announcementStores.setCategory(event.target.value)
+    announcementStores.setCategory(event.target.value)
     announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, event.target.value)
     annoucementContent.value = announcements.value.content
   }
   checkPageButton()
+  noAnnouncement()
 }
+
+
 
 </script>
 
@@ -161,7 +145,7 @@ const changeCategory = async (event) =>{
         </div>
       </div>
       <div class="ml-5 my-5">
-          <select @click="changeCategory($event)" v-model="selectedCategory">
+          <select class="ann-category-filter" @change="changeCategory($event)" v-model="selectedCategory">
             <option value="">ทั้งหมด</option>
             <option value="1">ทั่วไป</option>
             <option value="2">ทุนการศึกษา</option>
@@ -173,7 +157,7 @@ const changeCategory = async (event) =>{
         <table class="w-full text-sm dark:text-gray-400">
           <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-6 py-3">No.</th>
+              <th scope="col" class="px-6 py-3 ${}">No.</th>
               <th scope="col" class="px-6 py-3 text-left">Title</th>
               <th v-show="showCloseTime" scope="col" class="px-6 py-3 text-left">Close Time</th>
               <th scope="col" class="px-6 py-3 text-left">Category</th>
@@ -184,7 +168,7 @@ const changeCategory = async (event) =>{
             <tr v-for="(announcement, index) in annoucementContent" :key="index"
               class="ann-item bg-white border-b dark:bg-gray-900 dark:border-gray-700">
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {{ ++index }}
+                {{ ++index + (announcements.size * announcements.page) }}
               </th>
               <router-link :to="{name:'userViewDetail', params:{id : announcement.id}}">                
                   <td class="ann-title px-6 py-4">
@@ -203,13 +187,19 @@ const changeCategory = async (event) =>{
         <div v-if="isAnnouncementFound" class="text-center text-3xl my-10">No Announcement</div>
       </div>
     </div>
-    <div v-show="isMoreThanFiveElements" class="flex justify-center">
-        <button :disabled="disablePrevButton" @click="nextOrPrevButton('prev')" class="border border-black px-4 py-2 mx-1 rounded-lg ">Prev</button>
+    <div v-if="isMoreThanFiveElements" class="flex justify-center">
+        <button :disabled="disablePrevButton" @click="nextOrPrevButton('prev')" class="ann-page-prev border border-black px-4 py-2 mx-1 rounded-lg ">Prev</button>
         <button @click="changeToCurrentPage(pageNumber)" v-for="(pageNumber,index) in slicePageNumberArr" :key="index" 
-        :class="pageNumber === announcementStores.page+1 ? 'bg-red-200 border border-black px-4 py-2 mx-1 rounded-lg' : 'border border-black px-4 py-2 mx-1 rounded-lg'">
+        :class="[
+          pageNumber === announcementStores.page + 1
+            ? 'bg-red-200 border border-black px-4 py-2 mx-1 rounded-lg'
+            : 'border border-black px-4 py-2 mx-1 rounded-lg',
+          'ann-page-' + index
+        ]"
+        >
           {{ pageNumber }}
         </button>
-        <button :disabled="disableNextButton" @click="nextOrPrevButton('next')" class="border border-black px-4 py-2 mx-1 rounded-lg ">Next</button>
+        <button :disabled="disableNextButton" @click="nextOrPrevButton('next')" class="ann-page-next border border-black px-4 py-2 mx-1 rounded-lg ">Next</button>
       </div>
   </div>
 </template>
