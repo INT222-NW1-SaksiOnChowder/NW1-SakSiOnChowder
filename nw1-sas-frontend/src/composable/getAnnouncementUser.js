@@ -1,18 +1,21 @@
 const ROOT_API = import.meta.env.VITE_ROOT_API
-const getAnnouncementsUser= async (mode, id) => {
+const getAnnouncementsUser= async (mode, id, category) => {
     let pagesId = ''
     let pagesMode = ''
+    let categoryType =''
     if (id !== undefined && id !== null) {
         pagesId = `?page=${id}`
     }
     if (mode !== undefined && mode !== null) {
         pagesMode = `&mode=${mode}`
     }
+    if (category !== undefined && category  !== null){
+        categoryType = `&category=${category}`
+    }
     try {
-        const res = await fetch(`${ROOT_API}/api/announcements/pages${pagesId}${pagesMode}`)
+        const res = await fetch(`${ROOT_API}/api/announcements/pages${pagesId}${pagesMode}${categoryType}`)
         // const res = await fetch(`http://localhost:5000/announcements`)
         // const res = await fetch(`http://localhost:8080/api/announcements?mode=${mode}`)
-        
         if (res.status === 200) {
             const announcement = await res.json()
             console.log('All Successfully')

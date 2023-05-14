@@ -1,6 +1,6 @@
 <script setup>
 import { getAnnouncementsUser } from "../composable/getAnnouncementUser.js"
-import { ref, onMounted, onUpdated } from "vue"
+import { ref, onMounted, onUpdated, computed } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
 import { deleteAcc } from "../composable/deleteAnnouncement.js"
 import { useRouter, useRoute } from 'vue-router';
@@ -18,11 +18,29 @@ const setShowCloseTime = () => {
     showCloseTime.value = false
   }
 }
+
+const showAnnouncementCategory = (announcement) => {
+    switch (announcement.announcementCategory) {
+        case 'ทั่วไป':
+            announcement.announcementCategory = 1
+            break;
+        case 'ทุนการศึกษา':
+            announcement.announcementCategory = 2
+            break;
+        case 'หางาน':
+            announcement.announcementCategory = 3
+            break;
+        case 'ฝึกงาน':
+            announcement.announcementCategory = 4
+            break;
+    }
+}
+
 const annoucementContent = ref()
 onMounted(async () => {
   noAnnouncement()
   setShowCloseTime()
-  announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page)
+  announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, undefined)
   annoucementContent.value = announcements.value.content
   noAnnouncement()
   checkPageButton()
@@ -36,16 +54,21 @@ onUpdated(() => {
 const wordButton = ref("Closed Announcements")
 
 const getListAnnouncement = async() => {
+  announcementStores.setPage(0)
   if (announcementStores.mode === 'active') {
     announcementStores.setmode('close')
-    announcements.value = await getAnnouncementsUser(announcementStores.mode)
+    announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, announcementStores.category)
+    annoucementContent.value = announcements.value.content
     wordButton.value = "Active Announcements"
   }
   else {
     announcementStores.setmode('active')
-    announcements.value = await getAnnouncementsUser(announcementStores.mode)
+    announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, announcementStores.category)
+    annoucementContent.value = announcements.value.content
     wordButton.value = "Closed Announcements"
   }
+  checkPageButton()
+  console.log(announcementStores.mode);
 }
 
 const isAnnouncementFound = ref(false)
@@ -62,9 +85,11 @@ const slicePageNumberArr = ref([])
 const pageNumberArr = ref([])
 const isMoreThanFiveElements = ref(true)
 const checkPageButton = () => {
+  pageNumberArr.value = []
   for (let i = 1; i <= announcements.value.totalPages; i++) {
       pageNumberArr.value.push(i)
   }
+  isMoreThanFiveElements.value = true
   slicePageNumberArr.value = pageNumberArr.value
   if (announcements.value.totalElements <= 5) {
     isMoreThanFiveElements.value = false
@@ -78,25 +103,44 @@ console.log(announcementStores.page);
 
 const changeToCurrentPage = async(page) => {
   if (announcements.value.totalPages !== page-1) {
-    announcements.value = await getAnnouncementsUser(announcementStores.mode, page-1)
+    announcements.value = await getAnnouncementsUser(announcementStores.mode, page-1, announcementStores.category)
     annoucementContent.value = announcements.value.content
     announcementStores.setPage(page-1)
   }
   if (announcements.value.page+1 > 10) {
-    slicePageNumberArr.value = pageNumberArr.value.slice(announcements.value.page-9,announcements.value.page+1)
+    slicePageNumberArr.value = pageNumberArr.value.slice(announcements.value.page-9,announcements.value.page+1, announcementStores.category)
   }
   if (announcements.value.page+1 <= 10) {
     slicePageNumberArr.value = pageNumberArr.value.slice(0,10)
   }
 }
 
-
+const disableNextButton = computed(() => {
+    if (announcements.value.last) {
+      return true
+    }
+})
+const disablePrevButton = computed(() => {
+  if (announcements.value.first) {
+      return true
+    }
+})
 const nextOrPrevButton = (move) =>{
     if (move === 'next') {
       changeToCurrentPage(announcementStores.page+2)
     } else {
       changeToCurrentPage(announcementStores.page)
     }
+}
+
+const selectedCategory = ref("")
+const changeCategory = async (event) =>{
+  if(event.target.value !== announcementStores.category){
+  announcementStores.setCategory(event.target.value)
+    announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, event.target.value)
+    annoucementContent.value = announcements.value.content
+  }
+  checkPageButton()
 }
 
 </script>
@@ -116,6 +160,15 @@ const nextOrPrevButton = (move) =>{
             <button @click="getListAnnouncement" class="ann-button px-5 py-2 text-sm ">{{ wordButton }}</button>
         </div>
       </div>
+      <div class="ml-5 my-5">
+          <select @click="changeCategory($event)" v-model="selectedCategory">
+            <option value="">ทั้งหมด</option>
+            <option value="1">ทั่วไป</option>
+            <option value="2">ทุนการศึกษา</option>
+            <option value="3">หางาน</option>
+            <option value="4">ฝึกงาน</option>
+          </select>
+        </div>
       <div class="mx-5 mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm dark:text-gray-400">
           <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -151,12 +204,12 @@ const nextOrPrevButton = (move) =>{
       </div>
     </div>
     <div v-show="isMoreThanFiveElements" class="flex justify-center">
-        <button @click="nextOrPrevButton('prev')" class="border border-black px-4 py-2 mx-1 rounded-lg ">Prev</button>
+        <button :disabled="disablePrevButton" @click="nextOrPrevButton('prev')" class="border border-black px-4 py-2 mx-1 rounded-lg ">Prev</button>
         <button @click="changeToCurrentPage(pageNumber)" v-for="(pageNumber,index) in slicePageNumberArr" :key="index" 
         :class="pageNumber === announcementStores.page+1 ? 'bg-red-200 border border-black px-4 py-2 mx-1 rounded-lg' : 'border border-black px-4 py-2 mx-1 rounded-lg'">
           {{ pageNumber }}
         </button>
-        <button @click="nextOrPrevButton('next')" class="border border-black px-4 py-2 mx-1 rounded-lg ">Next</button>
+        <button :disabled="disableNextButton" @click="nextOrPrevButton('next')" class="border border-black px-4 py-2 mx-1 rounded-lg ">Next</button>
       </div>
   </div>
 </template>
