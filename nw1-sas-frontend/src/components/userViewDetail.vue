@@ -59,7 +59,7 @@ onMounted(async() => {
                 <h1 class="mx-5">
                     Closed on
                 </h1>
-                <p class="ann-category">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
+                <p class="ann-close-date">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5">

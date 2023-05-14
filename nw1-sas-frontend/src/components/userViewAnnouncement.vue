@@ -191,7 +191,7 @@ const changeCategory = async (event) =>{
                      {{ announcement.announcementTitle }}
                   </td>                
               </router-link>
-              <td v-show="showCloseTime" class="ann-category px-6 py-4 text-left">
+              <td v-show="showCloseTime" class="ann-close-date px-6 py-4 text-left">
                 {{ changeDateTimeFormat(announcement.closeDate) }}
               </td>
               <td class="ann-category px-6 py-4 text-left">
