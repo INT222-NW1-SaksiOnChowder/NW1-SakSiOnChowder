@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import sit.int221.nw1apisas.Dtos.AnnouncementItemDto;
 import sit.int221.nw1apisas.Entities.Announcement;
@@ -125,8 +126,10 @@ public class AnnouncementService {
                 throw new ItemNotFoundException("No announcement.");
             }
             return announcements;
-        } else {
+        } else if(mode.equals("admin")) {
             return announcementRepository.findAllAnnouncementsByIdDesc();
+        }else {
+            throw new ItemNotFoundException("Can't find a mode");
         }
 
     }
