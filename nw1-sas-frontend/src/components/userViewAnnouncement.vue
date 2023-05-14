@@ -2,8 +2,6 @@
 import { getAnnouncementsUser } from "../composable/getAnnouncementUser.js"
 import { ref, onMounted, onUpdated, computed } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
-import { deleteAcc } from "../composable/deleteAnnouncement.js"
-import { useRouter, useRoute } from 'vue-router';
 import { annStores } from '../stores/counter.js'
 
 const announcements = ref([])
@@ -19,22 +17,6 @@ const setShowCloseTime = () => {
   }
 }
 
-const showAnnouncementCategory = (announcement) => {
-    switch (announcement.announcementCategory) {
-        case 'ทั่วไป':
-            announcement.announcementCategory = 1
-            break;
-        case 'ทุนการศึกษา':
-            announcement.announcementCategory = 2
-            break;
-        case 'หางาน':
-            announcement.announcementCategory = 3
-            break;
-        case 'ฝึกงาน':
-            announcement.announcementCategory = 4
-            break;
-    }
-}
 
 const annoucementContent = ref()
 onMounted(async () => {
