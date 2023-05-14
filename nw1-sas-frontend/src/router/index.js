@@ -3,8 +3,8 @@ import Announcements from '../components/Announcements.vue'
 import AnnouncementDetail from '../components/AnnouncementDetail.vue'
 import AddAnnouncement from '../components/AddAnnouncement.vue'
 import EditAnnouncement from '../components/EditAnnouncement.vue'
-import userViewAnnouncement from '../components/UserViewAnnouncement.vue'
-import userViewDetail from '../components/UserViewDetail.vue'
+import UserViewAnnouncement from '../components/UserViewAnnouncement.vue'
+import UserViewDetail from '../components/UserViewDetail.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes:
@@ -41,12 +41,12 @@ const router = createRouter({
       {
         path: '/announcement',
         name: 'userViewAnnouncement',
-        component: userViewAnnouncement
+        component: UserViewAnnouncement
       },
       {
         path: '/announcement/:id',
         name: 'userViewDetail',
-        component: userViewDetail
+        component: UserViewDetail
       }
     ]
 })
