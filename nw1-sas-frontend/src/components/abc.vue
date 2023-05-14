@@ -4,7 +4,7 @@ import { ref, onMounted} from "vue"
 import { useRoute , useRouter } from 'vue-router';
 import { changeDateTimeFormat } from '../composable/changeFormatDate';
 import { annStores } from '../stores/counter.js'
-
+// pinia
 const announcementStores = annStores()
 
 const showCloseTime = ref(false)
