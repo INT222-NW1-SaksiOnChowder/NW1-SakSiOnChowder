@@ -1,11 +1,11 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { createAnnouncement } from '../composable/addAnnouncement.js'
 import { useRouter } from 'vue-router';
 const router = useRouter()
 
 const announcementObj = ref()
-
+const nowDate = ref(new Date())
 const displayShow = ref(false)
 
 const selectedPublishDate = ref()
@@ -41,12 +41,35 @@ const submit = async(addAnnouncement) => {
         addAnnouncement.closeDate = null
     }
 
-   
-        await createAnnouncement(addAnnouncement)
+    if (!announcementObj.announcementTitle || !announcementObj.announcementDescription || !announcementObj.categoryId || announcementObj.categoryName 
+    // || announcementObj.publishDate < announcementObj.closeDate || announcementObj.publishDate < nowDate.value || announcementObj.closeDate < nowDate.value
+    ) 
+    {
+        await createAnnouncement(addAnnouncement)  
+    }   else {
+        await createAnnouncement(addAnnouncement)  
         router.push({ name: 'announcements' })
-    
+    }
 
 }
+
+const isDisabledPublishTime = computed(() =>{
+    if (!selectedPublishDate.value) {
+        return true;
+    }else{
+        selectedPublishTime.value = '06:00:00'
+        return false;
+    }
+})
+
+const isDisabledCloseTime = computed(() =>{
+    if (!selectedCloseDate.value) {
+        return true;
+    }else{
+        selectedCloseTime.value = '18:00:00'
+        return false;
+    }
+})
 
 </script>
  
@@ -78,12 +101,14 @@ const submit = async(addAnnouncement) => {
         <div class="my-3">
             <label class="font-semibold">Publish Date</label><br>
             <input class="ann-publish-date border border-black w-1/5 mr-5 rounded-sm px-5 py-1" type="date" v-model="selectedPublishDate">
-            <input class="ann-publish-time border border-black w-1/5 rounded-sm px-5 py-1" type="time" v-model="selectedPublishTime">
+            <input :disabled="isDisabledPublishTime"
+                :style="isDisabledPublishTime ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1; background-color:lightgreen;'" class="border border-black w-1/5 rounded-sm px-5 py-1" type="time" v-model="selectedPublishTime">
         </div>
         <div class="my-3">
             <label class="font-semibold">Close Date</label><br>
             <input class="border border-black w-1/5 mr-5 rounded-sm px-5 py-1" type="date" v-model="selectedCloseDate">
-            <input class="border border-black w-1/5 rounded-sm px-5 py-1" type="time" v-model="selectedCloseTime">
+            <input :disabled="isDisabledCloseTime"
+                :style="isDisabledCloseTime ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1; background-color:lightgreen;'" class="border border-black w-1/5 rounded-sm px-5 py-1" type="time" v-model="selectedCloseTime">
         </div>
         <div>
             <label class="font-semibold">Display</label><br>

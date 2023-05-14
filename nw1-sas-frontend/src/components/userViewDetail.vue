@@ -23,7 +23,9 @@ console.log(route.params.id);
 onMounted(async() => {
     const route = useRoute()
     setShowCloseTime()
-    announcement.value = await getAnnouncementUser(route.params.id)
+    announcement.value = await getAnnouncementUser(route.params.id, announcementStores.mode)
+    console.log(announcementStores.mode);
+    console.log(announcement.value);
     console.log(route.params.id);
     if (!announcement.value) {
         alert('The request page is not available')
@@ -57,7 +59,7 @@ onMounted(async() => {
                 <h1 class="mx-5">
                     Closed on
                 </h1>
-                <p class="ann-category">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
+                <p class="ann-close-date">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5">
