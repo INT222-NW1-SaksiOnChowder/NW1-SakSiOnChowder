@@ -30,6 +30,11 @@ onMounted(async () => {
 onUpdated(() => {
   noAnnouncement()
   setShowCloseTime()
+  if (announcementStores.mode === 'close') {
+    wordButton.value = 'Active Announcements'
+  }else{
+    wordButton.value = "Closed Announcements"
+  }
 })
 
 const wordButton = ref("Closed Announcements")
@@ -40,7 +45,7 @@ const getListAnnouncement = async() => {
     announcementStores.setmode('close')
     announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, announcementStores.category)
     annoucementContent.value = announcements.value.content
-    wordButton.value = "active Announcements"
+    wordButton.value = "Active Announcements"
   }
   else {
     announcementStores.setmode('active')
