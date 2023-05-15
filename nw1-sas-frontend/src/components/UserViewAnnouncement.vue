@@ -3,6 +3,7 @@ import { getAnnouncementsUser } from "../composable/getAnnouncementUser.js"
 import { ref, onMounted, onUpdated, computed } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
 import { annStores } from '../stores/counter.js'
+import TimeZone from '../components/icones/TimeZone.vue'
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const announcementStores = annStores()
@@ -30,6 +31,11 @@ onMounted(async () => {
 onUpdated(() => {
   noAnnouncement()
   setShowCloseTime()
+  if (announcementStores.mode === 'close') {
+    wordButton.value = 'Active Announcements'
+  }else{
+    wordButton.value = "Closed Announcements"
+  }
 })
 
 const wordButton = ref("Closed Announcements")
@@ -130,22 +136,26 @@ const changeCategory = async (event) =>{
 </script>
 
 <template>
-  <div>
-    <div class="w-full h-full my-5">
-      <h1 class="flex justify-center items-center text-3xl font-bold">
+  <div class="w-screen h-screen bg-Background">
+    <div class="">
+      <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
+      <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
         SIT Announcement System (SAS)
       </h1>
+      </div>
       <div class="flex mt-5 w-full justify-between">
-        <p class="mx-5 items-center font-semibold flex">
+        <p class="mx-5 items-center flex">
+          <TimeZone></TimeZone>&nbsp;
           Date/Time shown in Timezone : &nbsp;
-          <span class="font-normal">{{ timezone }}</span>
+          <span class="font-bold text-BlueFonts drop-shadow-sm">{{ timezone }}</span>
         </p>
-        <div class="mr-5 border hover:bg-red-200 font-semibold bg-gray-200 rounded-md items-center justify-center">
-            <button @click="getListAnnouncement" class="ann-button px-5 py-2 text-sm ">{{ wordButton }}</button>
+        <div class="mr-5 bg-DarkBlue hover:bg-red-200 font-bold hover:bg-LightBlue text-BlueFonts rounded-full items-center justify-center">
+            <button @click="getListAnnouncement" class="ann-button px-5 py-2 text-lg ">{{ wordButton }}</button>
         </div>
       </div>
-      <div class="ml-5 my-5">
-          <select class="ann-category-filter" @change="changeCategory($event)" v-model="selectedCategory">
+      <div class="ml-5 my-5 flex items-center">
+        <p class="flex font-semibold">Choose Category : </p>&nbsp;
+          <select class="ann-category-filter bg-Cream rounded-md p-1" @change="changeCategory($event)" v-model="selectedCategory">
             <option value="">ทั้งหมด</option>
             <option value="1">ทั่วไป</option>
             <option value="2">ทุนการศึกษา</option>
@@ -155,7 +165,7 @@ const changeCategory = async (event) =>{
         </div>
       <div class="mx-5 mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm dark:text-gray-400">
-          <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead class="bg-DarkBlue text-base text-BlueFonts  uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-6 py-3 ${}">No.</th>
               <th scope="col" class="px-6 py-3 text-left">Title</th>
@@ -164,14 +174,14 @@ const changeCategory = async (event) =>{
             </tr>
           </thead>
 
-          <tbody v-if="!isAnnouncementFound">
+          <tbody class="bg-Cream" v-if="!isAnnouncementFound">
             <tr v-for="(announcement, index) in annoucementContent" :key="index"
-              class="ann-item bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+              class="ann-item bg-white dark:bg-gray-900">
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {{ ++index + (announcements.size * announcements.page) }}
               </th>
               <router-link :to="{name:'userViewDetail', params:{id : announcement.id}}">                
-                  <td class="ann-title px-6 py-4">
+                  <td class="ann-title px-6 py-4 hover:font-bold hover:text-BlueFonts">
                      {{ announcement.announcementTitle }}
                   </td>                
               </router-link>
@@ -187,19 +197,19 @@ const changeCategory = async (event) =>{
         <div v-if="isAnnouncementFound" class="text-center text-3xl my-10">No Announcement</div>
       </div>
     </div>
-    <div v-if="isMoreThanFiveElements" class="flex justify-center">
-        <button :disabled="disablePrevButton" @click="nextOrPrevButton('prev')" class="ann-page-prev border border-black px-4 py-2 mx-1 rounded-lg ">Prev</button>
+    <div v-if="isMoreThanFiveElements" class="flex justify-center mt-8">
+        <button :disabled="disablePrevButton " @click="nextOrPrevButton('prev')" class="ann-page-prev font-bold px-5 py-2 mx-1 rounded-lg bg-DarkBlue">Prev</button>
         <button @click="changeToCurrentPage(pageNumber)" v-for="(pageNumber,index) in slicePageNumberArr" :key="index" 
         :class="[
           pageNumber === announcementStores.page + 1
-            ? 'bg-red-200 border border-black px-4 py-2 mx-1 rounded-lg'
-            : 'border border-black px-4 py-2 mx-1 rounded-lg',
+            ? 'bg-DarkGreen px-5 py-2 mx-1 rounded-lg'
+            : 'bg-Cream px-5 py-2 mx-1 rounded-lg hover:bg-ButtonViewHover',
           'ann-page-' + index
         ]"
         >
           {{ pageNumber }}
         </button>
-        <button :disabled="disableNextButton" @click="nextOrPrevButton('next')" class="ann-page-next border border-black px-4 py-2 mx-1 rounded-lg ">Next</button>
+        <button :disabled="disableNextButton" @click="nextOrPrevButton('next')" class="ann-page-next  px-5 py-2 mx-1 rounded-lg bg-DarkBlue font-bold">Next</button>
       </div>
   </div>
 </template>

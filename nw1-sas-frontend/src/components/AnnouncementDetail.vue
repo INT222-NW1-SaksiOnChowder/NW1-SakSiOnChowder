@@ -66,12 +66,12 @@ onMounted(async() => {
             </div>
         </div>
         <router-link :to="{ name: 'announcements' }"><button
-                class="ann-button bg-DarkRed rounded-full py-2 px-5 ml-5 hover:text-xl"
+                class="ann-button bg-DarkRed rounded-full py-2 px-7 ml-5 hover:bg-ButtonDeleteHover font-bold"
                 @click="idDetail">Back</button>
         </router-link>
 
         <router-link :to="{ name: 'editAnnouncement', params: { id: route.params.id } }">
-            <button class="ann-button bg-DarkGreen rounded-full py-2 px-6 ml-5 hover:text-xl">Edit</button>
+            <button class="ann-button bg-DarkGreen rounded-full py-2 px-8 ml-5 hover:bg-ButtonViewHover font-bold">Edit</button>
         </router-link>
 
 

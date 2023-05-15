@@ -46,17 +46,17 @@ const deleteAnnouncement = async (id) => {
           SIT Announcement System (SAS)
         </h1>
       </div>
-      <div class="flex mt-5 w-full justify-between">
+      <div class="flex my-8 w-full justify-between">
         <p class="mx-5 items-center flex">
           <TimeZone></TimeZone>&nbsp;
           Date/Time shown in Timezone : &nbsp;
           <span class="font-bold text-BlueFonts drop-shadow-sm">{{ timezone }}</span>
         </p>
-        <div class="bg-DarkBlue mr-5 hover:bg-red-200 font-semibold rounded-full items-center justify-center">
+        <div class="bg-DarkBlue mr-5 hover:bg-red-200 font-semibold text-BlueFonts hover:bg-LightBlue rounded-full items-center justify-center">
           <router-link :to="{
             name: 'addAnnouncement'
           }">
-            <button class="ann-button px-5 py-2 text-sm hover:text-lg">Add Announcement</button>
+            <button class="ann-button px-5 py-2 text-lg font-bold">Add Announcement</button>
           </router-link>
         </div>
       </div>
@@ -76,7 +76,7 @@ const deleteAnnouncement = async (id) => {
 
           <tbody v-if="!isAnnouncementFound" class="bg-Cream">
             <tr v-for="(announcement, index) in announcements" :key="index"
-              class="ann-item bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+              class="ann-item bg-white dark:bg-gray-900">
               <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
                 {{ ++index }}
               </th>
@@ -105,7 +105,7 @@ const deleteAnnouncement = async (id) => {
                   </button>
                 </router-link>
                 <button
-                  class="ann-button font-bold text-blue-600 shadow-md  hover:bg-ButtonDeleteHover rounded-full bg-DarkRed px-5 py-2 ml-2"
+                  class="ann-button font-bold text-blue-600 shadow-md  hover:bg-ButtonDeleteHover rounded-full bg-DarkRed px-5 py-2 ml-2 "
                   @click="deleteAnnouncement(announcement.id)">delete</button>
               </td>
             </tr>
