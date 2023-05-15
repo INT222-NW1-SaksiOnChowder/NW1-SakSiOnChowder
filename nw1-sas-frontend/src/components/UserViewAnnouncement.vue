@@ -145,7 +145,7 @@ const changeCategory = async (event) =>{
         </div>
       </div>
       <div class="ml-5 my-5 flex items-center">
-        <p class="flex">Choose Category : </p>&nbsp;
+        <p class="flex font-semibold">Choose Category : </p>&nbsp;
           <select class="ann-category-filter border border-black rounded-md p-1" @change="changeCategory($event)" v-model="selectedCategory">
             <option value="">ทั้งหมด</option>
             <option value="1">ทั่วไป</option>
