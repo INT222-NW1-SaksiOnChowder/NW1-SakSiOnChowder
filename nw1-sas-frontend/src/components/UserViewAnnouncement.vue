@@ -40,7 +40,7 @@ const getListAnnouncement = async() => {
     announcementStores.setmode('close')
     announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, announcementStores.category)
     annoucementContent.value = announcements.value.content
-    wordButton.value = "Active Announcements"
+    wordButton.value = "active Announcements"
   }
   else {
     announcementStores.setmode('active')
