@@ -144,8 +144,9 @@ const changeCategory = async (event) =>{
             <button @click="getListAnnouncement" class="ann-button px-5 py-2 text-sm ">{{ wordButton }}</button>
         </div>
       </div>
-      <div class="ml-5 my-5">
-          <select class="ann-category-filter" @change="changeCategory($event)" v-model="selectedCategory">
+      <div class="ml-5 my-5 flex items-center">
+        <p class="flex font-semibold">Choose Category : </p>&nbsp;
+          <select class="ann-category-filter border border-black rounded-md p-1" @change="changeCategory($event)" v-model="selectedCategory">
             <option value="">ทั้งหมด</option>
             <option value="1">ทั่วไป</option>
             <option value="2">ทุนการศึกษา</option>
