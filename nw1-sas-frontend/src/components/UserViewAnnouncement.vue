@@ -17,13 +17,16 @@ const setShowCloseTime = () => {
   }
 }
 
+const selectedCategory = ref(announcementStores.categorys)
+
 // content
 const annoucementContent = ref()
 onMounted(async () => {
   noAnnouncement()
-  setShowCloseTime()
   announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, undefined)
   annoucementContent.value = announcements.value.content
+  selectedCategory.value = announcementStores.category
+  setShowCloseTime()
   noAnnouncement()
   checkPageButton()
 })
@@ -31,6 +34,7 @@ onMounted(async () => {
 onUpdated(() => {
   noAnnouncement()
   setShowCloseTime()
+  console.log(announcementStores.category);
   if (announcementStores.mode === 'close') {
     wordButton.value = 'Active Announcements'
   }else{
@@ -86,8 +90,6 @@ const checkPageButton = () => {
   }
 }
 
-console.log(announcementStores.page);
-
 const changeToCurrentPage = async(page) => {
   if (announcements.value.totalPages !== page-1) {
     announcements.value = await getAnnouncementsUser(announcementStores.mode, page-1, announcementStores.category)
@@ -120,13 +122,15 @@ const nextOrPrevButton = (move) =>{
     }
 }
 
-const selectedCategory = ref("")
-const changeCategory = async (event) =>{
-  if(event.target.value !== announcementStores.category){
-    announcementStores.setCategory(event.target.value)
-    announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, event.target.value)
+const changeCategory = async (category) =>{
+  if(category !== announcementStores.category){
+    announcementStores.setCategory(category)
+    console.log(category);
+    announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, category)
     annoucementContent.value = announcements.value.content
   }
+  console.log(announcementStores.category);
+  changeToCurrentPage(1)
   checkPageButton()
   noAnnouncement()
 }
@@ -155,7 +159,7 @@ const changeCategory = async (event) =>{
       </div>
       <div class="ml-5 my-5 flex items-center">
         <p class="flex font-semibold">Choose Category : </p>&nbsp;
-          <select class="ann-category-filter bg-Cream rounded-md p-1" @change="changeCategory($event)" v-model="selectedCategory">
+          <select class="ann-category-filter bg-Cream rounded-md p-1" @change="changeCategory($event.target.value)" v-model="selectedCategory">
             <option value="">ทั้งหมด</option>
             <option value="1">ทั่วไป</option>
             <option value="2">ทุนการศึกษา</option>
