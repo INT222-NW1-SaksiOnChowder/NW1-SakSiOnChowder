@@ -204,7 +204,7 @@ const submitEdit = async (announcement) => {
 <template>
     <div class="w-full h-screen bg-Background">
         <div class="mx-32">
-            <div class="rounded-full bg-DarkBlue inline-block mt-3 mb-14">
+            <div class="rounded-full bg-DarkBlue inline-block mt-3 mb-8">
                 <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
                     Announcement Detail:
                 </h1>
@@ -251,12 +251,12 @@ const submitEdit = async (announcement) => {
                         v-model="announcementObj.announcementDisplay" @input="setButton" />
                     <label for="displayShow" class="ml-2">Check to show this announcement</label>
                 </div>
-                <div class="my-5">
+                <div class="my-5 text-center">
                     <router-link :to="{ name: 'announcementDetail' }">
                         <button
-                            class="ann-button rounded-md bg-DarkRed px-5 py-2 font-bold hover:bg-ButtonDeleteHover">Back</button></router-link>
+                            class="ann-button rounded-full bg-DarkRed px-6 py-2 font-bold hover:bg-ButtonDeleteHover">Back</button></router-link>
                     <button :disabled="isDisabled || checkAnnouncement"
-                        class="ann-button ml-5 font-bold rounded-md px-3 py-2 buttonEdit bg-DarkGreen hover:bg-ButtonViewHover"
+                        class="ann-button ml-5 font-bold rounded-full px-5 py-2 buttonEdit bg-DarkGreen hover:bg-ButtonViewHover"
                         :style="isDisabled || checkAnnouncement ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1;'"
                         @click="submitEdit(announcementObj)">Submit</button>
 
