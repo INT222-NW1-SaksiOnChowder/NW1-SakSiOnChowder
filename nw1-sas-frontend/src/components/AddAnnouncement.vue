@@ -88,7 +88,7 @@ const isDisabledCloseTime = computed(() => {
                 Announcement Detail:
         </h1>
     </div>
-    <div class="bg-LightBlue rounded-3xl py-9 px-28">
+    <div class="bg-LightBlue rounded-2xl py-9 px-28">
       <div class="my-5">
         <label class="font-bold">Title</label><br/>
         <input

@@ -209,7 +209,7 @@ const submitEdit = async (announcement) => {
                     Announcement Detail:
                 </h1>
             </div>
-            <div class="bg-LightBlue rounded-3xl py-9 px-28">
+            <div class="bg-LightBlue rounded-2xl py-9 px-28">
                 <div class="my-5">
                     <label class="font-bold">Title</label><br>
                     <input maxlength="200" class="ann-title bg-InputColor drop-shadow-md h-8 w-full rounded-lg" type="text"
