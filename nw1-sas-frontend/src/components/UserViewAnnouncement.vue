@@ -19,7 +19,6 @@ const setShowCloseTime = () => {
 
 const selectedCategory = ref(announcementStores.categorys)
 
-// content
 const annoucementContent = ref()
 onMounted(async () => {
   noAnnouncement()
