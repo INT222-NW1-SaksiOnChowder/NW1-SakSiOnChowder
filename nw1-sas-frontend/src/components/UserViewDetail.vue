@@ -37,7 +37,7 @@ onMounted(async() => {
 </script>
 
 <template>
-    <div class="text-center w-screen h-screen bg-Background">
+    <div class="text-center h-screen bg-Background">
         <div class="rounded-full bg-DarkBlue inline-block mt-3">
             <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
                 Announcement Detail:
@@ -48,25 +48,25 @@ onMounted(async() => {
                 <h1 class="mx-5 font-bold">
                     Title
                 </h1>
-                <p class="ann-title">{{ announcement.announcementTitle }}</p>
+                <p class="ann-title break-all">{{ announcement.announcementTitle }}</p>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5 font-bold">
                     Category
                 </h1>
-                <p class="ann-category">{{ announcement.announcementCategory }}</p>
+                <p class="ann-category break-all">{{ announcement.announcementCategory }}</p>
             </div>
             <div v-show="showCloseTime" class="flex my-5">
                 <h1 class="mx-5 font-bold">
                     Closed on
                 </h1>
-                <p class="ann-close-date">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
+                <p class="ann-close-date break-all">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5 font-bold">
                     Description
                 </h1>
-                <p class="ann-description">{{ announcement.announcementDescription }}</p>
+                <p class="ann-description break-all">{{ announcement.announcementDescription }}</p>
             </div>
         </div>
         <router-link :to="{ name: 'userViewAnnouncement' }"><button
