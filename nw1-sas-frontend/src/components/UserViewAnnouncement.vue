@@ -17,12 +17,12 @@ const setShowCloseTime = () => {
   }
 }
 
-const selectedCategory = ref(announcementStores.categorys)
+const selectedCategory = ref(announcementStores.category)
 
 const annoucementContent = ref()
 onMounted(async () => {
   noAnnouncement()
-  announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, undefined)
+  announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, announcementStores.category)
   annoucementContent.value = announcements.value.content
   selectedCategory.value = announcementStores.category
   setShowCloseTime()
