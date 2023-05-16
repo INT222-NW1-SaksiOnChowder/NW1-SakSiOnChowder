@@ -16,7 +16,8 @@ module.exports = {
       "BlueFonts" : "#1C3150",
       "Cream" : "#F0F0F0",
       "ButtonViewHover" : "#C7C0B6",
-      "ButtonDeleteHover" : "#DCACAC"
+      "ButtonDeleteHover" : "#DCACAC",
+      "InputColor" : "#F0F0F0"
     }
   },
   plugins: [require("daisyui")],

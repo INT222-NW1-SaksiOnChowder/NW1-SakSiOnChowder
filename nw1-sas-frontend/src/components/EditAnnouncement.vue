@@ -33,14 +33,14 @@ const beforeAnnouncementCloseTime = ref('')
 
 const isDisabled = ref(true)
 
-const setButton = () =>{
+const setButton = () => {
     isDisabled.value = false
 }
 
-const setButtonBySelect = () =>{
-    if(beforeAnnouncement.value.announcementCategory == announcementObj.value.announcementCategory){
+const setButtonBySelect = () => {
+    if (beforeAnnouncement.value.announcementCategory == announcementObj.value.announcementCategory) {
         isDisabled.value = true
-    }else{
+    } else {
         isDisabled.value = false
     }
 }
@@ -62,7 +62,7 @@ const checkAnnouncement = computed(() => {
             if (selectedPublishTime.value !== '' && selectedPublishDate.value === '' ||
                 selectedCloseTime.value !== '' && selectedCloseDate.value === '') {
                 return true
-            } else{
+            } else {
                 return false
             }
         }
@@ -189,12 +189,12 @@ const submitEdit = async (announcement) => {
     }
 
     // announcementCategory กับ categoryId
- 
-        console.log(selectedPublishDate.value);
-        console.log(selectedCloseDate.value);
-        await updateAnnouncement(editAnnouncement)
-        console.log(editAnnouncement)
-        router.push({ name: 'announcements' })
+
+    console.log(selectedPublishDate.value);
+    console.log(selectedCloseDate.value);
+    await updateAnnouncement(editAnnouncement)
+    console.log(editAnnouncement)
+    router.push({ name: 'announcements' })
 
 
 }
@@ -202,60 +202,66 @@ const submitEdit = async (announcement) => {
 </script>
  
 <template>
-    <div class="mx-5">
-        <div class="mt-3">
-            <h1 class="text-2xl font-bold ">
-                Announcement Detail:
-            </h1>
-        </div>
-        <div class="my-5 flex">
-            <label class="font-semibold">Title</label><br>
-            <input maxlength="200" class="ann-title border border-black w-full rounded-sm ml-[7em]" type="text" @input="setButton"
-                v-model.trim="announcementObj.announcementTitle">
-        </div>
-        <div class="my-5 flex">
-            <label class="font-semibold">Catagory</label><br>
-            <select class="ann-category border border-black w-2/5 rounded-sm ml-[4.9em]"
-                v-model="announcementObj.announcementCategory" @change="setButtonBySelect">
-                <option value="1">ทั่วไป</option>
-                <option value="2">ทุนการศึกษา</option>
-                <option value="3">หางาน</option>
-                <option value="4">ฝึกงาน</option>
-            </select>
-        </div>
-        <div class="my-5 flex">
-            <label class="font-semibold">Description</label><br>
-            <textarea maxlength="10000" class="ann-description border border-black w-full rounded-sm ml-[3.8em]" name="desc"
-                id="three" cols="100" rows="5" v-model.trim="announcementObj.announcementDescription" @input="setButton"></textarea>
-        </div>
-        <div class="my-5 flex">
-            <label class="font-semibold">Publish Date</label><br>
-            <input class="ann-publish-date border border-black w-1/5 mr-5 rounded-sm ml-[3.3em]" type="date"
-                v-model="selectedPublishDate" @input="setButton">
-            <input class="ann-publish-time border border-black w-1/5 rounded-sm" type="time" v-model="selectedPublishTime" @input="setButton">
-        </div>
-        <div class="my-5 flex">
-            <label class="font-semibold">Close Date</label><br>
-            <input class="ann-close-date border border-black w-1/5 mr-5 rounded-sm ml-[4.2em]" type="date"
-                v-model="selectedCloseDate" @input="setButton">
-            <input class="ann-close-time border border-black w-1/5 rounded-sm" type="time" v-model="selectedCloseTime" @input="setButton">
-        </div>
-        <div class="my-5 flex">
-            <label class="font-semibold">Display</label><br>
-            <input type="checkbox" id="displayShow" class="ann-display ml-[5.8em]"
-                v-model="announcementObj.announcementDisplay" @input="setButton"/>
-            <label for="displayShow" class="ml-2">Check to show this announcement</label>
-        </div>
-        <div class="my-5">
-            <router-link :to="{ name: 'announcementDetail' }">
-                <button
-                    class="ann-button rounded-md bg-gray-300 px-5 py-2 font-semibold hover:bg-amber-100">Back</button></router-link>
-            <button
-                :disabled="isDisabled || checkAnnouncement"
-                class="ann-button ml-5 font-semibold rounded-md px-3 py-2 buttonEdit"
-                :style="isDisabled || checkAnnouncement ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1; background-color:lightgreen;'"
-                @click="submitEdit(announcementObj)">Submit</button>
+    <div class="w-full h-screen bg-Background">
+        <div class="mx-32">
+            <div class="rounded-full bg-DarkBlue inline-block mt-3 mb-14">
+                <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
+                    Announcement Detail:
+                </h1>
+            </div>
+            <div class="bg-LightBlue rounded-3xl py-9 px-28">
+                <div class="my-5">
+                    <label class="font-bold">Title</label><br>
+                    <input maxlength="200" class="ann-title bg-InputColor drop-shadow-md h-8 w-full rounded-lg" type="text"
+                        @input="setButton" v-model.trim="announcementObj.announcementTitle">
+                </div>
+                <div class="my-5">
+                    <label class="font-bold">Catagory</label><br>
+                    <select class="ann-category drop-shadow-md bg-InputColor h-8  w-2/5 rounded-lg"
+                        v-model="announcementObj.announcementCategory" @change="setButtonBySelect">
+                        <option value="1">ทั่วไป</option>
+                        <option value="2">ทุนการศึกษา</option>
+                        <option value="3">หางาน</option>
+                        <option value="4">ฝึกงาน</option>
+                    </select>
+                </div>
+                <div class="my-5">
+                    <label class="font-bold">Description</label><br>
+                    <textarea maxlength="10000" class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg"
+                        name="desc" id="three" cols="100" rows="5" v-model.trim="announcementObj.announcementDescription"
+                        @input="setButton"></textarea>
+                </div>
+                <div class="my-5">
+                    <label class="font-bold">Publish Date</label><br>
+                    <input class="ann-publish-date drop-shadow-md bg-InputColor w-1/5 mr-5 rounded-lg px-5 py-1" type="date"
+                        v-model="selectedPublishDate" @input="setButton">
+                    <input class="ann-publish-time w-1/5 bg-InputColor drop-shadow-md rounded-lg px-5 py-1" type="time"
+                        v-model="selectedPublishTime" @input="setButton">
+                </div>
+                <div class="my-5">
+                    <label class="font-bold">Close Date</label><br>
+                    <input class="ann-close-date bg-InputColor drop-shadow-md sm:w-1/5 mr-5 rounded-lg px-5 py-1" type="date"
+                        v-model="selectedCloseDate" @input="setButton">
+                    <input class="ann-close-time w-1/5 bg-InputColor drop-shadow-md rounded-lg px-5 py-1" type="time"
+                        v-model="selectedCloseTime" @input="setButton">
+                </div>
+                <div class="my-5">
+                    <label class="font-bold">Display</label><br>
+                    <input type="checkbox" id="displayShow" class="ann-display"
+                        v-model="announcementObj.announcementDisplay" @input="setButton" />
+                    <label for="displayShow" class="ml-2">Check to show this announcement</label>
+                </div>
+                <div class="my-5">
+                    <router-link :to="{ name: 'announcementDetail' }">
+                        <button
+                            class="ann-button rounded-md bg-DarkRed px-5 py-2 font-bold hover:bg-ButtonDeleteHover">Back</button></router-link>
+                    <button :disabled="isDisabled || checkAnnouncement"
+                        class="ann-button ml-5 font-bold rounded-md px-3 py-2 buttonEdit bg-DarkGreen hover:bg-ButtonViewHover"
+                        :style="isDisabled || checkAnnouncement ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1;'"
+                        @click="submitEdit(announcementObj)">Submit</button>
 
+                </div>
+            </div>
         </div>
     </div>
 </template>

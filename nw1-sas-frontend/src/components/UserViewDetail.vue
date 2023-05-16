@@ -43,7 +43,7 @@ onMounted(async() => {
                 Announcement Detail:
             </h1>
         </div>
-        <div class="rounded-lg bg-LightBlue m-10 py-3">
+        <div class="rounded-3xl bg-LightBlue m-10 py-3">
             <div class="flex my-5 justify-center">
                 <h1 class="mx-5 font-bold">
                     Title
