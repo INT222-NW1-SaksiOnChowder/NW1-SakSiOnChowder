@@ -89,16 +89,16 @@ const isDisabledCloseTime = computed(() => {
         </h1>
     </div>
     <div class="bg-LightBlue rounded-3xl py-9 px-28">
-      <div class="my-3">
-        <label class="font-bold">Title</label><br />
+      <div class="my-5">
+        <label class="font-bold">Title</label><br/>
         <input
           class="ann-title bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
           type="text"
           v-model.trim="announcementObj.announcementTitle"
           maxlength="200"
         />
-    </div>
-      <div class="my-3">
+        </div>
+      <div class="my-5">
         <label class="font-bold">Catagory</label><br />
         <select
           class="ann-category drop-shadow-md bg-InputColor h-8  w-2/5 rounded-lg"
@@ -110,7 +110,7 @@ const isDisabledCloseTime = computed(() => {
           <option value="4">ฝึกงาน</option>
         </select>
       </div>
-      <div class="my-3">
+      <div class="my-5">
         <label class="font-bold">Description</label><br />
         <textarea
           class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg"
@@ -122,7 +122,7 @@ const isDisabledCloseTime = computed(() => {
           v-model.trim="announcementObj.announcementDescription"
         ></textarea>
       </div>
-      <div class="my-3">
+      <div class="my-5">
         <label class="font-bold">Publish Date</label><br />
         <input
           class="ann-publish-date drop-shadow-md bg-InputColor w-1/5 mr-5 rounded-lg px-5 py-1"
@@ -141,7 +141,7 @@ const isDisabledCloseTime = computed(() => {
           v-model="selectedPublishTime"
         />
       </div>
-      <div class="my-3">
+      <div class="my-5">
         <label class="font-bold">Close Date</label><br />
         <input
           class="bg-InputColor drop-shadow-md sm:w-1/5 mr-5 rounded-lg px-5 py-1"
