@@ -174,7 +174,7 @@ const changeCategory = async (category) =>{
         </div>
       <div class="mx-5 mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm dark:text-gray-400">
-          <thead class="bg-DarkBlue text-base text-BlueFonts  uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead class="bg-DarkBlue text-base text-BlueFonts uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-6 py-3 ${}">No.</th>
               <th scope="col" class="px-6 py-3 text-left">Title</th>
@@ -207,7 +207,7 @@ const changeCategory = async (category) =>{
       </div>
     </div>
     <div v-if="isMoreThanFiveElements" class="flex justify-center mt-8">
-        <button :disabled="disablePrevButton " @click="nextOrPrevButton('prev')" class="ann-page-prev font-bold px-5 py-2 mx-1 rounded-lg bg-DarkBlue">Prev</button>
+        <button :disabled="disablePrevButton " @click="nextOrPrevButton('prev')" class="ann-page-prev font-bold px-5 py-2 mx-1 rounded-lg bg-DarkBlue text-BlueFonts">Prev</button>
         <button @click="changeToCurrentPage(pageNumber)" v-for="(pageNumber,index) in slicePageNumberArr" :key="index" 
         :class="[
           pageNumber === announcementStores.page + 1
@@ -218,7 +218,7 @@ const changeCategory = async (category) =>{
         >
           {{ pageNumber }}
         </button>
-        <button :disabled="disableNextButton" @click="nextOrPrevButton('next')" class="ann-page-next  px-5 py-2 mx-1 rounded-lg bg-DarkBlue font-bold">Next</button>
+        <button :disabled="disableNextButton" @click="nextOrPrevButton('next')" class="ann-page-next  px-5 py-2 mx-1 rounded-lg bg-DarkBlue font-bold text-BlueFonts">Next</button>
       </div>
   </div>
 </template>
