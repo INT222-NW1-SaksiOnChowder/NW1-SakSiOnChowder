@@ -5,6 +5,8 @@ import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
 import { deleteAcc } from "../composable/deleteAnnouncement.js"
 import { useRouter } from 'vue-router';
 import TimeZone from '../components/icones/TimeZone.vue'
+import AddIcon from "./icones/AddIcon.vue";
+
 const router = useRouter()
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -56,7 +58,8 @@ const deleteAnnouncement = async (id) => {
           <router-link :to="{
             name: 'addAnnouncement'
           }">
-            <button class="ann-button px-5 py-2 text-lg font-bold">Add Announcement</button>
+            <button class="ann-button px-5 py-2 text-lg font-bold">
+              <AddIcon class="inline mr-2 mb-1"></AddIcon>Add Announcement</button>
           </router-link>
         </div>
       </div>

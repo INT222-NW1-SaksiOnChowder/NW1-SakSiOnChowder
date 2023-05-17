@@ -3,6 +3,8 @@ import { getAnnouncement } from '../composable/getInformation.js'
 import { ref, onMounted} from "vue"
 import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
 import { useRoute , useRouter } from 'vue-router';
+import Calendar from './icones/Calendar.vue';
+import EditIcon from './icones/EditIcon.vue';
 
 const announcement = ref({})
 const router = useRouter()
@@ -50,13 +52,15 @@ onMounted(async() => {
                 <h1 class="mx-5 font-bold">
                     Publish Date
                 </h1>
-                <p class="ann-publish-date mr-5 break-all">{{ changeDateTimeFormat(announcement.publishDate) }}</p>
+                <p class="ann-publish-date mr-3 break-all">{{ changeDateTimeFormat(announcement.publishDate) }}</p>
+                <Calendar></Calendar>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5 font-bold">
                     Close Date
                 </h1>
-                <p class="ann-close-date mr-5 break-all">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
+                <p class="ann-close-date mr-3 break-all">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
+                <Calendar></Calendar>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5 font-bold">
@@ -71,7 +75,8 @@ onMounted(async() => {
         </router-link>
 
         <router-link :to="{ name: 'editAnnouncement', params: { id: route.params.id } }">
-            <button class="ann-button bg-DarkGreen shadow-md rounded-full py-2 px-8 ml-5 hover:bg-ButtonViewHover font-bold">Edit</button>
+            <button class="ann-button bg-DarkGreen shadow-md rounded-full py-2 px-5 ml-5 hover:bg-ButtonViewHover font-bold">
+                <EditIcon class="inline mr-2 mb-1"></EditIcon> Edit</button>
         </router-link>
 
 
