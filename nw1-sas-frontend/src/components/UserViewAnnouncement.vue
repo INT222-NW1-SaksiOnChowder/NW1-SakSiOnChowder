@@ -184,14 +184,14 @@ const changeCategory = async (category) =>{
                 {{ ++index + (announcements.size * announcements.page) }}
               </th>
               <router-link :to="{name:'userViewDetail', params:{id : announcement.id}}">                
-                  <td class="ann-title px-6 py-4 hover:font-bold hover:text-BlueFonts">
+                  <td class="ann-title px-6 py-4 hover:font-bold hover:text-BlueFonts break-all">
                      {{ announcement.announcementTitle }}
                   </td>                
               </router-link>
               <td v-show="showCloseTime" class="ann-close-date px-6 py-4 text-left">
                 {{ changeDateTimeFormat(announcement.closeDate) }}
               </td>
-              <td class="ann-category px-6 py-4 text-left">
+              <td class="ann-category px-6 py-4 text-left break-all">
                 {{ announcement.announcementCategory }}
               </td>
             </tr>

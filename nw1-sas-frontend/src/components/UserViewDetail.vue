@@ -48,7 +48,7 @@ onMounted(async() => {
                 <h1 class="mx-5 font-bold">
                     Title
                 </h1>
-                <p class="ann-title break-all">{{ announcement.announcementTitle }}</p>
+                <p class="ann-title break-all text-left mr-5">{{ announcement.announcementTitle }}</p>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5 font-bold">
@@ -66,7 +66,7 @@ onMounted(async() => {
                 <h1 class="mx-5 font-bold">
                     Description
                 </h1>
-                <p class="ann-description break-all">{{ announcement.announcementDescription }}</p>
+                <p class="ann-description break-all text-left mr-5">{{ announcement.announcementDescription }}</p>
             </div>
         </div>
         <router-link :to="{ name: 'userViewAnnouncement' }"><button
