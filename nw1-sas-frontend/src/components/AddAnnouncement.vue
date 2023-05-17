@@ -48,11 +48,11 @@ const submit = async (addAnnouncement) => {
   }
 
   if (
-    !announcementObj.announcementTitle ||
-    !announcementObj.announcementDescription ||
-    !announcementObj.categoryId ||
-    announcementObj.categoryName
-    // || announcementObj.publishDate < announcementObj.closeDate || announcementObj.publishDate < nowDate.value || announcementObj.closeDate < nowDate.value
+    !addAnnouncement.announcementTitle ||
+    !addAnnouncement.announcementDescription ||
+    !addAnnouncement.categoryId 
+    // || addAnnouncement.categoryName
+    // || addAnnouncement.publishDate < addAnnouncement.closeDate || addAnnouncement.publishDate < nowDate.value || addAnnouncement.closeDate < nowDate.value
   ) {
     await createAnnouncement(addAnnouncement);
   } else {
