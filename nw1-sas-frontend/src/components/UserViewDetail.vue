@@ -5,7 +5,6 @@ import { useRoute , useRouter } from 'vue-router';
 import { changeDateTimeFormat } from '../composable/changeFormatDate';
 import { annStores } from '../stores/counter.js'
 import Calendar from './icones/Calendar.vue';
-
 // pinia
 const announcementStores = annStores()
 const showCloseTime = ref(false)

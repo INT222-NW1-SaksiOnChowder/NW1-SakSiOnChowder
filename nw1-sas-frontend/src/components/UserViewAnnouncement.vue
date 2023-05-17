@@ -4,6 +4,8 @@ import { ref, onMounted, onUpdated, computed } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
 import { annStores } from '../stores/counter.js'
 import TimeZone from '../components/icones/TimeZone.vue'
+import CloseIcon from "./icones/CloseIcon.vue"
+import ActiveIcon from "./icones/ActiveIcon.vue"
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const announcementStores = annStores()
@@ -153,7 +155,11 @@ const changeCategory = async (category) =>{
           <span class="font-bold text-BlueFonts drop-shadow-sm">{{ timezone }}</span>
         </p>
         <div class="mr-5 bg-DarkBlue hover:bg-red-200 font-bold hover:bg-LightBlue text-BlueFonts rounded-full items-center justify-center">
-            <button @click="getListAnnouncement" class="ann-button px-5 py-2 text-lg ">{{ wordButton }}</button>
+            <button @click="getListAnnouncement" class="ann-button px-5 py-2 text-lg ">
+              <ActiveIcon v-if="showCloseTime" class="inline mr-2 mb-1"></ActiveIcon>
+              <CloseIcon v-else="showCloseTime" class="inline mr-2 mb-1"></CloseIcon>
+              {{ wordButton }}
+            </button>
         </div>
       </div>
       <div class="ml-5 my-5 flex items-center">
