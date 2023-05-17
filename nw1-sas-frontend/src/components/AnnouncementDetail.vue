@@ -22,7 +22,7 @@ onMounted(async() => {
 
 <template>
     <div class="text-center bg-Background h-screen">
-        <div class="rounded-full bg-DarkBlue inline-block mt-3">
+        <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3">
             <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
                 Announcement Detail:
             </h1>
@@ -66,12 +66,12 @@ onMounted(async() => {
             </div>
         </div>
         <router-link :to="{ name: 'announcements' }"><button
-                class="ann-button bg-DarkRed rounded-full py-2 px-7 ml-5 hover:bg-ButtonDeleteHover font-bold"
+                class="ann-button bg-DarkRed rounded-full shadow-md py-2 px-7 ml-5 hover:bg-ButtonDeleteHover font-bold"
                 @click="idDetail">Back</button>
         </router-link>
 
         <router-link :to="{ name: 'editAnnouncement', params: { id: route.params.id } }">
-            <button class="ann-button bg-DarkGreen rounded-full py-2 px-8 ml-5 hover:bg-ButtonViewHover font-bold">Edit</button>
+            <button class="ann-button bg-DarkGreen shadow-md rounded-full py-2 px-8 ml-5 hover:bg-ButtonViewHover font-bold">Edit</button>
         </router-link>
 
 

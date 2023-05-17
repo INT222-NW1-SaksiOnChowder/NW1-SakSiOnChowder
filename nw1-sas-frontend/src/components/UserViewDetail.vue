@@ -38,8 +38,8 @@ onMounted(async() => {
 
 <template>
     <div class="text-center h-screen bg-Background">
-        <div class="rounded-full bg-DarkBlue inline-block mt-3">
-            <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
+        <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3">
+            <h1 class="text-BlueFonts  text-2xl px-5 py-5 font-bold">
                 Announcement Detail:
             </h1>
         </div>

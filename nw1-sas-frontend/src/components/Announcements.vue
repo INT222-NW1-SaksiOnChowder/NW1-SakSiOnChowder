@@ -52,7 +52,7 @@ const deleteAnnouncement = async (id) => {
           Date/Time shown in Timezone : &nbsp;
           <span class="font-bold text-BlueFonts drop-shadow-sm">{{ timezone }}</span>
         </p>
-        <div class="bg-DarkBlue mr-5 hover:bg-red-200 font-semibold text-BlueFonts hover:bg-LightBlue rounded-full items-center justify-center">
+        <div class="bg-DarkBlue shadow-md mr-5 hover:bg-red-200 font-semibold text-BlueFonts hover:bg-LightBlue rounded-full items-center justify-center">
           <router-link :to="{
             name: 'addAnnouncement'
           }">

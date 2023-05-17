@@ -83,7 +83,7 @@ const isDisabledCloseTime = computed(() => {
 <template>
 <div class="w-full h-screen bg-Background">
   <div class="mx-32">
-    <div class="rounded-full bg-DarkBlue inline-block mt-3 mb-8">
+    <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3 mb-8">
         <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
                 Announcement Detail:
         </h1>
@@ -173,13 +173,13 @@ const isDisabledCloseTime = computed(() => {
       </div>
       <div class="mt-5 text-center">
         <button
-          class="ann-button hover:bg-ButtonViewHover mr-2 rounded-full bg-DarkGreen px-5 py-2 font-bold"
+          class="ann-button shadow-md hover:bg-ButtonViewHover mr-2 rounded-full bg-DarkGreen px-5 py-2 font-bold"
           @click="submit(announcementObj)"
         >
           Submit
         </button>
         <router-link :to="{ name: 'announcements' }">
-          <button class=" rounded-full hover:bg-ButtonDeleteHover bg-DarkRed px-5 py-2 font-bold">
+          <button class=" rounded-full shadow-md hover:bg-ButtonDeleteHover bg-DarkRed px-5 py-2 font-bold">
             Cancel
           </button>
         </router-link>
