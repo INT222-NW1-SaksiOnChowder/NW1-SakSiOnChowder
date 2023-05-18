@@ -4,11 +4,13 @@ import { getAnnouncement } from '../composable/getInformation.js'
 import { useRoute, useRouter } from 'vue-router'
 import { updateAnnouncement } from '../composable/editAnnouncement'
 
+const announcement = ref({})
 const announcementObj = ref({})
 const beforeAnnouncement = ref({})
 
 onMounted(async () => {
     const route = useRoute()
+    announcement.value = await getAnnouncement(route.params.id)
     announcementObj.value = await getAnnouncement(route.params.id)
     beforeAnnouncement.value = await getAnnouncement(route.params.id)
     announcementObj.value.announcementDisplay = showAnnouncementDisplay(announcementObj.value)
@@ -18,6 +20,7 @@ onMounted(async () => {
     showAnnouncementCategory(announcementObj.value)
     showAnnouncementCategory(beforeAnnouncement.value)
 })
+
 
 const router = useRouter()
 
@@ -47,6 +50,7 @@ const setButtonBySelect = () => {
 
 
 const checkAnnouncement = computed(() => {
+    console.log(555);
     if (announcementObj.value.announcementTitle === beforeAnnouncement.value.announcementTitle &&
         announcementObj.value.announcementDescription === beforeAnnouncement.value.announcementDescription &&
         announcementObj.value.publishDate === beforeAnnouncement.value.publishDate &&
@@ -227,10 +231,19 @@ const submitEdit = async (announcement) => {
                 </div>
                 <div class="my-5">
                     <label class="font-bold">Description</label><br>
-                    <textarea maxlength="10000" class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg"
+                    <!-- <textarea maxlength="10000" class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg"
                         name="desc" id="three" cols="100" rows="5" v-model.trim="announcementObj.announcementDescription"
-                        @input="setButton"></textarea>
+                        @input="setButton"></textarea> -->
+                        <QuillEditor @input="setButton" maxlength="10000" cols="100" rows="5" 
+                         class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg" 
+                         theme="snow" toolbar="full" v-model:content="announcementObj.announcementDescription" contentType="html"/>
                 </div>
+                <p>
+                    {{ announcementObj.announcementDescription }}
+                </p>
+                <p>
+                    {{ beforeAnnouncement.announcementDescription }}
+                </p>
                 <div class="my-5">
                     <label class="font-bold">Publish Date</label><br>
                     <input class="ann-publish-date drop-shadow-md bg-InputColor w-1/5 mr-5 rounded-lg px-5 py-1" type="date"

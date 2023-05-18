@@ -13,7 +13,6 @@ const route = useRoute()
 onMounted(async() => {
     const route = useRoute()
     announcement.value = await getAnnouncement(route.params.id)
-    console.log(route.params.id);
     if (!announcement.value) {
         alert('The request page is not available')
         router.push({name: "announcements"})
@@ -46,7 +45,7 @@ onMounted(async() => {
                 <h1 class="mx-5 font-bold">
                     Description
                 </h1>
-                <p class="ann-description break-all text-left mr-5">{{ announcement.announcementDescription }}</p>
+                <p v-html="announcement.announcementDescription" class="ann-description break-all text-left mr-5 ql-editor"></p>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5 font-bold">
