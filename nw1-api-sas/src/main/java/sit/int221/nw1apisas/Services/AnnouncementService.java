@@ -134,13 +134,17 @@ public class AnnouncementService {
 
     }
 
-    public Announcement getDetailsById(Integer id) {
+    public Announcement getDetailsById(Integer id, Boolean count) {
         if (id == null) {
             throw new BadRequestException("The request page is not available.");
         }
         Announcement announcement = announcementRepository.findById(id).orElseThrow(
                 () -> new ItemNotFoundException("Announcement id " + id + " does not exist."));
-        return announcement;
+        if (count){
+            announcement.setViewCount(announcement.getViewCount()+1);
+        }
+
+        return announcementRepository.saveAndFlush(announcement);
 
     }
 

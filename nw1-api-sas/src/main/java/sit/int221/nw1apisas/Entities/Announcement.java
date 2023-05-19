@@ -33,6 +33,9 @@ public class Announcement {
     @Enumerated(EnumType.STRING)
     private AnnouncementDisplay announcementDisplay;
 
+    @Column(name = "viewCount", nullable = true)
+    private Integer viewCount;
+
     @ManyToOne
     @JoinColumn(name = "categoryId", nullable = false)
     private Category categoryId;

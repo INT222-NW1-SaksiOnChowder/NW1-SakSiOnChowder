@@ -21,6 +21,7 @@ public class AnnouncementDetailDto {
     private ZonedDateTime publishDate;
     private ZonedDateTime closeDate;
     private AnnouncementDisplay announcementDisplay;
+    private Integer viewCount;
     @JsonIgnore
     private CategoryDto categoryId;
     public String getAnnouncementCategory() {
