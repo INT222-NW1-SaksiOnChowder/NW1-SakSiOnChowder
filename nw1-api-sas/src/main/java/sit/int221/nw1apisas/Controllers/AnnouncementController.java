@@ -70,7 +70,6 @@ public class AnnouncementController {
         }else{
             return modelMapper.map(announcements, AnnouncementDetailDto.class);
         }
-
     }
 
 
@@ -80,15 +79,7 @@ public class AnnouncementController {
                                                     @RequestParam(defaultValue = "active") String mode,
                                                     @RequestParam(required = false) Integer category){
         Page<Announcement> announcementList = announcementService.getAnnouncementWithPagination(page, size, mode, category);
-//        if(mode.equals("active")){
-//            return listMapper.toPageDTO(announcementList, ActiveAnnouncementDto.class, modelMapper);
-//        }else if(mode.equals("close")){
-//            return listMapper.toPageDTO(announcementList, CloseAnnouncementDto.class, modelMapper);
-//        }else {
-            return listMapper.toPageDTO(announcementList, AnnouncementDto.class, modelMapper);
-//        }
-
-
+        return listMapper.toPageDTO(announcementList, AnnouncementDto.class, modelMapper);
     }
 
 }
