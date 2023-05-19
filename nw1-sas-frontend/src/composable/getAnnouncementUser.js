@@ -37,7 +37,7 @@ const getAnnouncementsUser= async (mode, id, category) => {
 const getAnnouncementUser= async (id,mode) => {
     let announcement = undefined
     try {
-        const res = await fetch(`${ROOT_API}/api/announcements/${id}?mode=${mode}`)
+        const res = await fetch(`${ROOT_API}/api/announcements/${id}?mode=${mode}&count=true`)
         // const res = await fetch(`http://localhost:5000/announcements/${id}`)
         // const res = await fetch(`http://localhost:8080/api/announcements/${id}`)
         if (res.status === 200) {

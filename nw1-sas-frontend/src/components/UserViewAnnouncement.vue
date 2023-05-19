@@ -1,5 +1,5 @@
 <script setup>
-import { getAnnouncementsUser } from "../composable/getAnnouncementUser.js"
+import { getAnnouncementsUser, getAnnouncementUser } from "../composable/getAnnouncementUser.js"
 import { ref, onMounted, onUpdated, computed } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
 import { annStores } from '../stores/counter.js'
@@ -135,8 +135,6 @@ const changeCategory = async (category) =>{
   checkPageButton()
   noAnnouncement()
 }
-
-
 
 </script>
 

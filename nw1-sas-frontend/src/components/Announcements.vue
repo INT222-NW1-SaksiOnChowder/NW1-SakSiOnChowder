@@ -42,7 +42,7 @@ const deleteAnnouncement = async (id) => {
 </script>
 
 <template>
-    <div class="w-full h-full bg-Background">
+    <div class="w-screen h-screen bg-Background">
       <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
         <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
           SIT Announcement System (SAS)
@@ -73,6 +73,7 @@ const deleteAnnouncement = async (id) => {
               <th scope="col" class="px-6 py-3">Publish Date</th>
               <th scope="col" class="px-6 py-3">Close Date</th>
               <th scope="col" class="px-6 py-3 text-center">Display</th>
+              <th scope="col" class="px-6 py-3 text-center">#Views</th>
               <th scope="col" class="px-6 py-3 text-center">Action</th>
             </tr>
           </thead>
@@ -97,6 +98,9 @@ const deleteAnnouncement = async (id) => {
               </td>
               <td class="ann-display px-6 py-4 text-center justify-items-center">
                 {{ announcement.announcementDisplay }}
+              </td>
+              <td class="ann-display px-6 py-4 text-center justify-items-center">
+                {{ announcement.viewCount }}
               </td>
               <td class="px-6 py-4 text-center">
                 <router-link :to="{

@@ -28,7 +28,8 @@ onMounted(async() => {
                 Announcement Detail:
             </h1>
         </div>
-        <div class="rounded-3xl bg-LightBlue m-10 py-3">
+        <div class="text-right mr-20 text-xl font-bold mt-10 text-BlueFonts drop-shadow-lg">#VIEWS : {{ announcement.viewCount }}</div>
+        <div class="rounded-3xl bg-LightBlue mx-10 py-3">
             <div class="flex my-5 justify-center">
                 <h1 class="mx-5 font-bold">
                     Title
@@ -68,6 +69,7 @@ onMounted(async() => {
                 <p class="ann-display mr-5 break-all">{{ announcement.announcementDisplay }}</p>
             </div>
         </div>
+        <div class="mt-5">
         <router-link :to="{ name: 'announcements' }"><button
                 class="ann-button bg-DarkRed rounded-full shadow-md py-2 px-7 ml-5 hover:bg-ButtonDeleteHover font-bold"
                 @click="idDetail">Back</button>
@@ -77,7 +79,7 @@ onMounted(async() => {
             <button class="ann-button bg-DarkGreen shadow-md rounded-full py-2 px-5 ml-5 hover:bg-ButtonViewHover font-bold">
                 <EditIcon class="inline mr-2 mb-1"></EditIcon> Edit</button>
         </router-link>
-
+        </div>
 
     </div>
 </template>
