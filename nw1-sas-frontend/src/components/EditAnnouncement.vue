@@ -34,19 +34,19 @@ const beforeAnnouncementPublishTime = ref('')
 const beforeAnnouncementCloseDate = ref('')
 const beforeAnnouncementCloseTime = ref('')
 
-const isDisabled = ref(true)
+// const isDisabled = ref(true)
 
-const setButton = () => {
-    isDisabled.value = false
-}
+// const setButton = () => {
+//     isDisabled.value = false
+// }
 
-const setButtonBySelect = () => {
-    if (beforeAnnouncement.value.announcementCategory == announcementObj.value.announcementCategory) {
-        isDisabled.value = true
-    } else {
-        isDisabled.value = false
-    }
-}
+// const setButtonBySelect = () => {
+//     if (beforeAnnouncement.value.announcementCategory == announcementObj.value.announcementCategory) {
+//         isDisabled.value = true
+//     } else {
+//         isDisabled.value = false
+//     }
+// }
 
 
 const checkAnnouncement = computed(() => {
@@ -56,7 +56,7 @@ const checkAnnouncement = computed(() => {
         announcementObj.value.publishDate === beforeAnnouncement.value.publishDate &&
         announcementObj.value.closeDate === beforeAnnouncement.value.closeDate &&
         announcementObj.value.announcementDisplay === beforeAnnouncement.value.announcementDisplay &&
-        announcementObj.value.announcementCategory === beforeAnnouncement.value.announcementCategory) {
+        announcementObj.value.announcementCategory == beforeAnnouncement.value.announcementCategory) {
         if (selectedPublishDate.value === beforeAnnouncementPublishDate.value &&
             selectedPublishTime.value === beforeAnnouncementPublishTime.value &&
             selectedCloseDate.value === beforeAnnouncementCloseDate.value &&
@@ -268,9 +268,9 @@ const submitEdit = async (announcement) => {
                     <router-link :to="{ name: 'announcementDetail' }">
                         <button
                             class="ann-button shadow-md rounded-full bg-DarkRed px-6 py-2 font-bold hover:bg-ButtonDeleteHover">Back</button></router-link>
-                    <button :disabled="isDisabled || checkAnnouncement"
+                    <button :disabled="checkAnnouncement"
                         class="ann-button ml-5 shadow-md font-bold rounded-full px-5 py-2 buttonEdit bg-DarkGreen hover:bg-ButtonViewHover"
-                        :style="isDisabled || checkAnnouncement ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1;'"
+                        :style="checkAnnouncement ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1;'"
                         @click="submitEdit(announcementObj)">Submit</button>
 
                 </div>

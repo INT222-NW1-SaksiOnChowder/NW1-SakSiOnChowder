@@ -113,7 +113,7 @@ const isDisabledCloseTime = computed(() => {
       </div>
       <div class="my-5">
         <label class="font-bold">Description</label><br />
-        <textarea
+        <!-- <textarea
           class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg"
           name="desc"
           id="three"
@@ -121,7 +121,10 @@ const isDisabledCloseTime = computed(() => {
           rows="5"
           maxlength="10000"
           v-model.trim="announcementObj.announcementDescription"
-        ></textarea>
+        ></textarea> -->
+        <QuillEditor maxlength="10000" cols="100" rows="5" 
+                         class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg" 
+                         theme="snow" toolbar="full" v-model:content="announcementObj.announcementDescription" contentType="html"/>
       </div>
       <div class="my-5">
         <label class="font-bold">Publish Date</label><br />
