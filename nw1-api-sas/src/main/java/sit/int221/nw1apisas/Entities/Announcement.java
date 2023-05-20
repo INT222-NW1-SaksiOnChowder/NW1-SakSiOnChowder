@@ -33,7 +33,7 @@ public class Announcement {
     @Enumerated(EnumType.STRING)
     private AnnouncementDisplay announcementDisplay;
 
-    @Column(name = "viewCount", nullable = true)
+    @Column(name = "viewCount", nullable = false)
     private Integer viewCount;
 
     @ManyToOne
