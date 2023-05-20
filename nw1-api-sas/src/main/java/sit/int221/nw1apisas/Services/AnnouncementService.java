@@ -62,6 +62,7 @@ public class AnnouncementService {
         announcement.setPublishDate(publishDate);
         announcement.setCloseDate(closeDate);
         announcement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
+        announcement.setViewCount(0);
         return announcementRepository.saveAndFlush(announcement);
 
     }
