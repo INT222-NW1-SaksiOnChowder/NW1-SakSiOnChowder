@@ -6,7 +6,6 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const announcementObj = ref();
-const nowDate = ref(new Date());
 const displayShow = ref(false);
 
 const selectedPublishDate = ref();
@@ -110,15 +109,6 @@ const isDisabledCloseTime = computed(() => {
       </div>
       <div class="my-5">
         <label class="font-bold">Description</label><br />
-        <!-- <textarea
-          class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg"
-          name="desc"
-          id="three"
-          cols="100"
-          rows="5"
-          maxlength="10000"
-          v-model.trim="announcementObj.announcementDescription"
-        ></textarea> -->
         <QuillEditor maxlength="10000" cols="100" rows="5" 
                          class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg" 
                          theme="snow" toolbar="full" v-model:content="announcementObj.announcementDescription" contentType="html"/>

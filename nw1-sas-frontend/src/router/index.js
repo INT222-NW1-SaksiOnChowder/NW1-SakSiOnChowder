@@ -3,7 +3,6 @@ import Announcements from '../components/Announcements.vue'
 import AnnouncementDetail from '../components/AnnouncementDetail.vue'
 import AddAnnouncement from '../components/AddAnnouncement.vue'
 import EditAnnouncement from '../components/EditAnnouncement.vue'
-// test
 import UserViewAnnouncement from '../components/UserViewAnnouncement.vue'
 import UserViewDetail from '../components/UserViewDetail.vue'
 const router = createRouter({

@@ -34,8 +34,6 @@ const beforeAnnouncementPublishTime = ref('')
 const beforeAnnouncementCloseDate = ref('')
 const beforeAnnouncementCloseTime = ref('')
 
-const isDisabled = ref(true)
-
 
 const checkAnnouncement = computed(() => {
     if (announcementObj.value.announcementTitle === beforeAnnouncement.value.announcementTitle &&
