@@ -4,8 +4,6 @@ package sit.int221.nw1apisas.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import sit.int221.nw1apisas.Dtos.AnnouncementItemDto;
 import sit.int221.nw1apisas.Entities.Announcement;
@@ -49,16 +47,6 @@ public class AnnouncementService {
         }
         ZonedDateTime publishDate = announcementItemDto.getPublishDate();
         ZonedDateTime closeDate = announcementItemDto.getCloseDate();
-//        ZonedDateTime now = ZonedDateTime.now();
-//        if (publishDate != null && closeDate != null && (closeDate.isBefore(publishDate) || closeDate.isEqual(publishDate))) {
-//            throw new BadRequestException("The closeDate must be later than publish date.");
-//        }
-//        if (publishDate != null && publishDate.isBefore(now)) {
-//            throw new BadRequestException("The publishDate must be a future date.");
-//        }
-//        if (closeDate != null && closeDate.isBefore(now)) {
-//            throw new BadRequestException("The closeDate must be a future date.");
-//        }
         announcement.setPublishDate(publishDate);
         announcement.setCloseDate(closeDate);
         announcement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
@@ -95,16 +83,6 @@ public class AnnouncementService {
         }
         ZonedDateTime publishDate = announcementItemDto.getPublishDate();
         ZonedDateTime closeDate = announcementItemDto.getCloseDate();
-//        ZonedDateTime now = ZonedDateTime.now();
-//        if (publishDate != null && closeDate != null && (closeDate.isBefore(publishDate) || closeDate.isEqual(publishDate))) {
-//            throw new BadRequestException("The closeDate must be later than publish date.");
-//        }
-//        if (publishDate != null && publishDate.isBefore(now)) {
-//            throw new BadRequestException("The publishDate must be a future date.");
-//        }
-//        if (closeDate != null && closeDate.isBefore(now)) {
-//            throw new BadRequestException("The closeDate must be a future date.");
-//        }
         existingAnnouncement.setPublishDate(publishDate);
         existingAnnouncement.setCloseDate(closeDate);
         existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
@@ -160,13 +138,6 @@ public class AnnouncementService {
             return announcementRepository.findCloseAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
         }
         return Page.empty(pageRequest);
-//        else {
-//            if (categoryId != null) {
-//                return announcementRepository.findAllByCategoryWithPagination(pageRequest, categoryId);
-//            }
-//            return announcementRepository.findAll(pageRequest);
-//        }
-
     }
 
 }
