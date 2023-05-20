@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `SAS`.`Announcements` (
   `closeDate` DATETIME NULL,
   `announcementDisplay` ENUM('Y', 'N') NOT NULL DEFAULT 'N',
   `categoryId` INT NOT NULL,
+  `viewCount` INT,
   PRIMARY KEY (`id`),
   INDEX `fk_Announcements_Categories_idx` (`categoryId` ASC) VISIBLE,
   CONSTRAINT `fk_Announcements_Categories`
