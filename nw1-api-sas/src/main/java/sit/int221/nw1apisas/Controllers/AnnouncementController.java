@@ -61,8 +61,10 @@ public class AnnouncementController {
 
 
     @GetMapping("/{id}")
-    public Object getDetailsById(@PathVariable Integer id, @RequestParam(defaultValue = "admin") String mode){
-        Announcement announcements = announcementService.getDetailsById(id);
+    public Object getDetailsById(@PathVariable Integer id,
+                                 @RequestParam(defaultValue = "admin") String mode,
+                                 @RequestParam(defaultValue = "false", required = false) Boolean count) {
+        Announcement announcements = announcementService.getDetailsById(id,count);
         if(mode.equals("active")){
             return modelMapper.map(announcements, ActiveAnnouncementDetailDto.class);
         }else if(mode.equals("close")){
