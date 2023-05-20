@@ -42,7 +42,7 @@ onMounted(async() => {
                 </h1>
                 <p class="ann-category break-all mr-5">{{ announcement.announcementCategory }}</p>
             </div>
-            <div class="flex my-5">
+            <div class="flex my-5 items-center">
                 <h1 class="mx-5 font-bold">
                     Description
                 </h1>

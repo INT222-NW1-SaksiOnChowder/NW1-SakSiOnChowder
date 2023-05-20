@@ -216,12 +216,6 @@ const submitEdit = async (announcement) => {
                          class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg" 
                          theme="snow" toolbar="full" v-model:content="announcementObj.announcementDescription" contentType="html"/>
                 </div>
-                <p>
-                    {{ announcementObj.announcementDescription }}
-                </p>
-                <p>
-                    {{ beforeAnnouncement.announcementDescription }}
-                </p>
                 <div class="my-5">
                     <label class="font-bold">Publish Date</label><br>
                     <input class="ann-publish-date drop-shadow-md bg-InputColor w-1/5 mr-5 rounded-lg px-5 py-1" type="date"
