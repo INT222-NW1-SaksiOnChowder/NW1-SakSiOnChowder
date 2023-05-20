@@ -180,8 +180,6 @@ const submitEdit = async (announcement) => {
         editAnnouncement.closeDate = null
     }
 
-    // announcementCategory กับ categoryId
-
     await updateAnnouncement(editAnnouncement)
     router.push({ name: 'announcements' })
 

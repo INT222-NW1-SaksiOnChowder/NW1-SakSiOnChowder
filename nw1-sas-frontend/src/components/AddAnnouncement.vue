@@ -14,7 +14,6 @@ const selectedPublishTime = ref();
 const selectedCloseDate = ref();
 const selectedCloseTime = ref();
 
-//เพิ่มเงื่อนไข ตรงนี้
 announcementObj.value = {
   announcementTitle: "",
   announcementDescription: "",
@@ -51,8 +50,6 @@ const submit = async (addAnnouncement) => {
     !addAnnouncement.announcementTitle ||
     !addAnnouncement.announcementDescription ||
     !addAnnouncement.categoryId 
-    // || addAnnouncement.categoryName
-    // || addAnnouncement.publishDate < addAnnouncement.closeDate || addAnnouncement.publishDate < nowDate.value || addAnnouncement.closeDate < nowDate.value
   ) {
     await createAnnouncement(addAnnouncement);
   } else {
