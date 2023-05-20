@@ -4,7 +4,7 @@ import { ref, onMounted} from "vue"
 import { useRoute , useRouter } from 'vue-router';
 import { changeDateTimeFormat } from '../composable/changeFormatDate';
 import { annStores } from '../stores/counter.js'
-// pinia
+import Calendar from './icones/Calendar.vue';
 const announcementStores = annStores()
 const showCloseTime = ref(false)
 const setShowCloseTime = () => {
@@ -48,7 +48,7 @@ onMounted(async() => {
                 <h1 class="mx-5 font-bold">
                     Title
                 </h1>
-                <p class="ann-title break-all">{{ announcement.announcementTitle }}</p>
+                <p class="ann-title break-all text-left mr-5">{{ announcement.announcementTitle }}</p>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5 font-bold">
@@ -60,17 +60,18 @@ onMounted(async() => {
                 <h1 class="mx-5 font-bold">
                     Closed on
                 </h1>
-                <p class="ann-close-date break-all">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
+                <p class="ann-close-date break-all mr-3">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
+                <Calendar></Calendar>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5 font-bold">
                     Description
                 </h1>
-                <p class="ann-description break-all">{{ announcement.announcementDescription }}</p>
+                <p class="ann-description break-all text-left mr-5">{{ announcement.announcementDescription }}</p>
             </div>
         </div>
         <router-link :to="{ name: 'userViewAnnouncement' }"><button
-                class="ann-button font-bold bg-DarkRed rounded-full py-2 px-6 ml-5 hover:bg-amber-100">
+                class="ann-button font-bold bg-DarkRed rounded-full py-2 px-6 ml-5 hover:bg-ButtonDeleteHover">
                 Back
                 </button>
         </router-link>

@@ -3,6 +3,8 @@ import { getAnnouncement } from '../composable/getInformation.js'
 import { ref, onMounted} from "vue"
 import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
 import { useRoute , useRouter } from 'vue-router';
+import Calendar from './icones/Calendar.vue';
+import EditIcon from './icones/EditIcon.vue';
 
 const announcement = ref({})
 const router = useRouter()
@@ -11,7 +13,6 @@ const route = useRoute()
 onMounted(async() => {
     const route = useRoute()
     announcement.value = await getAnnouncement(route.params.id)
-    console.log(route.params.id);
     if (!announcement.value) {
         alert('The request page is not available')
         router.push({name: "announcements"})
@@ -27,7 +28,8 @@ onMounted(async() => {
                 Announcement Detail:
             </h1>
         </div>
-        <div class="rounded-3xl bg-LightBlue m-10 py-3">
+        <div class="text-right mr-20 text-xl font-bold mt-10 text-BlueFonts drop-shadow-lg">#VIEWS : {{ announcement.viewCount }}</div>
+        <div class="rounded-3xl bg-LightBlue mx-10 py-3">
             <div class="flex my-5 justify-center">
                 <h1 class="mx-5 font-bold">
                     Title
@@ -44,19 +46,21 @@ onMounted(async() => {
                 <h1 class="mx-5 font-bold">
                     Description
                 </h1>
-                <p class="ann-description break-all text-left mr-5">{{ announcement.announcementDescription }}</p>
+                <p v-html="announcement.announcementDescription" class="ann-description break-all text-left mr-5 ql-editor"></p>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5 font-bold">
                     Publish Date
                 </h1>
-                <p class="ann-publish-date mr-5 break-all">{{ changeDateTimeFormat(announcement.publishDate) }}</p>
+                <p class="ann-publish-date mr-3 break-all">{{ changeDateTimeFormat(announcement.publishDate) }}</p>
+                <Calendar></Calendar>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5 font-bold">
                     Close Date
                 </h1>
-                <p class="ann-close-date mr-5 break-all">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
+                <p class="ann-close-date mr-3 break-all">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
+                <Calendar></Calendar>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5 font-bold">
@@ -65,15 +69,17 @@ onMounted(async() => {
                 <p class="ann-display mr-5 break-all">{{ announcement.announcementDisplay }}</p>
             </div>
         </div>
+        <div class="mt-5">
         <router-link :to="{ name: 'announcements' }"><button
                 class="ann-button bg-DarkRed rounded-full shadow-md py-2 px-7 ml-5 hover:bg-ButtonDeleteHover font-bold"
                 @click="idDetail">Back</button>
         </router-link>
 
         <router-link :to="{ name: 'editAnnouncement', params: { id: route.params.id } }">
-            <button class="ann-button bg-DarkGreen shadow-md rounded-full py-2 px-8 ml-5 hover:bg-ButtonViewHover font-bold">Edit</button>
+            <button class="ann-button bg-DarkGreen shadow-md rounded-full py-2 px-5 ml-5 hover:bg-ButtonViewHover font-bold">
+                <EditIcon class="inline mr-2 mb-1"></EditIcon> Edit</button>
         </router-link>
-
+        </div>
 
     </div>
 </template>

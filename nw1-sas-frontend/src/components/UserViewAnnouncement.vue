@@ -1,9 +1,11 @@
 <script setup>
-import { getAnnouncementsUser } from "../composable/getAnnouncementUser.js"
+import { getAnnouncementsUser, getAnnouncementUser } from "../composable/getAnnouncementUser.js"
 import { ref, onMounted, onUpdated, computed } from "vue"
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
 import { annStores } from '../stores/counter.js'
 import TimeZone from '../components/icones/TimeZone.vue'
+import CloseIcon from "./icones/CloseIcon.vue"
+import ActiveIcon from "./icones/ActiveIcon.vue"
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const announcementStores = annStores()
@@ -57,17 +59,14 @@ const getListAnnouncement = async() => {
     wordButton.value = "Closed Announcements"
   }
   checkPageButton()
-  console.log(announcementStores.mode);
 }
 
 const isAnnouncementFound = ref(false)
 const noAnnouncement = () => {
   if (announcements.value.totalElements <= 0) {
     isAnnouncementFound.value = true
-    console.log(isAnnouncementFound.value);
   } else {
     isAnnouncementFound.value = false
-    console.log(isAnnouncementFound.value);
   }
 }
 const slicePageNumberArr = ref([])
@@ -123,17 +122,13 @@ const nextOrPrevButton = (move) =>{
 const changeCategory = async (category) =>{
   if(category !== announcementStores.category){
     announcementStores.setCategory(category)
-    console.log(category);
     announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, category)
     annoucementContent.value = announcements.value.content
   }
-  console.log(announcementStores.category);
   changeToCurrentPage(1)
   checkPageButton()
   noAnnouncement()
 }
-
-
 
 </script>
 
@@ -152,7 +147,11 @@ const changeCategory = async (category) =>{
           <span class="font-bold text-BlueFonts drop-shadow-sm">{{ timezone }}</span>
         </p>
         <div class="mr-5 bg-DarkBlue hover:bg-red-200 font-bold hover:bg-LightBlue text-BlueFonts rounded-full items-center justify-center">
-            <button @click="getListAnnouncement" class="ann-button px-5 py-2 text-lg ">{{ wordButton }}</button>
+            <button @click="getListAnnouncement" class="ann-button px-5 py-2 text-lg ">
+              <ActiveIcon v-if="showCloseTime" class="inline mr-2 mb-1"></ActiveIcon>
+              <CloseIcon v-else="showCloseTime" class="inline mr-2 mb-1"></CloseIcon>
+              {{ wordButton }}
+            </button>
         </div>
       </div>
       <div class="ml-5 my-5 flex items-center">
@@ -167,7 +166,7 @@ const changeCategory = async (category) =>{
         </div>
       <div class="mx-5 mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm dark:text-gray-400">
-          <thead class="bg-DarkBlue text-base text-BlueFonts  uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead class="bg-DarkBlue text-base text-BlueFonts uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-6 py-3 ${}">No.</th>
               <th scope="col" class="px-6 py-3 text-left">Title</th>
@@ -183,14 +182,14 @@ const changeCategory = async (category) =>{
                 {{ ++index + (announcements.size * announcements.page) }}
               </th>
               <router-link :to="{name:'userViewDetail', params:{id : announcement.id}}">                
-                  <td class="ann-title px-6 py-4 hover:font-bold hover:text-BlueFonts">
+                  <td class="ann-title px-6 py-4 hover:font-bold hover:text-BlueFonts break-all">
                      {{ announcement.announcementTitle }}
                   </td>                
               </router-link>
               <td v-show="showCloseTime" class="ann-close-date px-6 py-4 text-left">
                 {{ changeDateTimeFormat(announcement.closeDate) }}
               </td>
-              <td class="ann-category px-6 py-4 text-left">
+              <td class="ann-category px-6 py-4 text-left break-all">
                 {{ announcement.announcementCategory }}
               </td>
             </tr>
@@ -200,7 +199,7 @@ const changeCategory = async (category) =>{
       </div>
     </div>
     <div v-if="isMoreThanFiveElements" class="flex justify-center mt-8">
-        <button :disabled="disablePrevButton " @click="nextOrPrevButton('prev')" class="ann-page-prev font-bold px-5 py-2 mx-1 rounded-lg bg-DarkBlue">Prev</button>
+        <button :disabled="disablePrevButton " @click="nextOrPrevButton('prev')" class="ann-page-prev font-bold px-5 py-2 mx-1 rounded-lg bg-DarkBlue text-BlueFonts">Prev</button>
         <button @click="changeToCurrentPage(pageNumber)" v-for="(pageNumber,index) in slicePageNumberArr" :key="index" 
         :class="[
           pageNumber === announcementStores.page + 1
@@ -211,7 +210,7 @@ const changeCategory = async (category) =>{
         >
           {{ pageNumber }}
         </button>
-        <button :disabled="disableNextButton" @click="nextOrPrevButton('next')" class="ann-page-next  px-5 py-2 mx-1 rounded-lg bg-DarkBlue font-bold">Next</button>
+        <button :disabled="disableNextButton" @click="nextOrPrevButton('next')" class="ann-page-next  px-5 py-2 mx-1 rounded-lg bg-DarkBlue font-bold text-BlueFonts">Next</button>
       </div>
   </div>
 </template>

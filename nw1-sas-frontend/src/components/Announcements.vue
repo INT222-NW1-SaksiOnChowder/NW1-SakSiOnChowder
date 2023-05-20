@@ -5,6 +5,8 @@ import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
 import { deleteAcc } from "../composable/deleteAnnouncement.js"
 import { useRouter } from 'vue-router';
 import TimeZone from '../components/icones/TimeZone.vue'
+import AddIcon from "./icones/AddIcon.vue";
+
 const router = useRouter()
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -40,7 +42,7 @@ const deleteAnnouncement = async (id) => {
 </script>
 
 <template>
-    <div class="w-full h-full bg-Background">
+    <div class="w-screen h-screen bg-Background">
       <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
         <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
           SIT Announcement System (SAS)
@@ -56,7 +58,8 @@ const deleteAnnouncement = async (id) => {
           <router-link :to="{
             name: 'addAnnouncement'
           }">
-            <button class="ann-button px-5 py-2 text-lg font-bold">Add Announcement</button>
+            <button class="ann-button px-5 py-2 text-lg font-bold">
+              <AddIcon class="inline mr-2 mb-1"></AddIcon>Add Announcement</button>
           </router-link>
         </div>
       </div>
@@ -70,6 +73,7 @@ const deleteAnnouncement = async (id) => {
               <th scope="col" class="px-6 py-3">Publish Date</th>
               <th scope="col" class="px-6 py-3">Close Date</th>
               <th scope="col" class="px-6 py-3 text-center">Display</th>
+              <th scope="col" class="px-6 py-3 text-center">#Views</th>
               <th scope="col" class="px-6 py-3 text-center">Action</th>
             </tr>
           </thead>
@@ -94,6 +98,9 @@ const deleteAnnouncement = async (id) => {
               </td>
               <td class="ann-display px-6 py-4 text-center justify-items-center">
                 {{ announcement.announcementDisplay }}
+              </td>
+              <td class="ann-display px-6 py-4 text-center justify-items-center">
+                {{ announcement.viewCount }}
               </td>
               <td class="px-6 py-4 text-center">
                 <router-link :to="{
