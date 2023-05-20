@@ -21,57 +21,57 @@ onMounted(async() => {
 </script>
 
 <template>
-    <div>
-        <div class="mt-3">
-            <h1 class="text-2xl ml-5 font-bold">
+    <div class="text-center bg-Background h-screen">
+        <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3">
+            <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
                 Announcement Detail:
             </h1>
         </div>
-        <div class="border m-5">
-            <div class="flex my-5">
-                <h1 class="mx-5">
+        <div class="rounded-3xl bg-LightBlue m-10 py-3">
+            <div class="flex my-5 justify-center">
+                <h1 class="mx-5 font-bold">
                     Title
                 </h1>
-                <p class="ann-title">{{ announcement.announcementTitle }}</p>
+                <p class="ann-title break-all text-left mr-5">{{ announcement.announcementTitle }}</p>
             </div>
             <div class="flex my-5">
-                <h1 class="mx-5">
+                <h1 class="mx-5 font-bold">
                     Category
                 </h1>
-                <p class="ann-category">{{ announcement.announcementCategory }}</p>
+                <p class="ann-category break-all mr-5">{{ announcement.announcementCategory }}</p>
             </div>
             <div class="flex my-5">
-                <h1 class="mx-5">
+                <h1 class="mx-5 font-bold">
                     Description
                 </h1>
-                <p class="ann-description">{{ announcement.announcementDescription }}</p>
+                <p class="ann-description break-all text-left mr-5">{{ announcement.announcementDescription }}</p>
             </div>
             <div class="flex my-5">
-                <h1 class="mx-5">
+                <h1 class="mx-5 font-bold">
                     Publish Date
                 </h1>
-                <p class="ann-publish-date">{{ changeDateTimeFormat(announcement.publishDate) }}</p>
+                <p class="ann-publish-date mr-5 break-all">{{ changeDateTimeFormat(announcement.publishDate) }}</p>
             </div>
             <div class="flex my-5">
-                <h1 class="mx-5">
+                <h1 class="mx-5 font-bold">
                     Close Date
                 </h1>
-                <p class="ann-close-date">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
+                <p class="ann-close-date mr-5 break-all">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
             </div>
             <div class="flex my-5">
-                <h1 class="mx-5">
+                <h1 class="mx-5 font-bold">
                     Display
                 </h1>
-                <p class="ann-display">{{ announcement.announcementDisplay }}</p>
+                <p class="ann-display mr-5 break-all">{{ announcement.announcementDisplay }}</p>
             </div>
         </div>
         <router-link :to="{ name: 'announcements' }"><button
-                class="ann-button bg-gray-200 rounded-md py-2 px-5 ml-5 hover:bg-amber-100"
+                class="ann-button bg-DarkRed rounded-full shadow-md py-2 px-7 ml-5 hover:bg-ButtonDeleteHover font-bold"
                 @click="idDetail">Back</button>
         </router-link>
 
         <router-link :to="{ name: 'editAnnouncement', params: { id: route.params.id } }">
-            <button class="ann-button bg-gray-200 rounded-md py-2 px-5 ml-5 hover:bg-emerald-200">Edit</button>
+            <button class="ann-button bg-DarkGreen shadow-md rounded-full py-2 px-8 ml-5 hover:bg-ButtonViewHover font-bold">Edit</button>
         </router-link>
 
 
