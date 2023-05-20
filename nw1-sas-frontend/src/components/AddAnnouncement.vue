@@ -26,7 +26,6 @@ announcementObj.value = {
 
 const submit = async (addAnnouncement) => {
   addAnnouncement.categoryId = Number(addAnnouncement.categoryId);
-
   if (addAnnouncement.announcementDisplay === true) {
     addAnnouncement.announcementDisplay = "Y";
   } else {
@@ -79,6 +78,7 @@ const isDisabledCloseTime = computed(() => {
     return false;
   }
 });
+
 </script>
 
 <template>

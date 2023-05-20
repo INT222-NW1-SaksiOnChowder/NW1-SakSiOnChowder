@@ -34,23 +34,10 @@ const beforeAnnouncementPublishTime = ref('')
 const beforeAnnouncementCloseDate = ref('')
 const beforeAnnouncementCloseTime = ref('')
 
-// const isDisabled = ref(true)
-
-// const setButton = () => {
-//     isDisabled.value = false
-// }
-
-// const setButtonBySelect = () => {
-//     if (beforeAnnouncement.value.announcementCategory == announcementObj.value.announcementCategory) {
-//         isDisabled.value = true
-//     } else {
-//         isDisabled.value = false
-//     }
-// }
+const isDisabled = ref(true)
 
 
 const checkAnnouncement = computed(() => {
-    console.log(555);
     if (announcementObj.value.announcementTitle === beforeAnnouncement.value.announcementTitle &&
         announcementObj.value.announcementDescription === beforeAnnouncement.value.announcementDescription &&
         announcementObj.value.publishDate === beforeAnnouncement.value.publishDate &&
@@ -74,6 +61,7 @@ const checkAnnouncement = computed(() => {
         return false
     }
 })
+
 
 const showAnnouncementDisplay = (announcement) => {
     if (announcement.announcementDisplay === "Y") {
@@ -106,7 +94,7 @@ const beforeAnnouncementSetTime = (announcement) => {
         const publishDateTime = new Date(announcement.publishDate)
 
         // selectedPublishDate
-        const publishDay = `${publishDateTime.getUTCDate() + 1 < 10 ? "0" : ""}${publishDateTime.getUTCDate() + 1}`
+        const publishDay = `${publishDateTime.getDate() < 10 ? "0" : ""}${publishDateTime.getDate()}`
         const publishMonth = `${publishDateTime.getMonth() + 1 < 10 ? "0" : ""}${publishDateTime.getMonth() + 1}`
         const publishYear = publishDateTime.getFullYear()
         beforeAnnouncementPublishDate.value = `${publishYear}-${publishMonth}-${publishDay}`
@@ -120,7 +108,7 @@ const beforeAnnouncementSetTime = (announcement) => {
         const closeDateTime = new Date(announcement.closeDate)
 
         // selectedCloseDate
-        const closeDay = `${closeDateTime.getUTCDate() + 1 < 10 ? "0" : ""}${closeDateTime.getUTCDate() + 1}`
+        const closeDay = `${closeDateTime.getDate() < 10 ? "0" : ""}${closeDateTime.getDate()}`
         const closeMonth = `${closeDateTime.getMonth() + 1 < 10 ? "0" : ""}${closeDateTime.getMonth() + 1}`
         const closeYear = closeDateTime.getFullYear()
         beforeAnnouncementCloseDate.value = `${closeYear}-${closeMonth}-${closeDay}`
@@ -136,7 +124,7 @@ const setTime = (announcement) => {
         const publishDateTime = new Date(announcement.publishDate)
 
         // selectedPublishDate
-        const publishDay = `${publishDateTime.getUTCDate() + 1 < 10 ? "0" : ""}${publishDateTime.getUTCDate() + 1}`
+        const publishDay = `${publishDateTime.getDate() < 10 ? "0" : ""}${publishDateTime.getDate()}`
         const publishMonth = `${publishDateTime.getMonth() + 1 < 10 ? "0" : ""}${publishDateTime.getMonth() + 1}`
         const publishYear = publishDateTime.getFullYear()
         selectedPublishDate.value = `${publishYear}-${publishMonth}-${publishDay}`
@@ -150,7 +138,7 @@ const setTime = (announcement) => {
         const closeDateTime = new Date(announcement.closeDate)
 
         // selectedCloseDate
-        const closeDay = `${closeDateTime.getUTCDate() + 1 < 10 ? "0" : ""}${closeDateTime.getUTCDate() + 1}`
+        const closeDay = `${closeDateTime.getDate()< 10 ? "0" : ""}${closeDateTime.getDate()}`
         const closeMonth = `${closeDateTime.getMonth() + 1 < 10 ? "0" : ""}${closeDateTime.getMonth() + 1}`
         const closeYear = closeDateTime.getFullYear()
         selectedCloseDate.value = `${closeYear}-${closeMonth}-${closeDay}`
@@ -194,10 +182,7 @@ const submitEdit = async (announcement) => {
 
     // announcementCategory กับ categoryId
 
-    console.log(selectedPublishDate.value);
-    console.log(selectedCloseDate.value);
     await updateAnnouncement(editAnnouncement)
-    console.log(editAnnouncement)
     router.push({ name: 'announcements' })
 
 
@@ -217,12 +202,12 @@ const submitEdit = async (announcement) => {
                 <div class="my-5">
                     <label class="font-bold">Title</label><br>
                     <input maxlength="200" class="ann-title bg-InputColor drop-shadow-md h-8 w-full rounded-lg" type="text"
-                        @input="setButton" v-model.trim="announcementObj.announcementTitle">
+                         v-model.trim="announcementObj.announcementTitle">
                 </div>
                 <div class="my-5">
                     <label class="font-bold">Catagory</label><br>
                     <select class="ann-category drop-shadow-md bg-InputColor h-8  w-2/5 rounded-lg"
-                        v-model="announcementObj.announcementCategory" @change="setButtonBySelect">
+                        v-model="announcementObj.announcementCategory" >
                         <option value="1">ทั่วไป</option>
                         <option value="2">ทุนการศึกษา</option>
                         <option value="3">หางาน</option>
@@ -231,10 +216,7 @@ const submitEdit = async (announcement) => {
                 </div>
                 <div class="my-5">
                     <label class="font-bold">Description</label><br>
-                    <!-- <textarea maxlength="10000" class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg"
-                        name="desc" id="three" cols="100" rows="5" v-model.trim="announcementObj.announcementDescription"
-                        @input="setButton"></textarea> -->
-                        <QuillEditor @input="setButton" maxlength="10000" cols="100" rows="5" 
+                        <QuillEditor  maxlength="10000" cols="100" rows="5" 
                          class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg" 
                          theme="snow" toolbar="full" v-model:content="announcementObj.announcementDescription" contentType="html"/>
                 </div>
@@ -247,21 +229,21 @@ const submitEdit = async (announcement) => {
                 <div class="my-5">
                     <label class="font-bold">Publish Date</label><br>
                     <input class="ann-publish-date drop-shadow-md bg-InputColor w-1/5 mr-5 rounded-lg px-5 py-1" type="date"
-                        v-model="selectedPublishDate" @input="setButton">
+                        v-model="selectedPublishDate" >
                     <input class="ann-publish-time w-1/5 bg-InputColor drop-shadow-md rounded-lg px-5 py-1" type="time"
-                        v-model="selectedPublishTime" @input="setButton">
+                        v-model="selectedPublishTime" >
                 </div>
                 <div class="my-5">
                     <label class="font-bold">Close Date</label><br>
                     <input class="ann-close-date bg-InputColor drop-shadow-md sm:w-1/5 mr-5 rounded-lg px-5 py-1" type="date"
-                        v-model="selectedCloseDate" @input="setButton">
+                        v-model="selectedCloseDate">
                     <input class="ann-close-time w-1/5 bg-InputColor drop-shadow-md rounded-lg px-5 py-1" type="time"
-                        v-model="selectedCloseTime" @input="setButton">
+                        v-model="selectedCloseTime">
                 </div>
                 <div class="my-5">
                     <label class="font-bold">Display</label><br>
                     <input type="checkbox" id="displayShow" class="ann-display"
-                        v-model="announcementObj.announcementDisplay" @input="setButton" />
+                        v-model="announcementObj.announcementDisplay"/>
                     <label for="displayShow" class="ml-2">Check to show this announcement</label>
                 </div>
                 <div class="my-5 text-center">

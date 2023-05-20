@@ -35,7 +35,6 @@ onMounted(async () => {
 onUpdated(() => {
   noAnnouncement()
   setShowCloseTime()
-  console.log(announcementStores.category);
   if (announcementStores.mode === 'close') {
     wordButton.value = 'Active Announcements'
   }else{
@@ -60,17 +59,14 @@ const getListAnnouncement = async() => {
     wordButton.value = "Closed Announcements"
   }
   checkPageButton()
-  console.log(announcementStores.mode);
 }
 
 const isAnnouncementFound = ref(false)
 const noAnnouncement = () => {
   if (announcements.value.totalElements <= 0) {
     isAnnouncementFound.value = true
-    console.log(isAnnouncementFound.value);
   } else {
     isAnnouncementFound.value = false
-    console.log(isAnnouncementFound.value);
   }
 }
 const slicePageNumberArr = ref([])
@@ -126,11 +122,9 @@ const nextOrPrevButton = (move) =>{
 const changeCategory = async (category) =>{
   if(category !== announcementStores.category){
     announcementStores.setCategory(category)
-    console.log(category);
     announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, category)
     annoucementContent.value = announcements.value.content
   }
-  console.log(announcementStores.category);
   changeToCurrentPage(1)
   checkPageButton()
   noAnnouncement()
