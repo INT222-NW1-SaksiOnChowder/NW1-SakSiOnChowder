@@ -22,7 +22,7 @@ onMounted(async() => {
 </script>
 
 <template>
-    <div class="text-center bg-Background h-screen">
+    <div class="text-center bg-Background min-h-screen max-h-full">
         <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3">
             <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
                 Announcement Detail:

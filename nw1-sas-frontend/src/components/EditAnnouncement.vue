@@ -187,7 +187,7 @@ const submitEdit = async (announcement) => {
 </script>
  
 <template>
-    <div class="w-full h-screen bg-Background">
+    <div class="w-full min-h-screen max-h-full bg-Background">
         <div class="mx-32">
             <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3 mb-8">
                 <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">

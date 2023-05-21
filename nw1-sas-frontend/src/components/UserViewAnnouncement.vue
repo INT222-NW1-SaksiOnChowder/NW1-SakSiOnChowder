@@ -28,8 +28,8 @@ onMounted(async () => {
   annoucementContent.value = announcements.value.content
   selectedCategory.value = announcementStores.category
   setShowCloseTime()
-  noAnnouncement()
   checkPageButton()
+  noAnnouncement()
 })
 
 onUpdated(() => {
@@ -63,7 +63,7 @@ const getListAnnouncement = async() => {
 
 const isAnnouncementFound = ref(false)
 const noAnnouncement = () => {
-  if (announcements.value.totalElements <= 0) {
+  if (announcements.value.length <= 0 || announcements.value.totalElements <= 0) {
     isAnnouncementFound.value = true
   } else {
     isAnnouncementFound.value = false
@@ -133,7 +133,7 @@ const changeCategory = async (category) =>{
 </script>
 
 <template>
-  <div class="w-screen h-screen bg-Background">
+  <div class="w-screen min-h-screen max-h-full bg-Background">
     <div class="">
       <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
       <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
@@ -195,7 +195,7 @@ const changeCategory = async (category) =>{
             </tr>
           </tbody>
         </table>
-        <div v-if="isAnnouncementFound" class="text-center text-3xl my-10">No Announcement</div>
+        <div v-if="isAnnouncementFound" class="text-center text-3xl my-10 text-BlueFonts">No Announcement</div>
       </div>
     </div>
     <div v-if="isMoreThanFiveElements" class="flex justify-center mt-8">
