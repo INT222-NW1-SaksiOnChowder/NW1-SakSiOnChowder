@@ -63,7 +63,7 @@ onMounted(async() => {
                 <p class="ann-close-date break-all mr-3">{{ changeDateTimeFormat(announcement.closeDate) }}</p>
                 <Calendar></Calendar>
             </div>
-            <div class="flex my-5">
+            <div class="flex my-5 items-center">
                 <h1 class="mx-5 font-bold">
                     Description
                 </h1>
