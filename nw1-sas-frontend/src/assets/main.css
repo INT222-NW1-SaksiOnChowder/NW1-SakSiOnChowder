@@ -3,21 +3,21 @@
 @tailwind utilities;
 
 .ql-editor h1{
-  @apply text-4xl;
-}
-.ql-editor h2{
-  @apply text-3xl;
-}
-.ql-editor h3{
   @apply text-2xl;
 }
-.ql-editor h4{
+.ql-editor h2{
   @apply text-xl;
 }
-.ql-editor h5{
+.ql-editor h3{
   @apply text-lg;
 }
-.ql-editor h6{
+.ql-editor h4{
+  @apply text-base;
+}
+.ql-editor h5{
   @apply text-sm;
+}
+.ql-editor h6{
+  @apply text-xs;
 }
 
