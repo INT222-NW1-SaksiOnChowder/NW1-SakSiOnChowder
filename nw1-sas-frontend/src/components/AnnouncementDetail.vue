@@ -46,7 +46,7 @@ onMounted(async() => {
                 <h1 class="mx-5 font-bold">
                     Description
                 </h1>
-                <p v-html="announcement.announcementDescription" class="ann-description break-all text-left mr-5 ql-editor"></p>
+                <p class="ann-description break-all text-left mr-5 ql-editor" v-html="announcement.announcementDescription"></p>
             </div>
             <div class="flex my-5">
                 <h1 class="mx-5 font-bold">

@@ -212,7 +212,7 @@ const submitEdit = async (announcement) => {
                 </div>
                 <div class="my-5">
                     <label class="font-bold">Description</label><br>
-                        <QuillEditor  maxlength="10000" cols="100" rows="5" 
+                        <QuillEditor maxlength="10000" cols="100" rows="5" 
                          class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg" 
                          theme="snow" toolbar="full" v-model:content="announcementObj.announcementDescription" contentType="html"/>
                 </div>
