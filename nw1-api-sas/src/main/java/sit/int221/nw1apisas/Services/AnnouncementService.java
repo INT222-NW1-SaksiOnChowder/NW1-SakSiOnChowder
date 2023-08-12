@@ -8,10 +8,8 @@ import org.springframework.stereotype.Service;
 import sit.int221.nw1apisas.Dtos.AnnouncementItemDto;
 import sit.int221.nw1apisas.Entities.Announcement;
 import sit.int221.nw1apisas.Enums.AnnouncementDisplay;
-import sit.int221.nw1apisas.Exceptions.BadRequestException;
 import sit.int221.nw1apisas.Exceptions.ItemNotFoundException;
 import sit.int221.nw1apisas.Repositories.AnnouncementRepository;
-
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -26,25 +24,9 @@ public class AnnouncementService {
 
     public Announcement createAnnouncement(AnnouncementItemDto announcementItemDto) {
         Announcement announcement = new Announcement();
-        if (announcementItemDto.getAnnouncementTitle() != null && !(announcementItemDto.getAnnouncementTitle().isEmpty())
-                && announcementItemDto.getAnnouncementTitle().trim() != ""
-                && announcementItemDto.getAnnouncementTitle().length() <= 200) {
-            announcement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
-        } else {
-            throw new BadRequestException("Announcement title must between 1 and 200 characters.");
-        }
-        if (announcementItemDto.getAnnouncementDescription() != null && !(announcementItemDto.getAnnouncementDescription().isEmpty())
-                && announcementItemDto.getAnnouncementDescription().trim() != ""
-                && announcementItemDto.getAnnouncementDescription().length() <= 10000) {
-            announcement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
-        } else {
-            throw new BadRequestException("Announcement description must between 1 and 10000 characters.");
-        }
-        if (announcementItemDto.getCategoryId() == null) {
-            throw new BadRequestException("Please choose a category.");
-        } else {
-            announcement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
-        }
+        announcement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
+        announcement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
+        announcement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
         ZonedDateTime publishDate = announcementItemDto.getPublishDate();
         ZonedDateTime closeDate = announcementItemDto.getCloseDate();
         announcement.setPublishDate(publishDate);
@@ -63,25 +45,11 @@ public class AnnouncementService {
     public Announcement updateAnnouncement(AnnouncementItemDto announcementItemDto, Integer id) {
         Announcement existingAnnouncement = announcementRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException("The announcement is not found."));
-        if (announcementItemDto.getAnnouncementTitle() != null && !(announcementItemDto.getAnnouncementTitle().isEmpty())
-                && announcementItemDto.getAnnouncementTitle().trim() != ""
-                && announcementItemDto.getAnnouncementTitle().length() > 0 && announcementItemDto.getAnnouncementTitle().length() <= 200) {
-            existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
-        } else {
-            throw new BadRequestException("Announcement title must between 1 and 200 characters.");
-        }
-        if (announcementItemDto.getAnnouncementDescription() != null && !(announcementItemDto.getAnnouncementDescription().isEmpty())
-                && announcementItemDto.getAnnouncementDescription().trim() != ""
-                && announcementItemDto.getAnnouncementDescription().length() > 0 && announcementItemDto.getAnnouncementDescription().length() <= 10000) {
-            existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
-        } else {
-            throw new BadRequestException("Announcement description must between 1 and 10000 characters.");
-        }
-        if (announcementItemDto.getCategoryId() == null) {
-            throw new BadRequestException("Please choose a category.");
-        } else {
-            existingAnnouncement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
-        }
+
+        existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
+        existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
+
+        existingAnnouncement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
         ZonedDateTime publishDate = announcementItemDto.getPublishDate();
         ZonedDateTime closeDate = announcementItemDto.getCloseDate();
         existingAnnouncement.setPublishDate(publishDate);
@@ -105,22 +73,19 @@ public class AnnouncementService {
                 throw new ItemNotFoundException("No announcement.");
             }
             return announcements;
-        } else if(mode.equals("admin")) {
+        } else if (mode.equals("admin")) {
             return announcementRepository.findAllAnnouncementsByIdDesc();
-        }else {
+        } else {
             throw new ItemNotFoundException("Can't find a mode");
         }
 
     }
 
     public Announcement getDetailsById(Integer id, Boolean count) {
-        if (id == null) {
-            throw new BadRequestException("The request page is not available.");
-        }
         Announcement announcement = announcementRepository.findById(id).orElseThrow(
                 () -> new ItemNotFoundException("Announcement id " + id + " does not exist."));
-        if (count){
-            announcement.setViewCount(announcement.getViewCount()+1);
+        if (count) {
+            announcement.setViewCount(announcement.getViewCount() + 1);
         }
 
         return announcementRepository.saveAndFlush(announcement);
@@ -136,7 +101,7 @@ public class AnnouncementService {
                 return announcementRepository.findActiveAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
             }
             return announcementRepository.findActiveAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
-        } else if(mode.equals("close")){
+        } else if (mode.equals("close")) {
             if (categoryId != null) {
                 return announcementRepository.findCloseAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
             }
