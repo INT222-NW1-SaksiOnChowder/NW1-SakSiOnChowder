@@ -13,7 +13,7 @@ import java.time.ZonedDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddAnnouncementItemDto {
+public class AddUpdateAnnouncementItemDto {
     private Integer id;
     private String announcementTitle;
     private String announcementDescription;

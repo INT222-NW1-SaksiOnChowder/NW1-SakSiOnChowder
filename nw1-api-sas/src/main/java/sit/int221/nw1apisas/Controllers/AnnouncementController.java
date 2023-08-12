@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import sit.int221.nw1apisas.Dtos.*;
 import sit.int221.nw1apisas.Entities.Announcement;
 
@@ -30,9 +29,9 @@ public class AnnouncementController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public AddAnnouncementItemDto createAnnouncement(@RequestBody @Valid AnnouncementItemDto announcementItemDto){
+    public AddUpdateAnnouncementItemDto createAnnouncement(@RequestBody @Valid AnnouncementItemDto announcementItemDto){
         Announcement createAnnouncement = announcementService.createAnnouncement(announcementItemDto);
-        return modelMapper.map(createAnnouncement, AddAnnouncementItemDto.class);
+        return modelMapper.map(createAnnouncement, AddUpdateAnnouncementItemDto.class);
 
     }
 
@@ -44,9 +43,9 @@ public class AnnouncementController {
     }
 
     @PutMapping("/{id}")
-    public AddAnnouncementItemDto updateAnnouncement(@RequestBody @Valid AnnouncementItemDto newAnnouncement, @PathVariable Integer id){
+    public AddUpdateAnnouncementItemDto updateAnnouncement(@RequestBody @Valid AnnouncementItemDto newAnnouncement, @PathVariable Integer id){
         Announcement updateAnnouncement = announcementService.updateAnnouncement(newAnnouncement, id);
-        return modelMapper.map(updateAnnouncement, AddAnnouncementItemDto.class);
+        return modelMapper.map(updateAnnouncement, AddUpdateAnnouncementItemDto.class);
     }
 
     @GetMapping("")
