@@ -4,13 +4,12 @@ package sit.int222.nw1apisas.entities;
 import java.io.Serializable;
 
 public class JwtRequest implements Serializable {
+
     private String username;
     private String password;
 
     //need default constructor for JSON Parsing
-    public JwtRequest()
-    {
-
+    public JwtRequest(){
     }
 
     public JwtRequest(String username, String password) {
@@ -32,5 +31,13 @@ public class JwtRequest implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "JwtRequest{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
