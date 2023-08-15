@@ -3,7 +3,7 @@ package sit.int222.nw1apisas.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import sit.int222.nw1apisas.enums.Role;
 
 import java.time.ZonedDateTime;
 
@@ -14,23 +14,20 @@ import java.time.ZonedDateTime;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
-    @Column(name = "username", nullable = false, length = 100)
+    @Column(name = "username", nullable = false, length = 45)
     private String username;
-    @Column(name = "name", nullable = false, length = 180)
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
-    @Column(name = "email", nullable = false, length = 100)
+    @Column(name = "email", nullable = false, length = 150)
     private String email;
-    @Column(name = "role", nullable = false, length = 30)
-    private String role;
-    @Column(name = "createdOn", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+//    @Column(name = "createdOn", nullable = false)
     private ZonedDateTime createdOn;
-    @Column(name = "updatedOn")
+//    @Column(name = "updatedOn", nullable = false)
     private ZonedDateTime updatedOn;
 
 
-//    public void setPassword(String password) {
-//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//        this.password = passwordEncoder.encode(password);
-//    }
 }
