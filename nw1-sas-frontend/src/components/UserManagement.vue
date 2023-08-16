@@ -12,7 +12,6 @@ const users = ref([]);
 onMounted(async () => {
   noUser();
   users.value = await getUsers();
-  users.value.sort((a, b) => b.id - a.id);
   noUser();
 });
 
@@ -77,33 +76,33 @@ const noUser = () => {
                     </thead>
 
                     <tbody v-if="!isUserFound" class="bg-Cream">
-                        <tr v-for="(announcement, index) in announcements" :key="index"
+                        <tr v-for="(user, index) in users" :key="index"
                             class="ann-item bg-white dark:bg-gray-900">
                             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
                                 {{ ++index }}
                             </th>
-                            <td class="ann-title px-6 py-4 w-1/3 break-all">
-                                {{ announcement.announcementTitle }}
+                            <td class="ann-title px-6 py-4 w-1/6 break-all">
+                                {{ user.username }}
                             </td>
                             <td class="ann-category px-6 py-4">
-                                {{ announcement.announcementCategory }}
+                                {{ user.name }}
                             </td>
                             <td class="ann-publish-date px-6 py-4">
-                                {{ changeDateTimeFormat(announcement.publishDate) }}
+                                {{ user.email }}
                             </td>
                             <td class="ann-close-date px-6 py-4">
-                                {{ changeDateTimeFormat(announcement.closeDate) }}
+                                {{ user.role }}
                             </td>
                             <td class="ann-display px-6 py-4 text-center justify-items-center">
-                                {{ announcement.announcementDisplay }}
+                                {{ changeDateTimeFormat(user.createdOn) }}
                             </td>
                             <td class="ann-display px-6 py-4 text-center justify-items-center">
-                                {{ announcement.viewCount }}
+                                {{ changeDateTimeFormat(user.updatedOn) }}
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <router-link :to="{
                                     name: 'announcementDetail',
-                                    params: { id: announcement.id },
+                                    params: { id: user.id },
                                 }"><button
                                         class="ann-button font-bold text-blue-600 shadow-md hover:bg-ButtonViewHover rounded-full bg-DarkGreen px-5 py-2">
                                         view
@@ -111,7 +110,7 @@ const noUser = () => {
                                 </router-link>
                                 <button
                                     class="ann-button font-bold text-blue-600 shadow-md hover:bg-ButtonDeleteHover rounded-full bg-DarkRed px-5 py-2 ml-2"
-                                    @click="deleteAnnouncement(announcement.id)">
+                                    @click="deleteAnnouncement(user.id)">
                                     delete
                                 </button>
                             </td>
