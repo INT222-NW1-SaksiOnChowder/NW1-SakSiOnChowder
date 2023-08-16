@@ -5,6 +5,7 @@ import AddAnnouncement from '../components/AddAnnouncement.vue'
 import EditAnnouncement from '../components/EditAnnouncement.vue'
 import UserViewAnnouncement from '../components/UserViewAnnouncement.vue'
 import UserViewDetail from '../components/UserViewDetail.vue'
+import UserManagement from '../components/UserManagement.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes:
@@ -17,6 +18,11 @@ const router = createRouter({
         path: '/admin/announcement',
         name: 'announcements',
         component: Announcements
+      },
+      {
+        path: '/admin/user',
+        name: 'userManagement',
+        component: UserManagement
       },
       {
         path:'/admin/announcement/:id',
