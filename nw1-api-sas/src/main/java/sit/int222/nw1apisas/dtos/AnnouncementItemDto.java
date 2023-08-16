@@ -35,9 +35,6 @@ public class AnnouncementItemDto {
     @Future(message = "must be a future date")
     private ZonedDateTime closeDate;
     private AnnouncementDisplay announcementDisplay;
-//    @NotNull(message = "must not be null")
-//    @Min(value = 1, message = "does not exists")
-//    @Max(value = 4, message = "does not exists")
     @NotNull(message = "must not be null")
     @ValidateCategoryId
     private Integer categoryId;
