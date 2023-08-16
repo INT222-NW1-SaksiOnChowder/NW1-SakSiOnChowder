@@ -1,6 +1,7 @@
 package sit.int222.nw1apisas.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,7 +18,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public List<User> getAllOfUsers() {
-        return userRepository.findAll();
+        return userRepository.findAllUserByRoleAscAndUsernameAsc();
     }
 
     public User createUser(CreateUpdateUserDto newUser) {
