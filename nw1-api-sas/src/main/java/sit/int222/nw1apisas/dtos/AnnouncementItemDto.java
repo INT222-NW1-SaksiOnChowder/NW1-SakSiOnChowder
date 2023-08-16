@@ -22,7 +22,7 @@ import java.time.ZonedDateTime;
 @closeDate
 
 public class AnnouncementItemDto {
-    private Integer id;
+    @NotNull(message = "must not be null")
     @NotBlank(message = "must not be blank")
     @Size(min = 1, max = 200, message = "size must be between 1 and 200")
     private String announcementTitle;
