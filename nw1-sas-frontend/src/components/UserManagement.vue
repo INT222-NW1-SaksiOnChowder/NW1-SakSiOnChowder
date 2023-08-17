@@ -65,7 +65,7 @@ const noUser = () => {
                     <thead class="text-base bg-DarkBlue uppercase text-BlueFonts">
                         <tr>
                             <th scope="col" class="px-6 py-3">No.</th>
-                            <th scope="col" class="px-6 py-3">Usermane</th>
+                            <th scope="col" class="px-6 py-3">Username</th>
                             <th scope="col" class="px-6 py-3">Name</th>
                             <th scope="col" class="px-6 py-3">Email</th>
                             <th scope="col" class="px-6 py-3">Role</th>
@@ -101,11 +101,11 @@ const noUser = () => {
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <router-link :to="{
-                                    name: 'announcementDetail',
+                                    name: 'userEditDetail',
                                     params: { id: user.id },
                                 }"><button
                                         class="ann-button font-bold text-blue-600 shadow-md hover:bg-ButtonViewHover rounded-full bg-DarkGreen px-5 py-2">
-                                        view
+                                        edit
                                     </button>
                                 </router-link>
                                 <button
