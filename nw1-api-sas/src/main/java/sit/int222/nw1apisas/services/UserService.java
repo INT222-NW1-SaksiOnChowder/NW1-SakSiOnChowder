@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import sit.int222.nw1apisas.dtos.CreateUpdateUserDto;
 import sit.int222.nw1apisas.entities.User;
+import sit.int222.nw1apisas.enums.Role;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.repositories.UserRepository;
 
@@ -23,9 +24,9 @@ public class UserService {
 
     public User createUser(CreateUpdateUserDto newUser) {
         User user = new User();
-        user.setUsername(newUser.getUsername());
-        user.setName(newUser.getName());
-        user.setEmail(newUser.getEmail());
+        user.setUsername(newUser.getUsername().trim());
+        user.setName(newUser.getName().trim());
+        user.setEmail(newUser.getEmail().trim());
         user.setRole(newUser.getRole());
         return userRepository.saveAndFlush(user);
     }
@@ -38,9 +39,9 @@ public class UserService {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException("The user is not found."));
 
-        existingUser.setUsername(newUser.getUsername());
-        existingUser.setName(newUser.getName());
-        existingUser.setEmail(newUser.getEmail());
+        existingUser.setUsername(newUser.getUsername().trim());
+        existingUser.setName(newUser.getName().trim());
+        existingUser.setEmail(newUser.getEmail().trim());
         existingUser.setRole(newUser.getRole());
 
         return userRepository.saveAndFlush(existingUser);

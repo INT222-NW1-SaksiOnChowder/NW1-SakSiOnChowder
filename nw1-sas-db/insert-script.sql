@@ -70,4 +70,11 @@ insert into Announcements (announcementTitle,announcementDescription, categoryId
 ('(PBI10) Title 62','(PBI10) Description 62',3,'2023-05-01 06:00:00+07:00','2023-05-01 18:00:00+07:00','Y'),
 ('(PBI10) Title 63','(PBI10) Description 63',3,null,'2023-05-01 18:00:00+07:00','N');
 
+truncate Uers;
+select * from Users;
+desc Users;
+insert into Users(username,name,email,role) values("sanit","Sanit Sirisawatvatana","sanit.sir@kmutt.ac.th","admin");
+insert into Users(username,name,email,role) values("pornthip","Pornthip Sirijutikul","pornthip.sri@kmutt.ac.th","announcer");
+insert into Users(username,name,email,role) values("jaruwan_w","Jaruwan Maneesart","jariwan.wee@kmutt.ac.th","announcer");
+insert into Users(username,name,email,role) values("vichchuda","Vichchuda Tedoloh","vichchuda.ted@kmutt.ac.th","announcer");
 
