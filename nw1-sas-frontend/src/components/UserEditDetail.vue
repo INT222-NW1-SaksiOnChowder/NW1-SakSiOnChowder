@@ -4,7 +4,7 @@ import { ref, onMounted, computed } from "vue";
 import { changeDateTimeFormat } from "../composable/changeFormatDate.js";
 import { useRouter, useRoute } from "vue-router";
 import { updateUser } from "../composable/editUser.js"
-
+import Menubar from "./navbar.vue"
 const router = useRouter()
 const userObj = ref({})
 const oldUserData = ref({})
@@ -36,17 +36,7 @@ const save = async (user) => {
  
 <template>
     <div class="flex w-full min-h-screen max-h-full bg-Background">
-        <div class="flex flex-col w-1/3 max-h-full bg-Cream border-solid border-r-2">
-            <h1 class="flex pl-5 bg-DarkBlue py-5 text-3xl font-bold border-solid border-b-2">SAS</h1>
-            <router-link :to="{ name: 'announcements' }"
-                class="flex pl-5 py-5 border-solid border-b-2 font-bold hover:bg-LightBlue">
-                Announcement
-            </router-link>
-            <router-link :to="{ name: 'userManagement' }"
-                class="flex pl-5 py-5 border-solid border-b-2 font-bold hover:bg-LightBlue">
-                User
-            </router-link>
-        </div>
+        <Menubar/>
         <div class="w-3/4">
             <div class="mx-32">
                 <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3 mb-8">

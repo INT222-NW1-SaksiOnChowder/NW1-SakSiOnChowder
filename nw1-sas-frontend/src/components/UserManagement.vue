@@ -6,6 +6,7 @@ import { useRouter } from "vue-router";
 import TimeZone from "../components/icones/TimeZone.vue";
 import AddIcon from "./icones/AddIcon.vue";
 import { deleteUser } from "../composable/deleteUser.js"
+import Menubar from "./navbar.vue"
 const router = useRouter();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const users = ref([]);
@@ -40,15 +41,7 @@ const deleteUserById = async (id) => {
  
 <template>
     <div class="flex w-full min-h-screen max-h-full bg-Background">
-        <div class="flex flex-col w-1/3 max-h-full bg-Cream border-solid border-r-2">
-            <h1 class="flex pl-5 bg-DarkBlue py-5 text-3xl font-bold border-solid border-b-2">SAS</h1>
-            <router-link :to = "{ name : 'announcements' }" class="flex pl-5 py-5 border-solid border-b-2 font-bold hover:bg-LightBlue">
-                Announcement
-            </router-link>
-            <router-link :to ="{name: 'userManagement'}" class="flex pl-5 py-5 border-solid border-b-2 font-bold hover:bg-LightBlue">
-                User
-            </router-link>
-        </div>
+        <Menubar/>
         <div class="w-3/4">
             <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
                 <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
