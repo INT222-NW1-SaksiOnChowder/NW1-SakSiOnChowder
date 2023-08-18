@@ -7,6 +7,7 @@ import UserViewAnnouncement from '../components/UserViewAnnouncement.vue'
 import UserViewDetail from '../components/UserViewDetail.vue'
 import UserManagement from '../components/UserManagement.vue'
 import UserEditDetail from '../components/UserEditDetail.vue'
+import AddUser from '../components/AddUser.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes:
@@ -59,6 +60,16 @@ const router = createRouter({
         path: '/admin/user/:id/edit',
         name: 'userEditDetail',
         component: UserEditDetail
+      },
+      {
+        path: '/admin/user/add',
+        name: 'addUser',
+        component: AddUser
+      },
+      {
+        path: '/admin/user/:id/delete',
+        name: 'deleteUser',
+        component: UserManagement
       }
     ]
 })

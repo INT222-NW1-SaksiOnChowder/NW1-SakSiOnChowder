@@ -1,34 +1,20 @@
 <script setup>
-import { getUser } from "../composable/getUser.js";
-import { ref, onMounted, computed } from "vue";
-import { changeDateTimeFormat } from "../composable/changeFormatDate.js";
-import { useRouter, useRoute } from "vue-router";
-import { updateUser } from "../composable/editUser.js"
+import { ref } from "vue";
+import { createUser } from "../composable/addUser.js";
+import { useRouter } from "vue-router";
 
-const router = useRouter()
-const userObj = ref({})
-const oldUserData = ref({})
-onMounted(async () => {
-    const route = useRoute()
-    userObj.value = await getUser(route.params.id)
-    oldUserData.value = await getUser(route.params.id)
+const router = useRouter();
 
-})
-
-const checkUserChange = computed(() => {
-    if (userObj.value.username === oldUserData.value.username &&
-        userObj.value.name === oldUserData.value.name &&
-        userObj.value.email === oldUserData.value.email &&
-        userObj.value.role === oldUserData.value.role) {
-        return true
-
-    } else {
-        return false
-    }
-})
+const userObj = ref({
+    id: "",
+    username: "",
+    name: "",
+    email: "",
+    role: "announcer",
+});
 
 const save = async (user) => {
-    await updateUser(user)
+    await createUser(user)
     router.push({ name: 'userManagement' })
 }
 
@@ -78,17 +64,11 @@ const save = async (user) => {
                             <option value="announcer">announcer</option>
                         </select>
                     </div>
-                    <div class="my-5 flex w-3/4 justify-between">
-                        <p class="font-bold">Created On: <span class="font-normal">{{
-                            changeDateTimeFormat(userObj.createdOn) }}</span></p>
-                        <p class="font-bold">Updated On: <span class="font-normal">{{
-                            changeDateTimeFormat(userObj.updatedOn) }}</span></p>
-                    </div>
 
                     <div class="my-5 text-center">
-                        <button :disabled="checkUserChange"
+                        <button :disabled="checkAnnouncement"
                             class="ann-button ml-5 shadow-md font-bold rounded-full px-5 py-2 buttonEdit bg-DarkGreen hover:bg-ButtonViewHover"
-                            :style="checkUserChange ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1;'"
+                            :style="checkAnnouncement ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1;'"
                             @click="save(userObj)">Save</button>
                         <router-link :to="{ name: 'userManagement' }">
                             <button
@@ -99,5 +79,5 @@ const save = async (user) => {
         </div>
     </div>
 </template>
-
+ 
 <style scoped></style>

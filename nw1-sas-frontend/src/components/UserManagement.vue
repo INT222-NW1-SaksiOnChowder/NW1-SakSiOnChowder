@@ -5,6 +5,7 @@ import { changeDateTimeFormat } from "../composable/changeFormatDate.js";
 import { useRouter } from "vue-router";
 import TimeZone from "../components/icones/TimeZone.vue";
 import AddIcon from "./icones/AddIcon.vue";
+import { deleteUser } from "../composable/deleteUser.js"
 const router = useRouter();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const users = ref([]);
@@ -15,6 +16,8 @@ onMounted(async () => {
   noUser();
 });
 
+
+
 const isUserFound = ref(false);
 const noUser = () => {
   if (users.value.length <= 0) {
@@ -23,6 +26,16 @@ const noUser = () => {
     isUserFound.value = false;
   }
 }
+
+const deleteUserById = async (id) => {
+  router.push({ name: "deleteUser", params: { id: id } })
+  const confirmed = confirm(`Do you want to delete`)
+  if (confirmed) {
+    await deleteUser(id);
+  }
+  users.value = await getUsers();
+  router.push({ name: "userManagement" })
+};
 </script>
  
 <template>
@@ -52,7 +65,7 @@ const noUser = () => {
                 <div
                     class="bg-DarkBlue shadow-md mr-5 hover:bg-red-200 font-semibold text-BlueFonts hover:bg-LightBlue rounded-full items-center justify-center">
                     <router-link :to="{
-                        name: 'addAnnouncement',
+                        name: 'addUser',
                     }">
                         <button class="ann-button px-5 py-2 text-lg font-bold">
                             <AddIcon class="inline mr-2 mb-1"></AddIcon>Add User
@@ -110,7 +123,7 @@ const noUser = () => {
                                 </router-link>
                                 <button
                                     class="ann-button font-bold text-blue-600 shadow-md hover:bg-ButtonDeleteHover rounded-full bg-DarkRed px-5 py-2 ml-2"
-                                    @click="deleteAnnouncement(user.id)">
+                                    @click="deleteUserById(user.id)">
                                     delete
                                 </button>
                             </td>
