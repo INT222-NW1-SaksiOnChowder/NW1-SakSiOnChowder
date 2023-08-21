@@ -6,19 +6,21 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const announcementObj = ref();
+const displayShow = ref(false);
 
 const selectedPublishDate = ref();
 const selectedPublishTime = ref();
 const selectedCloseDate = ref();
 const selectedCloseTime = ref();
 
-const edituser = {
-  id: user.id,
-  username: user.username,
-  name: user.name,
-  email: user.email,
-        role: user.role,
-}
+announcementObj.value = {
+  announcementTitle: "",
+  announcementDescription: "",
+  publishDate: "",
+  closeDate: "",
+  announcementDisplay: displayShow.value,
+  categoryId: 1,
+};
 
 const submit = async (addAnnouncement) => {
   addAnnouncement.categoryId = Number(addAnnouncement.categoryId);
