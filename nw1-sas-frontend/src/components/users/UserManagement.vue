@@ -1,12 +1,12 @@
 <script setup>
-import { getUsers } from "../composable/getUser.js";
+import { getUsers } from "../../composable/users/getUser.js";
 import { ref, onMounted, onUpdated } from "vue";
-import { changeDateTimeFormat } from "../composable/changeFormatDate.js";
+import { changeDateTimeFormat } from "../../composable/changeFormatDate.js";
 import { useRouter } from "vue-router";
-import TimeZone from "../components/icones/TimeZone.vue";
-import AddIcon from "./icones/AddIcon.vue";
-import { deleteUser } from "../composable/deleteUser.js"
-import Menubar from "./navbar.vue"
+import TimeZone from "../icones/TimeZone.vue";
+import AddIcon from "../icones/AddIcon.vue";
+import { deleteUser } from "../../composable/users/deleteUser.js"
+import Menubar from "../navbar.vue"
 const router = useRouter();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const users = ref([]);

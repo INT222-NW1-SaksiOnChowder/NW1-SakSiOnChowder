@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted, computed } from "vue"
-import { getAnnouncement } from '../composable/getInformation.js'
+import { getAnnouncement } from '../../composable/announcements/getInformation.js'
 import { useRoute, useRouter } from 'vue-router'
-import { updateAnnouncement } from '../composable/editAnnouncement'
+import { updateAnnouncement } from '../../composable/announcements/editAnnouncement'
 
 const announcement = ref({})
 const announcementObj = ref({})

@@ -1,10 +1,10 @@
 <script setup>
-import { getAnnouncementUser } from '../composable/getAnnouncementUser.js'
+import { getAnnouncementUser } from '../../composable/users/getAnnouncementUser.js'
 import { ref, onMounted} from "vue"
 import { useRoute , useRouter } from 'vue-router';
-import { changeDateTimeFormat } from '../composable/changeFormatDate';
-import { annStores } from '../stores/counter.js'
-import Calendar from './icones/Calendar.vue';
+import { changeDateTimeFormat } from '../../composable/changeFormatDate';
+import { annStores } from '../../stores/counter.js'
+import Calendar from '../icones/Calendar.vue';
 const announcementStores = annStores()
 const showCloseTime = ref(false)
 const setShowCloseTime = () => {

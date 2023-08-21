@@ -1,10 +1,10 @@
 <script setup>
-import { getAnnouncement } from '../composable/getInformation.js'
+import { getAnnouncement } from '../../composable/announcements/getInformation.js'
 import { ref, onMounted} from "vue"
-import {changeDateTimeFormat} from "../composable/changeFormatDate.js"
+import {changeDateTimeFormat} from "../../composable/changeFormatDate.js"
 import { useRoute , useRouter } from 'vue-router';
-import Calendar from './icones/Calendar.vue';
-import EditIcon from './icones/EditIcon.vue';
+import Calendar from '../icones/Calendar.vue';
+import EditIcon from '../icones/EditIcon.vue';
 
 const announcement = ref({})
 const router = useRouter()
