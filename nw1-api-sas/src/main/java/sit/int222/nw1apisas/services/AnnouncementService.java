@@ -91,7 +91,6 @@ public class AnnouncementService {
 
     public Page<Announcement> getAnnouncementWithPagination(int page, int size, String mode, Integer categoryId) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        ZonedDateTime currentTime = ZonedDateTime.now();
         if (mode.equals("active")) {
             if (categoryId != null) {
                 return announcementRepository.findActiveAnnouncementByCategoryWithPagination(pageRequest, categoryId);
