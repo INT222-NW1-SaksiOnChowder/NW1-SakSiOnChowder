@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from "vue";
-import { createAnnouncement } from "../composable/addAnnouncement.js";
+import { createAnnouncement } from "../../composable/announcements/addAnnouncement.js";
 import { useRouter } from "vue-router";
 
 const router = useRouter();

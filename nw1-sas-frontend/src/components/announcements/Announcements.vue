@@ -1,11 +1,11 @@
 <script setup>
-import { getAnnouncements } from "../composable/getInformation.js";
+import { getAnnouncements } from "../../composable/announcements/getInformation.js";
 import { ref, onMounted, onUpdated } from "vue";
-import { changeDateTimeFormat } from "../composable/changeFormatDate.js";
-import { deleteAcc } from "../composable/deleteAnnouncement.js";
+import { changeDateTimeFormat } from "../../composable/changeFormatDate.js";
+import { deleteAcc } from "../../composable/announcements/deleteAnnouncement.js";
 import { useRouter } from "vue-router";
-import TimeZone from "../components/icones/TimeZone.vue";
-import AddIcon from "./icones/AddIcon.vue";
+import TimeZone from "../icones/TimeZone.vue";
+import AddIcon from "../icones/AddIcon.vue";
 
 const router = useRouter();
 const announcements = ref([]);

@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Announcements from '../components/Announcements.vue'
-import AnnouncementDetail from '../components/AnnouncementDetail.vue'
-import AddAnnouncement from '../components/AddAnnouncement.vue'
-import EditAnnouncement from '../components/EditAnnouncement.vue'
-import UserViewAnnouncement from '../components/UserViewAnnouncement.vue'
-import UserViewDetail from '../components/UserViewDetail.vue'
-import UserManagement from '../components/UserManagement.vue'
-import UserEditDetail from '../components/UserEditDetail.vue'
-import AddUser from '../components/AddUser.vue'
+import Announcements from '../components/announcements/Announcements.vue'
+import AnnouncementDetail from '../components/announcements/AnnouncementDetail.vue'
+import AddAnnouncement from '../components/announcements/AddAnnouncement.vue'
+import EditAnnouncement from '../components/announcements/EditAnnouncement.vue'
+import UserViewAnnouncement from '../components/users/UserViewAnnouncement.vue'
+import UserViewDetail from '../components/users/UserViewDetail.vue'
+import UserManagement from '../components/users/UserManagement.vue'
+import UserEditDetail from '../components/users/UserEditDetail.vue'
+import AddUser from '../components/users/AddUser.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes:

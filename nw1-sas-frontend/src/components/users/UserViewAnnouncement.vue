@@ -1,11 +1,11 @@
 <script setup>
-import { getAnnouncementsUser, getAnnouncementUser } from "../composable/getAnnouncementUser.js"
+import { getAnnouncementsUser, getAnnouncementUser } from "../../composable/users/getAnnouncementUser.js"
 import { ref, onMounted, onUpdated, computed } from "vue"
-import { changeDateTimeFormat } from "../composable/changeFormatDate.js"
-import { annStores } from '../stores/counter.js'
-import TimeZone from '../components/icones/TimeZone.vue'
-import CloseIcon from "./icones/CloseIcon.vue"
-import ActiveIcon from "./icones/ActiveIcon.vue"
+import { changeDateTimeFormat } from "../../composable/changeFormatDate.js"
+import { annStores } from '../../stores/counter.js'
+import TimeZone from '../icones/TimeZone.vue'
+import CloseIcon from "../icones/CloseIcon.vue"
+import ActiveIcon from "../icones/ActiveIcon.vue"
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const announcementStores = annStores()
