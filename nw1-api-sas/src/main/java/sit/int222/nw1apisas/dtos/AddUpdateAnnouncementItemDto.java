@@ -21,9 +21,11 @@ public class AddUpdateAnnouncementItemDto {
     private ZonedDateTime closeDate;
     private AnnouncementDisplay announcementDisplay;
     private CategoryDto categoryId;
-    public Integer getCategoryId(){
+
+    public Integer getCategoryId() {
         return categoryId.getCategoryId();
     }
+
     public String getAnnouncementCategory() {
         return categoryId.getCategoryName();
     }

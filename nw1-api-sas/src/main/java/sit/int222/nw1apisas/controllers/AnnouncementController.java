@@ -8,10 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import sit.int222.nw1apisas.dtos.*;
 import sit.int222.nw1apisas.entities.Announcement;
-
 import sit.int222.nw1apisas.services.AnnouncementService;
 import sit.int222.nw1apisas.utils.ListMapper;
-
 
 import java.util.List;
 
@@ -29,7 +27,7 @@ public class AnnouncementController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public AddUpdateAnnouncementItemDto createAnnouncement(@RequestBody @Valid AnnouncementItemDto announcementItemDto){
+    public AddUpdateAnnouncementItemDto createAnnouncement(@RequestBody @Valid AnnouncementItemDto announcementItemDto) {
         Announcement createAnnouncement = announcementService.createAnnouncement(announcementItemDto);
         return modelMapper.map(createAnnouncement, AddUpdateAnnouncementItemDto.class);
 
@@ -37,25 +35,25 @@ public class AnnouncementController {
 
 
     @DeleteMapping("/{id}")
-    public String deleteAnnouncement(@PathVariable Integer id){
-            announcementService.deleteAnnouncement(id);
-            return "Delete id "+ id + " successfully.";
+    public String deleteAnnouncement(@PathVariable Integer id) {
+        announcementService.deleteAnnouncement(id);
+        return "Delete id " + id + " successfully.";
     }
 
     @PutMapping("/{id}")
-    public AddUpdateAnnouncementItemDto updateAnnouncement(@RequestBody @Valid AnnouncementItemDto newAnnouncement, @PathVariable Integer id){
+    public AddUpdateAnnouncementItemDto updateAnnouncement(@RequestBody @Valid AnnouncementItemDto newAnnouncement, @PathVariable Integer id) {
         Announcement updateAnnouncement = announcementService.updateAnnouncement(newAnnouncement, id);
         return modelMapper.map(updateAnnouncement, AddUpdateAnnouncementItemDto.class);
     }
 
     @GetMapping("")
-    public List<?> getAllAnnouncements(@RequestParam(defaultValue = "admin") String mode){
+    public List<?> getAllAnnouncements(@RequestParam(defaultValue = "admin") String mode) {
         List<Announcement> announcements = announcementService.getAllAnnouncements(mode);
-        if(mode.equals("active")){
+        if (mode.equals("active")) {
             return listMapper.mapList(announcements, ActiveAnnouncementDto.class, modelMapper);
-        }else if(mode.equals("close")){
+        } else if (mode.equals("close")) {
             return listMapper.mapList(announcements, CloseAnnouncementDto.class, modelMapper);
-        }else{
+        } else {
             return listMapper.mapList(announcements, AnnouncementDto.class, modelMapper);
         }
     }
@@ -65,12 +63,12 @@ public class AnnouncementController {
     public Object getDetailsById(@PathVariable Integer id,
                                  @RequestParam(defaultValue = "admin") String mode,
                                  @RequestParam(defaultValue = "false", required = false) Boolean count) {
-        Announcement announcements = announcementService.getDetailsById(id,count);
-        if(mode.equals("active")){
+        Announcement announcements = announcementService.getDetailsById(id, count);
+        if (mode.equals("active")) {
             return modelMapper.map(announcements, ActiveAnnouncementDetailDto.class);
-        }else if(mode.equals("close")){
+        } else if (mode.equals("close")) {
             return modelMapper.map(announcements, CloseAnnouncementDetailDto.class);
-        }else{
+        } else {
             return modelMapper.map(announcements, AnnouncementDetailDto.class);
         }
     }
@@ -80,7 +78,7 @@ public class AnnouncementController {
     public PageDto<?> getAnnouncementWithPagination(@RequestParam(defaultValue = "0") int page,
                                                     @RequestParam(defaultValue = "5") int size,
                                                     @RequestParam(defaultValue = "active") String mode,
-                                                    @RequestParam(required = false) Integer category){
+                                                    @RequestParam(required = false) Integer category) {
         Page<Announcement> announcementList = announcementService.getAnnouncementWithPagination(page, size, mode, category);
         return listMapper.toPageDTO(announcementList, AnnouncementDto.class, modelMapper);
     }

@@ -7,7 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import sit.int222.nw1apisas.dtos.AnnouncementItemDto;
 import sit.int222.nw1apisas.entities.Announcement;
-import sit.int222.nw1apisas.enums.AnnouncementDisplay;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.repositories.AnnouncementRepository;
 
@@ -59,24 +58,20 @@ public class AnnouncementService {
     }
 
     public List<Announcement> getAllAnnouncements(String mode) {
-        ZonedDateTime currentTime = ZonedDateTime.now();
-        AnnouncementDisplay announcementDisplay = AnnouncementDisplay.Y;
         if (mode.equals("active")) {
-            List<Announcement> announcements = announcementRepository.findActiveAnnouncement(announcementDisplay, currentTime);
-//            List<Announcement> announcements = announcementRepository.findActiveAnnouncement(currentTime);
+            List<Announcement> announcements = announcementRepository.findActiveAnnouncement();
             if (announcements == null || announcements.size() == 0) {
                 throw new ItemNotFoundException("No announcement.");
             }
             return announcements;
         } else if (mode.equals("close")) {
-            List<Announcement> announcements = announcementRepository.findCloseAnnouncement(announcementDisplay, currentTime);
-//            List<Announcement> announcements = announcementRepository.findCloseAnnouncement(currentTime);
+            List<Announcement> announcements = announcementRepository.findCloseAnnouncement();
             if (announcements == null || announcements.size() == 0) {
                 throw new ItemNotFoundException("No announcement.");
             }
             return announcements;
         } else if (mode.equals("admin")) {
-            return announcementRepository.findAllAnnouncementsByIdDesc();
+            return announcementRepository.findAllByOrderByIdDesc();
         } else {
             throw new ItemNotFoundException("Can't find a mode");
         }
@@ -95,23 +90,18 @@ public class AnnouncementService {
     }
 
     public Page<Announcement> getAnnouncementWithPagination(int page, int size, String mode, Integer categoryId) {
-        AnnouncementDisplay announcementDisplayShow = AnnouncementDisplay.Y;
         PageRequest pageRequest = PageRequest.of(page, size);
         ZonedDateTime currentTime = ZonedDateTime.now();
         if (mode.equals("active")) {
             if (categoryId != null) {
-                return announcementRepository.findActiveAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
-//                return announcementRepository.findActiveAnnouncementByCategoryWithPagination(currentTime, pageRequest, categoryId);
+                return announcementRepository.findActiveAnnouncementByCategoryWithPagination(pageRequest, categoryId);
             }
-            return announcementRepository.findActiveAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
-//            return announcementRepository.findActiveAnnouncementWithPagination(currentTime, pageRequest);
+            return announcementRepository.findActiveAnnouncementWithPagination(pageRequest);
         } else if (mode.equals("close")) {
             if (categoryId != null) {
-                return announcementRepository.findCloseAnnouncementByCategoryWithPagination(announcementDisplayShow, currentTime, pageRequest, categoryId);
-//                return announcementRepository.findCloseAnnouncementByCategoryWithPagination(currentTime, pageRequest, categoryId);
+                return announcementRepository.findCloseAnnouncementByCategoryWithPagination(pageRequest, categoryId);
             }
-            return announcementRepository.findCloseAnnouncementWithPagination(announcementDisplayShow, currentTime, pageRequest);
-//            return announcementRepository.findCloseAnnouncementWithPagination(currentTime, pageRequest);
+            return announcementRepository.findCloseAnnouncementWithPagination(pageRequest);
         }
         return Page.empty(pageRequest);
     }

@@ -1,13 +1,11 @@
 package sit.int222.nw1apisas.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import sit.int222.nw1apisas.dtos.CreateUpdateUserDto;
 import sit.int222.nw1apisas.entities.User;
-import sit.int222.nw1apisas.enums.Role;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.repositories.UserRepository;
 
@@ -19,7 +17,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public List<User> getAllOfUsers() {
-        return userRepository.findAllUserByRoleAscAndUsernameAsc();
+        return userRepository.findAllByOrderByRoleAscUsernameAsc();
     }
 
     public User createUser(CreateUpdateUserDto newUser) {
@@ -38,12 +36,10 @@ public class UserService {
     public User updateUser(CreateUpdateUserDto newUser, Integer id) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException("The user is not found."));
-
         existingUser.setUsername(newUser.getUsername().trim());
         existingUser.setName(newUser.getName().trim());
         existingUser.setEmail(newUser.getEmail().trim());
         existingUser.setRole(newUser.getRole());
-
         return userRepository.saveAndFlush(existingUser);
     }
 
