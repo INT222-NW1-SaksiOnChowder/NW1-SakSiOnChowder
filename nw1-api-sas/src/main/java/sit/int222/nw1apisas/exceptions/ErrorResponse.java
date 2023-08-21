@@ -2,7 +2,9 @@ package sit.int222.nw1apisas.exceptions;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +28,8 @@ public class ErrorResponse {
         private final String errorMessage;
     }
 
-    public void addValidationError(String field, String errorMessage){
-        if(Objects.isNull(detail)){
+    public void addValidationError(String field, String errorMessage) {
+        if (Objects.isNull(detail)) {
             detail = new ArrayList<>();
         }
         detail.add(new ValidationError(field, errorMessage));

@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-
 import sit.int222.nw1apisas.enums.AnnouncementDisplay;
 import sit.int222.nw1apisas.validations.ValidateCategoryId;
 import sit.int222.nw1apisas.validations.closeDate;
@@ -38,6 +36,4 @@ public class AnnouncementItemDto {
     @NotNull(message = "must not be null")
     @ValidateCategoryId
     private Integer categoryId;
-
-
 }

@@ -12,10 +12,10 @@ public class CategoryIdValidator implements ConstraintValidator<ValidateCategory
 
     @Override
     public boolean isValid(Integer categoryId, ConstraintValidatorContext context) {
-        if(categoryId == null){
+        if (categoryId == null) {
             return true;
-        }else {
-           return categoryRepository.existsById(categoryId);
+        } else {
+            return categoryRepository.existsById(categoryId);
         }
     }
 }

@@ -33,5 +33,4 @@ public class User {
     @UpdateTimestamp
     private ZonedDateTime updatedOn;
 
-
 }

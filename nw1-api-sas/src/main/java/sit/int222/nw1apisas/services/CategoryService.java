@@ -15,18 +15,18 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public Category getCategoryById(Integer categoryId) {
-        if(categoryId == null || !(categoryId instanceof Integer)){
+        if (categoryId == null || !(categoryId instanceof Integer)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid categoryId");
         }
-        return categoryRepository.findById(categoryId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category id" + categoryId + "does not exist"));
+        return categoryRepository.findById(categoryId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category id" + categoryId + "does not exist"));
     }
 
-    public List<Category> getAllCategories(){
+    public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
-    public Category createNewCategory(Category category){
-        if(category.getCategoryName() == null || category.getCategoryName().trim() == "" || category.getCategoryName().length() > 50){
+    public Category createNewCategory(Category category) {
+        if (category.getCategoryName() == null || category.getCategoryName().trim() == "" || category.getCategoryName().length() > 50) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please enter a category name that must less than or equal 50 characters");
         }
         Category newCategory = new Category();

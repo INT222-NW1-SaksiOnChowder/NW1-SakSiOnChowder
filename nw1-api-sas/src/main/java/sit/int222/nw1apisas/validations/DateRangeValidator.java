@@ -8,9 +8,9 @@ public class DateRangeValidator implements ConstraintValidator<closeDate, Announ
 
     @Override
     public boolean isValid(AnnouncementItemDto dto, ConstraintValidatorContext context) {
-        if (dto.getCloseDate()==null||dto.getPublishDate()==null){
+        if (dto.getCloseDate() == null || dto.getPublishDate() == null) {
             return true;
-        }else{
+        } else {
             return dto.getPublishDate().isBefore(dto.getCloseDate());
         }
     }
