@@ -87,22 +87,22 @@ const deleteUserById = async (id) => {
                             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
                                 {{ ++index }}
                             </th>
-                            <td class="ann-title px-6 py-4 w-1/6 break-all">
+                            <td class="ann-username px-6 py-4 w-1/6 break-all">
                                 {{ user.username }}
                             </td>
-                            <td class="ann-category px-6 py-4">
+                            <td class="ann-name px-6 py-4">
                                 {{ user.name }}
                             </td>
-                            <td class="ann-publish-date px-6 py-4">
+                            <td class="ann-email px-6 py-4">
                                 {{ user.email }}
                             </td>
-                            <td class="ann-close-date px-6 py-4">
+                            <td class="ann-role px-6 py-4">
                                 {{ user.role }}
                             </td>
-                            <td class="ann-display px-6 py-4 text-center justify-items-center">
+                            <td class="ann-created-on px-6 py-4 text-center justify-items-center">
                                 {{ changeDateTimeFormat(user.createdOn) }}
                             </td>
-                            <td class="ann-display px-6 py-4 text-center justify-items-center">
+                            <td class="ann-updated-on px-6 py-4 text-center justify-items-center">
                                 {{ changeDateTimeFormat(user.updatedOn) }}
                             </td>
                             <td class="px-6 py-4 text-center">

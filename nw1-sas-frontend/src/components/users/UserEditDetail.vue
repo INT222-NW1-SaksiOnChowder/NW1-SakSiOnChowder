@@ -16,13 +16,12 @@ onMounted(async () => {
 })
 
 const checkUserChange = computed(() => {
-    if (userObj.value.username === oldUserData.value.username &&
-        userObj.value.name === oldUserData.value.name &&
-        userObj.value.email === oldUserData.value.email &&
-        userObj.value.role === oldUserData.value.role) {
+    if ((userObj.value.username === oldUserData.value.username || userObj.value.username === "") &&
+    (userObj.value.name === oldUserData.value.name || userObj.value.name === "") &&
+    (userObj.value.email === oldUserData.value.email || userObj.value.email === "") &&
+    (userObj.value.role === oldUserData.value.role)) {
         return true
-
-    } else {
+    }else{
         return false
     }
 })
@@ -47,31 +46,31 @@ const save = async (user) => {
                 <div class="bg-LightBlue rounded-2xl py-9 px-28">
                     <div class="my-5">
                         <label class="font-bold">Username</label><br>
-                        <input maxlength="200" class="ann-title bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input maxlength="200" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.username">
                     </div>
                     <div class="my-5">
                         <label class="font-bold">Name</label><br>
-                        <input maxlength="200" class="ann-title bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input maxlength="200" class="ann-name bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.name">
                     </div>
                     <div class="my-5">
                         <label class="font-bold">Email</label><br>
-                        <input maxlength="200" class="ann-title bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input maxlength="200" class="ann-email bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.email">
                     </div>
                     <div class="my-5">
                         <label class="font-bold">Role</label><br>
-                        <select class="ann-category drop-shadow-md bg-InputColor h-8 w-2/5 rounded-lg"
+                        <select class="ann-role drop-shadow-md bg-InputColor h-8 w-2/5 rounded-lg"
                             v-model="userObj.role">
                             <option value="admin">admin</option>
                             <option value="announcer">announcer</option>
                         </select>
                     </div>
                     <div class="my-5 flex w-3/4 justify-between">
-                        <p class="font-bold">Created On: <span class="font-normal">{{
+                        <p class="font-bold">Created On: <span class="font-normal ann-created-on">{{
                             changeDateTimeFormat(userObj.createdOn) }}</span></p>
-                        <p class="font-bold">Updated On: <span class="font-normal">{{
+                        <p class="font-bold">Updated On: <span class="font-normal ann-updated-on">{{
                             changeDateTimeFormat(userObj.updatedOn) }}</span></p>
                     </div>
 

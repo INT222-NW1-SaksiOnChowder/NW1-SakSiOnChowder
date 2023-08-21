@@ -34,22 +34,22 @@ const save = async (user) => {
                 <div class="bg-LightBlue rounded-2xl py-9 px-28">
                     <div class="my-5">
                         <label class="font-bold">Username</label><br>
-                        <input maxlength="200" class="ann-title bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input maxlength="200" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.username">
                     </div>
                     <div class="my-5">
                         <label class="font-bold">Name</label><br>
-                        <input maxlength="200" class="ann-title bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input maxlength="200" class="ann-name bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.name">
                     </div>
                     <div class="my-5">
                         <label class="font-bold">Email</label><br>
-                        <input maxlength="200" class="ann-title bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input maxlength="200" class="ann-email bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.email">
                     </div>
                     <div class="my-5">
                         <label class="font-bold">Role</label><br>
-                        <select class="ann-category drop-shadow-md bg-InputColor h-8 w-2/5 rounded-lg"
+                        <select class="ann-role drop-shadow-md bg-InputColor h-8 w-2/5 rounded-lg"
                             v-model="userObj.role">
                             <option value="admin">admin</option>
                             <option value="announcer">announcer</option>
