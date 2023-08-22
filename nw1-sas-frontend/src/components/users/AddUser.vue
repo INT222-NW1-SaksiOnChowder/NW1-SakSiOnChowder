@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { createUser } from "../../composable/users/addUser.js";
 import { useRouter } from "vue-router";
-import Menubar from "../navbar.vue"
+import Menubar from "../Navbar.vue"
 
 const router = useRouter();
 

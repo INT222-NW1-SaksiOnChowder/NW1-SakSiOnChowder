@@ -4,7 +4,7 @@ import { ref, onMounted, computed } from "vue";
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js";
 import { useRouter, useRoute } from "vue-router";
 import { updateUser } from "../../composable/users/editUser.js"
-import Menubar from "../navbar.vue"
+import Menubar from "../Navbar.vue"
 const router = useRouter()
 const userObj = ref({})
 const oldUserData = ref({})
