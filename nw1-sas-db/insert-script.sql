@@ -1,10 +1,12 @@
 use SAS;
 
+truncate Categories;
 insert into Categories values ();
 insert into Categories(categoryName) values ("ทุนการศึกษา");
 insert into Categories(categoryName) values ("หางาน");
 insert into Categories(categoryName) values ("ฝึกงาน");
 
+truncate Announcements;
 insert into Announcements (announcementTitle,announcementDescription, categoryId, publishDate, closeDate, announcementDisplay) values 
 ('(PBI10) Title 0','(PBI10) Description 0',1,'2023-05-01 06:00:00+07:00','2023-12-31 18:00:00+07:00','Y'),
 ('(PBI10) Title 1','(PBI10) Description 1',1,'2023-05-01 06:00:00+07:00','2023-12-31 18:00:00+07:00','Y'),
@@ -71,14 +73,7 @@ insert into Announcements (announcementTitle,announcementDescription, categoryId
 ('(PBI10) Title 63','(PBI10) Description 63',3,null,'2023-05-01 18:00:00+07:00','N');
 
 truncate Users;
-insert into Users(username,name,email,role) values("sanit","Sanit Sirisawatvatana","sanit.sir@kmutt.ac.th","admin");
-insert into Users(username,name,email,role) values("pornthip","Pornthip Sirijutikul","pornthip.sri@kmutt.ac.th","announcer");
-insert into Users(username,name,email,role) values("jaruwan_w","Jaruwan Maneesart","jaruwan.wee@kmutt.ac.th","announcer");
-insert into Users(username,name,email,role) values("vichchuda","Vichchuda Tedoloh","vichchuda.ted@kmutt.ac.th","announcer");
-
 insert into Users(username,name,email,role,createdOn,updatedOn) values("sanit","Sanit Sirisawatvatana","sanit.sir@kmutt.ac.th","admin","2023-08-15 08:00:00+07:00","2023-08-15 08:00:00+07:00");
 insert into Users(username,name,email,role,createdOn,updatedOn) values("pornthip","Pornthip Sirijutikul","pornthip.sri@kmutt.ac.th","announcer","2023-08-15 09:30:00+07:00","2023-08-15 09:30:00+07:00");
 insert into Users(username,name,email,role,createdOn,updatedOn) values("jaruwan_w","Jaruwan Maneesart","jaruwan.wee@kmutt.ac.th","announcer","2023-08-16 08:00:00+07:00","2023-08-16 08:00:00+07:00");
 insert into Users(username,name,email,role,createdOn,updatedOn) values("vichchuda","Vichchuda Tedoloh","vichchuda.ted@kmutt.ac.th","announcer","2023-08-16 09:30:00+07:00","2023-08-16 09:30:00+07:00");
-
-select * from Users;
