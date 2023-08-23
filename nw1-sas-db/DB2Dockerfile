@@ -4,4 +4,4 @@ ENV MYSQL_ROOT_PASSWORD nw1@chowder
 ENV MYSQL_USER chowder1
 ENV MYSQL_PASSWORD nw1@chowder
 ENV MYSQL_DATABASE SAS
-ADD create-script.sql /docker-entrypoint-initdb.d
+ADD new-create-script.sql /docker-entrypoint-initdb.d

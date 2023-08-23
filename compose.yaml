@@ -1,0 +1,43 @@
+services:
+  front:
+    image: front1
+    build: 
+      context: ./nw1-sas-frontend/
+      dockerfile: FrontDockerfile
+    ports:
+      - "80:80"
+
+  back:
+    image: openjdk:17-jdk-alpine
+    working_dir: /app
+    command: sh -c "java -jar *.jar"
+    ports:
+      - "8080:8080"
+    restart: on-failure
+    depends_on: 
+      - dbserver
+    volumes:
+      - ./nw1-api-sas/target:/app
+    environment:
+      - mysql_user=chowder1
+      - mysql_password=nw1@chowder
+      - mysql_url=dbserver
+    networks:
+      - dbnet
+
+  dbserver:
+    image: mysql:8.0.33
+    volumes:
+    #  - ./nw1-sas-db:/docker-entrypoint-initdb.d
+      - ./database:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=nw1@chowder
+      - MYSQL_USER=chowder1
+      - MYSQL_PASSWORD=nw1@chowder
+      - MYSQL_DATABASE=SAS
+      - LANG="en_US.UTF-8"
+    networks:
+      - dbnet
+   # restart: on-failure
+networks:
+  dbnet:
