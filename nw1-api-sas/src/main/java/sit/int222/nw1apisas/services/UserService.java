@@ -1,5 +1,6 @@
 package sit.int222.nw1apisas.services;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,6 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-
     public List<User> getAllOfUsers() {
         return userRepository.findAllByOrderByRoleAscUsernameAsc();
     }
@@ -25,8 +25,10 @@ public class UserService {
         user.setUsername(newUser.getUsername().trim());
         user.setName(newUser.getName().trim());
         user.setEmail(newUser.getEmail().trim());
-        user.setRole(newUser.getRole());
-        return userRepository.saveAndFlush(user);
+        user.setRole(newUser.getRole().trim());
+        userRepository.save(user);
+        userRepository.refresh(user);
+        return user;
     }
 
     public User getUserById(Integer id) {
@@ -39,8 +41,10 @@ public class UserService {
         existingUser.setUsername(newUser.getUsername().trim());
         existingUser.setName(newUser.getName().trim());
         existingUser.setEmail(newUser.getEmail().trim());
-        existingUser.setRole(newUser.getRole());
-        return userRepository.saveAndFlush(existingUser);
+        existingUser.setRole(newUser.getRole().trim());
+        userRepository.save(existingUser);
+        userRepository.refresh(existingUser);
+        return existingUser;
     }
 
     public void deleteUser(Integer id) {
