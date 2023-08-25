@@ -3,9 +3,6 @@ package sit.int222.nw1apisas.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import sit.int222.nw1apisas.enums.Role;
 
 import java.time.ZonedDateTime;
 
@@ -24,13 +21,11 @@ public class User {
     private String name;
     @Column(name = "email", nullable = false, length = 150)
     private String email;
-    @Enumerated(EnumType.STRING)
-    private Role role;
-    @Column(name = "createdOn", nullable = false)
-    @CreationTimestamp
+    private String role;
+    @Column(name = "createdOn", nullable = false, insertable = false, updatable = false)
     private ZonedDateTime createdOn;
-    @Column(name = "updatedOn", nullable = false)
-    @UpdateTimestamp
+    @Column(name = "updatedOn", nullable = false, insertable = false, updatable = false)
     private ZonedDateTime updatedOn;
+
 
 }
