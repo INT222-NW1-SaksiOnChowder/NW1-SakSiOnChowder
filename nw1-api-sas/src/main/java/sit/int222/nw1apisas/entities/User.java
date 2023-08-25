@@ -24,7 +24,7 @@ public class User {
     private String role;
     @Column(name = "createdOn", nullable = false, insertable = false, updatable = false)
     private ZonedDateTime createdOn;
-    @Column(name = "updatedOn", nullable = false, insertable = false)
+    @Column(name = "updatedOn", nullable = false, insertable = false, updatable = false)
     private ZonedDateTime updatedOn;
 
 
