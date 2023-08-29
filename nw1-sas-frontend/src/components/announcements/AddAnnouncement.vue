@@ -12,6 +12,7 @@ const selectedPublishDate = ref();
 const selectedPublishTime = ref();
 const selectedCloseDate = ref();
 const selectedCloseTime = ref();
+const nowDate = ref(new Date())
 
 announcementObj.value = {
   announcementTitle: "",
@@ -46,7 +47,7 @@ const submit = async (addAnnouncement) => {
   }
 
   if (!announcementObj.announcementTitle || !announcementObj.announcementDescription || !announcementObj.categoryId || announcementObj.categoryName 
-    // || announcementObj.publishDate < announcementObj.closeDate || announcementObj.publishDate < nowDate.value || announcementObj.closeDate < nowDate.value
+    || announcementObj.publishDate < announcementObj.closeDate || announcementObj.publishDate < nowDate.value || announcementObj.closeDate < nowDate.value
     ) 
     {
         await createAnnouncement(addAnnouncement)  
