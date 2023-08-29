@@ -45,16 +45,15 @@ const submit = async (addAnnouncement) => {
     addAnnouncement.closeDate = null;
   }
 
-  if (
-    !addAnnouncement.announcementTitle ||
-    !addAnnouncement.announcementDescription ||
-    !addAnnouncement.categoryId 
-  ) {
-    await createAnnouncement(addAnnouncement);
-  } else {
-    await createAnnouncement(addAnnouncement);
-    router.push({ name: "announcements" });
-  }
+  if (!announcementObj.announcementTitle || !announcementObj.announcementDescription || !announcementObj.categoryId || announcementObj.categoryName 
+    // || announcementObj.publishDate < announcementObj.closeDate || announcementObj.publishDate < nowDate.value || announcementObj.closeDate < nowDate.value
+    ) 
+    {
+        await createAnnouncement(addAnnouncement)  
+    }   else {
+        await createAnnouncement(addAnnouncement)  
+        router.push({ name: 'announcements' })
+    }
 };
 
 const isDisabledPublishTime = computed(() => {
