@@ -1,4 +1,4 @@
-package sit.int222.nw1apisas.validations;
+package sit.int222.nw1apisas.validations.users;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -6,11 +6,11 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = CategoryIdValidator.class)
+@Constraint(validatedBy = NameFieldValidator.class)
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidateCategoryId {
-    String message() default "does not exists";
+public @interface IsNameFieldUnique {
+    String message() default "name has already exists";
 
     Class<?>[] groups() default {};
 

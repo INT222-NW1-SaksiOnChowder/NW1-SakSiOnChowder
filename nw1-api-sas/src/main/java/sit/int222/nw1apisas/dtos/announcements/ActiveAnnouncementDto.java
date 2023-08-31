@@ -1,23 +1,20 @@
-package sit.int222.nw1apisas.dtos;
+package sit.int222.nw1apisas.dtos.announcements;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.ZonedDateTime;
+import sit.int222.nw1apisas.dtos.categories.CategoryDto;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class CloseAnnouncementDto {
+public class ActiveAnnouncementDto {
     private Integer id;
     private String announcementTitle;
-
-    private ZonedDateTime closeDate;
 
     @JsonIgnore
     private CategoryDto categoryId;

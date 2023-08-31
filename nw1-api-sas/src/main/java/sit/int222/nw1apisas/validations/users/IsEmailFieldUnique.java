@@ -1,4 +1,4 @@
-package sit.int222.nw1apisas.validations;
+package sit.int222.nw1apisas.validations.users;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -6,11 +6,11 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = DateRangeValidator.class)
-@Target({ElementType.TYPE})
+@Constraint(validatedBy = EmailFieldValidator.class)
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface closeDate {
-    String message() default "must be later than publish date";
+public @interface IsEmailFieldUnique {
+    String message() default "email has already exists";
 
     Class<?>[] groups() default {};
 

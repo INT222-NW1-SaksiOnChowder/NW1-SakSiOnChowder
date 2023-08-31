@@ -1,4 +1,4 @@
-package sit.int222.nw1apisas.dtos;
+package sit.int222.nw1apisas.dtos.categories;
 
 import lombok.Getter;
 import lombok.Setter;

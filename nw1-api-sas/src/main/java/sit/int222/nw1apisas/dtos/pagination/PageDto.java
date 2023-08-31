@@ -1,4 +1,4 @@
-package sit.int222.nw1apisas.dtos;
+package sit.int222.nw1apisas.dtos.pagination;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

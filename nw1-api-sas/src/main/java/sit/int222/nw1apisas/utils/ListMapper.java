@@ -2,7 +2,7 @@ package sit.int222.nw1apisas.utils;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import sit.int222.nw1apisas.dtos.PageDto;
+import sit.int222.nw1apisas.dtos.pagination.PageDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
