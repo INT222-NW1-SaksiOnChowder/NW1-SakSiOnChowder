@@ -1,10 +1,11 @@
-package sit.int222.nw1apisas.dtos;
+package sit.int222.nw1apisas.dtos.announcements;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sit.int222.nw1apisas.dtos.categories.CategoryDto;
 
 @Getter
 @Setter

@@ -1,4 +1,4 @@
-package sit.int222.nw1apisas.dtos;
+package sit.int222.nw1apisas.dtos.announcements;
 
 
 import jakarta.validation.constraints.*;
@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sit.int222.nw1apisas.enums.AnnouncementDisplay;
-import sit.int222.nw1apisas.validations.ValidateCategoryId;
-import sit.int222.nw1apisas.validations.closeDate;
+import sit.int222.nw1apisas.validations.announcements.ValidateCategoryId;
+import sit.int222.nw1apisas.validations.announcements.closeDate;
 
 import java.time.ZonedDateTime;
 

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import sit.int222.nw1apisas.dtos.CreateUpdateUserDto;
+import sit.int222.nw1apisas.dtos.users.CreateUpdateUserDto;
 import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.repositories.UserRepository;

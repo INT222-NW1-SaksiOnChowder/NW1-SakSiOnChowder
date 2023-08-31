@@ -1,4 +1,4 @@
-package sit.int222.nw1apisas.repositories;
+package sit.int222.nw1apisas.repositories.customs;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;

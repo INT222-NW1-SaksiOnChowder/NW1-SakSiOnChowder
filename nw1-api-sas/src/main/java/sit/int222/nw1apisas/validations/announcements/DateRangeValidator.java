@@ -1,8 +1,8 @@
-package sit.int222.nw1apisas.validations;
+package sit.int222.nw1apisas.validations.announcements;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import sit.int222.nw1apisas.dtos.AnnouncementItemDto;
+import sit.int222.nw1apisas.dtos.announcements.AnnouncementItemDto;
 
 public class DateRangeValidator implements ConstraintValidator<closeDate, AnnouncementItemDto> {
 

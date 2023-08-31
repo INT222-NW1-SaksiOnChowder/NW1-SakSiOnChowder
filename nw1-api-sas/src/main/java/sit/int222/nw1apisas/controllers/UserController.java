@@ -1,9 +1,10 @@
 package sit.int222.nw1apisas.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import sit.int222.nw1apisas.dtos.CreateUpdateUserDto;
+import sit.int222.nw1apisas.dtos.users.CreateUpdateUserDto;
 import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.services.UserService;
 
@@ -23,7 +24,7 @@ public class UserController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public User createUser(@RequestBody CreateUpdateUserDto newUser) {
+    public User createUser(@RequestBody @Valid CreateUpdateUserDto newUser) {
         return userService.createUser(newUser);
     }
 
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@RequestBody CreateUpdateUserDto newUser, @PathVariable Integer id) {
+    public User updateUser(@RequestBody @Valid CreateUpdateUserDto newUser, @PathVariable Integer id) {
         return userService.updateUser(newUser, id);
     }
 
