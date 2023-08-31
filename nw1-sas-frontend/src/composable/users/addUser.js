@@ -12,9 +12,11 @@ const createUser = async(user) => {
             )
             if (res.status === 200) {
                 console.log('Create successfully')
-            }else if(res.status !== 200){
+            }else if(res.status === 400){
                 const error = await res.json()
-                alert(error.message)
+                for(let i = 0; i < error.detail.length; i++){
+                    alert(error.detail[i].errorMessage)
+                }
             }
         } catch (error) {
             console.log(`ERROR cannot create data: ${error}`);
