@@ -44,10 +44,8 @@ public class AnnouncementService {
     public Announcement updateAnnouncement(AnnouncementItemDto announcementItemDto, Integer id) {
         Announcement existingAnnouncement = announcementRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException("The announcement is not found."));
-
         existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
         existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
-
         existingAnnouncement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
         ZonedDateTime publishDate = announcementItemDto.getPublishDate();
         ZonedDateTime closeDate = announcementItemDto.getCloseDate();
@@ -84,9 +82,7 @@ public class AnnouncementService {
         if (count) {
             announcement.setViewCount(announcement.getViewCount() + 1);
         }
-
         return announcementRepository.saveAndFlush(announcement);
-
     }
 
     public Page<Announcement> getAnnouncementWithPagination(int page, int size, String mode, Integer categoryId) {

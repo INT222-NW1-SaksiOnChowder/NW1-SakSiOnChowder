@@ -4,7 +4,6 @@ package sit.int222.nw1apisas.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import sit.int222.nw1apisas.enums.AnnouncementDisplay;
 
 import java.time.ZonedDateTime;
 
@@ -28,8 +27,7 @@ public class Announcement {
     @Column(name = "closeDate", nullable = true)
     private ZonedDateTime closeDate;
 
-    @Enumerated(EnumType.STRING)
-    private AnnouncementDisplay announcementDisplay;
+    private String announcementDisplay;
 
     @Column(name = "viewCount", nullable = false)
     private Integer viewCount;

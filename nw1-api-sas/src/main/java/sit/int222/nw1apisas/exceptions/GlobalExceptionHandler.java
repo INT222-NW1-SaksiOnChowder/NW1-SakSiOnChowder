@@ -31,10 +31,7 @@ public class GlobalExceptionHandler {
                 }
                 errorResponse.addValidationError(fieldName, field.getDefaultMessage());
             }
-        } else if (ex instanceof HttpMessageNotReadableException) {
-            errorResponse.addValidationError("announcementDisplay", "must be either 'Y' or 'N'");
         }
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 

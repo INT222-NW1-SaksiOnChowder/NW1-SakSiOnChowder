@@ -28,11 +28,14 @@ public class CreateUpdateUserDto {
     @Size(max = 100, message = "name out of range")
     @IsNameFieldUnique
     private String name;
-    @NotNull(message = "email must not be null")
+    @NotNull(message = "email must not be null")    
     @NotEmpty(message = "email must not be empty")
-//  @Email cannot begin with "."
-    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", message = "email should have domain and cannot begin with '.'")
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", message = "user's email is invalid.")
     @IsEmailFieldUnique
     private String email;
     private String role;
+
 }
+
+
+
