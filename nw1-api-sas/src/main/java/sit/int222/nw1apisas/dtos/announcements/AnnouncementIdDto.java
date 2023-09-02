@@ -23,6 +23,7 @@ public class AnnouncementIdDto {
     private String announcementDisplay;
     @JsonIgnore
     private CategoryDto categoryId;
+
     public String getAnnouncementCategory() {
         return categoryId.getCategoryName();
     }

@@ -1,8 +1,6 @@
 package sit.int222.nw1apisas.dtos.announcements;
 
 
-import jakarta.persistence.Enumerated;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,10 +38,10 @@ public class AnnouncementItemDto {
     @ValidateCategoryId
     private Integer categoryId;
 
-    public String getAnnouncementDisplay(){
-        if(announcementDisplay==null){
-            return announcementDisplay="N";
-        }else{
+    public String getAnnouncementDisplay() {
+        if (announcementDisplay == null) {
+            return announcementDisplay = "N";
+        } else {
             return announcementDisplay;
         }
     }

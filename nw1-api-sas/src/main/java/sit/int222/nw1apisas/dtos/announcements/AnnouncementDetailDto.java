@@ -24,6 +24,7 @@ public class AnnouncementDetailDto {
     private Integer viewCount;
     @JsonIgnore
     private CategoryDto categoryId;
+
     public String getAnnouncementCategory() {
         return categoryId.getCategoryName();
     }

@@ -21,7 +21,7 @@ public class ActiveAnnouncementDetailDto {
     @JsonIgnore
     private CategoryDto categoryId;
 
-    public String getAnnouncementCategory(){
+    public String getAnnouncementCategory() {
         return categoryId.getCategoryName();
     }
 
