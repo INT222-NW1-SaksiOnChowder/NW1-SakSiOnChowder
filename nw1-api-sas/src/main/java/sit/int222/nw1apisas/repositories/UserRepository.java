@@ -15,5 +15,7 @@ public interface UserRepository extends CustomRepository<User, Integer> {
 
     Boolean existsUserByEmail(String email);
 
+    User findUserByUsername(String username);
+
 
 }

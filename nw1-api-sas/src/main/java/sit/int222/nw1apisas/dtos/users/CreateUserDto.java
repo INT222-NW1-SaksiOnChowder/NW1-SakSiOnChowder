@@ -17,12 +17,15 @@ import sit.int222.nw1apisas.validations.users.IsUsernameFieldUnique;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUpdateUserDto {
+public class CreateUserDto {
     @NotNull(message = "username must not be null")
     @NotEmpty(message = "username must not be empty")
     @Size(max = 45, message = "username out of range")
     @IsUsernameFieldUnique
     private String username;
+    @NotNull(message = "password must not be null")
+    @NotEmpty(message = "username must not be empty")
+    private String Password;
     @NotNull(message = "name must not be null")
     @NotEmpty(message = "name must not be empty")
     @Size(max = 100, message = "name out of range")
