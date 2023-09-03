@@ -17,7 +17,7 @@ import org.springframework.web.context.request.WebRequest;
 public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({MethodArgumentNotValidException.class, HttpMessageNotReadableException.class})
+    @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<ErrorResponse> handleValidationAndParsingExceptions(Exception ex, WebRequest request) {
         String title = "Announcement attributes validation failed";
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), title, request.getDescription(false));
