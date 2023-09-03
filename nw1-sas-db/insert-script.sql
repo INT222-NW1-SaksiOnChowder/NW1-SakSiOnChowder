@@ -73,7 +73,7 @@ insert into Announcements (announcementTitle,announcementDescription, categoryId
 ('(PBI10) Title 63','(PBI10) Description 63',3,null,'2023-05-01 18:00:00+07:00','N');
 
 truncate Users;
-insert into Users(username,name,email,role,createdOn,updatedOn) values("sanit","Sanit Sirisawatvatana","sanit.sir@kmutt.ac.th","admin","2023-08-15 08:00:00+07:00","2023-08-15 08:00:00+07:00");
-insert into Users(username,name,email,role,createdOn,updatedOn) values("pornthip","Pornthip Sirijutikul","pornthip.sri@kmutt.ac.th","announcer","2023-08-15 09:30:00+07:00","2023-08-15 09:30:00+07:00");
-insert into Users(username,name,email,role,createdOn,updatedOn) values("jaruwan_w","Jaruwan Maneesart","jaruwan.wee@kmutt.ac.th","announcer","2023-08-16 08:00:00+07:00","2023-08-16 08:00:00+07:00");
-insert into Users(username,name,email,role,createdOn,updatedOn) values("vichchuda","Vichchuda Tedoloh","vichchuda.ted@kmutt.ac.th","announcer","2023-08-16 09:30:00+07:00","2023-08-16 09:30:00+07:00");
+insert into Users(username,name,password,email,role,createdOn,updatedOn) values("sanit","Sanit Sirisawatvatana","$argon2i$v=19$m=16,t=2,p=1$anhYbWRWRk0xaGsxZ2xraw$qdwEK7GXBvAVln1ShDsY4Q","sanit.sir@kmutt.ac.th","admin","2023-08-15 08:00:00+07:00","2023-08-15 08:00:00+07:00");
+insert into Users(username,name,password,email,role,createdOn,updatedOn) values("pornthip","Pornthip Sirijutikul","$argon2i$v=19$m=16,t=2,p=1$anhYbWRWRk0xaGsxZ2xraw$+gHuWDY24OxK1ijvLOtFUA","pornthip.sri@kmutt.ac.th","announcer","2023-08-15 09:30:00+07:00","2023-08-15 09:30:00+07:00");
+insert into Users(username,name,password,email,role,createdOn,updatedOn) values("jaruwan_w","Jaruwan Maneesart","$argon2i$v=19$m=16,t=2,p=1$anhYbWRWRk0xaGsxZ2xraw$wqKiKe2aLKStSWdZe1zE6Q","jaruwan.wee@kmutt.ac.th","announcer","2023-08-16 08:00:00+07:00","2023-08-16 08:00:00+07:00");
+insert into Users(username,name,password,email,role,createdOn,updatedOn) values("vichchuda","Vichchuda Tedoloh","$argon2i$v=19$m=16,t=2,p=1$anhYbWRWRk0xaGsxZ2xraw$az/KmKppIrp1QzHAskTehA","vichchuda.ted@kmutt.ac.th","announcer","2023-08-16 09:30:00+07:00","2023-08-16 09:30:00+07:00");
