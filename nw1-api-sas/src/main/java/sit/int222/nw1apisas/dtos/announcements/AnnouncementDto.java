@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sit.int222.nw1apisas.dtos.categories.CategoryDto;
-import sit.int222.nw1apisas.enums.AnnouncementDisplay;
 
 import java.time.ZonedDateTime;
 
@@ -21,10 +20,11 @@ public class AnnouncementDto {
     private String announcementTitle;
     private ZonedDateTime publishDate;
     private ZonedDateTime closeDate;
-    private AnnouncementDisplay announcementDisplay;
+    private String announcementDisplay;
     @JsonIgnore
     private CategoryDto categoryId;
     private Integer viewCount;
+
     public String getAnnouncementCategory() {
         return categoryId.getCategoryName();
     }

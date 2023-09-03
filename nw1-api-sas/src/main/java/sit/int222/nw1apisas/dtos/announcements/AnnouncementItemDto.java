@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import sit.int222.nw1apisas.enums.AnnouncementDisplay;
+import sit.int222.nw1apisas.validations.announcements.ValidateAnnouncementDisplay;
 import sit.int222.nw1apisas.validations.announcements.ValidateCategoryId;
 import sit.int222.nw1apisas.validations.announcements.closeDate;
 
@@ -32,8 +32,18 @@ public class AnnouncementItemDto {
     private ZonedDateTime publishDate;
     @Future(message = "must be a future date")
     private ZonedDateTime closeDate;
-    private AnnouncementDisplay announcementDisplay;
+    @ValidateAnnouncementDisplay
+    private String announcementDisplay;
     @NotNull(message = "must not be null")
     @ValidateCategoryId
     private Integer categoryId;
+
+    public String getAnnouncementDisplay() {
+        if (announcementDisplay == null) {
+            return announcementDisplay = "N";
+        } else {
+            return announcementDisplay;
+        }
+    }
+
 }

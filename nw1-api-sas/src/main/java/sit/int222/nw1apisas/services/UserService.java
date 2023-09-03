@@ -16,6 +16,7 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
     public List<User> getAllOfUsers() {
         return userRepository.findAllByOrderByRoleAscUsernameAsc();
     }
@@ -38,10 +39,9 @@ public class UserService {
     public User updateUser(CreateUpdateUserDto newUser, Integer id) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException("The user is not found."));
-        existingUser.setUsername(newUser.getUsername().trim());
+        existingUser.setUsername(newUser.getUsername());
         existingUser.setName(newUser.getName().trim());
         existingUser.setEmail(newUser.getEmail().trim());
-        existingUser.setRole(newUser.getRole().trim());
         userRepository.save(existingUser);
         userRepository.refresh(existingUser);
         return existingUser;
@@ -55,5 +55,6 @@ public class UserService {
             userRepository.deleteById(id);
         }
     }
+
 
 }
