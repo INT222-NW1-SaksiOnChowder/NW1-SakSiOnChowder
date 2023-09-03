@@ -14,8 +14,8 @@ const createUser = async(user) => {
                 console.log('Create successfully')
             }else if(res.status === 400){
                 const error = await res.json()
-                for(let i = 0; i < error.detail.length; i++){
-                    alert(error.detail[i].errorMessage)
+                for(const err of error.detail){
+                    alert(err.errorMessage)
                 }
             }
         } catch (error) {
