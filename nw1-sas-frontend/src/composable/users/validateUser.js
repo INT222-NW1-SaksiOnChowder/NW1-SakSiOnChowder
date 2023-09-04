@@ -2,6 +2,9 @@ import { getUsers } from "./getUser.js";
 
 const validateUsernameNameEmail = (userObj, mode, listUser) => {
     const emailPattern = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/g
+    // const passwordPattern = /(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@#$%^&+=!])/g
+    const passwordPattern = /^(?!.*\s)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,14}$/;
+       
     const user = {
         boolean: false,
         message: ""
@@ -66,6 +69,23 @@ const validateUsernameNameEmail = (userObj, mode, listUser) => {
                 user.message = 'Email must be 1-150 characters'
                 return user
             }
+    }
+
+    if (mode === 'password') {
+        if (userObj.password.length >= 8 && userObj.password.length <= 14) {
+            if (userObj.password.match(passwordPattern) === null) {
+                user.boolean = false
+                user.message = 'Invalid format'
+                return user
+            }
+            user.boolean = true
+            user.message = 'Correct'
+            return user
+        } else {
+            user.boolean = false
+            user.message = 'password must be 8-14 characters'
+            return user
+        }
     }
 
 }

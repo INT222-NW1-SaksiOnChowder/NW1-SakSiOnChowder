@@ -14,23 +14,18 @@ const userObj = ref({
     name: "",
     email: "",
     role: "announcer",
+    password: ""
 });
 
 const userNameMassage = ref('')
 const nameMassage = ref('')
 const emailMassage = ref('')
+const passwordMassage = ref('')
 const checkUsernameLengthAndUnique = ref()
 const checkNameLengthAndUnique = ref()
 const checkEmailLengthAndUnique = ref()
-
-// const isEmptyInput = ref(false)
-// const checkInputEmpty = () => {
-//     if (userObj.value.username === ""){
-//         isEmptyInput.value = true
-//     } else if (userObj.value.username !== "") {
-//         isEmptyInput.value = false
-//     }    
-// }
+const checkPasswordPattern = ref()
+const confirmPassword = ref('')
 
 onMounted(async () => {
     listUser.value = await getUsers();
@@ -51,35 +46,17 @@ watchEffect(() => {
         emailMassage.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).message
         checkEmailLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).boolean
     }
+    if (userObj.value.password.length >= 0) {
+        passwordMassage.value = validateUsernameNameEmail(userObj.value, 'password', listUser.value).message
+        checkPasswordPattern.value = validateUsernameNameEmail(userObj.value, 'password', listUser.value).boolean
+    }
     
 })
-
-// onUpdated(()=>{
-//     checkInputEmpty()
-// })
-
 
 const save = async (user) => {
     await createUser(user)
     router.push({ name: 'userManagement' })
 }
-
-// const checkUsernameLengthAndUnique = computed(() => {
-//     userNameMassage.value = validateUsernameNameEmail(userObj.value, 'username', listUser.value).message
-//     return validateUsernameNameEmail(userObj.value, 'username', listUser.value).boolean
-// })
-
-// const checkNameLengthAndUnique = computed(() => {
-//     nameMassage.value = validateUsernameNameEmail(userObj.value, 'name', listUser.value).message
-//     return validateUsernameNameEmail(userObj.value, 'name', listUser.value).boolean
-// })
-
-// const checkEmailLengthAndUnique = computed(() => {
-//     emailMassage.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).message
-//     return validateUsernameNameEmail(userObj.value, 'email', listUser.value).boolean
-// })
-
-
 
 </script>
  
@@ -93,6 +70,8 @@ const save = async (user) => {
                         User Detail:
                     </h1>
                 </div>
+
+                <!-- Username -->
                 <div class="bg-LightBlue rounded-2xl py-9 px-28">
                     <div class="my-5">
                         <div class="flex justify-between">
@@ -105,12 +84,50 @@ const save = async (user) => {
                         <input maxlength="200" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.username" :class="checkUsernameLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
-                                : 'border-2'" @click="checkInputEmpty">
-                        <!-- <p v-if="isEmptyInput">please fill data</p> -->
+                                : 'border-2'">
                         <p class="ml-2 text-xs" :class="checkUsernameLengthAndUnique
                             ? 'text-DarkGreen '
                             : 'text-DarkRed'">{{ userNameMassage }}</p>
                     </div>
+
+                    <!-- Password -->
+                    <div class="my-5">
+                        <div class="flex justify-between">
+                            <label class="font-bold">Password</label>
+                            <p :class="checkPasswordPattern
+                                ? 'text-DarkGreen font-semibold'
+                                : 'text-DarkRed font-semibold'
+                                ">{{ userObj.password.length }} / 8-14</p>
+                        </div>
+                        <input maxlength="200" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                            type="password" v-model.trim="userObj.password" :class="checkPasswordPattern
+                                ? 'border-2 border-DarkGreen'
+                                : 'border-2'">
+                                {{ userObj.password }}
+                        <p class="ml-2 text-xs" :class="checkPasswordPattern
+                            ? 'text-DarkGreen '
+                            : 'text-DarkRed'">{{ passwordMassage }}</p>
+                    </div>
+
+                    <!--Confirm Password -->
+                    <div class="my-5">
+                        <div class="flex justify-between">
+                            <label class="font-bold">Confirm Password</label>
+                            <p :class="checkPasswordPattern
+                                ? 'text-DarkGreen font-semibold'
+                                : 'text-DarkRed font-semibold'
+                                ">{{ confirmPassword.length }} / 45</p>
+                        </div>
+                        <input maxlength="200" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                            type="password" v-model.trim="confirmPassword" :class="checkPasswordPattern
+                                ? 'border-2 border-DarkGreen'
+                                : 'border-2'">
+                        <p class="ml-2 text-xs" :class="checkPasswordPattern
+                            ? 'text-DarkGreen '
+                            : 'text-DarkRed'">{{ userNameMassage }}</p>
+                    </div>
+
+                    <!-- Name -->
                     <div class="my-5">
                         <div class="flex justify-between">
                             <label class="font-bold">Name</label><br>
@@ -127,6 +144,8 @@ const save = async (user) => {
                             ? 'text-DarkGreen'
                             : 'text-DarkRed'">{{ nameMassage }}</p>
                     </div>
+
+                    <!-- Email -->
                     <div class="my-5">
                         <div class="flex justify-between">
                             <label class="font-bold">Email</label><br>
@@ -144,6 +163,8 @@ const save = async (user) => {
                             ? 'text-DarkGreen'
                             : 'text-DarkRed'">{{ emailMassage }}</p>
                     </div>
+
+                    <!-- Role -->
                     <div class="my-5">
                         <label class="font-bold">Role</label><br>
                         <select class="ann-role drop-shadow-md bg-InputColor h-8 w-2/5 rounded-lg" v-model="userObj.role">

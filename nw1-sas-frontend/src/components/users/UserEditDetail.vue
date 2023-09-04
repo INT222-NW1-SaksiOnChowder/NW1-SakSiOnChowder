@@ -14,6 +14,7 @@ const userObj = ref({
     username: "",
     name: "",
     email: "",
+    password: "",
     role: "announcer",
 });
 const oldUserData = ref({});
@@ -22,9 +23,12 @@ const listUser = ref();
 const userNameMassage = ref("");
 const nameMassage = ref("");
 const emailMassage = ref("");
+const passwordMassage = ref("");
 const checkUsernameLengthAndUnique = ref()
 const checkNameLengthAndUnique = ref()
 const checkEmailLengthAndUnique = ref()
+const checkPasswordPattern = ref()
+const confirmPassword = ref()
 
 onMounted(async () => {
     const route = useRoute();
@@ -47,6 +51,11 @@ watchEffect(() => {
     if (userObj.value.email.length >= 0) {
         emailMassage.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).message
         checkEmailLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).boolean
+    }
+
+    if (userObj.value.password.length >= 0) {
+        passwordMassage.value = validateUsernameNameEmail(userObj.value, 'password', listUser.value).message
+        checkPasswordPattern.value = validateUsernameNameEmail(userObj.value, 'password', listUser.value).boolean
     }
 })
 
@@ -71,35 +80,7 @@ const save = async (user) => {
     router.push({ name: "userManagement" });
 };
 
-// const checkUsernameLengthAndUnique = computed(() => {
-//     userNameMassage.value = validateUsernameNameEmail(
-//         userObj.value,
-//         "username",
-//         listUser.value
-//     ).message;
-//     return validateUsernameNameEmail(userObj.value, "username", listUser.value)
-//         .boolean;
-// });
 
-// const checkNameLengthAndUnique = computed(() => {
-//     nameMassage.value = validateUsernameNameEmail(
-//         userObj.value,
-//         "name",
-//         listUser.value
-//     ).message;
-//     return validateUsernameNameEmail(userObj.value, "name", listUser.value)
-//         .boolean;
-// });
-
-// const checkEmailLengthAndUnique = computed(() => {
-//     emailMassage.value = validateUsernameNameEmail(
-//         userObj.value,
-//         "email",
-//         listUser.value
-//     ).message;
-//     return validateUsernameNameEmail(userObj.value, "email", listUser.value)
-//         .boolean;
-// });
 </script>
 
 <template>
