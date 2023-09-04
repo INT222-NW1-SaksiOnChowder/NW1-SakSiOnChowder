@@ -63,6 +63,7 @@ DROP TABLE IF EXISTS `SAS`.`Users` ;
 CREATE TABLE IF NOT EXISTS `SAS`.`Users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(100) NOT NULL,
   `name` VARCHAR(100) NOT NULL,
   `email` VARCHAR(150) NOT NULL,
   `role` ENUM('admin', 'announcer') NOT NULL DEFAULT 'announcer',
