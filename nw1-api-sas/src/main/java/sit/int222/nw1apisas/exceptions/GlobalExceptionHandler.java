@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
+import sit.int222.nw1apisas.dtos.announcements.AnnouncementItemDto;
+import sit.int222.nw1apisas.dtos.users.CreateUserDto;
+import sit.int222.nw1apisas.dtos.users.UpdateUserDto;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,7 +21,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<ErrorResponse> handleValidationAndParsingExceptions(Exception ex, WebRequest request) {
-        String title = "Announcement attributes validation failed";
+        String title = determineTitle(ex);
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), title, request.getDescription(false));
         BindingResult bindingResult = ((MethodArgumentNotValidException) ex).getBindingResult();
         for (ObjectError field : bindingResult.getAllErrors()) {
@@ -29,6 +32,20 @@ public class GlobalExceptionHandler {
             errorResponse.addValidationError(fieldName, field.getDefaultMessage());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    private String determineTitle(Exception ex) {
+        if (ex instanceof MethodArgumentNotValidException) {
+            MethodArgumentNotValidException validationException = (MethodArgumentNotValidException) ex;
+//          ไปเอา object dto มา
+            Object target = validationException.getTarget();
+            if (target instanceof AnnouncementItemDto) {
+                return "Announcement attributes validation failed";
+            } else if (target instanceof CreateUserDto || target instanceof UpdateUserDto) {
+                return "User attributes validation failed";
+            }
+        }
+        return "Validation failed";
     }
 
 }
