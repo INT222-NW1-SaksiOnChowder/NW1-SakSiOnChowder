@@ -1,9 +1,6 @@
 package sit.int222.nw1apisas.dtos.users;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +22,7 @@ public class CreateUserDto {
     private String username;
     @NotNull(message = "password must not be null")
     @NotEmpty(message = "username must not be empty")
+    @Pattern(regexp = "^(?!.*\\s)(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,14}$", message = "Password must have at least")
     private String Password;
     @NotNull(message = "name must not be null")
     @NotEmpty(message = "name must not be empty")

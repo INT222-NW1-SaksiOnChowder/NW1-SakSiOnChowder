@@ -29,9 +29,8 @@ public class UserService {
     public User createUser(CreateUserDto newUser) {
         User user = new User();
         user.setUsername(newUser.getUsername().trim());
-        String trimmedPassword = newUser.getPassword().replaceAll("\\s*", "");
         Argon2PasswordEncoder arg2 = new Argon2PasswordEncoder(16, 32, 1, 60000, 10);
-        user.setPassword(arg2.encode(trimmedPassword));
+        user.setPassword(arg2.encode(newUser.getPassword()));
         user.setName(newUser.getName().trim());
         user.setEmail(newUser.getEmail().trim());
         user.setRole(newUser.getRole().trim());
@@ -69,9 +68,8 @@ public class UserService {
         if (existUser == null) {
             throw new ItemNotFoundException("This specified username DOES NOT exist");
         }
-        String trimmedPassword = usernamePasswordDto.getPassword().replaceAll("\\s*", "");
         String storedPassword = existUser.getPassword();
-        if (argon2PasswordEncoder.matches(trimmedPassword, storedPassword)) {
+        if (argon2PasswordEncoder.matches(usernamePasswordDto.getPassword(), storedPassword)) {
             return "Password Matched";
         } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password NOT Matched");
