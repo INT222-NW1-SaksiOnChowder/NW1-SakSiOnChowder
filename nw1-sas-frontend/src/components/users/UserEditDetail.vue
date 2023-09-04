@@ -1,7 +1,7 @@
 <script setup>
 import { getUser } from "../../composable/users/getUser.js";
 import { getUsers } from "../../composable/users/getUser.js";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watchEffect } from "vue";
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js";
 import { useRouter, useRoute } from "vue-router";
 import { updateUser } from "../../composable/users/editUser.js";
@@ -22,15 +22,33 @@ const listUser = ref();
 const userNameMassage = ref("");
 const nameMassage = ref("");
 const emailMassage = ref("");
+const checkUsernameLengthAndUnique = ref()
+const checkNameLengthAndUnique = ref()
+const checkEmailLengthAndUnique = ref()
 
 onMounted(async () => {
     const route = useRoute();
-
     listUser.value = await getUsers();
     userObj.value = await getUser(route.params.id);
     oldUserData.value = await getUser(route.params.id);
-    
 });
+
+watchEffect(() => {
+    if (userObj.value.username.length >= 0) {
+        userNameMassage.value = validateUsernameNameEmail(userObj.value, 'username', listUser.value).message
+        checkUsernameLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'username', listUser.value).boolean
+    }
+
+    if (userObj.value.name.length >= 0) {
+        nameMassage.value = validateUsernameNameEmail(userObj.value, 'name', listUser.value).message
+        checkNameLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'name', listUser.value).boolean
+    }
+
+    if (userObj.value.email.length >= 0) {
+        emailMassage.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).message
+        checkEmailLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).boolean
+    }
+})
 
 const checkUserChange = computed(() => {
     if (
@@ -53,35 +71,35 @@ const save = async (user) => {
     router.push({ name: "userManagement" });
 };
 
-const checkUsernameLengthAndUnique = computed(() => {
-    userNameMassage.value = validateUsernameNameEmail(
-        userObj.value,
-        "username",
-        listUser.value
-    ).message;
-    return validateUsernameNameEmail(userObj.value, "username", listUser.value)
-        .boolean;
-});
+// const checkUsernameLengthAndUnique = computed(() => {
+//     userNameMassage.value = validateUsernameNameEmail(
+//         userObj.value,
+//         "username",
+//         listUser.value
+//     ).message;
+//     return validateUsernameNameEmail(userObj.value, "username", listUser.value)
+//         .boolean;
+// });
 
-const checkNameLengthAndUnique = computed(() => {
-    nameMassage.value = validateUsernameNameEmail(
-        userObj.value,
-        "name",
-        listUser.value
-    ).message;
-    return validateUsernameNameEmail(userObj.value, "name", listUser.value)
-        .boolean;
-});
+// const checkNameLengthAndUnique = computed(() => {
+//     nameMassage.value = validateUsernameNameEmail(
+//         userObj.value,
+//         "name",
+//         listUser.value
+//     ).message;
+//     return validateUsernameNameEmail(userObj.value, "name", listUser.value)
+//         .boolean;
+// });
 
-const checkEmailLengthAndUnique = computed(() => {
-    emailMassage.value = validateUsernameNameEmail(
-        userObj.value,
-        "email",
-        listUser.value
-    ).message;
-    return validateUsernameNameEmail(userObj.value, "email", listUser.value)
-        .boolean;
-});
+// const checkEmailLengthAndUnique = computed(() => {
+//     emailMassage.value = validateUsernameNameEmail(
+//         userObj.value,
+//         "email",
+//         listUser.value
+//     ).message;
+//     return validateUsernameNameEmail(userObj.value, "email", listUser.value)
+//         .boolean;
+// });
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <script setup>
 import { getUsers } from "../../composable/users/getUser.js";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watchEffect, onUpdated } from "vue";
 import { createUser } from "../../composable/users/addUser.js";
 import { useRouter } from "vue-router";
 import { validateUsernameNameEmail } from "../../composable/users/validateUser.js";
@@ -8,15 +8,6 @@ import Menubar from "../Navbar.vue";
 
 const router = useRouter();
 const listUser = ref()
-
-const userNameMassage = ref('')
-const nameMassage = ref('')
-const emailMassage = ref('')
-
-onMounted(async () => {
-    listUser.value = await getUsers();
-});
-
 const userObj = ref({
     id: "",
     username: "",
@@ -25,26 +16,69 @@ const userObj = ref({
     role: "announcer",
 });
 
+const userNameMassage = ref('')
+const nameMassage = ref('')
+const emailMassage = ref('')
+const checkUsernameLengthAndUnique = ref()
+const checkNameLengthAndUnique = ref()
+const checkEmailLengthAndUnique = ref()
+
+// const isEmptyInput = ref(false)
+// const checkInputEmpty = () => {
+//     if (userObj.value.username === ""){
+//         isEmptyInput.value = true
+//     } else if (userObj.value.username !== "") {
+//         isEmptyInput.value = false
+//     }    
+// }
+
+onMounted(async () => {
+    listUser.value = await getUsers();
+});
+
+watchEffect(() => {
+    if (userObj.value.username.length >= 0) {
+        userNameMassage.value = validateUsernameNameEmail(userObj.value, 'username', listUser.value).message
+        checkUsernameLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'username', listUser.value).boolean
+    }
+
+    if (userObj.value.name.length >= 0) {
+        nameMassage.value = validateUsernameNameEmail(userObj.value, 'name', listUser.value).message
+        checkNameLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'name', listUser.value).boolean
+    }
+
+    if (userObj.value.email.length >= 0) {
+        emailMassage.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).message
+        checkEmailLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).boolean
+    }
+    
+})
+
+// onUpdated(()=>{
+//     checkInputEmpty()
+// })
+
 
 const save = async (user) => {
     await createUser(user)
     router.push({ name: 'userManagement' })
 }
 
-const checkUsernameLengthAndUnique = computed(() => {
-    userNameMassage.value = validateUsernameNameEmail(userObj.value, 'username', listUser.value).message
-    return validateUsernameNameEmail(userObj.value, 'username', listUser.value).boolean
-})
+// const checkUsernameLengthAndUnique = computed(() => {
+//     userNameMassage.value = validateUsernameNameEmail(userObj.value, 'username', listUser.value).message
+//     return validateUsernameNameEmail(userObj.value, 'username', listUser.value).boolean
+// })
 
-const checkNameLengthAndUnique = computed(() => {
-    nameMassage.value = validateUsernameNameEmail(userObj.value, 'name', listUser.value).message
-    return validateUsernameNameEmail(userObj.value, 'name', listUser.value).boolean
-})
+// const checkNameLengthAndUnique = computed(() => {
+//     nameMassage.value = validateUsernameNameEmail(userObj.value, 'name', listUser.value).message
+//     return validateUsernameNameEmail(userObj.value, 'name', listUser.value).boolean
+// })
 
-const checkEmailLengthAndUnique = computed(() => {
-    emailMassage.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).message
-    return validateUsernameNameEmail(userObj.value, 'email', listUser.value).boolean
-})
+// const checkEmailLengthAndUnique = computed(() => {
+//     emailMassage.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).message
+//     return validateUsernameNameEmail(userObj.value, 'email', listUser.value).boolean
+// })
+
 
 
 </script>
@@ -71,10 +105,11 @@ const checkEmailLengthAndUnique = computed(() => {
                         <input maxlength="200" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.username" :class="checkUsernameLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
-                                : 'border-2'">
+                                : 'border-2'" @click="checkInputEmpty">
+                        <!-- <p v-if="isEmptyInput">please fill data</p> -->
                         <p class="ml-2 text-xs" :class="checkUsernameLengthAndUnique
-                                ? 'text-DarkGreen '
-                                : 'text-DarkRed'">{{ userNameMassage }}</p>
+                            ? 'text-DarkGreen '
+                            : 'text-DarkRed'">{{ userNameMassage }}</p>
                     </div>
                     <div class="my-5">
                         <div class="flex justify-between">
@@ -89,8 +124,8 @@ const checkEmailLengthAndUnique = computed(() => {
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
                         <p class="ml-2 text-xs" :class="checkNameLengthAndUnique
-                                ? 'text-DarkGreen'
-                                : 'text-DarkRed'">{{ nameMassage }}</p>
+                            ? 'text-DarkGreen'
+                            : 'text-DarkRed'">{{ nameMassage }}</p>
                     </div>
                     <div class="my-5">
                         <div class="flex justify-between">
@@ -106,8 +141,8 @@ const checkEmailLengthAndUnique = computed(() => {
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
                         <p class="ml-2 text-xs" :class="checkEmailLengthAndUnique
-                                ? 'text-DarkGreen'
-                                : 'text-DarkRed'">{{ emailMassage }}</p>
+                            ? 'text-DarkGreen'
+                            : 'text-DarkRed'">{{ emailMassage }}</p>
                     </div>
                     <div class="my-5">
                         <label class="font-bold">Role</label><br>
