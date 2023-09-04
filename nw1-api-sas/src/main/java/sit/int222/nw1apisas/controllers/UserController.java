@@ -55,8 +55,8 @@ public class UserController {
 
     @PostMapping("/match")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> matchPassword(@RequestBody UsernamePasswordDto usernamePasswordDto){
-       return ResponseEntity.ok(userService.matchPassword(usernamePasswordDto));
+    public String matchPassword(@RequestBody UsernamePasswordDto usernamePasswordDto){
+       return userService.matchPassword(usernamePasswordDto);
     }
 
 }
