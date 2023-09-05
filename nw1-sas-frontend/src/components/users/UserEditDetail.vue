@@ -5,30 +5,26 @@ import { ref, onMounted, computed, watchEffect } from "vue";
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js";
 import { useRouter, useRoute } from "vue-router";
 import { updateUser } from "../../composable/users/editUser.js";
-import { validateUsernameNameEmail } from "../../composable/users/validateUser.js";
+import { validateUserInput } from "../../composable/users/validateUser.js";
 import Menubar from "../Navbar.vue";
 
 const router = useRouter();
+const listUser = ref()
 const userObj = ref({
     id: "",
     username: "",
     name: "",
     email: "",
-    password: "",
     role: "announcer",
 });
-const oldUserData = ref({});
-const listUser = ref();
+const oldUserData = ref('')
+const userNameMassage = ref('')
+const nameMassage = ref('')
+const emailMassage = ref('')
 
-const userNameMassage = ref("");
-const nameMassage = ref("");
-const emailMassage = ref("");
-const passwordMassage = ref("");
 const checkUsernameLengthAndUnique = ref()
 const checkNameLengthAndUnique = ref()
 const checkEmailLengthAndUnique = ref()
-const checkPasswordPattern = ref()
-const confirmPassword = ref()
 
 onMounted(async () => {
     const route = useRoute();
@@ -39,24 +35,20 @@ onMounted(async () => {
 
 watchEffect(() => {
     if (userObj.value.username.length >= 0) {
-        userNameMassage.value = validateUsernameNameEmail(userObj.value, 'username', listUser.value).message
-        checkUsernameLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'username', listUser.value).boolean
+        userNameMassage.value = validateUserInput(userObj.value, 'username', listUser.value).message
+        checkUsernameLengthAndUnique.value = validateUserInput(userObj.value, 'username', listUser.value).boolean
     }
 
     if (userObj.value.name.length >= 0) {
-        nameMassage.value = validateUsernameNameEmail(userObj.value, 'name', listUser.value).message
-        checkNameLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'name', listUser.value).boolean
+        nameMassage.value = validateUserInput(userObj.value, 'name', listUser.value).message
+        checkNameLengthAndUnique.value = validateUserInput(userObj.value, 'name', listUser.value).boolean
     }
 
     if (userObj.value.email.length >= 0) {
-        emailMassage.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).message
-        checkEmailLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).boolean
+        emailMassage.value = validateUserInput(userObj.value, 'email', listUser.value).message
+        checkEmailLengthAndUnique.value = validateUserInput(userObj.value, 'email', listUser.value).boolean
     }
 
-    if (userObj.value.password.length >= 0) {
-        passwordMassage.value = validateUsernameNameEmail(userObj.value, 'password', listUser.value).message
-        checkPasswordPattern.value = validateUsernameNameEmail(userObj.value, 'password', listUser.value).boolean
-    }
 })
 
 const checkUserChange = computed(() => {
@@ -67,7 +59,7 @@ const checkUserChange = computed(() => {
             userObj.value.name === "") &&
         (userObj.value.email === oldUserData.value.email ||
             userObj.value.email === "") &&
-        userObj.value.role === oldUserData.value.role
+        userObj.value.role === oldUserData.value.role 
     ) {
         return true;
     } else {
@@ -94,6 +86,7 @@ const save = async (user) => {
                     </h1>
                 </div>
                 <div class="bg-LightBlue rounded-2xl py-9 px-28">
+                    <!-- username -->
                     <div class="my-5">
                         <div class="flex justify-between">
                             <label class="font-bold">Username</label><br />
@@ -116,6 +109,8 @@ const save = async (user) => {
                             {{ userNameMassage }}
                         </p>
                     </div>
+
+                    <!-- Name -->
                     <div class="my-5">
                         <div class="flex justify-between">
                             <label class="font-bold">Name</label><br />
@@ -136,6 +131,8 @@ const save = async (user) => {
                             {{ nameMassage }}
                         </p>
                     </div>
+
+                    <!-- Email -->
                     <div class="my-5">
                         <div class="flex justify-between">
                             <label class="font-bold">Email</label><br />
@@ -156,6 +153,8 @@ const save = async (user) => {
                             {{ emailMassage }}
                         </p>
                     </div>
+
+                     <!-- Role -->
                     <div class="my-5">
                         <label class="font-bold">Role</label><br />
                         <select class="ann-role drop-shadow-md bg-InputColor h-8 w-2/5 rounded-lg" v-model="userObj.role">

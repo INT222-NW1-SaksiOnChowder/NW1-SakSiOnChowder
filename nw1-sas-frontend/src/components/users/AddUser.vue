@@ -3,7 +3,7 @@ import { getUsers } from "../../composable/users/getUser.js";
 import { ref, computed, onMounted, watchEffect, onUpdated } from "vue";
 import { createUser } from "../../composable/users/addUser.js";
 import { useRouter } from "vue-router";
-import { validateUsernameNameEmail } from "../../composable/users/validateUser.js";
+import { validateUserInput } from "../../composable/users/validateUser.js";
 import Menubar from "../Navbar.vue";
 
 const router = useRouter();
@@ -21,10 +21,12 @@ const userNameMassage = ref('')
 const nameMassage = ref('')
 const emailMassage = ref('')
 const passwordMassage = ref('')
+const confirmPasswordMassage = ref('')
 const checkUsernameLengthAndUnique = ref()
 const checkNameLengthAndUnique = ref()
 const checkEmailLengthAndUnique = ref()
 const checkPasswordPattern = ref()
+const checkConfirmPassword = ref()
 const confirmPassword = ref('')
 
 onMounted(async () => {
@@ -33,29 +35,41 @@ onMounted(async () => {
 
 watchEffect(() => {
     if (userObj.value.username.length >= 0) {
-        userNameMassage.value = validateUsernameNameEmail(userObj.value, 'username', listUser.value).message
-        checkUsernameLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'username', listUser.value).boolean
+        userNameMassage.value = validateUserInput(userObj.value, 'username', listUser.value).message
+        checkUsernameLengthAndUnique.value = validateUserInput(userObj.value, 'username', listUser.value).boolean
     }
 
     if (userObj.value.name.length >= 0) {
-        nameMassage.value = validateUsernameNameEmail(userObj.value, 'name', listUser.value).message
-        checkNameLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'name', listUser.value).boolean
+        nameMassage.value = validateUserInput(userObj.value, 'name', listUser.value).message
+        checkNameLengthAndUnique.value = validateUserInput(userObj.value, 'name', listUser.value).boolean
     }
 
     if (userObj.value.email.length >= 0) {
-        emailMassage.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).message
-        checkEmailLengthAndUnique.value = validateUsernameNameEmail(userObj.value, 'email', listUser.value).boolean
+        emailMassage.value = validateUserInput(userObj.value, 'email', listUser.value).message
+        checkEmailLengthAndUnique.value = validateUserInput(userObj.value, 'email', listUser.value).boolean
     }
     if (userObj.value.password.length >= 0) {
-        passwordMassage.value = validateUsernameNameEmail(userObj.value, 'password', listUser.value).message
-        checkPasswordPattern.value = validateUsernameNameEmail(userObj.value, 'password', listUser.value).boolean
+        passwordMassage.value = validateUserInput(userObj.value, 'password', listUser.value).message
+        checkPasswordPattern.value = validateUserInput(userObj.value, 'password', listUser.value).boolean
     }
-    
+
+    if (confirmPassword.value === userObj.value.password && confirmPassword.value.length > 0) {
+        confirmPasswordMassage.value = 'Password match'
+        checkConfirmPassword.value = true
+    } else {
+        confirmPasswordMassage.value = 'The password DOES NOT match'
+        checkConfirmPassword.value = false
+    }
 })
 
 const save = async (user) => {
-    await createUser(user)
-    router.push({ name: 'userManagement' })
+    if (checkUsernameLengthAndUnique.value && checkNameLengthAndUnique && checkEmailLengthAndUnique && checkPasswordPattern.value && checkConfirmPassword.value) {
+        await createUser(user)
+        router.push({ name: 'userManagement' })
+    } else {
+        alert('Please complete the information.')
+    }
+
 }
 
 </script>
@@ -103,7 +117,7 @@ const save = async (user) => {
                             type="password" v-model.trim="userObj.password" :class="checkPasswordPattern
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
-                                {{ userObj.password }}
+                        {{ userObj.password }}
                         <p class="ml-2 text-xs" :class="checkPasswordPattern
                             ? 'text-DarkGreen '
                             : 'text-DarkRed'">{{ passwordMassage }}</p>
@@ -113,18 +127,18 @@ const save = async (user) => {
                     <div class="my-5">
                         <div class="flex justify-between">
                             <label class="font-bold">Confirm Password</label>
-                            <p :class="checkPasswordPattern
+                            <p :class="checkConfirmPassword
                                 ? 'text-DarkGreen font-semibold'
                                 : 'text-DarkRed font-semibold'
                                 ">{{ confirmPassword.length }} / 45</p>
                         </div>
                         <input maxlength="200" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
-                            type="password" v-model.trim="confirmPassword" :class="checkPasswordPattern
+                            type="password" v-model.trim="confirmPassword" :class="checkConfirmPassword
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
-                        <p class="ml-2 text-xs" :class="checkPasswordPattern
+                        <p class="ml-2 text-xs" :class="checkConfirmPassword
                             ? 'text-DarkGreen '
-                            : 'text-DarkRed'">{{ userNameMassage }}</p>
+                            : 'text-DarkRed'">{{ confirmPasswordMassage }}</p>
                     </div>
 
                     <!-- Name -->

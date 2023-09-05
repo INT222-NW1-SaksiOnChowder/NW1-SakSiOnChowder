@@ -13,6 +13,10 @@
             class="flex pl-5 py-5 border-solid border-b-2 font-bold hover:bg-LightBlue">
             User
         </router-link>
+        <router-link :to="{ name: 'matchPassword' }"
+            class="flex pl-5 py-5 border-solid border-b-2 font-bold hover:bg-LightBlue">
+            Match Password
+        </router-link>
     </div>
 </template>
  

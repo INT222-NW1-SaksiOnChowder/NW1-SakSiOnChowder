@@ -1,6 +1,6 @@
 import { getUsers } from "./getUser.js";
 
-const validateUsernameNameEmail = (userObj, mode, listUser) => {
+const validateUserInput = (userObj, mode, listUser) => {
     const emailPattern = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/g
     // const passwordPattern = /(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@#$%^&+=!])/g
     const passwordPattern = /^(?!.*\s)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,14}$/;
@@ -83,7 +83,7 @@ const validateUsernameNameEmail = (userObj, mode, listUser) => {
             return user
         } else {
             user.boolean = false
-            user.message = 'password must be 8-14 characters'
+            user.message = 'Password must be 8-14 characters'
             return user
         }
     }
@@ -92,5 +92,5 @@ const validateUsernameNameEmail = (userObj, mode, listUser) => {
 
 
 
-export { validateUsernameNameEmail }
+export { validateUserInput }
 
