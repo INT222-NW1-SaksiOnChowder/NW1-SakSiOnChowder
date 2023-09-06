@@ -21,11 +21,11 @@ public class ApplicationConfig {
     @Bean
     public Argon2PasswordEncoder argon2PasswordEncoder() {
         return new Argon2PasswordEncoder(
-                16, // Memory cost in KB
-                32, // Hash output length in bytes
-                1,  // Parallelism factor (number of threads)
-                60000, // Iterations (time cost)
-                10   // Salt length in bytes
+                16,
+                16,
+                1,
+                4096,
+                3
         );
     }
 

@@ -31,7 +31,7 @@ public class UserService {
     public User createUser(CreateUserDto newUser) {
         User user = new User();
         user.setUsername(newUser.getUsername().trim());
-        Argon2PasswordEncoder arg2 = new Argon2PasswordEncoder(16, 32, 1, 60000, 10);
+        Argon2PasswordEncoder arg2 = new Argon2PasswordEncoder(16, 16, 1, 4096, 3);
         user.setPassword(arg2.encode(newUser.getPassword()));
         user.setName(newUser.getName().trim());
         user.setEmail(newUser.getEmail().trim());
