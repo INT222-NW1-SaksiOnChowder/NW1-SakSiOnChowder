@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface IsUsernameFieldUnique {
-    String message() default "username has already exists";
+    String message() default "does not unique";
 
     Class<?>[] groups() default {};
 

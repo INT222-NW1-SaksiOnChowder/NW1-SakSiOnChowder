@@ -1,9 +1,6 @@
 package sit.int222.nw1apisas.dtos.users;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,20 +14,15 @@ import sit.int222.nw1apisas.validations.users.IsUsernameFieldUnique;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateUserDto {
-    @NotNull(message = "username must not be null")
-    @NotEmpty(message = "username must not be empty")
-    @Size(max = 45, message = "username out of range")
-    @IsUsernameFieldUnique
+    @NotBlank(message = "must not be blank")
+    @Size(max = 45, message = "size must be between 1 and 45")
     private String username;
-    @NotNull(message = "name must not be null")
-    @NotEmpty(message = "name must not be empty")
-    @Size(max = 100, message = "name out of range")
-    @IsNameFieldUnique
+    @NotBlank(message = "must not be blank")
+    @Size(max = 100, message = "size must be between 1 and 100")
     private String name;
-    @NotNull(message = "email must not be null")
-    @NotEmpty(message = "email must not be empty")
-    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", message = "user's email is invalid.")
-    @IsEmailFieldUnique
+    @NotBlank(message = "must not be blank")
+    @Size(max = 100, message = "size must be between 1 and 150")
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", message = "Email should be valid")
     private String email;
     private String role;
 

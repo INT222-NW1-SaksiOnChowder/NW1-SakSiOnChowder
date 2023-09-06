@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import sit.int222.nw1apisas.dtos.users.CreateUserDto;
 import sit.int222.nw1apisas.dtos.users.ResponseUserDto;
 import sit.int222.nw1apisas.dtos.users.UpdateUserDto;
 import sit.int222.nw1apisas.dtos.users.UsernamePasswordDto;
+import sit.int222.nw1apisas.exceptions.ErrorResponse;
 import sit.int222.nw1apisas.services.UserService;
 import sit.int222.nw1apisas.utils.ListMapper;
 
@@ -43,7 +45,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseUserDto updateUser(@RequestBody @Valid UpdateUserDto newUser, @PathVariable Integer id) {
+    public ResponseUserDto updateUser(@RequestBody @Valid UpdateUserDto newUser, @PathVariable Integer id)  {
         return modelMapper.map(userService.updateUser(newUser, id), ResponseUserDto.class);
     }
 
