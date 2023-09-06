@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface IsEmailFieldUnique {
-    String message() default "email has already exists";
+    String message() default "does not unique";
 
     Class<?>[] groups() default {};
 

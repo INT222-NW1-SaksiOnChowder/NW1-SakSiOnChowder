@@ -12,6 +12,9 @@ public class NameFieldValidator implements ConstraintValidator<IsNameFieldUnique
 
     @Override
     public boolean isValid(String name, ConstraintValidatorContext context) {
+        if(name == null){
+            return true;
+        }
        return !userRepository.existsUserByName(name.trim());
     }
 }

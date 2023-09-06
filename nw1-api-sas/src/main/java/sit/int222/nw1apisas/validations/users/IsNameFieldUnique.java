@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface IsNameFieldUnique {
-    String message() default "name has already exists";
+    String message() default "does not unique";
 
     Class<?>[] groups() default {};
 

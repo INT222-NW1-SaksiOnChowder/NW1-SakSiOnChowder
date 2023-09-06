@@ -12,6 +12,9 @@ public class EmailFieldValidator implements ConstraintValidator<IsEmailFieldUniq
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
+        if(email == null){
+            return true;
+        }
         return !userRepository.existsUserByEmail(email.trim());
     }
 }
