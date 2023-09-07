@@ -1,7 +1,8 @@
 import { getUsers } from "./getUser.js";
 
 const validateUserInput = (userObj, mode, listUser) => {
-    const emailPattern = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/g
+    // const emailPattern = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/g
+    const emailPattern = /^[a-zA-Z0-9_%+-]+[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$/
     // const passwordPattern = /(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@#$%^&+=!])/g
     const passwordPattern = /^(?!.*\s)(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,14}$/;
        
