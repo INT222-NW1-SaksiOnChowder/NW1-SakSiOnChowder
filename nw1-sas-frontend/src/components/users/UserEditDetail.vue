@@ -68,8 +68,11 @@ const checkUserChange = computed(() => {
 });
 
 const save = async (user) => {
-    await updateUser(user);
-    router.push({ name: "userManagement" });
+    const status = ref(true)
+    status.value = await updateUser(user);
+    if (status.value) {
+        router.push({ name: 'userManagement' })
+    }
 };
 
 
@@ -78,7 +81,7 @@ const save = async (user) => {
 <template>
     <div class="flex w-full min-h-screen max-h-full bg-Background">
         <Menubar />
-        <div class="w-3/4">
+        <div class="w-4/5">
             <div class="mx-32">
                 <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3 mb-8">
                     <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
@@ -98,7 +101,7 @@ const save = async (user) => {
                             </p>
                         </div>
                         <input maxlength="200" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
-                            type="text" v-model="userObj.username" :class="checkUsernameLengthAndUnique
+                            type="text" v-model.trim="userObj.username" :class="checkUsernameLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'
                                 " />
@@ -122,7 +125,7 @@ const save = async (user) => {
                             </p>
                         </div>
                         <input maxlength="200" class="ann-name bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
-                            type="text" v-model="userObj.name" :class="checkNameLengthAndUnique
+                            type="text" v-model.trim="userObj.name" :class="checkNameLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'
                                 " />
@@ -144,7 +147,7 @@ const save = async (user) => {
                             </p>
                         </div>
                         <input maxlength="200" class="ann-email bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
-                            type="text" v-model="userObj.email" :class="checkEmailLengthAndUnique
+                            type="text" v-model.trim="userObj.email" :class="checkEmailLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'
                                 " />

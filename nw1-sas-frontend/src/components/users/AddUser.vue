@@ -77,7 +77,7 @@ const save = async (user) => {
 <template>
     <div class="flex w-full min-h-screen max-h-full bg-Background">
         <Menubar />
-        <div class="w-3/4">
+        <div class="w-4/5">
             <div class="mx-32">
                 <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3 mb-8">
                     <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
