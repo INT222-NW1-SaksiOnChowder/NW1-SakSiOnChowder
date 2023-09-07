@@ -28,7 +28,7 @@ public class CreateUserDto {
     private String name;
     @NotBlank(message = "must not be blank")
     @Size(max = 150, min = 1, message = "size must be between 1 and 150")
-    @Email(message = "Email should be valid")
+    @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{1,}$", message = "Email should be valid")
     @IsEmailFieldUnique
     private String email;
     private String role;
