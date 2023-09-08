@@ -1,18 +1,31 @@
 services:
+  reverse-proxy:
+    image: nginx:latest
+    container_name: nginx-reverse-proxy
+    volumes:
+      - ./reverse-proxy.conf:/etc/nginx/nginx.conf  
+    ports:
+      - "80:80"
+    networks:
+      - proxy
+    restart: always
   front:
     image: front1
+    container_name: front
     build: 
       context: ./nw1-sas-frontend/
       dockerfile: FrontDockerfile
     ports:
-      - "80:80"
-
+      - "80"
+    networks:
+      - proxy
   back:
     image: openjdk:17-jdk-alpine
+    container_name: back
     working_dir: /app
     command: sh -c "java -jar *.jar"
     ports:
-      - "8080:8080"
+      - "8080"
     restart: on-failure
     depends_on: 
       - dbserver
@@ -24,9 +37,10 @@ services:
       - mysql_url=dbserver
     networks:
       - dbnet
-
+      - proxy
   dbserver:
     image: mysql:8.0.33
+    container_name: db-container
     volumes:
     #  - ./nw1-sas-db:/docker-entrypoint-initdb.d
       - ./database:/var/lib/mysql
@@ -41,3 +55,4 @@ services:
    # restart: on-failure
 networks:
   dbnet:
+  proxy:
