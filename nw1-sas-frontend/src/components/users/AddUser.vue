@@ -63,13 +63,11 @@ watchEffect(() => {
 })
 
 const save = async (user) => {
-    if (checkUsernameLengthAndUnique.value && checkNameLengthAndUnique && checkEmailLengthAndUnique && checkPasswordPattern.value && checkConfirmPassword.value) {
-        await createUser(user)
+    const status = ref(true)
+    status.value = await createUser(user);
+    if (status.value) {
         router.push({ name: 'userManagement' })
-    } else {
-        alert('Please complete the information.')
     }
-
 }
 
 </script>
@@ -95,7 +93,7 @@ const save = async (user) => {
                                 : 'text-DarkRed font-semibold'
                                 ">{{ userObj.username.length }} / 45</p>
                         </div>
-                        <input maxlength="200" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.username" :class="checkUsernameLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
@@ -113,11 +111,10 @@ const save = async (user) => {
                                 : 'text-DarkRed font-semibold'
                                 ">{{ userObj.password.length }} / 8-14</p>
                         </div>
-                        <input maxlength="200" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="password" v-model.trim="userObj.password" :class="checkPasswordPattern
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
-                        {{ userObj.password }}
                         <p class="ml-2 text-xs" :class="checkPasswordPattern
                             ? 'text-DarkGreen '
                             : 'text-DarkRed'">{{ passwordMassage }}</p>
@@ -132,7 +129,7 @@ const save = async (user) => {
                                 : 'text-DarkRed font-semibold'
                                 ">{{ confirmPassword.length }} / 45</p>
                         </div>
-                        <input maxlength="200" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="password" v-model.trim="confirmPassword" :class="checkConfirmPassword
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
@@ -150,7 +147,7 @@ const save = async (user) => {
                                 : 'text-DarkRed font-semibold'
                                 ">{{ userObj.name.length }} / 100</p>
                         </div>
-                        <input maxlength="200" class="ann-name bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input class="ann-name bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.name" :class="checkNameLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
@@ -169,7 +166,7 @@ const save = async (user) => {
                                 ">{{ userObj.email.length }} / 150</p>
 
                         </div>
-                        <input maxlength="200" class="ann-email bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input class="ann-email bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.email" :class="checkEmailLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
