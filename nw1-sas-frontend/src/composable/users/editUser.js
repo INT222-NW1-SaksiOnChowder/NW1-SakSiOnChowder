@@ -1,32 +1,31 @@
-const ROOT_API = import.meta.env.VITE_ROOT_API
-const updateUser = async(user) => {
-    try {
-        const res = await fetch(`${ROOT_API}/api/users/${user.id}`,
-            {
-                method: 'PUT',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(user)
-            }
-        )
-        if (res.status === 200) {
-            console.log('Create successfully')
-            return true
-        }else if(res.status === 400){
-            const error = await res.json()
-            for(const err of error.detail){
-                alert(err.errorMessage)
-            }
-            return false
+const ROOT_API = import.meta.env.VITE_ROOT_API;
+const updateUser = async (user) => {
+  try {
+    const res = await fetch(`${ROOT_API}/api/users/${user.id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    if (res.status === 200) {
+      console.log("Edit successfully");
+      return true;
+    } else if (res.status === 400) {
+      const error = await res.json();
+      for (const err of error.detail) {
+        if (err.errorMessage.includes("Email")) {
+          alert(err.errorMessage);
+          return false;
         } else {
-            return false
+          alert(err.field + " " + err.errorMessage);
+          return false;
         }
-    } catch (error) {
-        console.log(`ERROR cannot create data: ${error}`);
+      }
     }
-}
+  } catch (error) {
+    console.log(`ERROR cannot create data: ${error}`);
+  }
+};
 
-
-
-export { updateUser }
+export { updateUser };

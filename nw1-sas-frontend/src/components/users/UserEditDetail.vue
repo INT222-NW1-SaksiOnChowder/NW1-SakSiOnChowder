@@ -100,7 +100,7 @@ const save = async (user) => {
                                 {{ userObj.username.length }} / 45
                             </p>
                         </div>
-                        <input maxlength="200" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.username" :class="checkUsernameLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'
@@ -124,7 +124,7 @@ const save = async (user) => {
                                 {{ userObj.name.length }} / 100
                             </p>
                         </div>
-                        <input maxlength="200" class="ann-name bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input class="ann-name bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.name" :class="checkNameLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'
@@ -146,7 +146,7 @@ const save = async (user) => {
                                 {{ userObj.email.length }} / 150
                             </p>
                         </div>
-                        <input maxlength="200" class="ann-email bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input class="ann-email bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                             type="text" v-model.trim="userObj.email" :class="checkEmailLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'
