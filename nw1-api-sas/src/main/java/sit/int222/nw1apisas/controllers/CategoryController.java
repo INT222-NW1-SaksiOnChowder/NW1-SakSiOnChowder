@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
-@CrossOrigin
+@CrossOrigin(origins = {"http://ip22nw1.sit.kmutt.ac.th","http://intproj22.sit.kmutt.ac.th"})
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;

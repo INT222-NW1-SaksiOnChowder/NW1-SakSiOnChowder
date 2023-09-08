@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/announcements")
-@CrossOrigin
+@CrossOrigin(origins = {"http://ip22nw1.sit.kmutt.ac.th","http://intproj22.sit.kmutt.ac.th"})
 public class AnnouncementController {
     @Autowired
     private AnnouncementService announcementService;
