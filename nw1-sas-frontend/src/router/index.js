@@ -8,7 +8,7 @@ import UserViewDetail from '../components/users/UserViewDetail.vue'
 import UserManagement from '../components/users/UserManagement.vue'
 import UserEditDetail from '../components/users/UserEditDetail.vue'
 import AddUser from '../components/users/AddUser.vue'
-import MatchPassword from '../components/users/matchPassword.vue'
+import MatchPassword from '../components/users/MatchPassword.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes:
