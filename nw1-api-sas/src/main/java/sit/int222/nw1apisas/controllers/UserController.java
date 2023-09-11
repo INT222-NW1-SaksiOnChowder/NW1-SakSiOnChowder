@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = {"http://ip22nw1.sit.kmutt.ac.th","http://intproj22.sit.kmutt.ac.th","https://intproj22.sit.kmutt.ac.th"})
+@CrossOrigin(origins = {"http://ip22nw1.sit.kmutt.ac.th","http://intproj22.sit.kmutt.ac.th","https://intproj22.sit.kmutt.ac.th","http://localhost:5173"})
 public class UserController {
     @Autowired
     private UserService userService;
