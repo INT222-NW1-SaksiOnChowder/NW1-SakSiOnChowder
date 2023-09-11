@@ -17,11 +17,11 @@ const userObj = ref({
     password: ""
 });
 
-const userNameMassage = ref('')
-const nameMassage = ref('')
-const emailMassage = ref('')
-const passwordMassage = ref('')
-const confirmPasswordMassage = ref('')
+const userNameMessage = ref('')
+const nameMessage = ref('')
+const emailMessage = ref('')
+const passwordMessage = ref('')
+const confirmPasswordMessage = ref('')
 const checkUsernameLengthAndUnique = ref()
 const checkNameLengthAndUnique = ref()
 const checkEmailLengthAndUnique = ref()
@@ -35,29 +35,29 @@ onMounted(async () => {
 
 watchEffect(() => {
     if (userObj.value.username.length >= 0) {
-        userNameMassage.value = validateUserInput(userObj.value, 'username', listUser.value).message
+        userNameMessage.value = validateUserInput(userObj.value, 'username', listUser.value).message
         checkUsernameLengthAndUnique.value = validateUserInput(userObj.value, 'username', listUser.value).boolean
     }
 
     if (userObj.value.name.length >= 0) {
-        nameMassage.value = validateUserInput(userObj.value, 'name', listUser.value).message
+        nameMessage.value = validateUserInput(userObj.value, 'name', listUser.value).message
         checkNameLengthAndUnique.value = validateUserInput(userObj.value, 'name', listUser.value).boolean
     }
 
     if (userObj.value.email.length >= 0) {
-        emailMassage.value = validateUserInput(userObj.value, 'email', listUser.value).message
+        emailMessage.value = validateUserInput(userObj.value, 'email', listUser.value).message
         checkEmailLengthAndUnique.value = validateUserInput(userObj.value, 'email', listUser.value).boolean
     }
     if (userObj.value.password.length >= 0) {
-        passwordMassage.value = validateUserInput(userObj.value, 'password', listUser.value).message
+        passwordMessage.value = validateUserInput(userObj.value, 'password', listUser.value).message
         checkPasswordPattern.value = validateUserInput(userObj.value, 'password', listUser.value).boolean
     }
 
     if (confirmPassword.value === userObj.value.password && confirmPassword.value.length > 0) {
-        confirmPasswordMassage.value = 'Password match'
+        confirmPasswordMessage.value = 'Password match'
         checkConfirmPassword.value = true
     } else {
-        confirmPasswordMassage.value = 'The password DOES NOT match'
+        confirmPasswordMessage.value = 'The password DOES NOT match'
         checkConfirmPassword.value = false
     }
 })
@@ -68,6 +68,7 @@ const save = async (user) => {
     if (status.value) {
         router.push({ name: 'userManagement' })
     }
+
 }
 
 </script>
@@ -93,13 +94,13 @@ const save = async (user) => {
                                 : 'text-DarkRed font-semibold'
                                 ">{{ userObj.username.length }} / 45</p>
                         </div>
-                        <input class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input maxlength="45" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg" required
                             type="text" v-model.trim="userObj.username" :class="checkUsernameLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
-                        <p class="ml-2 text-xs" :class="checkUsernameLengthAndUnique
+                        <p class="ann-error-username ml-2 text-xs" :class="checkUsernameLengthAndUnique
                             ? 'text-DarkGreen '
-                            : 'text-DarkRed'">{{ userNameMassage }}</p>
+                            : 'text-DarkRed'">{{ userNameMessage }}</p>
                     </div>
 
                     <!-- Password -->
@@ -111,13 +112,13 @@ const save = async (user) => {
                                 : 'text-DarkRed font-semibold'
                                 ">{{ userObj.password.length }} / 8-14</p>
                         </div>
-                        <input class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input maxlength="14" class="ann-password bg-InputColor drop-shadow-md h-8 w-full rounded-lg" required
                             type="password" v-model.trim="userObj.password" :class="checkPasswordPattern
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
-                        <p class="ml-2 text-xs" :class="checkPasswordPattern
+                        <p class="ann-error-password ml-2 text-xs" :class="checkPasswordPattern
                             ? 'text-DarkGreen '
-                            : 'text-DarkRed'">{{ passwordMassage }}</p>
+                            : 'text-DarkRed'">{{ passwordMessage }}</p>
                     </div>
 
                     <!--Confirm Password -->
@@ -127,15 +128,15 @@ const save = async (user) => {
                             <p :class="checkConfirmPassword
                                 ? 'text-DarkGreen font-semibold'
                                 : 'text-DarkRed font-semibold'
-                                ">{{ confirmPassword.length }} / 45</p>
+                                ">{{ confirmPassword.length }} / 8-14</p>
                         </div>
-                        <input class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input maxlength="14" class="ann-confirm-password bg-InputColor drop-shadow-md h-8 w-full rounded-lg" required
                             type="password" v-model.trim="confirmPassword" :class="checkConfirmPassword
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
-                        <p class="ml-2 text-xs" :class="checkConfirmPassword
+                        <p class="ann-error-password ml-2 text-xs" :class="checkConfirmPassword
                             ? 'text-DarkGreen '
-                            : 'text-DarkRed'">{{ confirmPasswordMassage }}</p>
+                            : 'text-DarkRed'">{{ confirmPasswordMessage }}</p>
                     </div>
 
                     <!-- Name -->
@@ -147,13 +148,13 @@ const save = async (user) => {
                                 : 'text-DarkRed font-semibold'
                                 ">{{ userObj.name.length }} / 100</p>
                         </div>
-                        <input class="ann-name bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input maxlength="100" class="ann-name bg-InputColor drop-shadow-md h-8 w-full rounded-lg" required
                             type="text" v-model.trim="userObj.name" :class="checkNameLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
-                        <p class="ml-2 text-xs" :class="checkNameLengthAndUnique
+                        <p class="ann-error-name ml-2 text-xs" :class="checkNameLengthAndUnique
                             ? 'text-DarkGreen'
-                            : 'text-DarkRed'">{{ nameMassage }}</p>
+                            : 'text-DarkRed'">{{ nameMessage }}</p>
                     </div>
 
                     <!-- Email -->
@@ -166,13 +167,13 @@ const save = async (user) => {
                                 ">{{ userObj.email.length }} / 150</p>
 
                         </div>
-                        <input class="ann-email bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
-                            type="text" v-model.trim="userObj.email" :class="checkEmailLengthAndUnique
+                        <input maxlength="150" class="ann-email bg-InputColor drop-shadow-md h-8 w-full rounded-lg" required
+                            type="email" v-model.trim="userObj.email" :class="checkEmailLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'">
-                        <p class="ml-2 text-xs" :class="checkEmailLengthAndUnique
+                        <p class="ann-error-email ml-2 text-xs" :class="checkEmailLengthAndUnique
                             ? 'text-DarkGreen'
-                            : 'text-DarkRed'">{{ emailMassage }}</p>
+                            : 'text-DarkRed'">{{ emailMessage }}</p>
                     </div>
 
                     <!-- Role -->

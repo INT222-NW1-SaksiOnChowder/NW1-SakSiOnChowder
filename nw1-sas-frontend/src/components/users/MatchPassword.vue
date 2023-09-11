@@ -26,7 +26,7 @@ const matchOrNotButton = async() => {
             <Menubar />
             <div class="w-4/5 justify-center">
                 <div v-if="divShowMassage" class="mx-0 my-10 flex justify-center w-full">
-                    <div class="border w-96  text-center border-DarkGreen" :class="showMessage.status ? 'text-DarkGreen border-DarkGreen' : 'text-DarkRed border-DarkRed'">
+                    <div class="ann-message border w-96  text-center border-DarkGreen" :class="showMessage.status ? 'text-DarkGreen border-DarkGreen' : 'text-DarkRed border-DarkRed'">
                         {{showMessage.message}}
                     </div>
                 </div>
@@ -40,7 +40,7 @@ const matchOrNotButton = async() => {
                         </div>
                         <div class="">
                             <label class="font-bold">Password</label><br />
-                            <input v-model.trim="userObj.password" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                            <input v-model.trim="userObj.password" class="ann-password bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
                                 type="password" />
                         </div>
                         <button @click="matchOrNotButton"

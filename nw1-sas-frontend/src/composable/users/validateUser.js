@@ -15,7 +15,7 @@ const validateUserInput = (userObj, mode, listUser) => {
                 for (const user of listUser) {
                     if (userObj.username === user.username) {
                         user.boolean = false
-                        user.message = 'Username already exits'
+                        user.message = 'does not unique'
                         return user
                     }
                 }
@@ -34,7 +34,7 @@ const validateUserInput = (userObj, mode, listUser) => {
                 for (const user of listUser) {
                     if (userObj.name === user.name) {
                         user.boolean = false
-                        user.message = 'Name already exits'
+                        user.message = 'does not unique'
                         return user
                     }
                 }
@@ -53,7 +53,7 @@ const validateUserInput = (userObj, mode, listUser) => {
                 for (const user of listUser) {
                     if (userObj.email === user.email) {
                         user.boolean = false
-                        user.message = 'Email already exits'
+                        user.message = 'does not unique'
                         return user
                     }
                 }
@@ -76,7 +76,7 @@ const validateUserInput = (userObj, mode, listUser) => {
         if (userObj.password.length >= 8 && userObj.password.length <= 14) {
             if (userObj.password.match(passwordPattern) === null) {
                 user.boolean = false
-                user.message = 'Invalid format'
+                user.message = 'must be 8-14 characters long, at least 1 of uppercase, lowercase, number and special characters'
                 return user
             }
             user.boolean = true
@@ -84,7 +84,7 @@ const validateUserInput = (userObj, mode, listUser) => {
             return user
         } else {
             user.boolean = false
-            user.message = 'Password must be 8-14 characters'
+            user.message = 'Password size must be between 8 and 14'
             return user
         }
     }

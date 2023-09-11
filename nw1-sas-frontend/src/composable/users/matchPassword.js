@@ -25,7 +25,7 @@ const matchPassword = async(user) => {
                 //     alert(err.errorMessage)
                 // }
                 resultMsg.status = false
-                resultMsg.message = 'Password Not Matched'
+                resultMsg.message = 'Password NOT Matched'
                 return resultMsg
             }else if(res.status === 404){
                 const error = await res.json()

@@ -18,9 +18,9 @@ const userObj = ref({
     role: "announcer",
 });
 const oldUserData = ref('')
-const userNameMassage = ref('')
-const nameMassage = ref('')
-const emailMassage = ref('')
+const userNameMessage = ref('')
+const nameMessage = ref('')
+const emailMessage = ref('')
 
 const checkUsernameLengthAndUnique = ref()
 const checkNameLengthAndUnique = ref()
@@ -35,17 +35,17 @@ onMounted(async () => {
 
 watchEffect(() => {
     if (userObj.value.username.length >= 0) {
-        userNameMassage.value = validateUserInput(userObj.value, 'username', listUser.value).message
+        userNameMessage.value = validateUserInput(userObj.value, 'username', listUser.value).message
         checkUsernameLengthAndUnique.value = validateUserInput(userObj.value, 'username', listUser.value).boolean
     }
 
     if (userObj.value.name.length >= 0) {
-        nameMassage.value = validateUserInput(userObj.value, 'name', listUser.value).message
+        nameMessage.value = validateUserInput(userObj.value, 'name', listUser.value).message
         checkNameLengthAndUnique.value = validateUserInput(userObj.value, 'name', listUser.value).boolean
     }
 
     if (userObj.value.email.length >= 0) {
-        emailMassage.value = validateUserInput(userObj.value, 'email', listUser.value).message
+        emailMessage.value = validateUserInput(userObj.value, 'email', listUser.value).message
         checkEmailLengthAndUnique.value = validateUserInput(userObj.value, 'email', listUser.value).boolean
     }
 
@@ -100,12 +100,12 @@ const save = async (user) => {
                                 {{ userObj.username.length }} / 45
                             </p>
                         </div>
-                        <input class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input maxlength="45" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg" required
                             type="text" v-model.trim="userObj.username" :class="checkUsernameLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'
                                 " />
-                        <p class="ml-2 text-xs" :class="checkUsernameLengthAndUnique
+                        <p class="ann-error-username ml-2 text-xs" :class="checkUsernameLengthAndUnique
                             ? 'text-DarkGreen '
                             : 'text-DarkRed'
                             ">
@@ -124,14 +124,14 @@ const save = async (user) => {
                                 {{ userObj.name.length }} / 100
                             </p>
                         </div>
-                        <input class="ann-name bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                        <input maxlength="100" class="ann-name bg-InputColor drop-shadow-md h-8 w-full rounded-lg" required
                             type="text" v-model.trim="userObj.name" :class="checkNameLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'
                                 " />
-                        <p class="ml-2 text-xs" :class="checkNameLengthAndUnique ? 'text-DarkGreen' : 'text-DarkRed'
+                        <p class="ann-error-name ml-2 text-xs" :class="checkNameLengthAndUnique ? 'text-DarkGreen' : 'text-DarkRed'
                             ">
-                            {{ nameMassage }}
+                            {{ nameMessage }}
                         </p>
                     </div>
 
@@ -146,14 +146,14 @@ const save = async (user) => {
                                 {{ userObj.email.length }} / 150
                             </p>
                         </div>
-                        <input class="ann-email bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
-                            type="text" v-model.trim="userObj.email" :class="checkEmailLengthAndUnique
+                        <input maxlength="150" class="ann-email bg-InputColor drop-shadow-md h-8 w-full rounded-lg" required
+                            type="email" v-model.trim="userObj.email" :class="checkEmailLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'
                                 " />
-                        <p class="ml-2 text-xs" :class="checkEmailLengthAndUnique ? 'text-DarkGreen' : 'text-DarkRed'
+                        <p class="ann-error-email ml-2 text-xs" :class="checkEmailLengthAndUnique ? 'text-DarkGreen' : 'text-DarkRed'
                             ">
-                            {{ emailMassage }}
+                            {{ emailMessage }}
                         </p>
                     </div>
 
@@ -181,7 +181,7 @@ const save = async (user) => {
                     </div>
 
                     <div class="my-5 text-center">
-                        <button :disabled="checkUserChange"
+                        <button :disabled="false"
                             class="ann-button ml-5 shadow-md font-bold rounded-full px-5 py-2 buttonEdit bg-DarkGreen hover:bg-ButtonViewHover"
                             :style="checkUserChange
                                 ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;'
