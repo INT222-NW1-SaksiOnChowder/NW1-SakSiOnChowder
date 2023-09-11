@@ -3,9 +3,13 @@ services:
     image: nginx:latest
     container_name: nginx-reverse-proxy
     volumes:
-      - ./reverse-proxy.conf:/etc/nginx/nginx.conf  
+      - ./reverse-proxy.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl/dhparam-2048.pem:/ssl/dhparam-2048.pem
+      - ./nginx/ssl/fullchain.pem:/ssl/fullchain.pem
+      - ./nginx/ssl/privkey.pem:/ssl/privkey.pem 
     ports:
       - "80:80"
+      - "443:443"
     networks:
       - proxy
     restart: always
