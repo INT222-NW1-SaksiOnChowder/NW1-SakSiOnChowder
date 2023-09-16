@@ -56,7 +56,7 @@ const deleteUserById = async (id) => {
                     </span>
                 </p>
                 <div
-                    class="bg-DarkBlue shadow-md mr-5 hover:bg-red-200 font-semibold text-BlueFonts hover:bg-LightBlue rounded-full items-center justify-center">
+                    class="bg-DarkBlue shadow-md mr-5 font-semibold text-BlueFonts hover:bg-LightBlue rounded-full items-center justify-center">
                     <router-link :to="{
                         name: 'addUser',
                     }">
@@ -83,7 +83,7 @@ const deleteUserById = async (id) => {
 
                     <tbody v-if="!isUserFound" class="bg-Cream">
                         <tr v-for="(user, index) in users" :key="index"
-                            class="ann-item bg-white dark:bg-gray-900">
+                            class="ann-item">
                             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
                                 {{ ++index }}
                             </th>
@@ -110,12 +110,12 @@ const deleteUserById = async (id) => {
                                     name: 'userEditDetail',
                                     params: { id: user.id },
                                 }"><button
-                                        class="ann-button font-bold text-blue-600 shadow-md hover:bg-ButtonViewHover rounded-full bg-DarkGreen px-5 py-2">
+                                        class="ann-button font-bold shadow-md hover:bg-ButtonViewHover rounded-full bg-DarkGreen px-5 py-2">
                                         edit
                                     </button>
                                 </router-link>
                                 <button
-                                    class="ann-button font-bold text-blue-600 shadow-md hover:bg-ButtonDeleteHover rounded-full bg-DarkRed px-5 py-2 ml-2"
+                                    class="ann-button font-bold shadow-md hover:bg-ButtonDeleteHover rounded-full bg-DarkRed px-5 py-2 ml-2"
                                     @click="deleteUserById(user.id)">
                                     delete
                                 </button>

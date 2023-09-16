@@ -62,7 +62,7 @@ const deleteAnnouncement = async (id) => {
           }}</span>
         </p>
         <div
-          class="bg-DarkBlue shadow-md mr-5 hover:bg-red-200 font-semibold text-BlueFonts hover:bg-LightBlue rounded-full items-center justify-center">
+          class="bg-DarkBlue shadow-md mr-5 font-semibold text-BlueFonts hover:bg-LightBlue rounded-full items-center justify-center">
           <router-link :to="{
                 name: 'addAnnouncement',
               }">
@@ -88,7 +88,7 @@ const deleteAnnouncement = async (id) => {
           </thead>
 
           <tbody v-if="!isAnnouncementFound" class="bg-Cream">
-            <tr v-for="(announcement, index) in announcements" :key="index" class="ann-item bg-white dark:bg-gray-900">
+            <tr v-for="(announcement, index) in announcements" :key="index" class="ann-item">
               <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
                 {{ ++index }}
               </th>
@@ -115,12 +115,12 @@ const deleteAnnouncement = async (id) => {
                   name: 'announcementDetail',
                   params: { id: announcement.id },
                 }"><button
-                    class="ann-button font-bold text-blue-600 shadow-md hover:bg-ButtonViewHover rounded-full bg-DarkGreen px-5 py-2">
+                    class="ann-button font-bold shadow-md hover:bg-ButtonViewHover rounded-full bg-DarkGreen px-5 py-2">
                     view
                   </button>
                 </router-link>
                 <button
-                  class="ann-button font-bold text-blue-600 shadow-md hover:bg-ButtonDeleteHover rounded-full bg-DarkRed px-5 py-2 ml-2"
+                  class="ann-button font-bold shadow-md hover:bg-ButtonDeleteHover rounded-full bg-DarkRed px-5 py-2 ml-2"
                   @click="deleteAnnouncement(announcement.id)">
                   delete
                 </button>

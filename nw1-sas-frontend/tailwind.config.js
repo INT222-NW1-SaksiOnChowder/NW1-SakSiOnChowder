@@ -6,8 +6,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-    },
-    colors: {
+      colors: {
       "Background" : "#E4E5E9",
       "LightBlue" : "#D1D8DE",
       "DarkBlue" : "#A0B1C1",
@@ -19,6 +18,8 @@ module.exports = {
       "ButtonDeleteHover" : "#DCACAC",
       "InputColor" : "#F0F0F0"
     }
+    },
+    
   },
   plugins: [require("daisyui")],
 }

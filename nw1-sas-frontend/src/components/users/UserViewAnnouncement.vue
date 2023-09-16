@@ -146,7 +146,7 @@ const changeCategory = async (category) =>{
           Date/Time shown in Timezone : &nbsp;
           <span class="font-bold text-BlueFonts drop-shadow-sm">{{ timezone }}</span>
         </p>
-        <div class="mr-5 bg-DarkBlue hover:bg-red-200 font-bold hover:bg-LightBlue text-BlueFonts rounded-full items-center justify-center">
+        <div class="mr-5 bg-DarkBlue font-bold hover:bg-LightBlue text-BlueFonts rounded-full items-center justify-center">
             <button @click="getListAnnouncement" class="ann-button px-5 py-2 text-lg ">
               <ActiveIcon v-if="showCloseTime" class="inline mr-2 mb-1"></ActiveIcon>
               <CloseIcon v-else="showCloseTime" class="inline mr-2 mb-1"></CloseIcon>
@@ -166,7 +166,7 @@ const changeCategory = async (category) =>{
         </div>
       <div class="mx-5 mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm dark:text-gray-400">
-          <thead class="bg-DarkBlue text-base text-BlueFonts uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead class="bg-DarkBlue text-base text-BlueFonts uppercase dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-6 py-3 ${}">No.</th>
               <th scope="col" class="px-6 py-3 text-left">Title</th>
@@ -177,7 +177,7 @@ const changeCategory = async (category) =>{
 
           <tbody class="bg-Cream" v-if="!isAnnouncementFound">
             <tr v-for="(announcement, index) in annoucementContent" :key="index"
-              class="ann-item bg-white dark:bg-gray-900">
+              class="ann-item">
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {{ ++index + (announcements.size * announcements.page) }}
               </th>
