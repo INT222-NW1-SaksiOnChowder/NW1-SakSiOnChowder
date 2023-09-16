@@ -109,7 +109,7 @@ const save = async (user) => {
                             ? 'text-DarkGreen '
                             : 'text-DarkRed'
                             ">
-                            {{ userNameMassage }}
+                            {{ userNameMessage }}
                         </p>
                     </div>
 
