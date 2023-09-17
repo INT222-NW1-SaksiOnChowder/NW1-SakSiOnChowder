@@ -80,7 +80,7 @@ const validateUserInput = (userObj, mode, listUser) => {
                 return user
             }
             user.boolean = true
-            user.message = 'Correct'
+            user.message = ''
             return user
         } else {
             user.boolean = false

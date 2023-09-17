@@ -59,7 +59,7 @@ const checkUserChange = computed(() => {
             userObj.value.name === "") &&
         (userObj.value.email === oldUserData.value.email ||
             userObj.value.email === "") &&
-        userObj.value.role === oldUserData.value.role 
+        userObj.value.role === oldUserData.value.role
     ) {
         return true;
     } else {
@@ -67,9 +67,9 @@ const checkUserChange = computed(() => {
     }
 });
 
-const save = async (user) => {
+const save = async () => {
     const status = ref(true)
-    status.value = await updateUser(user);
+    status.value = await updateUser(userObj.value);
     if (status.value) {
         router.push({ name: 'userManagement' })
     }
@@ -88,27 +88,20 @@ const save = async (user) => {
                         User Detail:
                     </h1>
                 </div>
+                <form @submit="save">
                 <div class="bg-LightBlue rounded-2xl py-9 px-28">
                     <!-- username -->
                     <div class="my-5">
                         <div class="flex justify-between">
                             <label class="font-bold">Username</label><br />
-                            <p :class="checkUsernameLengthAndUnique
-                                ? 'text-DarkGreen font-semibold'
-                                : 'text-DarkRed font-semibold'
-                                ">
-                                {{ userObj.username.length }} / 45
-                            </p>
+                            <p class="font-semibold text-gray-600">remaining: {{ 45 - userObj.username.length }}</p>
                         </div>
-                        <input maxlength="45" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg" required
-                            type="text" v-model.trim="userObj.username" :class="checkUsernameLengthAndUnique
+                        <input maxlength="45" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
+                            required type="text" v-model.trim="userObj.username" :class="checkUsernameLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'
                                 " />
-                        <p class="ann-error-username ml-2 text-xs" :class="checkUsernameLengthAndUnique
-                            ? 'text-DarkGreen '
-                            : 'text-DarkRed'
-                            ">
+                        <p class="ann-error-username ml-2 text-xs" :class="checkUsernameLengthAndUnique ? 'text-DarkGreen' : 'text-DarkRed'">
                             {{ userNameMessage }}
                         </p>
                     </div>
@@ -117,11 +110,8 @@ const save = async (user) => {
                     <div class="my-5">
                         <div class="flex justify-between">
                             <label class="font-bold">Name</label><br />
-                            <p :class="checkNameLengthAndUnique
-                                ? 'text-DarkGreen font-semibold'
-                                : 'text-DarkRed font-semibold'
-                                ">
-                                {{ userObj.name.length }} / 100
+                            <p class="font-semibold text-gray-600">
+                                remaining: {{ 100 - userObj.name.length }}
                             </p>
                         </div>
                         <input maxlength="100" class="ann-name bg-InputColor drop-shadow-md h-8 w-full rounded-lg" required
@@ -139,25 +129,23 @@ const save = async (user) => {
                     <div class="my-5">
                         <div class="flex justify-between">
                             <label class="font-bold">Email</label><br />
-                            <p :class="checkEmailLengthAndUnique
-                                ? 'text-DarkGreen font-semibold'
-                                : 'text-DarkRed font-semibold'
-                                ">
-                                {{ userObj.email.length }} / 150
+                            <p class="font-semibold text-gray-600">
+                                remaining: {{ 150 - userObj.email.length }}
                             </p>
                         </div>
                         <input maxlength="150" class="ann-email bg-InputColor drop-shadow-md h-8 w-full rounded-lg" required
-                            type="email" v-model.trim="userObj.email" :class="checkEmailLengthAndUnique
+                            type="email" v-model.trim="userObj.email"
+                            :class="checkEmailLengthAndUnique
                                 ? 'border-2 border-DarkGreen'
                                 : 'border-2'
-                                " />
+                                "/>
                         <p class="ann-error-email ml-2 text-xs" :class="checkEmailLengthAndUnique ? 'text-DarkGreen' : 'text-DarkRed'
                             ">
                             {{ emailMessage }}
                         </p>
                     </div>
 
-                     <!-- Role -->
+                    <!-- Role -->
                     <div class="my-5">
                         <label class="font-bold">Role</label><br />
                         <select class="ann-role drop-shadow-md bg-InputColor h-8 w-2/5 rounded-lg" v-model="userObj.role">
@@ -181,12 +169,8 @@ const save = async (user) => {
                     </div>
 
                     <div class="my-5 text-center">
-                        <button :disabled="checkUserChange"
-                            class="ann-button ml-5 shadow-md font-bold rounded-full px-5 py-2 buttonEdit bg-DarkGreen hover:bg-ButtonViewHover"
-                            :style="checkUserChange
-                                ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;'
-                                : 'opacity: 1;'
-                                " @click="save(userObj)">
+                        <button type="submit"
+                            class="ann-button ml-5 shadow-md font-bold rounded-full px-5 py-2 buttonEdit bg-DarkGreen hover:bg-ButtonViewHover">
                             save
                         </button>
                         <router-link :to="{ name: 'userManagement' }">
@@ -196,6 +180,7 @@ const save = async (user) => {
                             </button></router-link>
                     </div>
                 </div>
+            </form>
             </div>
         </div>
     </div>

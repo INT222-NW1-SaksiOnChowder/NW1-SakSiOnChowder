@@ -22,11 +22,11 @@ const nameMessage = ref('')
 const emailMessage = ref('')
 const passwordMessage = ref('')
 const confirmPasswordMessage = ref('')
-const checkUsernameLengthAndUnique = ref(true)
-const checkNameLengthAndUnique = ref(true)
-const checkEmailLengthAndUnique = ref(true)
-const checkPasswordPattern = ref(true)
-const checkConfirmPassword = ref(true)
+const checkUsernameLengthAndUnique = ref()
+const checkNameLengthAndUnique = ref()
+const checkEmailLengthAndUnique = ref()
+const checkPasswordPattern = ref()
+const checkConfirmPassword = ref()
 const confirmPassword = ref('')
 
 onMounted(async () => {
@@ -35,24 +35,26 @@ onMounted(async () => {
 
 watchEffect(() => {
     // if (userObj.value.username.length >= 0) {
-    //     userNameMessage.value = validateUserInput(userObj.value, 'username', listUser.value).message
+    //     // userNameMessage.value = validateUserInput(userObj.value, 'username', listUser.value).message
     //     checkUsernameLengthAndUnique.value = validateUserInput(userObj.value, 'username', listUser.value).boolean
     // }
 
     // if (userObj.value.name.length >= 0) {
-    //     nameMessage.value = validateUserInput(userObj.value, 'name', listUser.value).message
+    //     // nameMessage.value = validateUserInput(userObj.value, 'name', listUser.value).message
     //     checkNameLengthAndUnique.value = validateUserInput(userObj.value, 'name', listUser.value).boolean
     // }
 
     // if (userObj.value.email.length >= 0) {
-    //     emailMessage.value = validateUserInput(userObj.value, 'email', listUser.value).message
+    //     // emailMessage.value = validateUserInput(userObj.value, 'email', listUser.value).message
     //     checkEmailLengthAndUnique.value = validateUserInput(userObj.value, 'email', listUser.value).boolean
     // }
-    // if (userObj.value.password.length >= 0) {
-    //     passwordMessage.value = validateUserInput(userObj.value, 'password', listUser.value).message
-    //     checkPasswordPattern.value = validateUserInput(userObj.value, 'password', listUser.value).boolean
-    // }
-
+    if (userObj.value.password.length >= 0) {
+        passwordMessage.value = validateUserInput(userObj.value, 'password', listUser.value).message
+        checkPasswordPattern.value = validateUserInput(userObj.value, 'password', listUser.value).boolean
+    }
+    // if (userObj.value.password.length < 8 || userObj.value.password.length  > 14) {
+    //     passwordMessage.value = "Password size must be between 8 and 14"
+    // }   
     if (confirmPassword.value === userObj.value.password && confirmPassword.value.length > 0) {
         confirmPasswordMessage.value = 'Password match'
         checkConfirmPassword.value = true
@@ -64,31 +66,37 @@ watchEffect(() => {
 
 const save = async (event) => {
     event.preventDefault();
+    userNameMessage.value = ''
+    nameMessage.value = ''
+    emailMessage.value = ''
     const res = ref(true)
-    if (true) {
+    if (checkPasswordPattern.value) {
         res.value = await createUser(userObj.value)
-    }
-    console.log(res.value)
-    for(const err of res.value){
-        switch (err.field){
-            case "username":
-                userNameMessage.value = ''
-                userNameMessage.value = err.errorMessage
-                break
-            case "password":
-                passwordMessage.value = ''
-                passwordMessage.value = err.errorMessage
-                break
-            case "name":
-                nameMessage.value = ''
-                nameMessage.value = err.errorMessage
-                break
-            case "email":
-                emailMessage.value = ''
-                emailMessage.value = err.errorMessage
-                break
+        if (res.value !== true) {
+            for (const err of res.value) {
+                console.log(res.value)
+                switch (err.field) {
+                    case "username":
+                        userNameMessage.value = err.errorMessage
+                        break
+                    // case "password":
+                    //     passwordMessage.value = err.errorMessage
+                    //     break
+                    case "name":
+                        nameMessage.value = err.errorMessage
+                        break
+                    case "email":
+                        emailMessage.value = err.errorMessage
+                        break
+                }
+            }
+        }
+        if (userNameMessage.value === '' && passwordMessage.value === ''
+            && nameMessage.value === '' && emailMessage.value === '') {
+            router.push({ name: 'userManagement' })
         }
     }
+
 }
 
 </script>
@@ -104,98 +112,66 @@ const save = async (event) => {
                     </h1>
                 </div>
                 <form @submit="save">
-                <!-- Username -->
-                <div class="bg-LightBlue rounded-2xl py-9 px-28">
-                    <form>
+                    <!-- Username -->
+                    <div class="bg-LightBlue rounded-2xl py-9 px-28">
+
                         <div class="my-5">
                             <div class="flex justify-between">
                                 <label class="font-bold">Username</label>
-                                <p :class="checkUsernameLengthAndUnique
-                                    ? 'text-DarkGreen font-semibold'
-                                    : 'text-DarkRed font-semibold'
-                                    ">{{ userObj.username.length }} / 45</p>
+                                <p class="font-semibold text-gray-600">remaining: {{ 45 - userObj.username.length }}</p>
                             </div>
                             <input maxlength="45" class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
-                                required type="text" v-model.trim="userObj.username" :class="checkUsernameLengthAndUnique
-                                    ? 'border-2 border-DarkGreen'
-                                    : 'border-2'">
-                            <p class="ann-error-username ml-2 text-xs" :class="checkUsernameLengthAndUnique
-                                ? 'text-DarkGreen '
-                                : 'text-DarkRed'">{{ userNameMessage }}</p>
+                                required type="text" v-model.trim="userObj.username">
+                            <p class="ann-error-username ml-2 text-xs text-DarkRed">{{ userNameMessage }}</p>
                         </div>
 
                         <!-- Password -->
                         <div class="my-5">
                             <div class="flex justify-between">
                                 <label class="font-bold">Password</label>
-                                <p :class="checkPasswordPattern
-                                    ? 'text-DarkGreen font-semibold'
-                                    : 'text-DarkRed font-semibold'
-                                    ">{{ userObj.password.length }} / 8-14</p>
+                                <p class="font-semibold text-gray-600">remaining: {{ 14 - userObj.password.length }}</p>
                             </div>
                             <input maxlength="14" class="ann-password bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
-                                required type="password" v-model.trim="userObj.password" :class="checkPasswordPattern
-                                    ? 'border-2 border-DarkGreen'
-                                    : 'border-2'">
-                            <p class="ann-error-password ml-2 text-xs" :class="checkPasswordPattern
-                                ? 'text-DarkGreen '
-                                : 'text-DarkRed'">{{ passwordMessage }}</p>
+                                required type="password" v-model.trim="userObj.password">
+                            <p class="ann-error-password ml-2 text-xs text-DarkRed">{{ passwordMessage }}</p>
                         </div>
 
                         <!--Confirm Password -->
                         <div class="my-5">
                             <div class="flex justify-between">
                                 <label class="font-bold">Confirm Password</label>
-                                <p :class="checkConfirmPassword
-                                    ? 'text-DarkGreen font-semibold'
-                                    : 'text-DarkRed font-semibold'
-                                    ">{{ confirmPassword.length }} / 8-14</p>
+                                <p class="font-semibold text-gray-600">remaining: {{ 14 - confirmPassword.length }}</p>
                             </div>
                             <input maxlength="14"
                                 class="ann-confirm-password bg-InputColor drop-shadow-md h-8 w-full rounded-lg" required
-                                type="password" v-model.trim="confirmPassword" :class="checkConfirmPassword
-                                    ? 'border-2 border-DarkGreen'
-                                    : 'border-2'">
+                                type="password" v-model.trim="confirmPassword">
                             <p class="ann-error-password ml-2 text-xs" :class="checkConfirmPassword
-                                ? 'text-DarkGreen '
-                                : 'text-DarkRed'">{{ confirmPasswordMessage }}</p>
+                                ? 'text-DarkGreen font-semibold'
+                                : 'text-DarkRed font-semibold'
+                                ">{{ confirmPasswordMessage }}</p>
                         </div>
 
                         <!-- Name -->
                         <div class="my-5">
                             <div class="flex justify-between">
                                 <label class="font-bold">Name</label><br>
-                                <p :class="checkNameLengthAndUnique
-                                    ? 'text-DarkGreen font-semibold'
-                                    : 'text-DarkRed font-semibold'
-                                    ">{{ userObj.name.length }} / 100</p>
+                                <p class="font-semibold text-gray-600">remaining: {{ 100 - userObj.name.length }}</p>
                             </div>
                             <input maxlength="100" class="ann-name bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
-                                required type="text" v-model.trim="userObj.name" :class="checkNameLengthAndUnique
-                                    ? 'border-2 border-DarkGreen'
-                                    : 'border-2'">
-                            <p class="ann-error-name ml-2 text-xs" :class="checkNameLengthAndUnique
-                                ? 'text-DarkGreen'
-                                : 'text-DarkRed'">{{ nameMessage }}</p>
+                                required type="text" v-model.trim="userObj.name">
+                            <p class="ann-error-name ml-2 text-xs text-DarkRed">{{ nameMessage }}</p>
                         </div>
 
                         <!-- Email -->
                         <div class="my-5">
                             <div class="flex justify-between">
                                 <label class="font-bold">Email</label><br>
-                                <p :class="checkEmailLengthAndUnique
-                                    ? 'text-DarkGreen font-semibold'
-                                    : 'text-DarkRed font-semibold'
-                                    ">{{ userObj.email.length }} / 150</p>
+                                <p class="font-semibold text-gray-600">remaining: {{ 150 - userObj.email.length }}</p>
 
                             </div>
                             <input maxlength="150" class="ann-email bg-InputColor drop-shadow-md h-8 w-full rounded-lg"
-                                required type="email" v-model.trim="userObj.email" :class="checkEmailLengthAndUnique
-                                    ? 'border-2 border-DarkGreen'
-                                    : 'border-2'">
-                            <p class="ann-error-email ml-2 text-xs" :class="checkEmailLengthAndUnique
-                                ? 'text-DarkGreen'
-                                : 'text-DarkRed'">{{ emailMessage }}</p>
+                                required type="email" v-model.trim="userObj.email">
+                            <p class="ann-error-email ml-2 text-xs text-DarkRed">{{ emailMessage }}</p>
                         </div>
 
                         <!-- Role -->
@@ -208,21 +184,19 @@ const save = async (event) => {
                             </select>
                         </div>
 
-                    </form>
 
-                    <div class="my-5 text-center">
-                        <button type="submit"
-                            class="ann-button ml-5 shadow-md font-bold rounded-full px-5 py-2 buttonEdit bg-DarkGreen hover:bg-ButtonViewHover"
-                            >
-                            Save</button>
-                        <!-- :disabled="checkAnnouncement"
+                        <div class="my-5 text-center">
+                            <button type="submit"
+                                class="ann-button ml-5 shadow-md font-bold rounded-full px-5 py-2 buttonEdit bg-DarkGreen hover:bg-ButtonViewHover">
+                                Save</button>
+                            <!-- :disabled="checkAnnouncement"
                             :style="checkAnnouncement ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1;'" -->
-                        <router-link :to="{ name: 'userManagement' }">
-                            <button
-                                class="ann-button shadow-md rounded-full bg-DarkRed px-6 py-2 ml-3 font-bold hover:bg-ButtonDeleteHover">Cancel</button></router-link>
+                            <router-link :to="{ name: 'userManagement' }">
+                                <button
+                                    class="ann-button shadow-md rounded-full bg-DarkRed px-6 py-2 ml-3 font-bold hover:bg-ButtonDeleteHover">Cancel</button></router-link>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
             </div>
         </div>
     </div>
