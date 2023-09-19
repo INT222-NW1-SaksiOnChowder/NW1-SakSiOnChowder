@@ -3,7 +3,7 @@ import { getUsers } from "../../composable/users/getUser.js";
 import { ref, computed, onMounted, watchEffect, onUpdated } from "vue";
 import { createUser } from "../../composable/users/addUser.js";
 import { useRouter } from "vue-router";
-import { validateUserInput } from "../../composable/users/validateUser.js";
+// import { validateUserInput } from "../../composable/users/validateUser.js";
 import Menubar from "../Navbar.vue";
 
 const router = useRouter();
@@ -22,10 +22,10 @@ const nameMessage = ref('')
 const emailMessage = ref('')
 const passwordMessage = ref('')
 const confirmPasswordMessage = ref('')
-const checkUsernameLengthAndUnique = ref()
-const checkNameLengthAndUnique = ref()
-const checkEmailLengthAndUnique = ref()
-const checkPasswordPattern = ref()
+// const checkUsernameLengthAndUnique = ref()
+// const checkNameLengthAndUnique = ref()
+// const checkEmailLengthAndUnique = ref()
+// const checkPasswordPattern = ref()
 const checkConfirmPassword = ref()
 const confirmPassword = ref('')
 
@@ -48,10 +48,10 @@ watchEffect(() => {
     //     // emailMessage.value = validateUserInput(userObj.value, 'email', listUser.value).message
     //     checkEmailLengthAndUnique.value = validateUserInput(userObj.value, 'email', listUser.value).boolean
     // }
-    if (userObj.value.password.length >= 0) {
-        passwordMessage.value = validateUserInput(userObj.value, 'password', listUser.value).message
-        checkPasswordPattern.value = validateUserInput(userObj.value, 'password', listUser.value).boolean
-    }
+    // if (userObj.value.password.length >= 0) {
+    //     passwordMessage.value = validateUserInput(userObj.value, 'password', listUser.value).message
+    //     checkPasswordPattern.value = validateUserInput(userObj.value, 'password', listUser.value).boolean
+    // }
     // if (userObj.value.password.length < 8 || userObj.value.password.length  > 14) {
     //     passwordMessage.value = "Password size must be between 8 and 14"
     // }   
@@ -68,9 +68,10 @@ const save = async (event) => {
     event.preventDefault();
     userNameMessage.value = ''
     nameMessage.value = ''
+    passwordMessage.value = ''
     emailMessage.value = ''
     const res = ref(true)
-    if (checkPasswordPattern.value) {
+    // if (checkPasswordPattern.value) {
         res.value = await createUser(userObj.value)
         if (res.value !== true) {
             for (const err of res.value) {
@@ -79,9 +80,12 @@ const save = async (event) => {
                     case "username":
                         userNameMessage.value = err.errorMessage
                         break
-                    // case "password":
-                    //     passwordMessage.value = err.errorMessage
-                    //     break
+                    case "password":
+                        if (userObj.value.password.length >= 8 && userObj.value.password.length <= 14 ) {
+                            passwordMessage.value = err.errorMessage
+                        }
+                        passwordMessage.value = 'Password size must be between 8 and 14'
+                        break
                     case "name":
                         nameMessage.value = err.errorMessage
                         break
@@ -95,7 +99,7 @@ const save = async (event) => {
             && nameMessage.value === '' && emailMessage.value === '') {
             router.push({ name: 'userManagement' })
         }
-    }
+    // }
 
 }
 
