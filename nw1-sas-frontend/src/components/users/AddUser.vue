@@ -83,8 +83,9 @@ const save = async (event) => {
                     case "password":
                         if (userObj.value.password.length >= 8 && userObj.value.password.length <= 14 ) {
                             passwordMessage.value = err.errorMessage
+                        }else{
+                            passwordMessage.value = 'Password size must be between 8 and 14'
                         }
-                        passwordMessage.value = 'Password size must be between 8 and 14'
                         break
                     case "name":
                         nameMessage.value = err.errorMessage
