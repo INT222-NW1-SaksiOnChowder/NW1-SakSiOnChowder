@@ -53,12 +53,12 @@ watchEffect(() => {
 
 const checkUserChange = computed(() => {
     if (
-        (userObj.value.username === oldUserData.value.username ||
-            userObj.value.username === "") &&
-        (userObj.value.name === oldUserData.value.name ||
-            userObj.value.name === "") &&
-        (userObj.value.email === oldUserData.value.email ||
-            userObj.value.email === "") &&
+        userObj.value.username === oldUserData.value.username 
+            &&
+        userObj.value.name === oldUserData.value.name 
+            &&
+        userObj.value.email === oldUserData.value.email 
+            &&
         userObj.value.role === oldUserData.value.role
     ) {
         return true;
@@ -170,7 +170,9 @@ const save = async () => {
 
                     <div class="my-5 text-center">
                         <button type="submit"
-                            class="ann-button ml-5 shadow-md font-bold rounded-full px-5 py-2 buttonEdit bg-DarkGreen hover:bg-ButtonViewHover">
+                            :disabled="checkUserChange"
+                            class="ann-button ml-5 shadow-md font-bold rounded-full px-5 py-2 buttonEdit bg-DarkGreen hover:bg-ButtonViewHover"
+                            :style="checkUserChange ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1;'">
                             save
                         </button>
                         <router-link :to="{ name: 'userManagement' }">
