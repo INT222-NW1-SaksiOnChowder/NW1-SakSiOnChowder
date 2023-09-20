@@ -21,8 +21,6 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private Argon2PasswordEncoder argon2PasswordEncoder;
 
     public List<User> getAllOfUsers() {
         return userRepository.findAllByOrderByRoleAscUsernameAsc();
@@ -84,6 +82,7 @@ public class UserService {
     }
 
     public String matchPassword(UsernamePasswordDto usernamePasswordDto) {
+        Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder(16, 16, 1, 4096, 3);
         User existUser = userRepository.findUserByUsername(usernamePasswordDto.getUsername());
         if (existUser == null) {
             throw new ItemNotFoundException("The specified username DOES NOT exist");

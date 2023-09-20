@@ -18,15 +18,15 @@ public class ApplicationConfig {
         return ListMapper.getInstance();
     }
 
-    @Bean
-    public Argon2PasswordEncoder argon2PasswordEncoder() {
-        return new Argon2PasswordEncoder(
-                16,
-                16,
-                1,
-                4096,
-                3
-        );
-    }
+//    @Bean
+//    public Argon2PasswordEncoder argon2PasswordEncoder() {
+//        return new Argon2PasswordEncoder(
+//                16,
+//                16,
+//                1,
+//                4096,
+//                3
+//        );
+//    }
 
 }
