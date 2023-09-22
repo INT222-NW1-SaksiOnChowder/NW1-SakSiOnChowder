@@ -1,21 +1,20 @@
 package sit.int222.nw1apisas.config;
 
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.http.HttpMethod.OPTIONS;
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -31,14 +30,19 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(OPTIONS).permitAll() // allow CORS option calls for Swagger UI
-//                        permitAll ยอมให้เรียกผ่านได้โดยไม่ต้อง authenticate
-                        .requestMatchers("/api/token", "/api/announcements").permitAll()
+                        .requestMatchers("/api/authenticate").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic();
         return http.build();
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new Argon2PasswordEncoder(16, 16, 1, 4096, 3);
+        return new Argon2PasswordEncoder(
+                16,
+                16,
+                1,
+                4096,
+                3
+        );
     }
 }

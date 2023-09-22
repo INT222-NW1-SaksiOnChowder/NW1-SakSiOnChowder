@@ -8,16 +8,14 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
 import sit.int222.nw1apisas.config.JwtTokenUtil;
-
 import sit.int222.nw1apisas.dtos.jwt.JwtRequest;
 import sit.int222.nw1apisas.dtos.jwt.JwtResponse;
 import sit.int222.nw1apisas.services.JwtUserDetailsService;
 
+
 @RestController
 @CrossOrigin
-@RequestMapping(value = "/api/token")
 public class JwtAuthenticationController {
 
     @Autowired
@@ -29,13 +27,16 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
-    @PostMapping("")
+    @PostMapping(value = "/api/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         System.out.println(authenticationRequest);
+        System.out.println(authenticationRequest.getUsername());
+        System.out.println(authenticationRequest.getPassword());
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
+        System.out.println(userDetails);
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
