@@ -83,10 +83,7 @@ public class UserService {
 
     public String matchPassword(UsernamePasswordDto usernamePasswordDto) {
         Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder(16, 16, 1, 4096, 3);
-        User existUser = userRepository.findUserByUsername(usernamePasswordDto.getUsername());
-        if (existUser == null) {
-            throw new ItemNotFoundException("The specified username DOES NOT exist");
-        }
+        User existUser = userRepository.findUserByUsername(usernamePasswordDto.getUsername()).orElseThrow(() -> new ItemNotFoundException("The specified username DOES NOT exist"));
         String storedPassword = existUser.getPassword();
         if (argon2PasswordEncoder.matches(usernamePasswordDto.getPassword(), storedPassword)) {
             return "Password Matched";

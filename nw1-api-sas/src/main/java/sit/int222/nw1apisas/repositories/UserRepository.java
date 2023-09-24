@@ -5,6 +5,7 @@ import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.repositories.customs.CustomRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends CustomRepository<User, Integer> {
     List<User> findAllByOrderByRoleAscUsernameAsc();
@@ -15,7 +16,7 @@ public interface UserRepository extends CustomRepository<User, Integer> {
 
     Boolean existsUserByEmail(String email);
 
-    User findUserByUsername(String username);
+    Optional<User> findUserByUsername(String username);
 
 
 }
