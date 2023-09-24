@@ -1,6 +1,7 @@
 package sit.int222.nw1apisas.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +12,8 @@ import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import static org.springframework.http.HttpMethod.OPTIONS;
 
@@ -20,6 +23,9 @@ import static org.springframework.http.HttpMethod.OPTIONS;
 public class SecurityConfig {
 
     private final AuthenticationConfiguration authConfiguration;
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
 
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {
@@ -34,6 +40,7 @@ public class SecurityConfig {
 //                        permitAll ยอมให้เรียกผ่านได้โดยไม่ต้อง authenticate
                         .requestMatchers("/api/token", "/api/announcements").permitAll()
                         .anyRequest().authenticated())
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic();
         return http.build();
     }
