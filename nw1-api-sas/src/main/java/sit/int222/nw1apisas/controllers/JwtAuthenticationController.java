@@ -13,7 +13,6 @@ import sit.int222.nw1apisas.dtos.jwt.JwtRequest;
 import sit.int222.nw1apisas.dtos.jwt.JwtResponse;
 import sit.int222.nw1apisas.services.JwtUserDetailsService;
 
-
 @RestController
 @CrossOrigin
 public class JwtAuthenticationController {
@@ -27,16 +26,13 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
-    @PostMapping(value = "/api/authenticate")
+    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-        System.out.println(authenticationRequest);
-        System.out.println(authenticationRequest.getUsername());
-        System.out.println(authenticationRequest.getPassword());
+
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
-        System.out.println(userDetails);
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
