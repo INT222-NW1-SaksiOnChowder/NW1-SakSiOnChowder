@@ -45,18 +45,32 @@ public class JwtTokenUtil implements Serializable {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername());
+        System.out.println(jwtProperties.getAccessTokenExpired());
+        return doGenerateToken(claims, userDetails.getUsername(), jwtProperties.getAccessTokenExpired());
+    }
+    public String generateRefreshToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        return doGenerateToken(claims, userDetails.getUsername(), jwtProperties.getRefreshTokenExpired());
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
-
+    private String doGenerateToken(Map<String, Object> claims, String subject, long expirationInMilliSec) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getTokenIntervalInHour() * 60 * 60 * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationInMilliSec * 1000)) // Refresh token expiration in minutes
                 .signWith(SignatureAlgorithm.HS512, jwtProperties.getSecretKey())
                 .compact();
+    }
+
+    public boolean isValidRefreshToken(String refreshToken) {
+        try {
+            // ตรวจสอบความถูกต้องของ Refresh Token ด้วยคีย์เดียวกันที่ใช้ในการสร้าง
+            Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(refreshToken);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
