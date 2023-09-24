@@ -40,8 +40,8 @@ public class SecurityConfig {
 //                        permitAll ยอมให้เรียกผ่านได้โดยไม่ต้อง authenticate
                         .requestMatchers("/api/token", "/api/announcements").permitAll()
                         .anyRequest().authenticated())
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic();
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
     @Bean
