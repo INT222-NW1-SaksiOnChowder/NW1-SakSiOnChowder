@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(OPTIONS).permitAll() // allow CORS option calls for Swagger UI
 //                        permitAll ยอมให้เรียกผ่านได้โดยไม่ต้อง authenticate
-                        .requestMatchers("/api/token", "/api/announcements", "/api/announcements/${id}").permitAll()
+                        .requestMatchers("/api/token").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic();
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

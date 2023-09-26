@@ -33,8 +33,8 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
-    @GetMapping
-    public ResponseEntity<?> refreshAccessToken(@RequestBody RefreshTokenDto refreshRequest) {
+    @GetMapping("")
+    public ResponseEntity<?> requestAccessToken(@RequestBody RefreshTokenDto refreshRequest) {
         String refreshToken = refreshRequest.getRefreshToken();
 
         // ตรวจสอบความถูกต้องของ Refresh Token check secret-key
