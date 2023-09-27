@@ -70,9 +70,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
-//    private boolean isAllowedToAccessRefreshEndpoint(HttpServletRequest request) {
-//        // Return true if allowed, false otherwise.
-//        return request.getMethod().equals("GET") && request.getRequestURI().equals("/api/token");
-//    }
+
 
 }

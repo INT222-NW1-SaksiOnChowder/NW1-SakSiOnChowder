@@ -65,8 +65,18 @@ public class JwtTokenUtil implements Serializable {
 
     public boolean isValidRefreshToken(String refreshToken) {
         try {
-            // ตรวจสอบความถูกต้องของ Refresh Token ด้วยคีย์เดียวกันที่ใช้ในการสร้าง
-            Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(refreshToken);
+            // Parse the JWT using the secret key
+            Claims claims = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(refreshToken).getBody();
+            // เอาเวลาหมดอายุของตัว token
+            Date expirationDate = claims.getExpiration();
+            // Get the current date and time
+            Date currentDate = new Date();
+            // Check if the token has expired
+            if (expirationDate != null && expirationDate.before(currentDate)) {
+                // Token has expired
+                return false;
+            }
+            // Token is valid
             return true;
         } catch (Exception e) {
             return false;
