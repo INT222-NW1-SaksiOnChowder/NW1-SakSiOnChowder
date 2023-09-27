@@ -54,7 +54,7 @@ public class JwtAuthenticationController {
         }
 
         // If Refresh Token is missing or invalid
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing refresh token");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or refresh token is expired");
     }
 
 
