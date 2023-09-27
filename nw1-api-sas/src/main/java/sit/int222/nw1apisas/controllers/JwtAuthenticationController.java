@@ -34,24 +34,27 @@ public class JwtAuthenticationController {
     private JwtUserDetailsService userDetailsService;
 
     @GetMapping("")
-    public ResponseEntity<?> requestAccessToken(@RequestBody RefreshTokenDto refreshRequest) {
-        String refreshToken = refreshRequest.getRefreshToken();
+    public ResponseEntity<?> requestAccessToken(@RequestHeader("Authorization") String refreshToken) {
+        // Check if the Authorization header is present
+        if (refreshToken != null && refreshToken.startsWith("Bearer ")) {
+            // Extract the token from the Authorization header
+            refreshToken = refreshToken.substring(7); // Remove "Bearer " prefix
+            // ตรวจสอบความถูกต้องของ Refresh Token check secret-key
+            if (jwtTokenUtil.isValidRefreshToken(refreshToken)) {
+                // ดึงข้อมูลผู้ใช้จาก Refresh Token
+                String username = jwtTokenUtil.getUsernameFromToken(refreshToken);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        // ตรวจสอบความถูกต้องของ Refresh Token check secret-key
-        if (jwtTokenUtil.isValidRefreshToken(refreshToken)) {
-            // ดึงข้อมูลผู้ใช้จาก Refresh Token
-            String username = jwtTokenUtil.getUsernameFromToken(refreshToken);
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                // สร้าง Access Token ใหม่
+                String newAccessToken = jwtTokenUtil.generateToken(userDetails);
 
-            // สร้าง Access Token ใหม่
-            String newAccessToken = jwtTokenUtil.generateToken(userDetails);
-
-            // ส่ง Access Token ใหม่กลับไปยังผู้ใช้
-            return ResponseEntity.ok(new AccessTokenResponse(newAccessToken));
-        } else {
-            // ถ้า Refresh Token ไม่ถูกต้องหรือหมดอายุ
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired refresh token");
+                // ส่ง Access Token ใหม่กลับไปยังผู้ใช้
+                return ResponseEntity.ok(new AccessTokenResponse(newAccessToken));
+            }
         }
+
+        // If Refresh Token is missing or invalid
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing refresh token");
     }
 
 
