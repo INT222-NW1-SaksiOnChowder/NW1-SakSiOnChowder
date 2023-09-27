@@ -9,6 +9,7 @@ import UserManagement from '../components/users/UserManagement.vue'
 import UserEditDetail from '../components/users/UserEditDetail.vue'
 import AddUser from '../components/users/AddUser.vue'
 import MatchPassword from '../components/users/MatchPassword.vue'
+import LoginPage from '../components/users/LoginPage.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes:
@@ -76,6 +77,11 @@ const router = createRouter({
         path: '/admin/user/match',
         name: 'matchPassword',
         component: MatchPassword
+      },
+      {
+        path: '/login',
+        name: 'login',
+        component: LoginPage
       }
     ]
 })
