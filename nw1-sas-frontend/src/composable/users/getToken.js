@@ -17,10 +17,12 @@ const getToken = async(user) => {
                 }
             )
             if (res.status === 200) {
+                const data = await res.json()
+                console.log(data);
                 result.status = true
                 result.message = 'Password Matched'
-                result.accessToken = res.json().token
-                result.refreshToken = res.json().refreshToken
+                result.accessToken = data.token
+                result.refreshToken = data.refreshToken
                 return result
             }else if(res.status === 401){
                 const error = await res.json()

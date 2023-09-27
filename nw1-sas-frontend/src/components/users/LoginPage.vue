@@ -14,13 +14,13 @@ const router = useRouter();
 
 const matchOrNotButton = async () => {
     result.value = await getToken(userObj.value)
-    console.log(result.value);
     divShowMassage.value = true
     if (result.value.status === true) {
-        localStorage.setItem(result.value.accessToken, result.value.refreshToken);
+        localStorage.setItem("accessToken", result.value.accessToken);
+        localStorage.setItem("refreshToken", result.value.refreshToken);
         console.log(result.value.accessToken);
         console.log(result.value.refreshToken);
-        router.push({ name: "userViewAnnouncement" })
+        router.push({ name: "userManagement" })
     }
 }
 
