@@ -8,8 +8,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import sit.int222.nw1apisas.config.JwtTokenUtil;
@@ -18,7 +17,6 @@ import sit.int222.nw1apisas.dtos.jwt.AccessTokenResponse;
 import sit.int222.nw1apisas.dtos.jwt.JwtRequest;
 import sit.int222.nw1apisas.dtos.jwt.JwtResponse;
 import sit.int222.nw1apisas.entities.User;
-import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.repositories.UserRepository;
 import sit.int222.nw1apisas.services.JwtUserDetailsService;
 
@@ -81,7 +79,7 @@ public class JwtAuthenticationController {
 
     private void authenticate(String username, String password) throws Exception {
         try {
-            User user = userRepository.findUserByUsername(username).orElseThrow(() -> new ItemNotFoundException("User Not Found"));
+            User user = userRepository.findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not exist"));
             if(user!=null){
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             }

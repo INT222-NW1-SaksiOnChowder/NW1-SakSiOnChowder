@@ -1,9 +1,9 @@
 package sit.int222.nw1apisas.exceptions;
 
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -12,12 +12,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.server.ResponseStatusException;
 import sit.int222.nw1apisas.dtos.announcements.AnnouncementItemDto;
 import sit.int222.nw1apisas.dtos.users.CreateUserDto;
 import sit.int222.nw1apisas.dtos.users.UpdateUserDto;
-
-import java.util.List;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -61,5 +58,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({UsernameNotFoundException.class})
+    public ResponseEntity<ErrorResponse> handleUsernameNotExistException(UsernameNotFoundException ex, WebRequest request) {
+        String title = "User Not Exist"; // You can customize the title as needed
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), title, request.getDescription(false));
+        String errMsg = ex.getMessage();
+        errorResponse.addValidationError("u sername", errMsg);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
 }
 
