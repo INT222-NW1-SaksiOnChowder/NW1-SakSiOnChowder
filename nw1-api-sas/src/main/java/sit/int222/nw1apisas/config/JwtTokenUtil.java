@@ -3,6 +3,7 @@ package sit.int222.nw1apisas.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -45,11 +46,13 @@ public class JwtTokenUtil implements Serializable {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("token_type", "ACCESS_TOKEN");
         System.out.println(jwtProperties.getAccessTokenExpired());
         return doGenerateToken(claims, userDetails.getUsername(), jwtProperties.getAccessTokenExpired());
     }
     public String generateRefreshToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("token_type", "REFRESH_TOKEN");
         return doGenerateToken(claims, userDetails.getUsername(), jwtProperties.getRefreshTokenExpired());
     }
 
@@ -63,30 +66,24 @@ public class JwtTokenUtil implements Serializable {
                 .compact();
     }
 
-    public boolean isValidRefreshToken(String refreshToken) {
-        try {
-            // Parse the JWT using the secret key
-            Claims claims = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(refreshToken).getBody();
-            // เอาเวลาหมดอายุของตัว token
-            Date expirationDate = claims.getExpiration();
-            // Get the current date and time
-            Date currentDate = new Date();
-            // Check if the token has expired
-            if (expirationDate != null && expirationDate.before(currentDate)) {
-                // Token has expired
-                return false;
-            }
-            // Token is valid
-            return true;
-        } catch (Exception e) {
-            return false;
+    public String extractRefreshTokenFromHeaders(String refreshTokenWithHeader) {
+        if (refreshTokenWithHeader != null && refreshTokenWithHeader.startsWith("Bearer ")) {
+            return refreshTokenWithHeader.substring(7); // Remove "Bearer "
         }
+        return null;
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (
                 username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    public Claims getClaim(String token) {
+        return Jwts.parser()
+                .setSigningKey(jwtProperties.getSecretKey())
+                .parseClaimsJws(token)
+                .getBody();
     }
 
 }

@@ -1,5 +1,6 @@
 package sit.int222.nw1apisas.config;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -37,6 +38,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // only the Token
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
+
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
@@ -47,6 +49,27 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         } else {
             logger.warn("JWT Token does not begin with Bearer String");
         }
+
+        if (jwtToken != null) {
+            Claims claims = jwtTokenUtil.getClaim(jwtToken);
+            String tokenType = claims.get("token_type", String.class);
+            System.out.println(tokenType);
+            if ("ACCESS_TOKEN".equals(tokenType) && request.getMethod().equals("GET") && request.getRequestURI().contains("/api/token")
+                || "REFRESH_TOKEN".equals(tokenType) && !(request.getMethod().equals("GET") && request.getRequestURI().contains("/api/token"))) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+
+            // Check if it's a GET request to /api/token
+            if ("REFRESH_TOKEN".equals(tokenType) && request.getMethod().equals("GET") && request.getRequestURI().contains("/api/token")) {
+                System.out.println(tokenType);
+                chain.doFilter(request, response);
+                return;
+            }
+
+        }
+
+
 
         // Once we get the token validate it.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

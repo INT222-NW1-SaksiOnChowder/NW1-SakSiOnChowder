@@ -1,6 +1,5 @@
 package sit.int222.nw1apisas.controllers;
 
-import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import sit.int222.nw1apisas.config.JwtTokenUtil;
 import sit.int222.nw1apisas.dtos.jwt.AccessTokenResponse;
 import sit.int222.nw1apisas.dtos.jwt.JwtRequest;
 import sit.int222.nw1apisas.dtos.jwt.JwtResponse;
-import sit.int222.nw1apisas.dtos.jwt.RefreshTokenDto;
 import sit.int222.nw1apisas.services.JwtUserDetailsService;
 
 @RestController
@@ -34,27 +32,23 @@ public class JwtAuthenticationController {
     private JwtUserDetailsService userDetailsService;
 
     @GetMapping("")
-    public ResponseEntity<?> requestAccessToken(@RequestHeader("Authorization") String refreshToken) {
-        // Check if the Authorization header is present
-        if (refreshToken != null && refreshToken.startsWith("Bearer ")) {
-            // Extract the token from the Authorization header
-            refreshToken = refreshToken.substring(7); // Remove "Bearer " prefix
-            // ตรวจสอบความถูกต้องของ Refresh Token check secret-key
-            if (jwtTokenUtil.isValidRefreshToken(refreshToken)) {
-                // ดึงข้อมูลผู้ใช้จาก Refresh Token
-                String username = jwtTokenUtil.getUsernameFromToken(refreshToken);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+    public ResponseEntity<?> refreshAccessToken(@RequestHeader(name = "Authorization") String refreshTokenWithHeader) {
+        String refreshToken = jwtTokenUtil.extractRefreshTokenFromHeaders(refreshTokenWithHeader);
 
-                // สร้าง Access Token ใหม่
+        if (refreshToken != null) {
+            // Check if the refresh token is valid
+            UserDetails userDetails = userDetailsService.loadUserByUsername(jwtTokenUtil.getUsernameFromToken(refreshToken));
+            if (jwtTokenUtil.validateToken(refreshToken, userDetails)) {
+//                สร้าง access token ตัวใหม่
                 String newAccessToken = jwtTokenUtil.generateToken(userDetails);
 
-                // ส่ง Access Token ใหม่กลับไปยังผู้ใช้
+                // Return the new access token in the response
                 return ResponseEntity.ok(new AccessTokenResponse(newAccessToken));
             }
         }
 
-        // If Refresh Token is missing or invalid
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or refresh token is expired");
+        // If refresh token is missing or invalid, return an error response
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
 
