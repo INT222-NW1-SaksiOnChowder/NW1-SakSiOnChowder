@@ -1,5 +1,6 @@
 const ROOT_API = import.meta.env.VITE_ROOT_API
 const createUser = async(user) => {
+    const accessToken = localStorage.getItem("accessToken"); 
         try {
             const res = await fetch(`${ROOT_API}/api/users`,
                 {

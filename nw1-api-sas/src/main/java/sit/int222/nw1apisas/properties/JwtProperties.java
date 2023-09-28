@@ -9,5 +9,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "jwt")
 public class JwtProperties {
     private String secretKey;
-    private Integer tokenIntervalInHour;
+    private Integer refreshTokenExpired;
+    private Integer accessTokenExpired;
 }
