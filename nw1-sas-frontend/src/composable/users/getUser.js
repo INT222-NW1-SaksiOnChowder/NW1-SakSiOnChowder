@@ -1,48 +1,54 @@
-const ROOT_API = import.meta.env.VITE_ROOT_API
+const ROOT_API = import.meta.env.VITE_ROOT_API;
+import { getNewAccessToken } from "./getToken";
 const getUsers = async () => {
-    const accessToken = localStorage.getItem("accessToken"); 
-    // console.log(accessToken);
-    // const headers = new Headers();
-    // headers.append('Content-Type', 'application/json'); 
-    // headers.append('Authorization', `Bearer ${accessToken}`); 
+  const accessToken = localStorage.getItem("accessToken");
 
-    try {
-        const res = await fetch(`${ROOT_API}/api/users`,
-            {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                },
-            })
-        console.log(res);
-        if (res.status === 200) {
-            const user = await res.json()
-            console.log('All Successfully')
-            return user
-        } else if (res.status !== 200) {
-            const error = await res.json()
-            alert(error.message)
-        }
-    } catch (error) {
-        console.log(`ERROR cannot read data: ${error}`);
+  try {
+    const res = await fetch(`${ROOT_API}/api/users`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (res.status === 200) {
+      const user = await res.json();
+      console.log("Alls Successfully");
+      return user;
+    } else if (res.status !== 200) {
+      const error = await res.json();
+      alert(error.message);
+      console.log('else');
     }
-}
+  } catch (error) {
+    console.log(`ERROR cannot read data: ${error}`);
+    await getNewAccessToken();
+    await getUsers();
+  }
+};
 
 const getUser = async (id) => {
-    let user = undefined
-    try {
-        const res = await fetch(`${ROOT_API}/api/users/${id}`)
-        if (res.status === 200) {
-            user = await res.json()
-            console.log('Detail Successfully')
-            return user
-        } else if (res.status !== 200) {
-            const error = await res.json()
-            alert(error.message)
-        }
-    } catch (error) {
-        console.log(`ERROR cannot read data: ${error}`);
-    }
-}
+  let user = undefined;
+  try {
+    const res = await fetch(`${ROOT_API}/api/users/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
-export { getUsers, getUser }
+    if (res.status === 200) {
+      user = await res.json();
+      console.log("Detail Successfully");
+      return user;
+    } else if (res.status !== 200) {
+      const error = await res.json();
+      alert(error.message);
+    }
+  } catch (error) {
+    console.log(`ERROR cannot read data: ${error}`);
+    await getNewAccessToken();
+    await getUsers();
+  }
+};
+
+export { getUsers, getUser };

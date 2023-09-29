@@ -7,6 +7,7 @@ import TimeZone from "../icones/TimeZone.vue";
 import AddIcon from "../icones/AddIcon.vue";
 import { deleteUser } from "../../composable/users/deleteUser.js"
 import Menubar from "../Navbar.vue"
+import { getToken, getNewAccessToken } from "../../composable/users/getToken.js";
 const router = useRouter();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const users = ref([]);
