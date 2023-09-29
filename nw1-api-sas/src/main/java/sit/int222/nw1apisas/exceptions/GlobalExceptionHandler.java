@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
         String title = "User Not Exist"; // You can customize the title as needed
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), title, request.getDescription(false));
         String errMsg = ex.getMessage();
-        errorResponse.addValidationError("u sername", errMsg);
+        errorResponse.addValidationError("username", errMsg);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 }

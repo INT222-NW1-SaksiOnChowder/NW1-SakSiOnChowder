@@ -42,23 +42,26 @@ public class JwtAuthenticationController {
     @GetMapping("")
     public ResponseEntity<?> refreshAccessToken(@RequestHeader(name = "Authorization") String refreshTokenWithHeader) {
         String refreshToken = jwtTokenUtil.extractRefreshTokenFromHeaders(refreshTokenWithHeader);
-
-        if (refreshToken != null) {
-            // Check if the refresh token is valid
-            UserDetails userDetails = userDetailsService.loadUserByUsername(jwtTokenUtil.getUsernameFromToken(refreshToken));
-            if (jwtTokenUtil.validateToken(refreshToken, userDetails)) {
-//                สร้าง access token ตัวใหม่
-                String newAccessToken = jwtTokenUtil.generateToken(userDetails);
-
-                // Return the new access token in the response
-                return ResponseEntity.ok(new AccessTokenResponse(newAccessToken));
-            }
+        if (refreshToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh Token is missing");
+        }
+        if (jwtTokenUtil.isTokenExpired(refreshToken)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh Token has expired");
         }
 
-        // If refresh token is missing or invalid, return an error response
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
+        // If the refresh token is valid
+        UserDetails userDetails = userDetailsService.loadUserByUsername(jwtTokenUtil.getUsernameFromToken(refreshToken));
+        if (jwtTokenUtil.validateToken(refreshToken, userDetails)) {
+            // create new access token
+            String newAccessToken = jwtTokenUtil.generateToken(userDetails);
 
+            // Return accessTokenDto response
+            return ResponseEntity.ok(new AccessTokenResponse(newAccessToken));
+        }
+
+        // If refresh token is invalid
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Refresh Token");
+    }
 
 
     @PostMapping("")
@@ -79,7 +82,7 @@ public class JwtAuthenticationController {
 
     private void authenticate(String username, String password) throws Exception {
         try {
-            User user = userRepository.findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not exist"));
+            User user = userRepository.findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException("does not exist"));
             if(user!=null){
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             }
