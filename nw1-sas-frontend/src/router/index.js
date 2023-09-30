@@ -16,7 +16,7 @@ const router = createRouter({
     [
       {
         path:'/',
-        redirect: '/admin/announcement'
+        redirect: '/login'
       },
       {
         path: '/admin/announcement',

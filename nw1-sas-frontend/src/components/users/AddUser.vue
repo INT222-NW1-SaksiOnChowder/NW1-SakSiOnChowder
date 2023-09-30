@@ -31,6 +31,7 @@ const confirmPassword = ref('')
 
 onMounted(async () => {
     listUser.value = await getUsers();
+    listUser.value = await getUsers();
 });
 
 watchEffect(() => {
@@ -72,6 +73,7 @@ const save = async (event) => {
     emailMessage.value = ''
     const res = ref(true)
     // if (checkPasswordPattern.value) {
+        res.value = await createUser(userObj.value)
         res.value = await createUser(userObj.value)
         if (res.value !== true) {
             for (const err of res.value) {

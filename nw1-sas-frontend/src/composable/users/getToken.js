@@ -59,7 +59,7 @@ const getNewAccessToken = async () => {
         if (res.status === 200) {
             const data = await res.json()
             localStorage.setItem("accessToken", data.token);
-            console.log('if');
+            console.log(localStorage.getItem("accessToken"));
         } else if (res.status !== 200) {
             const error = await res.json()
             alert(error.message)

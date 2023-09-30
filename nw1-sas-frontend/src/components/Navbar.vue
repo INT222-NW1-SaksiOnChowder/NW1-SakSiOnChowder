@@ -1,5 +1,8 @@
 <script setup>
-
+const clearToken = () =>{
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+}
 </script>
  
 <template>
@@ -16,6 +19,10 @@
         <router-link :to="{ name: 'matchPassword' }"
             class="flex pl-5 py-5 border-black border-b-2 font-bold hover:bg-LightBlue">
             Match Password
+        </router-link>
+        <router-link :to="{ name: 'login' }"
+            class="flex pl-5 py-5 border-black border-b-2 font-bold hover:bg-LightBlue" @click="clearToken">
+            Sign Out
         </router-link>
     </div>
 </template>

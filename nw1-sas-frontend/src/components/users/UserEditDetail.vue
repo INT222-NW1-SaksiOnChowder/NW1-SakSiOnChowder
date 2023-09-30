@@ -9,13 +9,13 @@ import { updateUser } from "../../composable/users/editUser.js";
 import Menubar from "../Navbar.vue";
 
 const router = useRouter();
-const listUser = ref()
+// const listUser = ref()
 const userObj = ref({
     id: "",
     username: "",
     name: "",
     email: "",
-    role: "announcer",
+    role: "announcer"
 });
 const oldUserData = ref('')
 const userNameMessage = ref('')
@@ -28,9 +28,12 @@ const checkEmailLengthAndUnique = ref(false)
 
 onMounted(async () => {
     const route = useRoute();
-    listUser.value = await getUsers();
+    console.log(route.params.id);
+    // listUser.value = await getUsers();
     userObj.value = await getUser(route.params.id);
-    oldUserData.value = await getUser(route.params.id);
+    userObj.value = await getUser(route.params.id);
+    oldUserData.value = userObj.value
+    console.log(userObj.value);
 });
 
 // watchEffect(() => {

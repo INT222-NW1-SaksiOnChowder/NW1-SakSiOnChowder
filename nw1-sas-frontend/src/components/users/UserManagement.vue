@@ -13,36 +13,40 @@ const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const users = ref([]);
 
 onMounted(async () => {
-  noUser();
-  users.value = await getUsers();
-  noUser();
+    noUser();
+    users.value = await getUsers();
+    users.value = await getUsers();
+    console.log(users.value);
+    noUser();
 });
+
+
 
 
 
 const isUserFound = ref(false);
 const noUser = () => {
-  if (users.value.length <= 0) {
-    isUserFound.value = true;
-  } else {
-    isUserFound.value = false;
-  }
+    if (users.value.length <= 0) {
+        isUserFound.value = true;
+    } else {
+        isUserFound.value = false;
+    }
 }
 
 const deleteUserById = async (id) => {
-  router.push({ name: "deleteUser", params: { id: id } })
-  const confirmed = confirm(`Do you want to delete`)
-  if (confirmed) {
-    await deleteUser(id);
-  }
-  users.value = await getUsers();
-  router.push({ name: "userManagement" })
+    router.push({ name: "deleteUser", params: { id: id } })
+    const confirmed = confirm(`Do you want to delete`)
+    if (confirmed) {
+        await deleteUser(id);
+    }
+    users.value = await getUsers();
+    router.push({ name: "userManagement" })
 };
 </script>
  
 <template>
     <div class="flex w-full min-h-screen max-h-full bg-Background">
-        <Menubar/>
+        <Menubar />
         <div class="w-4/5">
             <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
                 <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
@@ -83,8 +87,7 @@ const deleteUserById = async (id) => {
                     </thead>
 
                     <tbody v-if="!isUserFound" class="bg-Cream">
-                        <tr v-for="(user, index) in users" :key="index"
-                            class="ann-item">
+                        <tr v-for="(user, index) in users" :key="index" class="ann-item">
                             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
                                 {{ ++index }}
                             </th>

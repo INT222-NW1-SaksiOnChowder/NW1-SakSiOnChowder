@@ -1,10 +1,12 @@
 const ROOT_API = import.meta.env.VITE_ROOT_API;
 const updateUser = async (user) => {
+  const accessToken = localStorage.getItem("accessToken")
   try {
     const res = await fetch(`${ROOT_API}/api/users/${user.id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
+        "Authorization": `Bearer ${accessToken}`
       },
       body: JSON.stringify(user),
     });
