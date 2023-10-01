@@ -9,7 +9,7 @@ const getToken = async (user) => {
             {
                 method: 'POST',
                 headers: {
-                    'content-type': 'application/json'
+                    'content-type': 'application/json',
                 },
                 body: JSON.stringify(user)
             }
@@ -47,7 +47,7 @@ const getToken = async (user) => {
 
 const getNewAccessToken = async () => {
     console.log('getNewAccessToken');
-    const refreshToken = localStorage.getItem("refreshToken"); 
+    const refreshToken = localStorage.getItem("refreshToken");
     console.log(refreshToken);
     try {
         const res = await fetch(`${ROOT_API}/api/token`,

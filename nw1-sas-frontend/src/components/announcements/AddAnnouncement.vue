@@ -50,7 +50,8 @@ const submit = async (addAnnouncement) => {
     || announcementObj.publishDate < announcementObj.closeDate || announcementObj.publishDate < nowDate.value || announcementObj.closeDate < nowDate.value
     ) 
     {
-        await createAnnouncement(addAnnouncement)  
+        await createAnnouncement(addAnnouncement) 
+        // router.push({ name: 'announcements' })
     }   else {
         await createAnnouncement(addAnnouncement)  
         router.push({ name: 'announcements' })

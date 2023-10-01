@@ -15,6 +15,9 @@ const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 onMounted(async () => {
   noAnnouncement();
   announcements.value = await getAnnouncements();
+  if (announcements.value === false) {
+    announcements.value = await getAnnouncements();
+  }
   announcements.value.sort((a, b) => b.id - a.id);
   noAnnouncement();
 });

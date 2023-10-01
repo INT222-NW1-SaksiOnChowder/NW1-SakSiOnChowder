@@ -1,11 +1,15 @@
+import { getNewAccessToken } from "../users/getToken.js"
+
 const ROOT_API = import.meta.env.VITE_ROOT_API
 const createAnnouncement = async(announcement) => {
+    const accessToken = localStorage.getItem("accessToken")
         try {
             const res = await fetch(`${ROOT_API}/api/announcements`,
                 {
                     method: 'POST',
                     headers: {
-                        'content-type': 'application/json'
+                        'content-type': 'application/json',
+                        "Authorization": `Bearer ${accessToken}`
                     },
                     body: JSON.stringify(announcement)
                 }
@@ -18,6 +22,8 @@ const createAnnouncement = async(announcement) => {
             }
         } catch (error) {
             console.log(`ERROR cannot create data: ${error}`);
+            await getNewAccessToken()
+            return false
         }
 }
 

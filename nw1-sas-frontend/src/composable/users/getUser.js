@@ -3,15 +3,16 @@ import { getNewAccessToken } from "./getToken.js";
 
 const getUsers = async () => {
   console.log('EEE');
-  let accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
   console.log(accessToken);
   try {
-    const res = await fetch(`${ROOT_API}/api/users`, {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${accessToken}`,
-      },
-    });
+    const res = await fetch(`${ROOT_API}/api/users`,
+      {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${accessToken}`,
+        },
+      });
     if (res.status === 200) {
       const user = await res.json();
       console.log("Alls Successfully");

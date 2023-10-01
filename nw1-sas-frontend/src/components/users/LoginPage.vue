@@ -27,11 +27,11 @@ const matchOrNotButton = async () => {
     <div class="flex w-full min-h-screen max-h-full bg-red-300">
         <div class="w-2/5 bg-cyan-100 rounded-l-xl my-5 ml-5">
             <div class="flex w-full h-2/3 justify-center">
-                <p class="text-5xl font-bold my-auto text-BlueFonts drop-down">Welcome to SAS</p>
+                <p class="text-5xl font-bold my-auto text-BlueFonts drop-down text-center">Welcome to SAS</p>
             </div>
             <div class="flex w-full h-1/5">
                 <img src="../icones/annIcon.png" alt="announcement-icon" width="200" height="200"
-                    class="m-auto animate-bounce hover:animate-spin">
+                    class="m-auto animate-bounce">
             </div>
         </div>
 
@@ -45,12 +45,12 @@ const matchOrNotButton = async () => {
                     <h1 class="text-2xl font-bold mb-4">Login</h1>
                     <div class="mb-3">
                         <label class="font-bold">Username</label><br />
-                        <input v-model.trim="userObj.username"
+                        <input v-model.trim="userObj.username" @keyup.enter="matchOrNotButton"
                             class="ann-username bg-InputColor drop-shadow-md h-8 w-full rounded-lg" type="text" />
                     </div>
                     <div>
                         <label class="font-bold">Password</label><br />
-                        <input v-model.trim="userObj.password"
+                        <input v-model.trim="userObj.password" @keyup.enter="matchOrNotButton"
                             class="ann-password bg-InputColor drop-shadow-md h-8 w-full rounded-lg" type="password" />
                     </div>
                     <button @click="matchOrNotButton"
