@@ -24,7 +24,8 @@ const getUsers = async () => {
     }
   } catch (error) {
     console.log(`ERROR cannot read data: ${error}`);
-    accessToken = await getNewAccessToken();
+    await getNewAccessToken();
+    return false
   }
 };
 

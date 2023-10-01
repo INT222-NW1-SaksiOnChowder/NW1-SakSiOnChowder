@@ -15,12 +15,11 @@ const users = ref([]);
 onMounted(async () => {
     noUser();
     users.value = await getUsers();
-    users.value = await getUsers();
-    console.log(users.value);
+    if (users.value === false) {
+        users.value = await getUsers();
+    }
     noUser();
 });
-
-
 
 
 

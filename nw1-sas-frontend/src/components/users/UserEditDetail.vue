@@ -5,6 +5,7 @@ import { ref, onMounted, computed, watchEffect } from "vue";
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js";
 import { useRouter, useRoute } from "vue-router";
 import { updateUser } from "../../composable/users/editUser.js";
+import { getToken, getNewAccessToken } from "../../composable/users/getToken.js";
 // import { validateUserInput } from "../../composable/users/validateUser.js";
 import Menubar from "../Navbar.vue";
 
@@ -76,7 +77,10 @@ const save = async (event) => {
     nameMessage.value = ''
     emailMessage.value = ''
     const res = ref(true)
-    res.value = await updateUser(userObj.value);
+    res.value = await updateUser(userObj.value)
+    if (!res.value) {
+        res.value = await updateUser(userObj.value)
+    }
     if (res.value !== true) {
         for (const err of res.value) {
             console.log(res.value)
@@ -202,7 +206,8 @@ const save = async (event) => {
                                 <button
                                     class="ann-button shadow-md rounded-full bg-DarkRed px-6 py-2 ml-3 font-bold hover:bg-ButtonDeleteHover">
                                     Cancel
-                                </button></router-link>
+                                </button>
+                            </router-link>
                         </div>
                     </div>
                 </form>

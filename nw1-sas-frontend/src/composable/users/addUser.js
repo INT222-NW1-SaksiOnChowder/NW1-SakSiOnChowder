@@ -26,6 +26,7 @@ const createUser = async(user) => {
         } catch (error) {
             console.log(`ERROR cannot create data: ${error}`);
             await getNewAccessToken()
+            return false
         }
 }
 

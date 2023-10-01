@@ -74,7 +74,9 @@ const save = async (event) => {
     const res = ref(true)
     // if (checkPasswordPattern.value) {
         res.value = await createUser(userObj.value)
-        res.value = await createUser(userObj.value)
+        if (!res.value) {
+            res.value = await createUser(userObj.value)
+        }
         if (res.value !== true) {
             for (const err of res.value) {
                 console.log(res.value)
@@ -98,6 +100,9 @@ const save = async (event) => {
                 }
             }
         }
+        // if(res.value === true){
+        //     router.push({ name: 'userManagement' })
+        // }
         if (userNameMessage.value === '' && passwordMessage.value === ''
             && nameMessage.value === '' && emailMessage.value === '') {
             router.push({ name: 'userManagement' })

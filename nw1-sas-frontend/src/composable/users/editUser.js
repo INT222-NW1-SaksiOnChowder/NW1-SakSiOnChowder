@@ -1,4 +1,7 @@
 const ROOT_API = import.meta.env.VITE_ROOT_API;
+import { getNewAccessToken } from "./getToken";
+import { getUsers } from "./getUser";
+
 const updateUser = async (user) => {
   const accessToken = localStorage.getItem("accessToken")
   try {
@@ -12,6 +15,7 @@ const updateUser = async (user) => {
     });
     if (res.status === 200) {
       console.log("Edit successfully");
+      // await getUsers()
       return true
     } else if (res.status === 400) {
       const error = await res.json();
@@ -27,6 +31,8 @@ const updateUser = async (user) => {
     }
   } catch (error) {
     console.log(`ERROR cannot create data: ${error}`);
+    await getNewAccessToken()
+    return false
   }
 };
 

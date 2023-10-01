@@ -46,7 +46,9 @@ const getToken = async (user) => {
 }
 
 const getNewAccessToken = async () => {
+    console.log('getNewAccessToken');
     const refreshToken = localStorage.getItem("refreshToken"); 
+    console.log(refreshToken);
     try {
         const res = await fetch(`${ROOT_API}/api/token`,
             {
