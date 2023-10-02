@@ -46,12 +46,11 @@ const submit = async (addAnnouncement) => {
     addAnnouncement.closeDate = null;
   }
 
-  if (!announcementObj.announcementTitle || !announcementObj.announcementDescription || !announcementObj.categoryId || announcementObj.categoryName 
-    || announcementObj.publishDate < announcementObj.closeDate || announcementObj.publishDate < nowDate.value || announcementObj.closeDate < nowDate.value
+  if (addAnnouncement.announcementTitle === '' || addAnnouncement.announcementDescription === ''  
+    || addAnnouncement.publishDate < addAnnouncement.closeDate || addAnnouncement.publishDate < nowDate.value || addAnnouncement.closeDate < nowDate.value
     ) 
     {
         await createAnnouncement(addAnnouncement) 
-        // router.push({ name: 'announcements' })
     }   else {
         await createAnnouncement(addAnnouncement)  
         router.push({ name: 'announcements' })

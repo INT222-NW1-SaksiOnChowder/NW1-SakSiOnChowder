@@ -216,7 +216,7 @@ const save = async (event) => {
                         </div>
 
                         <div class="my-5 text-center">
-                            <button type="submit" :disabled="false"
+                            <button type="submit" :disabled="checkUserChange"
                                 class="ann-button ml-5 shadow-md font-bold rounded-full px-5 py-2 buttonEdit bg-DarkGreen hover:bg-ButtonViewHover"
                                 :style="checkUserChange ? 'opacity: 0.5; background-color:lightgray; cursor: not-allowed;' : 'opacity: 1;'">
                                 save

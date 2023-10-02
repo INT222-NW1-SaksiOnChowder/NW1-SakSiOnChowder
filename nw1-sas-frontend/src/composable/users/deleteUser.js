@@ -6,10 +6,13 @@ const deleteUser = async (id) => {
     const res = await fetch(`${ROOT_API}/api/users/${id}`,
       {
         method: "DELETE",
-        "Authorization": `Bearer ${accessToken}`,
+        headers: {
+          "Authorization": `Bearer ${accessToken}`
+        }
       })
     if (res.ok) {
       console.log("Delete Successfully");
+      return true
     } else if (res.status !== 200) {
       const error = await res.json();
       alert(error.message);
@@ -18,7 +21,6 @@ const deleteUser = async (id) => {
     alert(`Error: ${err}`);
     await getNewAccessToken()
     return false
-
   }
 };
 

@@ -35,14 +35,16 @@ const noUser = () => {
 const deleteUserById = async (id) => {
     router.push({ name: "deleteUser", params: { id: id } })
     const confirmed = confirm(`Do you want to delete`)
+    console.log(confirmed);
     if (confirmed) {
         let deleteResult = await deleteUser(id);
         if (!deleteResult) {
-            await deleteUser(id);
+            deleteResult = await deleteUser(id);
+            console.log(deleteResult);
         }
     }
     users.value = await getUsers();
-    if (users.value) {
+    if (!users.value) {
         users.value = await getUsers();
     }
     router.push({ name: "userManagement" })

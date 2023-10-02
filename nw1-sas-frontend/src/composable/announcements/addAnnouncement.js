@@ -18,7 +18,9 @@ const createAnnouncement = async(announcement) => {
                 console.log('Create successfully')
             }else if(res.status !== 200){
                 const error = await res.json()
-                alert(error.message)
+                for (const err of error.detail) {      
+                      alert(err.field + " " + err.errorMessage);
+                  }
             }
         } catch (error) {
             console.log(`ERROR cannot create data: ${error}`);
