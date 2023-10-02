@@ -1,3 +1,4 @@
+import { getNewAccessToken } from "./getToken.js";
 const ROOT_API = import.meta.env.VITE_ROOT_API;
 const deleteUser = async (id) => {
   const accessToken = localStorage.getItem("accessToken");
@@ -15,6 +16,9 @@ const deleteUser = async (id) => {
     }
   } catch (err) {
     alert(`Error: ${err}`);
+    await getNewAccessToken()
+    return false
+
   }
 };
 

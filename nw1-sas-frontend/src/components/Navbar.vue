@@ -1,8 +1,5 @@
 <script setup>
-const clearToken = () =>{
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-}
+import { clearToken } from '../composable/users/clearToken';
 </script>
  
 <template>

@@ -1,5 +1,7 @@
 const ROOT_API = import.meta.env.VITE_ROOT_API
+import { username } from "../../stores/username.js"
 const getToken = async (user) => {
+    const currentUsername = username()
     const result = {
         status: false,
         message: 'Error'
@@ -21,6 +23,8 @@ const getToken = async (user) => {
             result.message = 'Password Matched'
             localStorage.setItem("refreshToken", data.refreshToken);
             localStorage.setItem("accessToken", data.token);
+            currentUsername.setUsername(user.username);
+            console.log(currentUsername.currentUsername);
             return result
         } else if (res.status === 401) {
             // const error = await res.json()

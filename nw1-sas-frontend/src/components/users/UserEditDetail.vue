@@ -6,6 +6,8 @@ import { changeDateTimeFormat } from "../../composable/changeFormatDate.js";
 import { useRouter, useRoute } from "vue-router";
 import { updateUser } from "../../composable/users/editUser.js";
 import { getToken, getNewAccessToken } from "../../composable/users/getToken.js";
+import { username } from "../../stores/username";
+import { clearToken } from "../../composable/users/clearToken";
 // import { validateUserInput } from "../../composable/users/validateUser.js";
 import Menubar from "../Navbar.vue";
 
@@ -22,6 +24,7 @@ const oldUserData = ref('')
 const userNameMessage = ref('')
 const nameMessage = ref('')
 const emailMessage = ref('')
+const currentUsername = username()
 
 const checkUsernameLengthAndUnique = ref(false)
 const checkNameLengthAndUnique = ref(false)
@@ -32,8 +35,13 @@ onMounted(async () => {
     console.log(route.params.id);
     // listUser.value = await getUsers();
     userObj.value = await getUser(route.params.id);
-    userObj.value = await getUser(route.params.id);
-    oldUserData.value = userObj.value
+    if (!userObj.value) {
+        userObj.value = await getUser(route.params.id);
+    }
+    oldUserData.value = await getUser(route.params.id);
+    if (!oldUserData.value) {
+        oldUserData.value = await getUser(route.params.id);
+    }
     console.log(userObj.value);
 });
 
@@ -97,8 +105,19 @@ const save = async (event) => {
             }
         }
     }
+
+    console.log(currentUsername.currentUsername);
+    console.log(oldUserData.value.username);
     if (userNameMessage.value === '' && nameMessage.value === '' && emailMessage.value === '') {
-        router.push({ name: 'userManagement' })
+        if (currentUsername.currentUsername === oldUserData.value.username) {
+            alert("Your username has been updated, requiring you to login again.")
+            clearToken()
+            console.log("log");
+            router.push({ name: 'login' })
+        } else {
+            router.push({ name: 'userManagement' })
+        }
+
     }
 };
 
