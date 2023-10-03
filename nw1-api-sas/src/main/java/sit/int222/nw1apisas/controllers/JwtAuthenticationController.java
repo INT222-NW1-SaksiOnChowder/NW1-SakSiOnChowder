@@ -21,7 +21,7 @@ import sit.int222.nw1apisas.repositories.UserRepository;
 import sit.int222.nw1apisas.services.JwtUserDetailsService;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = {"http://ip22nw1.sit.kmutt.ac.th","http://intproj22.sit.kmutt.ac.th","https://intproj22.sit.kmutt.ac.th","http://localhost:5173"})
 @RequestMapping(value = "/api/token")
 public class JwtAuthenticationController {
 
