@@ -9,6 +9,7 @@ import sit.int222.nw1apisas.dtos.announcements.AnnouncementItemDto;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.repositories.AnnouncementRepository;
+import sit.int222.nw1apisas.repositories.UserRepository;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -21,6 +22,9 @@ public class AnnouncementService {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private UserService userService;
+
     public Announcement createAnnouncement(AnnouncementItemDto announcementItemDto) {
         Announcement announcement = new Announcement();
         announcement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
@@ -32,6 +36,7 @@ public class AnnouncementService {
         announcement.setCloseDate(closeDate);
         announcement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
         announcement.setViewCount(0);
+        announcement.setAnnouncementOwner(userService.getUserById(announcementItemDto.getAnnouncementOwner()));
         return announcementRepository.saveAndFlush(announcement);
 
     }

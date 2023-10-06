@@ -38,6 +38,8 @@ public class AnnouncementItemDto {
     @ValidateCategoryId
     private Integer categoryId;
 
+    private Integer announcementOwner;
+
     public String getAnnouncementDisplay() {
         if (announcementDisplay == null) {
             return announcementDisplay = "N";

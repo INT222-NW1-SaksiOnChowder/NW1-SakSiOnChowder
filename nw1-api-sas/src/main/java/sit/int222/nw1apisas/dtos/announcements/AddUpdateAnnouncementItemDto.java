@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sit.int222.nw1apisas.dtos.categories.CategoryDto;
+import sit.int222.nw1apisas.entities.Category;
+import sit.int222.nw1apisas.entities.User;
 
 import java.time.ZonedDateTime;
 
@@ -20,7 +22,8 @@ public class AddUpdateAnnouncementItemDto {
     private ZonedDateTime publishDate;
     private ZonedDateTime closeDate;
     private String announcementDisplay;
-    private CategoryDto categoryId;
+    private Category categoryId;
+    private User announcementOwner;
 
     public Integer getCategoryId() {
         return categoryId.getCategoryId();
@@ -28,6 +31,10 @@ public class AddUpdateAnnouncementItemDto {
 
     public String getAnnouncementCategory() {
         return categoryId.getCategoryName();
+    }
+
+    public String getAnnouncementOwner(){
+        return announcementOwner.getUsername();
     }
 
 

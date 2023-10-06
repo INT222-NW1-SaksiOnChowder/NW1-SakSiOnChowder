@@ -36,4 +36,8 @@ public class Announcement {
     @JoinColumn(name = "categoryId", nullable = false)
     private Category categoryId;
 
+    @ManyToOne
+    @JoinColumn(name = "announcementOwner", referencedColumnName = "id", nullable = false)
+    private User announcementOwner;
+
 }
