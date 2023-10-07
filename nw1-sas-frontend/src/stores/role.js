@@ -2,7 +2,7 @@ import { defineStore, acceptHMRUpdate } from "pinia"
 import { ref } from "vue"
 
 export const role = defineStore("role", () => {
-  const currentRole = ref("Role")
+  const currentRole = ref(undefined)
   const setRole = (role) => {
     currentRole.value = role
   }
