@@ -1,8 +1,11 @@
 const ROOT_API = import.meta.env.VITE_ROOT_API;
 import { getNewAccessToken } from "./getToken.js";
-
+import {role} from "../../stores/role.js"
+import { username } from "../../stores/username.js"
 const getUsers = async () => {
   console.log('EEE');
+  const currentRole = role()
+  const currentUsername = username()
   const accessToken = localStorage.getItem("accessToken");
   console.log(accessToken);
   try {
@@ -17,6 +20,12 @@ const getUsers = async () => {
       const user = await res.json();
       console.log("Alls Successfully");
       console.log(user);
+      for (const u of user) {
+        if (u.username=== currentUsername.currentUsername) {
+          currentRole.setRole(u.role);
+          console.log(currentRole.currentRole);
+        }
+      }
       return user;
     } else if (res.status !== 200) {
       const error = await res.json();

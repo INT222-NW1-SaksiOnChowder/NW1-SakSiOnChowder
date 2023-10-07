@@ -6,6 +6,8 @@ import { annStores } from '../../stores/counter.js'
 import TimeZone from '../icones/TimeZone.vue'
 import CloseIcon from "../icones/CloseIcon.vue"
 import ActiveIcon from "../icones/ActiveIcon.vue"
+import Menubar from "../Navbar.vue"
+
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const announcementStores = annStores()
@@ -133,8 +135,9 @@ const changeCategory = async (category) =>{
 </script>
 
 <template>
-  <div class="w-screen min-h-screen max-h-full bg-Background">
-    <div class="">
+  <div class="flex w-screen min-h-screen max-h-full bg-Background">
+    <Menubar/>
+    <div class="w-4/5">
       <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
       <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
         SIT Announcement System (SAS)
