@@ -34,7 +34,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         String username = null;
         String jwtToken = null;
-        // JWT Token is in the form "Bearer token". Remove Bear.er word and get
+        // JWT Token is in the form "Bearer token". Remove Bearer word and get
         // only the Token
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
@@ -54,21 +54,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             Claims claims = jwtTokenUtil.getClaim(jwtToken);
             String tokenType = claims.get("token_type", String.class);
             System.out.println(tokenType);
-            if ("ACCESS_TOKEN".equals(tokenType) && request.getMethod().equals("GET") && request.getRequestURI().contains("/api/token")
-                || "REFRESH_TOKEN".equals(tokenType) && !(request.getMethod().equals("GET") && request.getRequestURI().contains("/api/token"))) {
+            if ("ACCESS_TOKEN".equals(tokenType) && request.getMethod().equals("GET") && request.getRequestURI().equals("/api/token")
+                    || "REFRESH_TOKEN".equals(tokenType) && !(request.getMethod().equals("GET") && request.getRequestURI().equals("/api/token"))) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
 
-            // Check if it's a GET request to /api/token
-            if ("REFRESH_TOKEN".equals(tokenType) && request.getMethod().equals("GET") && request.getRequestURI().contains("/api/token")) {
-                System.out.println(tokenType);
-                chain.doFilter(request, response);
+            String role = claims.get("role", String.class);
+            if (!"admin".equals(role) && (request.getRequestURI().equals("/api/users") || request.getRequestURI().equals("/api/users/match"))) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
 
         }
-
 
 
         // Once we get the token validate it.
@@ -88,11 +86,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 // that the current user is authenticated. So it passes the
                 // Spring Security Configurations successfully.
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+
+
             }
         }
         chain.doFilter(request, response);
     }
-
 
 
 }
