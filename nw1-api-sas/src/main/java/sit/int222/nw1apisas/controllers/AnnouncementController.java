@@ -53,7 +53,7 @@ public class AnnouncementController {
 
     @GetMapping("")
     public List<?> getAllAnnouncements(@RequestParam(defaultValue = "admin") String mode) {
-        List<Announcement> announcements = announcementService.getAllAnnouncements(mode);
+                List<Announcement> announcements = announcementService.getAllAnnouncements(mode);
         if (mode.equals("active")) {
             return listMapper.mapList(announcements, ActiveAnnouncementDto.class, modelMapper);
         } else if (mode.equals("close")) {
@@ -62,9 +62,12 @@ public class AnnouncementController {
 //            return listMapper.mapList(announcements, AnnouncementDto.class, modelMapper);
             return listMapper.mapList(announcements, ResponseAllAnnouncementForAdmin.class, modelMapper);
         }
-
-
     }
+
+
+
+
+
 
 
     @GetMapping("/{id}")

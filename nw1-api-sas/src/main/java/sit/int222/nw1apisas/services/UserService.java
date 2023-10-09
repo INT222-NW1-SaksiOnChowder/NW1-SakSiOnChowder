@@ -3,6 +3,7 @@ package sit.int222.nw1apisas.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import sit.int222.nw1apisas.dtos.users.UpdateUserDto;
 import sit.int222.nw1apisas.dtos.users.UsernamePasswordDto;
 import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
+import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
 import sit.int222.nw1apisas.exceptions.ValidationUniqueException;
 import sit.int222.nw1apisas.repositories.UserRepository;
 
@@ -83,12 +85,12 @@ public class UserService {
 
     public String matchPassword(UsernamePasswordDto usernamePasswordDto) {
         Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder(16, 16, 1, 4096, 3);
-        User existUser = userRepository.findUserByUsername(usernamePasswordDto.getUsername()).orElseThrow(() -> new ItemNotFoundException("The specified username DOES NOT exist"));
+        User existUser = userRepository.findUserByUsername(usernamePasswordDto.getUsername()).orElseThrow(() -> new UsernameNotFoundException("The specified username DOES NOT exist"));
         String storedPassword = existUser.getPassword();
         if (argon2PasswordEncoder.matches(usernamePasswordDto.getPassword(), storedPassword)) {
             return "Password Matched";
         } else {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password NOT Matched");
+            throw new UnAuthorizationException("Password NOT Matched");
         }
     }
 }

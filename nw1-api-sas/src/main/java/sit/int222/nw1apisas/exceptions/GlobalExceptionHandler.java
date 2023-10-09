@@ -61,11 +61,22 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({UsernameNotFoundException.class})
     public ResponseEntity<ErrorResponse> handleUsernameNotExistException(UsernameNotFoundException ex, WebRequest request) {
-        String title = "User Not Exist"; // You can customize the title as needed
+        String title = "User Not Exist";
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), title, request.getDescription(false));
         String errMsg = ex.getMessage();
         errorResponse.addValidationError("username", errMsg);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler({UnAuthorizationException.class})
+    public ResponseEntity<ErrorResponse> handleUnAuthorizationException(UnAuthorizationException ex, WebRequest request) {
+        String title = "Unauthorized";
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), title, request.getDescription(false));
+        String errMsg = ex.getMessage();
+        errorResponse.addValidationError("password", errMsg);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+    }
+
 }
 

@@ -9,6 +9,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import sit.int222.nw1apisas.config.JwtTokenUtil;
@@ -17,6 +18,7 @@ import sit.int222.nw1apisas.dtos.jwt.AccessTokenResponse;
 import sit.int222.nw1apisas.dtos.jwt.JwtRequest;
 import sit.int222.nw1apisas.dtos.jwt.JwtResponse;
 import sit.int222.nw1apisas.entities.User;
+import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
 import sit.int222.nw1apisas.repositories.UserRepository;
 import sit.int222.nw1apisas.services.JwtUserDetailsService;
 
@@ -83,8 +85,11 @@ public class JwtAuthenticationController {
     private void authenticate(String username, String password) throws Exception {
         try {
             User user = userRepository.findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException("does not exist"));
-            if(user!=null){
+            Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder(16, 16, 1, 4096, 3);
+            if(argon2PasswordEncoder.matches(password, user.getPassword())){
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            }else{
+                throw new UnAuthorizationException("Password NOT Matched");
             }
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
