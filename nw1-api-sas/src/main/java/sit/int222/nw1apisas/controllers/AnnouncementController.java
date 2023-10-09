@@ -52,7 +52,6 @@ public class AnnouncementController {
     }
 
     @GetMapping("")
-    @PreAuthorize("hasRole('admin')")
     public List<?> getAllAnnouncements(@RequestParam(defaultValue = "admin") String mode) {
         List<Announcement> announcements = announcementService.getAllAnnouncements(mode);
         if (mode.equals("active")) {
