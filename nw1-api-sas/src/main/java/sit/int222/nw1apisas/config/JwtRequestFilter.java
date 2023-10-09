@@ -60,11 +60,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 return;
             }
 
-            String role = claims.get("role", String.class);
-            if (!"admin".equals(role) && request.getRequestURI().contains("/api/users")) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return;
-            }
 
         }
 

@@ -12,6 +12,8 @@ import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.repositories.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -24,7 +26,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
+        Collection<GrantedAuthority> authorities = new HashSet<>();
 
         // Create a GrantedAuthority using the user's role
         GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());

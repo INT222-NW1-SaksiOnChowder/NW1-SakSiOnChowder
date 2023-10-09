@@ -5,6 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import sit.int222.nw1apisas.dtos.announcements.*;
 import sit.int222.nw1apisas.dtos.pagination.PageDto;
@@ -44,10 +45,14 @@ public class AnnouncementController {
     @PutMapping("/{id}")
     public AddUpdateAnnouncementItemDto updateAnnouncement(@RequestBody @Valid AnnouncementItemDto newAnnouncement, @PathVariable Integer id) {
         Announcement updateAnnouncement = announcementService.updateAnnouncement(newAnnouncement, id);
+//        if(updateAnnouncement.getAnnouncementOwner().getRole().equals("admin")){
+//
+//        }
         return modelMapper.map(updateAnnouncement, AddUpdateAnnouncementItemDto.class);
     }
 
     @GetMapping("")
+    @PreAuthorize("hasRole('admin')")
     public List<?> getAllAnnouncements(@RequestParam(defaultValue = "admin") String mode) {
         List<Announcement> announcements = announcementService.getAllAnnouncements(mode);
         if (mode.equals("active")) {
@@ -55,8 +60,11 @@ public class AnnouncementController {
         } else if (mode.equals("close")) {
             return listMapper.mapList(announcements, CloseAnnouncementDto.class, modelMapper);
         } else {
-            return listMapper.mapList(announcements, AnnouncementDto.class, modelMapper);
+//            return listMapper.mapList(announcements, AnnouncementDto.class, modelMapper);
+            return listMapper.mapList(announcements, ResponseAllAnnouncementForAdmin.class, modelMapper);
         }
+
+
     }
 
 
