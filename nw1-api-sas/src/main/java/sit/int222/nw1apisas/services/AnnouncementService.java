@@ -4,11 +4,9 @@ package sit.int222.nw1apisas.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import sit.int222.nw1apisas.dtos.announcements.AnnouncementItemDto;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
@@ -64,78 +62,53 @@ public class AnnouncementService {
         return announcementRepository.saveAndFlush(existingAnnouncement);
     }
 
-    public List<Announcement> getAllAnnouncements(String mode) {
+    public List<Announcement> getAllAnnouncements() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        เอาไว้หาว่าใครล็อกอินอยู่
         String currentPrincipalName = authentication.getName();
         System.out.println(currentPrincipalName);
-        if(authentication.isAuthenticated()){
-            if(authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin"))){
+        if (authentication.isAuthenticated()) {
+            if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin"))) {
                 List<Announcement> announcements = announcementRepository.findAllByOrderByIdDesc();
-                if(announcements != null){
-                    return announcements;
-                }else{
-                    throw new ItemNotFoundException("No announcement");
-                }
-            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin")) && mode.equals("active")) {
-                List<Announcement> announcements = announcementRepository.findActiveAnnouncement();
-                if(announcements != null){
-                    return announcements;
-                }else{
-                    throw new ItemNotFoundException("No announcement");
-                }
-
-            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin")) && mode.equals("close")) {
-                List<Announcement> announcements = announcementRepository.findCloseAnnouncement();
-                if(announcements != null){
-                    return announcements;
-                }else{
-                    throw new ItemNotFoundException("No announcement");
-                }
-
-            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("announcer")) && mode.equals("active")) {
-                List<Announcement> announcements = announcementRepository.findActiveAnnouncementWithRoleAnnouncer(currentPrincipalName);
                 if (announcements != null) {
                     return announcements;
-                } else {
-                    throw new ItemNotFoundException("No announcement");
-                }
-            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("announcer")) && mode.equals("close")) {
-                List<Announcement> announcements = announcementRepository.findCloseAnnouncementWithRoleAnnouncer(currentPrincipalName);
-                if (announcements != null) {
-                    return announcements;
-                } else {
-                    throw new ItemNotFoundException("No announcement");
                 }
             } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("announcer"))) {
-                return announcementRepository.findAnnouncementsByAnnouncementOwner_UsernameOrderByIdDesc(currentPrincipalName);
+                List<Announcement> announcements = announcementRepository.findAnnouncementsByAnnouncementOwner_UsernameOrderByIdDesc(currentPrincipalName);
+                if (announcements != null) {
+                    return announcements;
+                }
             }
-
+//            else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("announcer")) && mode.equals("active")) {
+//                List<Announcement> announcements = announcementRepository.findActiveAnnouncementWithRoleAnnouncer(currentPrincipalName);
+//                if (announcements != null) {
+//                    return announcements;
+//                }
+//            }
+//            else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("announcer")) && mode.equals("close")) {
+//                List<Announcement> announcements = announcementRepository.findCloseAnnouncementWithRoleAnnouncer(currentPrincipalName);
+//                if (announcements != null) {
+//                    return announcements;
+//                }
+//            }
+            //            else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin")) && mode.equals("active")) {
+//                List<Announcement> announcements = announcementRepository.findActiveAnnouncement();
+//                if (announcements != null) {
+//                    return announcements;
+//                }
+//            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin")) && mode.equals("close")) {
+//                List<Announcement> announcements = announcementRepository.findCloseAnnouncement();
+//                if (announcements != null) {
+//                    return announcements;
+//                }
+//
+//            }
+            throw new ItemNotFoundException("No announcement");
 
         }
         throw new UnAuthorizationException("Please Login first");
 
     }
-
-//   if (mode.equals("active")) {
-//            List<Announcement> announcements = announcementRepository.findActiveAnnouncement();
-//            if (announcements == null || announcements.size() == 0) {
-//                throw new ItemNotFoundException("No announcement.");
-//            }
-//            return announcements;
-//        } else if (mode.equals("close")) {
-//            List<Announcement> announcements = announcementRepository.findCloseAnnouncement();
-//            if (announcements == null || announcements.size() == 0) {
-//                throw new ItemNotFoundException("No announcement.");
-//            }
-//            return announcements;
-//        } else if (mode.equals("admin")) {
-//            return announcementRepository.findAllByOrderByIdDesc();
-//        } else {
-//            throw new ItemNotFoundException("Can't find a mode");
-//        }
-
-
 
 
     public Announcement getDetailsById(Integer id, Boolean count) {

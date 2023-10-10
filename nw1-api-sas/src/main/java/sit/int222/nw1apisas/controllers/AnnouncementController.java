@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sit.int222.nw1apisas.dtos.announcements.*;
 import sit.int222.nw1apisas.dtos.pagination.PageDto;
 import sit.int222.nw1apisas.entities.Announcement;
+import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
 import sit.int222.nw1apisas.services.AnnouncementService;
 import sit.int222.nw1apisas.utils.ListMapper;
 
@@ -49,16 +52,16 @@ public class AnnouncementController {
     }
 
     @GetMapping("")
-    public List<?> getAllAnnouncements(@RequestParam String mode) {
-                List<Announcement> announcements = announcementService.getAllAnnouncements(mode);
-        if (mode.equals("active")) {
-            return listMapper.mapList(announcements, ActiveAnnouncementDto.class, modelMapper);
-        } else if (mode.equals("close")) {
-            return listMapper.mapList(announcements, CloseAnnouncementDto.class, modelMapper);
-        } else {
-//            return listMapper.mapList(announcements, AnnouncementDto.class, modelMapper);
+    public List<?> getAllAnnouncements() {
+        List<Announcement> announcements = announcementService.getAllAnnouncements();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin"))){
             return listMapper.mapList(announcements, ResponseAllAnnouncementForAdmin.class, modelMapper);
+        }else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("user"))){
+            return listMapper.mapList(announcements, ResponseAllAnnouncementForAnnouncer.class, modelMapper);
         }
+        throw new UnAuthorizationException("Please Login first");
+
     }
 
 
