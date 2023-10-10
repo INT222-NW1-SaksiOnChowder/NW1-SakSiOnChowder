@@ -45,14 +45,11 @@ public class AnnouncementController {
     @PutMapping("/{id}")
     public AddUpdateAnnouncementItemDto updateAnnouncement(@RequestBody @Valid AnnouncementItemDto newAnnouncement, @PathVariable Integer id) {
         Announcement updateAnnouncement = announcementService.updateAnnouncement(newAnnouncement, id);
-//        if(updateAnnouncement.getAnnouncementOwner().getRole().equals("admin")){
-//
-//        }
         return modelMapper.map(updateAnnouncement, AddUpdateAnnouncementItemDto.class);
     }
 
     @GetMapping("")
-    public List<?> getAllAnnouncements(@RequestParam(defaultValue = "admin") String mode) {
+    public List<?> getAllAnnouncements(@RequestParam String mode) {
                 List<Announcement> announcements = announcementService.getAllAnnouncements(mode);
         if (mode.equals("active")) {
             return listMapper.mapList(announcements, ActiveAnnouncementDto.class, modelMapper);
