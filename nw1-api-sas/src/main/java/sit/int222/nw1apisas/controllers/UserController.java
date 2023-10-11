@@ -48,8 +48,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Integer id) {
-        userService.deleteUser(id);
-        return "Delete id : " + id + " successfully";
+        return userService.deleteUser(id);
     }
 
     @PostMapping("/match")

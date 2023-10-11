@@ -33,7 +33,7 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
     Page<Announcement> findCloseAnnouncementByCategoryWithPagination(Pageable pageable, @Param("categoryId") Integer categoryId);
 
 
-
-
     List<Announcement> findAnnouncementsByAnnouncementOwner_UsernameOrderByIdDesc(String username);
+
+    List<Announcement> findAllByAnnouncementOwner(User username);
 }
