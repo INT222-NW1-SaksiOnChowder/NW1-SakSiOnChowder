@@ -46,9 +46,26 @@ public class AnnouncementService {
 
     }
 
-    public void deleteAnnouncement(Integer id) {
-        announcementRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("The announcement is not found."));
-        announcementRepository.deleteById(id);
+    public String deleteAnnouncement(Integer id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        if(authentication.isAuthenticated()){
+            if(authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin"))){
+                announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement is not found."));
+                announcementRepository.deleteById(id);
+                return "Delete Announcement id "+ id + " Successfully";
+            }else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("announcer"))){
+                Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement is not found."));
+                if(announcement != null && announcement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)){
+                    announcementRepository.deleteById(id);
+                    return "Delete Announcement id "+ id + " Successfully";
+                }
+
+            }
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No authorization");
+        }
+        throw new UnAuthorizationException("Please login first.");
+
     }
 
     public Announcement updateAnnouncement(AnnouncementItemDto announcementItemDto, Integer id) {
@@ -56,7 +73,7 @@ public class AnnouncementService {
         String currentPrincipalName = authentication.getName();
         if (authentication.isAuthenticated()) {
             if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin"))) {
-                Announcement existingAnnouncement = announcementRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("The announcement is not found."));
+                Announcement existingAnnouncement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement is not found."));
                 existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
                 existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
                 existingAnnouncement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
@@ -67,7 +84,7 @@ public class AnnouncementService {
                 existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
                 return announcementRepository.saveAndFlush(existingAnnouncement);
             } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("announcer"))) {
-                Announcement existingAnnouncement = announcementRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("The announcement is not found."));
+                Announcement existingAnnouncement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement is not found."));
                 if (existingAnnouncement != null && existingAnnouncement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)) {
                     existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
                     existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
