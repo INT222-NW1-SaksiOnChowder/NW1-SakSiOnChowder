@@ -57,17 +57,12 @@ public class AnnouncementController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin"))){
             return listMapper.mapList(announcements, ResponseAllAnnouncementForAdmin.class, modelMapper);
-        }else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("user"))){
+        }else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("announcer"))){
             return listMapper.mapList(announcements, ResponseAllAnnouncementForAnnouncer.class, modelMapper);
         }
         throw new UnAuthorizationException("Please Login first");
 
     }
-
-
-
-
-
 
 
     @GetMapping("/{id}")

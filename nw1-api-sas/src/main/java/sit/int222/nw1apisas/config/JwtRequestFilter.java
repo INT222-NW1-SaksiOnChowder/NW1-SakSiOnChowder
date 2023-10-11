@@ -56,7 +56,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             System.out.println(tokenType);
             if ("ACCESS_TOKEN".equals(tokenType) && request.getMethod().equals("GET") && request.getRequestURI().equals("/api/token")
                     || "REFRESH_TOKEN".equals(tokenType) && !(request.getMethod().equals("GET") && request.getRequestURI().equals("/api/token"))) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
 

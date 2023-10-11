@@ -35,12 +35,5 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
 
 
 
-
-    @Query("SELECT a FROM Announcement a JOIN a.announcementOwner u  WHERE a.announcementDisplay = 'Y' AND (a.publishDate IS null OR CURRENT_TIMESTAMP >=a.publishDate) AND (a.closeDate IS NULL OR CURRENT_TIMESTAMP < a.closeDate) AND u.username = :username ORDER BY a.id DESC")
-    List<Announcement> findActiveAnnouncementWithRoleAnnouncer(@Param("username") String username);
-
-    @Query("SELECT a FROM Announcement a JOIN a.announcementOwner u WHERE a.announcementDisplay = 'Y' AND a.closeDate IS NOT NULL AND CURRENT_TIMESTAMP >= a.closeDate AND u.username = :username ORDER BY a.id DESC")
-    List<Announcement> findCloseAnnouncementWithRoleAnnouncer(@Param("username") String username);
-
     List<Announcement> findAnnouncementsByAnnouncementOwner_UsernameOrderByIdDesc(String username);
 }
