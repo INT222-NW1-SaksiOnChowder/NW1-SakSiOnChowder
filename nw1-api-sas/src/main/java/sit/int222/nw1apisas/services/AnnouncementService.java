@@ -35,10 +35,8 @@ public class AnnouncementService {
         announcement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
         announcement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
         announcement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
-        ZonedDateTime publishDate = announcementItemDto.getPublishDate();
-        ZonedDateTime closeDate = announcementItemDto.getCloseDate();
-        announcement.setPublishDate(publishDate);
-        announcement.setCloseDate(closeDate);
+        announcement.setPublishDate(announcementItemDto.getPublishDate());
+        announcement.setCloseDate(announcementItemDto.getCloseDate());
         announcement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
         announcement.setViewCount(0);
         announcement.setAnnouncementOwner(userService.getUserById(announcementItemDto.getAnnouncementOwner()));
@@ -77,10 +75,8 @@ public class AnnouncementService {
                 existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
                 existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
                 existingAnnouncement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
-                ZonedDateTime publishDate = announcementItemDto.getPublishDate();
-                ZonedDateTime closeDate = announcementItemDto.getCloseDate();
-                existingAnnouncement.setPublishDate(publishDate);
-                existingAnnouncement.setCloseDate(closeDate);
+                existingAnnouncement.setPublishDate(announcementItemDto.getPublishDate());
+                existingAnnouncement.setCloseDate(announcementItemDto.getCloseDate());
                 existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
                 return announcementRepository.saveAndFlush(existingAnnouncement);
             } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("announcer"))) {
@@ -89,10 +85,8 @@ public class AnnouncementService {
                     existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
                     existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
                     existingAnnouncement.setCategoryId(categoryService.getCategoryById(announcementItemDto.getCategoryId()));
-                    ZonedDateTime publishDate = announcementItemDto.getPublishDate();
-                    ZonedDateTime closeDate = announcementItemDto.getCloseDate();
-                    existingAnnouncement.setPublishDate(publishDate);
-                    existingAnnouncement.setCloseDate(closeDate);
+                    existingAnnouncement.setPublishDate(announcementItemDto.getPublishDate());
+                    existingAnnouncement.setCloseDate(announcementItemDto.getCloseDate());
                     existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
                     return announcementRepository.saveAndFlush(existingAnnouncement);
                 }
