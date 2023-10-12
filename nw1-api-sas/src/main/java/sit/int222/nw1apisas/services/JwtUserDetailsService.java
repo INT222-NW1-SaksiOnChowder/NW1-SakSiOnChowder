@@ -29,7 +29,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         // Create a GrantedAuthority using the user's role
-        GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
+        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole());
         authorities.add(authority);
 
 

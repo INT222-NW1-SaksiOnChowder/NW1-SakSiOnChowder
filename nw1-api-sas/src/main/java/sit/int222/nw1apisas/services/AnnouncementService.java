@@ -12,11 +12,10 @@ import org.springframework.web.server.ResponseStatusException;
 import sit.int222.nw1apisas.dtos.announcements.AnnouncementItemDto;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.exceptions.AnnouncementNotFoundException;
-import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
+import sit.int222.nw1apisas.exceptions.BadRequestException;
 import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
 import sit.int222.nw1apisas.repositories.AnnouncementRepository;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -47,16 +46,16 @@ public class AnnouncementService {
     public String deleteAnnouncement(Integer id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        if(authentication.isAuthenticated()){
-            if(authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin"))){
+        if (authentication.isAuthenticated()) {
+            if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
                 announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement is not found."));
                 announcementRepository.deleteById(id);
-                return "Delete Announcement id "+ id + " Successfully";
-            }else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("announcer"))){
+                return "Delete Announcement id " + id + " Successfully";
+            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))) {
                 Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement is not found."));
-                if(announcement != null && announcement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)){
+                if (announcement != null && announcement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)) {
                     announcementRepository.deleteById(id);
-                    return "Delete Announcement id "+ id + " Successfully";
+                    return "Delete Announcement id " + id + " Successfully";
                 }
 
             }
@@ -70,7 +69,7 @@ public class AnnouncementService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         if (authentication.isAuthenticated()) {
-            if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin"))) {
+            if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
                 Announcement existingAnnouncement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement is not found."));
                 existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
                 existingAnnouncement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
@@ -79,7 +78,7 @@ public class AnnouncementService {
                 existingAnnouncement.setCloseDate(announcementItemDto.getCloseDate());
                 existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
                 return announcementRepository.saveAndFlush(existingAnnouncement);
-            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("announcer"))) {
+            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))) {
                 Announcement existingAnnouncement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement is not found."));
                 if (existingAnnouncement != null && existingAnnouncement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)) {
                     existingAnnouncement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
@@ -96,78 +95,79 @@ public class AnnouncementService {
         throw new UnAuthorizationException("Please login first.");
     }
 
-        public List<Announcement> getAllAnnouncements () {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public List<Announcement> getAllAnnouncements() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        เอาไว้หาว่าใครล็อกอินอยู่
-            String currentPrincipalName = authentication.getName();
-            System.out.println(currentPrincipalName);
-            if (authentication.isAuthenticated()) {
-                if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin"))) {
-                    List<Announcement> announcements = announcementRepository.findAllByOrderByIdDesc();
-                    if (announcements != null) {
-                        return announcements;
-                    }
-                } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("announcer"))) {
-                    List<Announcement> announcements = announcementRepository.findAnnouncementsByAnnouncementOwner_UsernameOrderByIdDesc(currentPrincipalName);
-                    if (announcements != null) {
-                        return announcements;
-                    }
+        String currentPrincipalName = authentication.getName();
+        System.out.println(currentPrincipalName);
+        if (authentication.isAuthenticated()) {
+            if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
+                List<Announcement> announcements = announcementRepository.findAllByOrderByIdDesc();
+                if (announcements != null) {
+                    return announcements;
                 }
-                throw new AnnouncementNotFoundException("No announcement");
-
+            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))) {
+                List<Announcement> announcements = announcementRepository.findAnnouncementsByAnnouncementOwner_UsernameOrderByIdDesc(currentPrincipalName);
+                if (announcements != null) {
+                    return announcements;
+                }
             }
-            throw new UnAuthorizationException("Please login first.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 
         }
+        throw new UnAuthorizationException("Please login first.");
 
-        public Announcement getDetailsById (Integer id, Boolean count){
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String currentPrincipalName = authentication.getName();
-            if (authentication.isAuthenticated()) {
-                if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin"))) {
-//                if(!(id instanceof Integer)){
-//                    throw new BadRequestException("id must be integer");
-//                }
-                    Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
+    }
+
+    public Announcement getDetailsById(Integer id, Boolean count) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        if (authentication.isAuthenticated()) {
+            if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
+                if (id != null && !(id instanceof Integer)) {
+                    throw new BadRequestException("id must be integer");
+                }
+                Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
+                if (count) {
+                    announcement.setViewCount(announcement.getViewCount() + 1);
+                    announcementRepository.saveAndFlush(announcement);
+                }
+                return announcement;
+            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))) {
+                if (id != null && !(id instanceof Integer)) {
+                    throw new BadRequestException("id must be integer");
+                }
+                Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
+                if (announcement != null && announcement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)) {
                     if (count) {
                         announcement.setViewCount(announcement.getViewCount() + 1);
                         announcementRepository.saveAndFlush(announcement);
                     }
                     return announcement;
-                } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("announcer"))) {
-//                if(!(id instanceof Integer)){
-//                    throw new BadRequestException("id must be integer");
-//                }
-                    Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
-                    if (announcement != null && announcement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)) {
-                        if (count) {
-                            announcement.setViewCount(announcement.getViewCount() + 1);
-                            announcementRepository.saveAndFlush(announcement);
-                        }
-                        return announcement;
-                    }
                 }
             }
-            throw new UnAuthorizationException("Please login first.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-
-
-        public Page<Announcement> getAnnouncementWithPagination ( int page, int size, String mode, Integer categoryId){
-            PageRequest pageRequest = PageRequest.of(page, size);
-            if (mode.equals("active")) {
-                if (categoryId != null) {
-                    return announcementRepository.findActiveAnnouncementByCategoryWithPagination(pageRequest, categoryId);
-                }
-                return announcementRepository.findActiveAnnouncementWithPagination(pageRequest);
-            } else if (mode.equals("close")) {
-                if (categoryId != null) {
-                    return announcementRepository.findCloseAnnouncementByCategoryWithPagination(pageRequest, categoryId);
-                }
-                return announcementRepository.findCloseAnnouncementWithPagination(pageRequest);
-            }
-            return Page.empty(pageRequest);
-        }
-
+        throw new UnAuthorizationException("Please login first.");
     }
+
+
+    public Page<Announcement> getAnnouncementWithPagination(int page, int size, String mode, Integer categoryId) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        if (mode.equals("active")) {
+            if (categoryId != null) {
+                return announcementRepository.findActiveAnnouncementByCategoryWithPagination(pageRequest, categoryId);
+            }
+            return announcementRepository.findActiveAnnouncementWithPagination(pageRequest);
+        } else if (mode.equals("close")) {
+            if (categoryId != null) {
+                return announcementRepository.findCloseAnnouncementByCategoryWithPagination(pageRequest, categoryId);
+            }
+            return announcementRepository.findCloseAnnouncementWithPagination(pageRequest);
+        }
+        return Page.empty(pageRequest);
+    }
+
+}
 
 

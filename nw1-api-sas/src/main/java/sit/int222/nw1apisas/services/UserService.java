@@ -82,11 +82,11 @@ public class UserService {
     public String deleteUser(Integer id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        if (id == null) {
+        if (id == null || !(id instanceof Integer)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "id must be integer");
         }
 
-        if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("admin"))) {
+        if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
             User user = userRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("The user is not found."));
             List<Announcement> userAnnouncements = announcementRepository.findAllByAnnouncementOwner(user);
             User newOwner = userRepository.findUserByUsername(currentPrincipalName).orElseThrow(() -> new ItemNotFoundException("New owner not found."));
