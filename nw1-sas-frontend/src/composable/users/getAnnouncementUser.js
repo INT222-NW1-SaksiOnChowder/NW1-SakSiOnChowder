@@ -16,10 +16,7 @@ const getAnnouncementsUser = async (mode, id, category) => {
     try {
         const res = await fetch(`${ROOT_API}/api/announcements/pages${pagesId}${pagesMode}${categoryType}`,
             {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                },
+                method: "GET"
             })
         if (res.status === 200) {
             const announcement = await res.json()

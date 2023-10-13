@@ -24,6 +24,7 @@ const getUsers = async () => {
       for (const u of user) {
         if (u.username=== currentUsername.currentUsername) {
           currentRole.setRole(u.role);
+          localStorage.setItem("role", u.role);
           console.log(currentRole.currentRole);
         }
       }

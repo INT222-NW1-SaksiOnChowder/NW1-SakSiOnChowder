@@ -11,7 +11,7 @@ import Menubar from "../Navbar.vue"
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const announcementStores = annStores()
-
+const showMenubar = ref(false)
 const showCloseTime = ref(false)
 const setShowCloseTime = () => {
   if (announcementStores.mode === 'close') {
@@ -25,6 +25,7 @@ const selectedCategory = ref(announcementStores.category)
 
 const annoucementContent = ref()
 onMounted(async () => {
+  showMenubar.value = checkUserLogin()
   noAnnouncement()
   announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, announcementStores.category)
   annoucementContent.value = announcements.value.content
@@ -115,10 +116,18 @@ const disablePrevButton = computed(() => {
 })
 const nextOrPrevButton = (move) =>{
     if (move === 'next') {
-      changeToCurrentPage(announcementStores.page+2)
+      changeToCurrentPage(announcementStores.page+2) 
     } else {
       changeToCurrentPage(announcementStores.page)
     }
+}
+
+const checkUserLogin = () => {
+  if (localStorage.getItem('accessToken')) {
+    return true
+  } else {
+    return false
+  }
 }
 
 const changeCategory = async (category) =>{
@@ -136,8 +145,8 @@ const changeCategory = async (category) =>{
 
 <template>
   <div class="flex w-screen min-h-screen max-h-full bg-Background">
-    <Menubar/>
-    <div class="w-4/5">
+    <Menubar v-if="showMenubar"/>
+    <div class="w-full">
       <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
       <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
         SIT Announcement System (SAS)
