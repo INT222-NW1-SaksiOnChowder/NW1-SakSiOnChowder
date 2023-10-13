@@ -21,6 +21,13 @@ const router = createRouter({
       {
         path: '/admin/announcement',
         name: 'announcements',
+        // beforeEnter: (to, from, next) => {
+        //   if (!localStorage.getItem('accessToken')) {
+        //     next('/login')
+        //   } else {
+        //     next()
+        //   }
+        // },
         component: Announcements
       },
       {

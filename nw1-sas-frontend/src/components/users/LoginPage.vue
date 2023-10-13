@@ -20,9 +20,10 @@ const matchOrNotButton = async () => {
     result.value = await getToken(userObj.value)
     await getUsers()
     divShowMassage.value = true
+    console.log(result.value.status);
     if (result.value.status === true && currentRole.currentRole === "admin") {
         router.push({ name: "userManagement" })
-    } else if(currentRole.currentRole !== "admin") {
+    } else if(result.value.status === true && currentRole.currentRole !== "admin") {
         router.push({name: "userViewAnnouncement"})
     }
     console.log(currentRole.currentRole);

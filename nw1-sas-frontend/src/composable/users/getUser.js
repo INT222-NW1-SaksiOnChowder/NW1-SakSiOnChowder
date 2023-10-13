@@ -7,6 +7,7 @@ const getUsers = async () => {
   const currentRole = role()
   const currentUsername = username()
   const accessToken = localStorage.getItem("accessToken");
+  currentRole.currentRole = undefined
   console.log(accessToken);
   try {
     const res = await fetch(`${ROOT_API}/api/users`,

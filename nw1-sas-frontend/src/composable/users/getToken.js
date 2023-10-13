@@ -16,6 +16,7 @@ const getToken = async (user) => {
                 body: JSON.stringify(user)
             }
         )
+        console.log(res.status);
         if (res.status === 200) {
             const data = await res.json()
             console.log(data);
@@ -26,7 +27,7 @@ const getToken = async (user) => {
             currentUsername.setUsername(user.username);
             console.log(currentUsername.currentUsername);
             return result
-        } else if (res.status === 403) { //res.status === 401
+        } else if (res.status === 401) { //res.status === 401
             // const error = await res.json()
             // for(const err of error.detail){
             //     alert(err.errorMessage)

@@ -200,8 +200,7 @@ const changeCategory = async (category) =>{
         </table>
         <div v-if="isAnnouncementFound" class="text-center text-3xl my-10 text-BlueFonts">No Announcement</div>
       </div>
-    </div>
-    <div v-if="isMoreThanFiveElements" class="flex justify-center mt-8">
+      <div v-if="isMoreThanFiveElements" class="flex justify-center mt-8">
         <button :disabled="disablePrevButton " @click="nextOrPrevButton('prev')" class="ann-page-prev font-bold px-5 py-2 mx-1 rounded-lg bg-DarkBlue text-BlueFonts">Prev</button>
         <button @click="changeToCurrentPage(pageNumber)" v-for="(pageNumber,index) in slicePageNumberArr" :key="index" 
         :class="[
@@ -215,6 +214,8 @@ const changeCategory = async (category) =>{
         </button>
         <button :disabled="disableNextButton" @click="nextOrPrevButton('next')" class="ann-page-next  px-5 py-2 mx-1 rounded-lg bg-DarkBlue font-bold text-BlueFonts">Next</button>
       </div>
+    </div>
+    
   </div>
 </template>
 
