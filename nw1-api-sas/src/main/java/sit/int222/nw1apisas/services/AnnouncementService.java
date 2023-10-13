@@ -124,9 +124,6 @@ public class AnnouncementService {
         String currentPrincipalName = authentication.getName();
         if (authentication.isAuthenticated()) {
             if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
-                if (id != null && !(id instanceof Integer)) {
-                    throw new BadRequestException("id must be integer");
-                }
                 Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
                 if (count) {
                     announcement.setViewCount(announcement.getViewCount() + 1);
@@ -134,9 +131,6 @@ public class AnnouncementService {
                 }
                 return announcement;
             } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))) {
-                if (id != null && !(id instanceof Integer)) {
-                    throw new BadRequestException("id must be integer");
-                }
                 Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
                 if (announcement != null && announcement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)) {
                     if (count) {
