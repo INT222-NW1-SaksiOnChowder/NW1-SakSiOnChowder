@@ -31,7 +31,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String requestTokenHeader = request.getHeader("Authorization");
-
+        if (requestTokenHeader == null || requestTokenHeader.isEmpty()) {
+            if (!request.getRequestURI().equals("/api/token") && !request.getRequestURI().equals("/api/announcements/pages")) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+        }
         String username = null;
         String jwtToken = null;
         // JWT Token is in the form "Bearer token". Remove Bearer word and get
@@ -43,11 +48,21 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
             } catch (ExpiredJwtException e) {
                 System.out.println("JWT Token has expired");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            } catch (Exception e) {
+                System.out.println("JWT Token is invalid");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
             }
         } else {
             logger.warn("JWT Token does not begin with Bearer String");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
         }
 
         if (jwtToken != null) {
@@ -59,25 +74,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
-
-            String role = claims.get("role", String.class);
-            if (!"admin".equals(role) && request.getRequestURI().contains("/api/users")) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return;
-            }
-
         }
 
 
         // Once we get the token validate it.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
             UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
-
             // if token is valid configure Spring Security to manually set
             // authentication
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
-
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken
@@ -86,8 +91,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 // that the current user is authenticated. So it passes the
                 // Spring Security Configurations successfully.
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-
-
             }
         }
         chain.doFilter(request, response);

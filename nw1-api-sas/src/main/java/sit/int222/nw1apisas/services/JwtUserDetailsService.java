@@ -12,6 +12,8 @@ import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.repositories.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -27,7 +29,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         // Create a GrantedAuthority using the user's role
-        GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
+        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole());
         authorities.add(authority);
 
 

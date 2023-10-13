@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import sit.int222.nw1apisas.entities.Announcement;
+import sit.int222.nw1apisas.entities.User;
 
 import java.util.List;
 
@@ -31,4 +32,8 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
     @Query("SELECT a FROM Announcement a JOIN a.categoryId c WHERE a.announcementDisplay = 'Y' AND a.closeDate IS NOT NULL AND CURRENT_TIMESTAMP >= a.closeDate AND c.categoryId = :categoryId ORDER BY a.id DESC")
     Page<Announcement> findCloseAnnouncementByCategoryWithPagination(Pageable pageable, @Param("categoryId") Integer categoryId);
 
+
+    List<Announcement> findAnnouncementsByAnnouncementOwner_UsernameOrderByIdDesc(String username);
+
+    List<Announcement> findAllByAnnouncementOwner(User username);
 }

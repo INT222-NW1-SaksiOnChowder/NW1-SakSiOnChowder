@@ -1,22 +1,18 @@
 package sit.int222.nw1apisas.config;
 
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import static org.springframework.http.HttpMethod.OPTIONS;
 
@@ -34,6 +30,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager() throws Exception {
         return authConfiguration.getAuthenticationManager();
     }
+
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
@@ -41,15 +38,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(OPTIONS).permitAll() // allow CORS option calls for Swagger UI
 //                        permitAll ยอมให้เรียกผ่านได้โดยไม่ต้อง authenticate
-                        .requestMatchers("/api/token"
-//                                "/api/announcements", "/api/announcements/{id}"
-                        ).permitAll()
+                        .requestMatchers("/api/users/**").hasRole("admin")
+                        .requestMatchers("/api/token", "/api/announcements/pages").permitAll()
                         .anyRequest().authenticated()
                         .and()
                         .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class));
 
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new Argon2PasswordEncoder(16, 16, 1, 4096, 3);
