@@ -3,6 +3,8 @@ import { ref, computed, onMounted, watchEffect, onUpdated } from "vue";
 import { useRouter } from "vue-router";
 import { matchPassword } from "../../composable/users/matchPassword.js";
 import { getToken } from "../../composable/users/getToken.js";
+import { role } from '../../stores/role';
+import { getUser, getUsers } from "../../composable/users/getUser";
 
 const userObj = ref({
     username: "",
@@ -11,13 +13,20 @@ const userObj = ref({
 const result = ref(false)
 const divShowMassage = ref(false)
 const router = useRouter();
+const currentRole = role()
+
 
 const matchOrNotButton = async () => {
     result.value = await getToken(userObj.value)
+    await getUsers()
     divShowMassage.value = true
-    if (result.value.status === true) {
+    console.log(result.value.status);
+    if (result.value.status === true && currentRole.currentRole === "admin") {
         router.push({ name: "userManagement" })
+    } else if(result.value.status === true && currentRole.currentRole !== "admin") {
+        router.push({name: "userViewAnnouncement"})
     }
+    console.log(currentRole.currentRole);
 }
 
 

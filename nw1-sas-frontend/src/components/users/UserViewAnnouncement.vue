@@ -6,10 +6,12 @@ import { annStores } from '../../stores/counter.js'
 import TimeZone from '../icones/TimeZone.vue'
 import CloseIcon from "../icones/CloseIcon.vue"
 import ActiveIcon from "../icones/ActiveIcon.vue"
+import Menubar from "../Navbar.vue"
+
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const announcementStores = annStores()
-
+const showMenubar = ref(false)
 const showCloseTime = ref(false)
 const setShowCloseTime = () => {
   if (announcementStores.mode === 'close') {
@@ -23,6 +25,7 @@ const selectedCategory = ref(announcementStores.category)
 
 const annoucementContent = ref()
 onMounted(async () => {
+  showMenubar.value = checkUserLogin()
   noAnnouncement()
   announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, announcementStores.category)
   annoucementContent.value = announcements.value.content
@@ -113,10 +116,18 @@ const disablePrevButton = computed(() => {
 })
 const nextOrPrevButton = (move) =>{
     if (move === 'next') {
-      changeToCurrentPage(announcementStores.page+2)
+      changeToCurrentPage(announcementStores.page+2) 
     } else {
       changeToCurrentPage(announcementStores.page)
     }
+}
+
+const checkUserLogin = () => {
+  if (localStorage.getItem('accessToken')) {
+    return true
+  } else {
+    return false
+  }
 }
 
 const changeCategory = async (category) =>{
@@ -133,8 +144,9 @@ const changeCategory = async (category) =>{
 </script>
 
 <template>
-  <div class="w-screen min-h-screen max-h-full bg-Background">
-    <div class="">
+  <div class="flex w-screen min-h-screen max-h-full bg-Background">
+    <Menubar v-if="showMenubar"/>
+    <div class="w-full">
       <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
       <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
         SIT Announcement System (SAS)
@@ -197,8 +209,7 @@ const changeCategory = async (category) =>{
         </table>
         <div v-if="isAnnouncementFound" class="text-center text-3xl my-10 text-BlueFonts">No Announcement</div>
       </div>
-    </div>
-    <div v-if="isMoreThanFiveElements" class="flex justify-center mt-8">
+      <div v-if="isMoreThanFiveElements" class="flex justify-center mt-8">
         <button :disabled="disablePrevButton " @click="nextOrPrevButton('prev')" class="ann-page-prev font-bold px-5 py-2 mx-1 rounded-lg bg-DarkBlue text-BlueFonts">Prev</button>
         <button @click="changeToCurrentPage(pageNumber)" v-for="(pageNumber,index) in slicePageNumberArr" :key="index" 
         :class="[
@@ -212,6 +223,8 @@ const changeCategory = async (category) =>{
         </button>
         <button :disabled="disableNextButton" @click="nextOrPrevButton('next')" class="ann-page-next  px-5 py-2 mx-1 rounded-lg bg-DarkBlue font-bold text-BlueFonts">Next</button>
       </div>
+    </div>
+    
   </div>
 </template>
 

@@ -31,8 +31,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String requestTokenHeader = request.getHeader("Authorization");
-        if (requestTokenHeader == null || requestTokenHeader.isEmpty()) {
-            if (!(request.getRequestURI().equals("/api/token") || request.getRequestURI().equals("/api/announcements/pages"))) {
+
+        if (!(request.getRequestURI().equals("/api/token") || request.getRequestURI().equals("/api/announcements/pages"))) {
+            if (requestTokenHeader == null || requestTokenHeader.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
