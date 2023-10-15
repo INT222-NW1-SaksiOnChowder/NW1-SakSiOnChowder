@@ -31,8 +31,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String requestTokenHeader = request.getHeader("Authorization");
-        if (requestTokenHeader == null || requestTokenHeader.isEmpty()) {
-            if (!request.getRequestURI().equals("/api/token") && !request.getRequestURI().equals("/api/announcements/pages")) {
+
+        if (!(request.getRequestURI().equals("/api/token") || request.getRequestURI().equals("/api/announcements/pages"))) {
+            if (requestTokenHeader == null || requestTokenHeader.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
@@ -48,8 +49,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return;
             } catch (ExpiredJwtException e) {
                 System.out.println("JWT Token has expired");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -61,8 +60,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
         } else {
             logger.warn("JWT Token does not begin with Bearer String");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
         }
 
         if (jwtToken != null) {
