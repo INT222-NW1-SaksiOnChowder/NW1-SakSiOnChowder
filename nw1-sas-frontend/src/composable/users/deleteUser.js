@@ -12,10 +12,13 @@ const deleteUser = async (id) => {
       })
     if (res.ok) {
       console.log("Delete Successfully");
+      alert("Delete user id: " + id + " successfully")
       return true
-    } else if (res.status !== 200) {
+    } else if (res.status === 403) {
       const error = await res.json();
-      alert(error.message);
+      for (const err of error.detail) {
+        alert(err.errorMessage);
+      }
     }
   } catch (err) {
     alert(`Error: ${err}`);
