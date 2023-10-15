@@ -16,6 +16,7 @@ import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
+import sit.int222.nw1apisas.exceptions.UserForbiddenException;
 import sit.int222.nw1apisas.exceptions.ValidationUniqueException;
 import sit.int222.nw1apisas.repositories.AnnouncementRepository;
 import sit.int222.nw1apisas.repositories.UserRepository;
@@ -93,13 +94,13 @@ public class UserService {
                 User newOwner = userRepository.findUserByUsername(currentPrincipalName).orElseThrow(() -> new ItemNotFoundException("New owner not found."));
                 for (Announcement announcement : userAnnouncements) {
                     announcement.setAnnouncementOwner(newOwner);
-                    announcementRepository.save(announcement);
+                    announcementRepository.saveAndFlush(announcement);
                 }
                 userRepository.deleteById(id);
                 return "Delete user id: " + id + " successfully.";
             }
         }
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to delete this user.");
+           throw new UserForbiddenException("You cannot delete your own account");
     }
 
     public String matchPassword(UsernamePasswordDto usernamePasswordDto) {
