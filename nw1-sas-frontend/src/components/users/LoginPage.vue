@@ -13,20 +13,23 @@ const userObj = ref({
 const result = ref(false)
 const divShowMassage = ref(false)
 const router = useRouter();
-const currentRole = role()
+// const currentRole = role()
 
+onMounted(async () => {
+
+});
 
 const matchOrNotButton = async () => {
     result.value = await getToken(userObj.value)
-    await getUsers()
+    const userDetail = await JSON.parse(localStorage.getItem("userDetail"))
+    // await getUsers()
     divShowMassage.value = true
     console.log(result.value.status);
-    if (result.value.status === true && currentRole.currentRole === "admin") {
+    if (result.value.status === true && userDetail.role === "ROLE_admin") {
         router.push({ name: "userManagement" })
-    } else if(result.value.status === true && currentRole.currentRole !== "admin") {
+    } else if(result.value.status === true && userDetail.role !== "ROLE_admin") {
         router.push({name: "userViewAnnouncement"})
     }
-    console.log(currentRole.currentRole);
 }
 
 

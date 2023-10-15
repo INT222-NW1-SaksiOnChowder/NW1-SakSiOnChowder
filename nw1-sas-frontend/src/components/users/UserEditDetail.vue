@@ -25,6 +25,7 @@ const userNameMessage = ref('')
 const nameMessage = ref('')
 const emailMessage = ref('')
 const currentUsername = username()
+const userDetail = ref(JSON.parse(localStorage.getItem("userDetail")))
 
 const checkUsernameLengthAndUnique = ref(false)
 const checkNameLengthAndUnique = ref(false)
@@ -109,17 +110,24 @@ const save = async (event) => {
     console.log(currentUsername.currentUsername);
     console.log(oldUserData.value.username);
     if (userNameMessage.value === '' && nameMessage.value === '' && emailMessage.value === '') {
-        if (currentUsername.currentUsername === oldUserData.value.username) {
-            alert("Your username has been updated, requiring you to login again.")
+        console.log(userDetail.value.sub);
+        console.log(oldUserData.value.username);
+        if (userDetail.value.sub === oldUserData.value.username) {
+            if (userDetail.value.sub !== userObj.value.username || userDetail.value.role !== `ROLE_${userObj.value.role}`) {
+            alert("Your username or roke has been updated, requiring you to login again.")
             clearToken()
             console.log("log");
             router.push({ name: 'login' })
-        } else {
+        }
+        }
+         else {
             router.push({ name: 'userManagement' })
         }
 
     }
 };
+
+
 
 
 </script>

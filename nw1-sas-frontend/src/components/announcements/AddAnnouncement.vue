@@ -20,7 +20,7 @@ announcementObj.value = {
   publishDate: "",
   closeDate: "",
   announcementDisplay: displayShow.value,
-  categoryId: 1,
+  categoryId: 1
 };
 
 const submit = async (addAnnouncement) => {
@@ -46,15 +46,20 @@ const submit = async (addAnnouncement) => {
     addAnnouncement.closeDate = null;
   }
 
-  if (addAnnouncement.announcementTitle === '' || addAnnouncement.announcementDescription === ''  
-    || addAnnouncement.publishDate < addAnnouncement.closeDate || addAnnouncement.publishDate < nowDate.value || addAnnouncement.closeDate < nowDate.value
-    ) 
-    {
-        await createAnnouncement(addAnnouncement) 
-    }   else {
-        await createAnnouncement(addAnnouncement)  
-        router.push({ name: 'announcements' })
-    }
+  // if (addAnnouncement.announcementTitle === '' || addAnnouncement.announcementDescription === ''  
+  //   || addAnnouncement.publishDate < addAnnouncement.closeDate || addAnnouncement.publishDate < nowDate.value || addAnnouncement.closeDate < nowDate.value
+  //   ) 
+  //   {
+  //       await createAnnouncement(addAnnouncement) 
+  //   }   else {
+  //       await createAnnouncement(addAnnouncement)  
+  //       router.push({ name: 'announcements' })
+  //   }
+
+  const result = await createAnnouncement(addAnnouncement)
+  if (result) {
+    router.push({ name: 'announcements' })
+  }
 };
 
 const isDisabledPublishTime = computed(() => {

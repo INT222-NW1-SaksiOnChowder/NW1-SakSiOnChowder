@@ -13,6 +13,7 @@
     "@vueup/vue-quill": "^1.2.0",
     "daisyui": "^2.51.6",
     "json-server": "^0.17.3",
+    "jwt-decode": "^3.1.2",
     "pinia": "^2.0.36",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"

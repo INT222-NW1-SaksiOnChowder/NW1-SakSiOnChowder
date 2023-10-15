@@ -1,7 +1,10 @@
 const ROOT_API = import.meta.env.VITE_ROOT_API
-import { username } from "../../stores/username.js"
+// import { username } from "../../stores/username.js"
+import jwt_decode from "jwt-decode"
+import { useRouter } from "vue-router";
+
 const getToken = async (user) => {
-    const currentUsername = username()
+    // const currentUsername = username()
     const result = {
         status: false,
         message: 'Error'
@@ -18,14 +21,20 @@ const getToken = async (user) => {
         )
         console.log(res.status);
         if (res.status === 200) {
+
             const data = await res.json()
-            console.log(data);
+            const userDetail = await jwt_decode(data.token)
+
             result.status = true
             result.message = 'Password Matched'
+
             localStorage.setItem("refreshToken", data.refreshToken);
             localStorage.setItem("accessToken", data.token);
-            currentUsername.setUsername(user.username);
-            console.log(currentUsername.currentUsername);
+            localStorage.setItem("userDetail", JSON.stringify(userDetail));
+
+            console.log(data);
+            console.log(JSON.parse(localStorage.getItem("userDetail")));
+
             return result
         } else if (res.status === 401) { //res.status === 401
             // const error = await res.json()
@@ -70,7 +79,6 @@ const getNewAccessToken = async () => {
         } else if (res.status !== 200) {
             const error = await res.json()
             alert(error.message)
-            console.log('else if');
         }
     } catch (error) {
         console.log(`ERROR cannot read data: ${error}`);
