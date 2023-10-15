@@ -7,14 +7,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import sit.int222.nw1apisas.dtos.announcements.AnnouncementItemDto;
 import sit.int222.nw1apisas.entities.Announcement;
+import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.exceptions.AnnouncementNotFoundException;
 import sit.int222.nw1apisas.exceptions.BadRequestException;
 import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
 import sit.int222.nw1apisas.repositories.AnnouncementRepository;
+import sit.int222.nw1apisas.repositories.UserRepository;
 
 import java.util.List;
 
@@ -28,8 +31,12 @@ public class AnnouncementService {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     public Announcement createAnnouncement(AnnouncementItemDto announcementItemDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findUserByUsername(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         Announcement announcement = new Announcement();
         announcement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
         announcement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
@@ -38,7 +45,7 @@ public class AnnouncementService {
         announcement.setCloseDate(announcementItemDto.getCloseDate());
         announcement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
         announcement.setViewCount(0);
-        announcement.setAnnouncementOwner(userService.getUserById(announcementItemDto.getAnnouncementOwner()));
+        announcement.setAnnouncementOwner(userService.getUserById(user.getId()));
         return announcementRepository.saveAndFlush(announcement);
 
     }
