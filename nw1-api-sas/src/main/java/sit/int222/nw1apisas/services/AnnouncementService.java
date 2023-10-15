@@ -14,7 +14,6 @@ import sit.int222.nw1apisas.dtos.announcements.AnnouncementItemDto;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.exceptions.AnnouncementNotFoundException;
-import sit.int222.nw1apisas.exceptions.BadRequestException;
 import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
 import sit.int222.nw1apisas.repositories.AnnouncementRepository;
 import sit.int222.nw1apisas.repositories.UserRepository;

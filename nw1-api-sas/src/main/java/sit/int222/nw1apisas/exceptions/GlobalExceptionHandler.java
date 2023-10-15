@@ -89,8 +89,8 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({BadRequestException.class})
-    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex, WebRequest request) {
+    @ExceptionHandler({AnnouncementBadRequestException.class})
+    public ResponseEntity<ErrorResponse> handleBadRequestException(AnnouncementBadRequestException ex, WebRequest request) {
         String title = "Announcement must be Integer";
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), title, request.getDescription(false));
         String errMsg = ex.getMessage();

@@ -88,18 +88,18 @@ public class UserService {
 
         if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
             User user = userRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("The user is not found."));
-            List<Announcement> userAnnouncements = announcementRepository.findAllByAnnouncementOwner(user);
-            User newOwner = userRepository.findUserByUsername(currentPrincipalName).orElseThrow(() -> new ItemNotFoundException("New owner not found."));
-            for (Announcement announcement : userAnnouncements) {
-                announcement.setAnnouncementOwner(newOwner);
-                announcementRepository.save(announcement);
+            if(!user.getUsername().equals(currentPrincipalName)){
+                List<Announcement> userAnnouncements = announcementRepository.findAllByAnnouncementOwner(user);
+                User newOwner = userRepository.findUserByUsername(currentPrincipalName).orElseThrow(() -> new ItemNotFoundException("New owner not found."));
+                for (Announcement announcement : userAnnouncements) {
+                    announcement.setAnnouncementOwner(newOwner);
+                    announcementRepository.save(announcement);
+                }
+                userRepository.deleteById(id);
+                return "Delete user id: " + id + " successfully.";
             }
-            userRepository.deleteById(id);
-            return "Delete user id: " + id + " successfully.";
-        } else {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to delete this user.");
         }
-
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to delete this user.");
     }
 
     public String matchPassword(UsernamePasswordDto usernamePasswordDto) {
