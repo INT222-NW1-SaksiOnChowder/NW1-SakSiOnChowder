@@ -54,7 +54,7 @@ const deleteUserById = async (id) => {
 <template>
     <div class="flex w-full min-h-screen max-h-full bg-Background">
         <Menubar />
-        <div class="w-4/5">
+        <div class="w-full">
             <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
                 <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
                     User Management

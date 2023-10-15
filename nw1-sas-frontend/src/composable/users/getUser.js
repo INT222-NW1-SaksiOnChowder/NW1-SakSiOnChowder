@@ -21,13 +21,13 @@ const getUsers = async () => {
       const user = await res.json();
       console.log("Alls Successfully");
       console.log(user);
-      for (const u of user) {
-        if (u.username=== currentUsername.currentUsername) {
-          currentRole.setRole(u.role);
-          localStorage.setItem("role", u.role);
-          console.log(currentRole.currentRole);
-        }
-      }
+      // for (const u of user) {
+      //   if (u.username=== currentUsername.currentUsername) {
+      //     currentRole.setRole(u.role);
+      //     localStorage.setItem("role", u.role);
+      //     console.log(currentRole.currentRole);
+      //   }
+      // }
       return user;
     } else if (res.status !== 200) {
       const error = await res.json();
