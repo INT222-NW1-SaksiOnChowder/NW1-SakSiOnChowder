@@ -5,14 +5,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sit.int222.nw1apisas.dtos.announcements.*;
 import sit.int222.nw1apisas.dtos.pagination.PageDto;
 import sit.int222.nw1apisas.entities.Announcement;
-import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
 import sit.int222.nw1apisas.services.AnnouncementService;
 import sit.int222.nw1apisas.utils.ListMapper;
 
@@ -51,22 +49,24 @@ public class AnnouncementController {
     }
 
     @GetMapping("")
-    public List<?> getAllAnnouncements(@RequestParam(defaultValue = "all",required = false) String mode) {
+    public List<?> getAllAnnouncements(@RequestParam(defaultValue = "admin",required = false) String mode) {
         List<Announcement> announcements = announcementService.getAllAnnouncements(mode);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))){
             return listMapper.mapList(announcements, ResponseAllAnnouncementForAdmin.class, modelMapper);
         }else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))){
-            return listMapper.mapList(announcements, ResponseAllAnnouncementForAnnouncer.class, modelMapper);
+            return listMapper.mapList(announcements, ResponseAllAnnouncementForAnnouncerAndViewer.class, modelMapper);
+        }else {
+            return listMapper.mapList(announcements, ResponseAllAnnouncementForAnnouncerAndViewer.class, modelMapper);
         }
-        throw new UnAuthorizationException("Please Login first");
+//        throw new UnAuthorizationException("Please Login first");
 
     }
 
 
     @GetMapping("/{id}")
     public Object getDetailsById(@PathVariable Integer id,
-                                 @RequestParam(defaultValue = "all", required = false) String mode,
+                                 @RequestParam(defaultValue = "admin", required = false) String mode,
                                  @RequestParam(defaultValue = "false", required = false) Boolean count) {
         Announcement announcements = announcementService.getDetailsById(id, count);
         if (mode.equals("active")) {

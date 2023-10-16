@@ -32,9 +32,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         final String requestTokenHeader = request.getHeader("Authorization");
 
-        if (!(request.getRequestURI().equals("/api/token") || request.getRequestURI().equals("/api/announcements/pages")
-                || (request.getMethod().equals("GET") && request.getRequestURI().startsWith("/api/announcements/")))) {
+        if (!(request.getRequestURI().equals("/api/token")
+                || (request.getMethod().equals("GET") && request.getRequestURI().startsWith("/api/announcements")))) {
             if (requestTokenHeader == null || requestTokenHeader.isEmpty()) {
+                System.out.println("Here");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
