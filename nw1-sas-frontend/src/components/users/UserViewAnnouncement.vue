@@ -28,7 +28,7 @@ onMounted(async () => {
   checkUserLogin()
   noAnnouncement()
   announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, announcementStores.category)
-  console.log(annoucementContent.value);
+  // console.log(annoucementContent.value);
   annoucementContent.value = announcements.value.content
   console.log(annoucementContent.value);
   selectedCategory.value = announcementStores.category

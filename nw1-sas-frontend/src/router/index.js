@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import Announcements from '../components/announcements/Announcements.vue'
 import AnnouncementDetail from '../components/announcements/AnnouncementDetail.vue'
 import AddAnnouncement from '../components/announcements/AddAnnouncement.vue'
@@ -11,6 +11,7 @@ import UserEditDetail from '../components/users/UserEditDetail.vue'
 import AddUser from '../components/users/AddUser.vue'
 import MatchPassword from '../components/users/MatchPassword.vue'
 import LoginPage from '../components/users/LoginPage.vue'
+import { getAnnouncements } from "../composable/announcements/getInformation.js";
 
 const userDetail = ref(JSON.parse(localStorage.getItem("userDetail")))
 const router = createRouter({
@@ -18,7 +19,7 @@ const router = createRouter({
   routes:
     [
       {
-        path:'/',
+        path: '/',
         redirect: '/announcement'
       },
       {
@@ -34,24 +35,108 @@ const router = createRouter({
         component: Announcements
       },
       {
-        path:`/admin/announcement/:id`,
-        name:'announcementDetail',
-        component: AnnouncementDetail
+        path: `/admin/announcement/:id`,
+        name: 'announcementDetail',
+        component: AnnouncementDetail,
+        beforeEnter: async (to, from, next) => {
+          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
+          if (userDetail.value.role !== 'ROLE_admin') {
+            const announcement = ref(await getAnnouncements())
+            const announcementId = ref([])
+            const announcementExits = ref(true)
+            announcement.value.forEach(element => {
+              announcementId.value.push(element.id)
+            });
+            console.log(announcementId.value);
+
+            announcementId.value.forEach(element => {
+              console.log(element);
+              if (Number(to.params.id) === element) {
+                next();
+                announcementExits.value = false
+              } 
+
+            });
+            if (announcementExits.value === true) {
+              alert(`You don't have permission to access this page.`)
+              console.log(to.params.id);
+              next('/announcement');
+            }
+          } else {
+            next();
+          }
+        }
       },
       {
         path: `/admin/announcement/add`,
-        name:'addAnnouncement',
+        name: 'addAnnouncement',
         component: AddAnnouncement
       },
       {
         path: `/admin/announcement/:id/delete`,
         name: 'deleteAnnouncement',
-        component: Announcements
+        component: Announcements,
+        beforeEnter: async (to, from, next) => {
+          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
+          if (userDetail.value.role !== 'ROLE_admin') {
+            const announcement = ref(await getAnnouncements())
+            const announcementId = ref([])
+            const announcementExits = ref(true)
+            announcement.value.forEach(element => {
+              announcementId.value.push(element.id)
+            });
+            console.log(announcementId.value);
+
+            announcementId.value.forEach(element => {
+              console.log(element);
+              if (Number(to.params.id) === element) {
+                next();
+                announcementExits.value = false
+              } 
+
+            });
+            if (announcementExits.value === true) {
+              alert(`You don't have permission to access this page.`)
+              console.log(to.params.id);
+              next('/announcement');
+            }
+          } else {
+            next();
+          }
+        }
       },
       {
         path: `/admin/announcement/:id/edit`,
         name: 'editAnnouncement',
-        component: EditAnnouncement
+        component: EditAnnouncement,
+        beforeEnter: async (to, from, next) => {
+          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
+          if (userDetail.value.role !== 'ROLE_admin') {
+            const announcement = ref(await getAnnouncements())
+            const announcementId = ref([])
+            const announcementExits = ref(true)
+            announcement.value.forEach(element => {
+              announcementId.value.push(element.id)
+            });
+            console.log(announcementId.value);
+
+            announcementId.value.forEach(element => {
+              console.log(element);
+              if (Number(to.params.id) === element) {
+                next();
+                announcementExits.value = false
+              } 
+
+            });
+            if (announcementExits.value === true) {
+              alert(`You don't have permission to access this page.`)
+              console.log(to.params.id);
+              next('/announcement');
+            }
+          } else {
+            next();
+          }
+        }
       },
       {
         path: `/announcement`,
@@ -146,7 +231,7 @@ router.beforeEach((to, from, next) => {
   if (!localStorage.getItem('accessToken') && to.name === 'userViewAnnouncement') {
     next()
   }
-  else if (!localStorage.getItem('accessToken') && to.name === 'userViewDetail'){
+  else if (!localStorage.getItem('accessToken') && to.name === 'userViewDetail') {
     next()
   }
   else if (!localStorage.getItem('accessToken') && to.name !== 'login') {
