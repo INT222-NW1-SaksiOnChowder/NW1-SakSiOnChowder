@@ -53,32 +53,54 @@ public class UserService {
 
     public User updateUser(UpdateUserDto updateUserDto, Integer id) {
         User existingUser = userRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("This user not found"));
-
-        if (!existingUser.getUsername().equalsIgnoreCase(updateUserDto.getUsername())) {
-            if (!userRepository.existsUserByUsername(updateUserDto.getUsername())) {
-                existingUser.setUsername(updateUserDto.getUsername());
+        if (!existingUser.getUsername().equals(updateUserDto.getUsername().trim())) {
+            if (!userRepository.existsUserByUsername(updateUserDto.getUsername().trim())) {
+                existingUser.setUsername(updateUserDto.getUsername().trim());
             } else {
+                System.out.println("test username not unique");
                 throw new ValidationUniqueException("username", "does not unique");
             }
         }
-        if (!existingUser.getName().equalsIgnoreCase(updateUserDto.getName())) {
-            if (!userRepository.existsUserByName(updateUserDto.getName())) {
-                existingUser.setName(updateUserDto.getName());
+        if (!existingUser.getName().equals(updateUserDto.getName().trim())) {
+            if (!userRepository.existsUserByName(updateUserDto.getName().trim())) {
+                existingUser.setName(updateUserDto.getName().trim());
             } else {
-                throw new ValidationUniqueException("name", "is not unique");
+                System.out.println("test name not unique");
+                throw new ValidationUniqueException("name", "does not unique");
             }
         }
-        if (!existingUser.getEmail().equalsIgnoreCase(updateUserDto.getEmail())) {
-            if (!userRepository.existsUserByEmail(updateUserDto.getEmail())) {
-                existingUser.setEmail(updateUserDto.getEmail());
+        if (!existingUser.getEmail().equals(updateUserDto.getEmail().trim())) {
+            if (!userRepository.existsUserByEmail(updateUserDto.getEmail().trim())) {
+                existingUser.setEmail(updateUserDto.getEmail().trim());
             } else {
+                System.out.println("test email not unique");
                 throw new ValidationUniqueException("email", "does not unique");
             }
         }
-        existingUser.setRole(updateUserDto.getRole());
-        userRepository.save(existingUser);
+        if (!existingUser.getRole().equals(updateUserDto.getRole().trim())) {
+            existingUser.setRole(updateUserDto.getRole().trim());
+        }
+        userRepository.saveAndFlush(existingUser);
         userRepository.refresh(existingUser);
         return existingUser;
+//        if (existingUser.getUsername().equals(updateUserDto.getUsername().trim())) {
+//            System.out.println("test username not unique");
+//            throw new ValidationUniqueException("username", "does not unique");
+//        } else {
+//            existingUser.setUsername(updateUserDto.getUsername().trim());
+//        }
+//        if (existingUser.getName().equals(updateUserDto.getName().trim())) {
+//            System.out.println("test name not unique");
+//            throw new ValidationUniqueException("name", "does not unique");
+//        } else {
+//            existingUser.setName(updateUserDto.getName().trim());
+//        }
+//        if (existingUser.getEmail().equals(updateUserDto.getEmail().trim())) {
+//            System.out.println("test email not unique");
+//            throw new ValidationUniqueException("email", "does not unique");
+//        } else {
+//            existingUser.setEmail(updateUserDto.getEmail().trim());
+//        }
     }
 
     public String deleteUser(Integer id) {
@@ -90,7 +112,7 @@ public class UserService {
 
         if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
             User user = userRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("The user is not found."));
-            if(!user.getUsername().equals(currentPrincipalName)){
+            if (!user.getUsername().equals(currentPrincipalName)) {
                 List<Announcement> userAnnouncements = announcementRepository.findAllByAnnouncementOwner(user);
                 User newOwner = userRepository.findUserByUsername(currentPrincipalName).orElseThrow(() -> new ItemNotFoundException("New owner not found."));
                 for (Announcement announcement : userAnnouncements) {
@@ -101,7 +123,7 @@ public class UserService {
                 return "Delete user id: " + id + " successfully.";
             }
         }
-           throw new UserForbiddenException("You cannot delete your own account");
+        throw new UserForbiddenException("You cannot delete your own account");
     }
 
     public String matchPassword(UsernamePasswordDto usernamePasswordDto) {
