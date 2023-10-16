@@ -3,7 +3,11 @@ package sit.int222.nw1apisas.validations.users;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import sit.int222.nw1apisas.entities.User;
+import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.repositories.UserRepository;
+
+import java.util.List;
 
 
 public class NameFieldValidator implements ConstraintValidator<IsNameFieldUnique, String> {
@@ -12,26 +16,10 @@ public class NameFieldValidator implements ConstraintValidator<IsNameFieldUnique
 
     @Override
     public boolean isValid(String name, ConstraintValidatorContext context) {
-        if(name == null){
+        if (name == null) {
             return true;
         }
-       return !userRepository.existsUserByName(name.trim());
-//        if (name == null) {
-//            return true;
-//        }
-//
-//        String trimmedName = name.trim();
-//        String lowercaseName = name.toLowerCase().trim();
-//
-//        if (!trimmedName.equals(name)) {
-//            // If there are leading or trailing whitespaces
-//            return !userRepository.existsUserByName(trimmedName) && !userRepository.existsUserByName(lowercaseName);
-//        } else if (!lowercaseName.equals(name)) {
-//            // If there are changes from uppercase to lowercase
-//            return !userRepository.existsUserByName(trimmedName) && !userRepository.existsUserByName(lowercaseName);
-//        } else {
-//            // No changes in case, directly check the repository
-//            return !userRepository.existsUserByName(trimmedName);
-//        }
+        return !userRepository.existsUserByName(name.trim());
+
     }
 }

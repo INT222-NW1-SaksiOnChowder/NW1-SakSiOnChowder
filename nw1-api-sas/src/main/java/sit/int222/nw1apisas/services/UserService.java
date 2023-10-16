@@ -53,21 +53,22 @@ public class UserService {
 
     public User updateUser(UpdateUserDto updateUserDto, Integer id) {
         User existingUser = userRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("This user not found"));
-        if (!existingUser.getUsername().equals(updateUserDto.getUsername())) {
+
+        if (!existingUser.getUsername().equalsIgnoreCase(updateUserDto.getUsername())) {
             if (!userRepository.existsUserByUsername(updateUserDto.getUsername())) {
                 existingUser.setUsername(updateUserDto.getUsername());
             } else {
                 throw new ValidationUniqueException("username", "does not unique");
             }
         }
-        if (!existingUser.getName().equals(updateUserDto.getName())) {
+        if (!existingUser.getName().equalsIgnoreCase(updateUserDto.getName())) {
             if (!userRepository.existsUserByName(updateUserDto.getName())) {
                 existingUser.setName(updateUserDto.getName());
             } else {
-                throw new ValidationUniqueException("name", "does not unique");
+                throw new ValidationUniqueException("name", "is not unique");
             }
         }
-        if (!existingUser.getEmail().equals(updateUserDto.getEmail())) {
+        if (!existingUser.getEmail().equalsIgnoreCase(updateUserDto.getEmail())) {
             if (!userRepository.existsUserByEmail(updateUserDto.getEmail())) {
                 existingUser.setEmail(updateUserDto.getEmail());
             } else {
