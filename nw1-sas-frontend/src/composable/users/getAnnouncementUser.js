@@ -48,9 +48,20 @@ const getAnnouncementUser = async (id, mode) => {
             announcement = await res.json()
             console.log('Detail Successfully')
             return announcement
-        } else {
-            throw new Error(`Announcement id ${id} doesn't exist`)
+        } else if (res.status === 403) {
+            const error = await res.json();
+            for (const err of error.detail) {
+                alert(err.errorMessage);
+            }
+        } else if (res.status === 404) {
+            const error = await res.json();
+            for (const err of error.detail) {
+                alert(err.errorMessage);
+            }
         }
+        // else {
+        //     throw new Error(`Announcement id ${id} doesn't exist`)
+        // }
     } catch (error) {
         console.log(`ERROR cannot read data: ${error}`);
     }

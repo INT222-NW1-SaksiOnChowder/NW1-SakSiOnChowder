@@ -41,9 +41,16 @@ const getAnnouncement = async (id) => {
             announcement = await res.json()
             console.log('Detail Successfully')
             return announcement
-        } else if (res.status !== 200) {
-            const error = await res.json()
-            alert(error.message)
+        } else if (res.status === 403) {
+            const error = await res.json();
+            for (const err of error.detail) {
+                alert(err.errorMessage);
+            }
+        } else if (res.status === 404) {
+            const error = await res.json();
+            for (const err of error.detail) {
+                alert(err.errorMessage);
+            }
         }
     } catch (error) {
         console.log(`ERROR cannot read data: ${error}`);
