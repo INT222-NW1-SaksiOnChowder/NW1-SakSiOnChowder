@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `SAS`.`Users` (
   UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+  CHARACTER SET utf8 COLLATE utf8_bin
 ENGINE = InnoDB;
 
 
