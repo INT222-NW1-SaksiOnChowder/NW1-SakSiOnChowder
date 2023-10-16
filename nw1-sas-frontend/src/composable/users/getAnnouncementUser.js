@@ -40,9 +40,9 @@ const getAnnouncementUser = async (id, mode) => {
         const res = await fetch(`${ROOT_API}/api/announcements/${id}?mode=${mode}&count=true`,
             {
                 method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                },
+                // headers: {
+                //     "Authorization": `Bearer ${accessToken}`,
+                // },
             })
         if (res.status === 200) {
             announcement = await res.json()

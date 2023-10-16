@@ -98,6 +98,9 @@ router.beforeEach((to, from, next) => {
   if (!localStorage.getItem('accessToken') && to.name === 'userViewAnnouncement') {
     next()
   }
+  else if (!localStorage.getItem('accessToken') && to.name === 'userViewDetail'){
+    next()
+  }
   else if (!localStorage.getItem('accessToken') && to.name !== 'login') {
     next('/login')
   } else {
