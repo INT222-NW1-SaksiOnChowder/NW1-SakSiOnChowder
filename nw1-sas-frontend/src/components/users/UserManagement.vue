@@ -32,17 +32,27 @@ const noUser = () => {
     }
 }
 
-const deleteUserById = async (id) => {
+const deleteUserById = async (id, username) => {
     router.push({ name: "deleteUser", params: { id: id } })
-    const confirmed = confirm(`Do you want to delete`)
-    console.log(confirmed);
-    if (confirmed) {
-        let deleteResult = await deleteUser(id);
-        if (!deleteResult) {
-            deleteResult = await deleteUser(id);
-            console.log(deleteResult);
+    // const confirmed = confirm(`The announcements owned by this user will be transfered to you. Do you still want to delete this user`)
+    const userDetail = JSON.parse(localStorage.getItem("userDetail"))
+    if (userDetail.sub !== username) {
+        if (confirm(`The announcements owned by this user will be transfered to you. Do you still want to delete this user`)) {
+            let deleteResult = await deleteUser(id);
+            if (!deleteResult) {
+                deleteResult = await deleteUser(id);
+                console.log(deleteResult);
+            }
         }
+    } else{
+        let deleteResult = await deleteUser(id);
+            if (!deleteResult) {
+                deleteResult = await deleteUser(id);
+                console.log(deleteResult);
+            }
     }
+
+
     users.value = await getUsers();
     if (!users.value) {
         users.value = await getUsers();
@@ -127,7 +137,7 @@ const deleteUserById = async (id) => {
                                 </router-link>
                                 <button
                                     class="ann-button font-bold shadow-md hover:bg-ButtonDeleteHover rounded-full bg-DarkRed px-5 py-2 ml-2"
-                                    @click="deleteUserById(user.id)">
+                                    @click="deleteUserById(user.id, user.username)">
                                     delete
                                 </button>
                             </td>
