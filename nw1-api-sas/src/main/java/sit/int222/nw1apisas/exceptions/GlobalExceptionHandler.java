@@ -81,21 +81,31 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({AnnouncementNotFoundException.class})
     public ResponseEntity<ErrorResponse> handleNoAnnouncementFoundException(AnnouncementNotFoundException ex, WebRequest request) {
-        String title = "Announcement item not found"; // You can customize the title as needed
+        String title = "Announcement not found"; // You can customize the title as needed
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), title, request.getDescription(false));
         String errMsg = ex.getMessage();
-        errorResponse.addValidationError("announcement", errMsg);
+        errorResponse.addValidationError("id", errMsg);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({BadRequestException.class})
-    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex, WebRequest request) {
+    @ExceptionHandler({AnnouncementBadRequestException.class})
+    public ResponseEntity<ErrorResponse> handleBadRequestException(AnnouncementBadRequestException ex, WebRequest request) {
         String title = "Announcement must be Integer";
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), title, request.getDescription(false));
         String errMsg = ex.getMessage();
         errorResponse.addValidationError("announcement id", errMsg);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler({UserForbiddenException.class})
+    public ResponseEntity<ErrorResponse> handleUserForbiddenException(UserForbiddenException ex, WebRequest request) {
+        String title = "User don't have permission";
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.FORBIDDEN.value(), title, request.getDescription(false));
+        String errMsg = ex.getMessage();
+        errorResponse.addValidationError("user", errMsg);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
     }
 
 }

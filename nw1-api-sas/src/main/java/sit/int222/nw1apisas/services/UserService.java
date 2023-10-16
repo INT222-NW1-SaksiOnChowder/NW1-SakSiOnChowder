@@ -16,6 +16,7 @@ import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
+import sit.int222.nw1apisas.exceptions.UserForbiddenException;
 import sit.int222.nw1apisas.exceptions.ValidationUniqueException;
 import sit.int222.nw1apisas.repositories.AnnouncementRepository;
 import sit.int222.nw1apisas.repositories.UserRepository;
@@ -88,18 +89,18 @@ public class UserService {
 
         if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
             User user = userRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("The user is not found."));
-            List<Announcement> userAnnouncements = announcementRepository.findAllByAnnouncementOwner(user);
-            User newOwner = userRepository.findUserByUsername(currentPrincipalName).orElseThrow(() -> new ItemNotFoundException("New owner not found."));
-            for (Announcement announcement : userAnnouncements) {
-                announcement.setAnnouncementOwner(newOwner);
-                announcementRepository.save(announcement);
+            if(!user.getUsername().equals(currentPrincipalName)){
+                List<Announcement> userAnnouncements = announcementRepository.findAllByAnnouncementOwner(user);
+                User newOwner = userRepository.findUserByUsername(currentPrincipalName).orElseThrow(() -> new ItemNotFoundException("New owner not found."));
+                for (Announcement announcement : userAnnouncements) {
+                    announcement.setAnnouncementOwner(newOwner);
+                    announcementRepository.saveAndFlush(announcement);
+                }
+                userRepository.deleteById(id);
+                return "Delete user id: " + id + " successfully.";
             }
-            userRepository.deleteById(id);
-            return "Delete user id: " + id + " successfully.";
-        } else {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to delete this user.");
         }
-
+           throw new UserForbiddenException("You cannot delete your own account");
     }
 
     public String matchPassword(UsernamePasswordDto usernamePasswordDto) {

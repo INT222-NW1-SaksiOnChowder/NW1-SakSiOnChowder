@@ -7,14 +7,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import sit.int222.nw1apisas.dtos.announcements.AnnouncementItemDto;
 import sit.int222.nw1apisas.entities.Announcement;
+import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.exceptions.AnnouncementNotFoundException;
-import sit.int222.nw1apisas.exceptions.BadRequestException;
 import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
+import sit.int222.nw1apisas.exceptions.UserForbiddenException;
 import sit.int222.nw1apisas.repositories.AnnouncementRepository;
+import sit.int222.nw1apisas.repositories.UserRepository;
 
 import java.util.List;
 
@@ -28,8 +31,12 @@ public class AnnouncementService {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     public Announcement createAnnouncement(AnnouncementItemDto announcementItemDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findUserByUsername(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         Announcement announcement = new Announcement();
         announcement.setAnnouncementTitle(announcementItemDto.getAnnouncementTitle());
         announcement.setAnnouncementDescription(announcementItemDto.getAnnouncementDescription());
@@ -38,7 +45,7 @@ public class AnnouncementService {
         announcement.setCloseDate(announcementItemDto.getCloseDate());
         announcement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
         announcement.setViewCount(0);
-        announcement.setAnnouncementOwner(userService.getUserById(announcementItemDto.getAnnouncementOwner()));
+        announcement.setAnnouncementOwner(userService.getUserById(user.getId()));
         return announcementRepository.saveAndFlush(announcement);
 
     }
@@ -48,18 +55,18 @@ public class AnnouncementService {
         String currentPrincipalName = authentication.getName();
         if (authentication.isAuthenticated()) {
             if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
-                announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement is not found."));
+                announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement not found."));
                 announcementRepository.deleteById(id);
-                return "Delete Announcement id " + id + " Successfully";
+                return "Delete Announcement id " + id + " successfully";
             } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))) {
-                Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement is not found."));
+                Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement not found."));
                 if (announcement != null && announcement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)) {
                     announcementRepository.deleteById(id);
-                    return "Delete Announcement id " + id + " Successfully";
+                    return "Delete Announcement id " + id + " successfully";
                 }
 
             }
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No authorization");
+            throw new UserForbiddenException("You cannot delete any announcement that you are not the owner of");
         }
         throw new UnAuthorizationException("Please login first.");
 
@@ -90,7 +97,7 @@ public class AnnouncementService {
                     return announcementRepository.saveAndFlush(existingAnnouncement);
                 }
             }
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No authorization");
+            throw new UserForbiddenException("You cannot update any announcement that you are not the owner of");
         }
         throw new UnAuthorizationException("Please login first.");
     }
@@ -112,7 +119,7 @@ public class AnnouncementService {
                     return announcements;
                 }
             }
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new UserForbiddenException("You do not have permission to access the announcement");
 
         }
         throw new UnAuthorizationException("Please login first.");
@@ -140,7 +147,7 @@ public class AnnouncementService {
                     return announcement;
                 }
             }
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new UserForbiddenException("You do not have permission to access the announcement id that you are not the owner of");
         }
         throw new UnAuthorizationException("Please login first.");
     }
