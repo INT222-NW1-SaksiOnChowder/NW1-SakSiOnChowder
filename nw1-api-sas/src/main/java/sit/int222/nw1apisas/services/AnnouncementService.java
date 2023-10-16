@@ -4,12 +4,10 @@ package sit.int222.nw1apisas.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import sit.int222.nw1apisas.dtos.announcements.AnnouncementItemDto;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.entities.User;
@@ -102,22 +100,30 @@ public class AnnouncementService {
         throw new UnAuthorizationException("Please login first.");
     }
 
-    public List<Announcement> getAllAnnouncements() {
+    public List<Announcement> getAllAnnouncements(String mode) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        เอาไว้หาว่าใครล็อกอินอยู่
         String currentPrincipalName = authentication.getName();
         System.out.println(currentPrincipalName);
         if (authentication.isAuthenticated()) {
             if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
-                List<Announcement> announcements = announcementRepository.findAllByOrderByIdDesc();
-                if (announcements != null) {
-                    return announcements;
+                if (mode.equals("active")) {
+                    return announcementRepository.findActiveAnnouncementWithRoleAdmin();
+                } else if (mode.equals("close")) {
+                    return announcementRepository.findCloseAnnouncementWithRoleAdmin();
+                } else {
+                    return announcementRepository.findAllByOrderByIdDesc();
                 }
+
             } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))) {
-                List<Announcement> announcements = announcementRepository.findAnnouncementsByAnnouncementOwner_UsernameOrderByIdDesc(currentPrincipalName);
-                if (announcements != null) {
-                    return announcements;
+                if (mode.equals("active")) {
+                    return announcementRepository.findActiveAnnouncementWithRoleAnnouncer(currentPrincipalName);
+                } else if (mode.equals("close")) {
+                    return announcementRepository.findCloseAnnouncementWithRoleAnnouncer(currentPrincipalName);
+                } else {
+                    return announcementRepository.findAnnouncementsByAnnouncementOwner_UsernameOrderByIdDesc(currentPrincipalName);
                 }
+
             }
             throw new UserForbiddenException("You do not have permission to access the announcement");
 
@@ -127,30 +133,38 @@ public class AnnouncementService {
     }
 
     public Announcement getDetailsById(Integer id, Boolean count) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        if (authentication.isAuthenticated()) {
-            if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
-                Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
-                if (count) {
-                    announcement.setViewCount(announcement.getViewCount() + 1);
-                    announcementRepository.saveAndFlush(announcement);
-                }
-                return announcement;
-            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))) {
-                Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
-                if (announcement != null && announcement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)) {
-                    if (count) {
-                        announcement.setViewCount(announcement.getViewCount() + 1);
-                        announcementRepository.saveAndFlush(announcement);
-                    }
-                    return announcement;
-                }
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication.getName();
+//        if (authentication.isAuthenticated()) {
+//            if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
+//                Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
+//                if (count) {
+//                    announcement.setViewCount(announcement.getViewCount() + 1);
+//                    announcementRepository.saveAndFlush(announcement);
+//                }
+//                return announcement;
+//            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))) {
+//                Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
+//                if (announcement != null && announcement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)) {
+//                    if (count) {
+//                        announcement.setViewCount(announcement.getViewCount() + 1);
+//                        announcementRepository.saveAndFlush(announcement);
+//                    }
+//                    return announcement;
+//                }
+//            }
+//            throw new UserForbiddenException("You do not have permission to access the announcement id that you are not the owner of");
+//        }
+//        else {
+            Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
+            if (count) {
+                announcement.setViewCount(announcement.getViewCount() + 1);
+                announcementRepository.saveAndFlush(announcement);
             }
-            throw new UserForbiddenException("You do not have permission to access the announcement id that you are not the owner of");
+            return announcement;
         }
-        throw new UnAuthorizationException("Please login first.");
-    }
+//        throw new UnAuthorizationException("Please login first.");
+
 
 
     public Page<Announcement> getAnnouncementWithPagination(int page, int size, String mode, Integer categoryId) {

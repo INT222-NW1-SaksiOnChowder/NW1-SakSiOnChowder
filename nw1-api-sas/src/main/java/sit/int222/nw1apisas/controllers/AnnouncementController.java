@@ -51,8 +51,8 @@ public class AnnouncementController {
     }
 
     @GetMapping("")
-    public List<?> getAllAnnouncements() {
-        List<Announcement> announcements = announcementService.getAllAnnouncements();
+    public List<?> getAllAnnouncements(@RequestParam(defaultValue = "all",required = false) String mode) {
+        List<Announcement> announcements = announcementService.getAllAnnouncements(mode);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))){
             return listMapper.mapList(announcements, ResponseAllAnnouncementForAdmin.class, modelMapper);
@@ -66,7 +66,7 @@ public class AnnouncementController {
 
     @GetMapping("/{id}")
     public Object getDetailsById(@PathVariable Integer id,
-                                 @RequestParam(defaultValue = "admin") String mode,
+                                 @RequestParam(defaultValue = "all", required = false) String mode,
                                  @RequestParam(defaultValue = "false", required = false) Boolean count) {
         Announcement announcements = announcementService.getDetailsById(id, count);
         if (mode.equals("active")) {

@@ -14,12 +14,6 @@ import java.util.List;
 public interface AnnouncementRepository extends JpaRepository<Announcement, Integer> {
     List<Announcement> findAllByOrderByIdDesc();
 
-    @Query("SELECT a FROM Announcement a WHERE a.announcementDisplay = 'Y' AND (a.publishDate IS null OR CURRENT_TIMESTAMP >=a.publishDate) AND (a.closeDate IS NULL OR CURRENT_TIMESTAMP < a.closeDate) ORDER BY a.id DESC")
-    List<Announcement> findActiveAnnouncement();
-
-    @Query("SELECT a FROM Announcement a WHERE a.announcementDisplay = 'Y' AND a.closeDate IS NOT NULL AND CURRENT_TIMESTAMP >= a.closeDate ORDER BY a.id DESC")
-    List<Announcement> findCloseAnnouncement();
-
     @Query("SELECT a FROM Announcement a WHERE a.announcementDisplay = 'Y' AND (a.publishDate IS null OR CURRENT_TIMESTAMP>=a.publishDate) AND (a.closeDate IS NULL OR CURRENT_TIMESTAMP < a.closeDate) ORDER BY a.id DESC")
     Page<Announcement> findActiveAnnouncementWithPagination(Pageable pageable);
 
@@ -36,4 +30,15 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
     List<Announcement> findAnnouncementsByAnnouncementOwner_UsernameOrderByIdDesc(String username);
 
     List<Announcement> findAllByAnnouncementOwner(User username);
+
+    @Query("SELECT a FROM Announcement a WHERE a.announcementDisplay = 'Y' AND (a.publishDate IS null OR CURRENT_TIMESTAMP >=a.publishDate) AND (a.closeDate IS NULL OR CURRENT_TIMESTAMP < a.closeDate) ORDER BY a.id DESC")
+    List<Announcement> findActiveAnnouncementWithRoleAdmin();
+
+    @Query("SELECT a FROM Announcement a WHERE a.announcementDisplay = 'Y' AND a.closeDate IS NOT NULL AND CURRENT_TIMESTAMP >= a.closeDate ORDER BY a.id DESC")
+    List<Announcement> findCloseAnnouncementWithRoleAdmin();
+    @Query("SELECT a FROM Announcement a JOIN User u WHERE a.announcementDisplay = 'Y' AND (a.publishDate IS null OR CURRENT_TIMESTAMP >=a.publishDate) AND (a.closeDate IS NULL OR CURRENT_TIMESTAMP < a.closeDate) AND a.announcementOwner.username = :currentPrincipleName ORDER BY a.id DESC")
+    List<Announcement> findActiveAnnouncementWithRoleAnnouncer(@Param("currentPrincipleName") String currentPrincipleName);
+
+    @Query("SELECT a FROM Announcement a JOIN User u WHERE a.announcementDisplay = 'Y' AND a.closeDate IS NOT NULL AND CURRENT_TIMESTAMP >= a.closeDate AND a.announcementOwner.username = :currentPrincipleName ORDER BY a.id DESC")
+    List<Announcement> findCloseAnnouncementWithRoleAnnouncer(@Param("currentPrincipleName") String currentPrincipleName);
 }

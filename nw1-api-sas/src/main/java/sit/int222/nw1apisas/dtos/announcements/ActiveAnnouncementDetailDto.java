@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sit.int222.nw1apisas.dtos.categories.CategoryDto;
+import sit.int222.nw1apisas.entities.User;
 
 @Getter
 @Setter
@@ -21,8 +22,13 @@ public class ActiveAnnouncementDetailDto {
     @JsonIgnore
     private CategoryDto categoryId;
 
+    private User announcementOwner;
+
     public String getAnnouncementCategory() {
         return categoryId.getCategoryName();
+    }
+    public String getAnnouncementOwner(){
+        return announcementOwner.getUsername();
     }
 
 }

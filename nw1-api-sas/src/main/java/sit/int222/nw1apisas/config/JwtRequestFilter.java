@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
 import sit.int222.nw1apisas.services.JwtUserDetailsService;
 
 import java.io.IOException;
@@ -33,7 +32,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         final String requestTokenHeader = request.getHeader("Authorization");
 
-        if (!(request.getRequestURI().equals("/api/token") || request.getRequestURI().equals("/api/announcements/pages"))) {
+        if (!(request.getRequestURI().equals("/api/token") || request.getRequestURI().equals("/api/announcements/pages")
+                || (request.getMethod().equals("GET") && request.getRequestURI().startsWith("/api/announcements/")))) {
             if (requestTokenHeader == null || requestTokenHeader.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;

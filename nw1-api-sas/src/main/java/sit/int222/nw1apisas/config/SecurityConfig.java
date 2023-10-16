@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,7 +42,8 @@ public class SecurityConfig {
                         .requestMatchers(OPTIONS).permitAll() // allow CORS option calls for Swagger UI
 //                        permitAll ยอมให้เรียกผ่านได้โดยไม่ต้อง authenticate
                         .requestMatchers("/api/users/**").hasRole("admin")
-                        .requestMatchers("/api/token", "/api/announcements/pages", "/api/categories/**").permitAll()
+                        .requestMatchers("/api/token", "/api/announcements/pages","/api/categories/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/announcements/{id}").permitAll()
                         .anyRequest().authenticated()
                         .and()
                         .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class));
