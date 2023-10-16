@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { ref } from "vue";
 import Announcements from '../components/announcements/Announcements.vue'
 import AnnouncementDetail from '../components/announcements/AnnouncementDetail.vue'
 import AddAnnouncement from '../components/announcements/AddAnnouncement.vue'
@@ -11,6 +12,7 @@ import AddUser from '../components/users/AddUser.vue'
 import MatchPassword from '../components/users/MatchPassword.vue'
 import LoginPage from '../components/users/LoginPage.vue'
 
+const userDetail = ref(JSON.parse(localStorage.getItem("userDetail")))
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes:
@@ -64,27 +66,73 @@ const router = createRouter({
       {
         path: `/admin/user`,
         name: 'userManagement',
-        component: UserManagement
+        component: UserManagement,
+        beforeEnter: (to, from, next) => {
+          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
+          if (userDetail.value.role !== 'ROLE_admin') {
+            console.log(userDetail.value.role);
+            alert(`You don't have permission to access this page.`)
+            next('/announcement');
+          } else {
+            next();
+          }
+        }
       },
       {
         path: `/admin/user/:id/edit`,
         name: 'userEditDetail',
-        component: UserEditDetail
+        component: UserEditDetail,
+        beforeEnter: (to, from, next) => {
+          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
+          if (userDetail.value.role !== 'ROLE_admin') {
+            alert(`You don't have permission to access this page.`)
+            next('/announcement');
+          } else {
+            next();
+          }
+        }
       },
       {
         path: `/admin/user/add`,
         name: 'addUser',
-        component: AddUser
+        component: AddUser,
+        beforeEnter: (to, from, next) => {
+          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
+          if (userDetail.value.role !== 'ROLE_admin') {
+            alert(`You don't have permission to access this page.`)
+            next('/announcement');
+          } else {
+            next();
+          }
+        }
       },
       {
         path: `/admin/user/:id/delete`,
         name: 'deleteUser',
-        component: UserManagement
+        component: UserManagement,
+        beforeEnter: (to, from, next) => {
+          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
+          if (userDetail.value.role !== 'ROLE_admin') {
+            alert(`You don't have permission to access this page.`)
+            next('/announcement');
+          } else {
+            next();
+          }
+        }
       },
       {
         path: `/admin/user/match`,
         name: 'matchPassword',
-        component: MatchPassword
+        component: MatchPassword,
+        beforeEnter: (to, from, next) => {
+          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
+          if (userDetail.value.role !== 'ROLE_admin') {
+            alert(`You don't have permission to access this page.`)
+            next('/announcement');
+          } else {
+            next();
+          }
+        }
       },
       {
         path: `/login`,
