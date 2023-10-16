@@ -108,9 +108,9 @@ public class AnnouncementService {
         if (authentication.isAuthenticated()) {
             if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
                 if (mode.equals("active")) {
-                    return announcementRepository.findActiveAnnouncementWithRoleAdmin();
+                    return announcementRepository.findActiveAnnouncementWithRoleAdminAndViewer();
                 } else if (mode.equals("close")) {
-                    return announcementRepository.findCloseAnnouncementWithRoleAdmin();
+                    return announcementRepository.findCloseAnnouncementWithRoleAdminAndViewer();
                 } else {
                     return announcementRepository.findAllByOrderByIdDesc();
                 }
@@ -125,10 +125,16 @@ public class AnnouncementService {
                 }
 
             }
-            throw new UserForbiddenException("You do not have permission to access the announcement");
-
+//            throw new UserForbiddenException("You do not have permission to access the announcement");
         }
-        throw new UnAuthorizationException("Please login first.");
+
+        if (mode.equals("active")) {
+            return announcementRepository.findActiveAnnouncementWithRoleAdminAndViewer();
+        } else if (mode.equals("close")) {
+            return announcementRepository.findCloseAnnouncementWithRoleAdminAndViewer();
+        } else {
+            return announcementRepository.findAllByOrderByIdDesc();
+        }
 
     }
 
@@ -154,17 +160,15 @@ public class AnnouncementService {
 //                }
 //            }
 //            throw new UserForbiddenException("You do not have permission to access the announcement id that you are not the owner of");
-//        }
-//        else {
-            Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
-            if (count) {
-                announcement.setViewCount(announcement.getViewCount() + 1);
-                announcementRepository.saveAndFlush(announcement);
-            }
-            return announcement;
+//        } else {
+        Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
+        if (count) {
+            announcement.setViewCount(announcement.getViewCount() + 1);
+            announcementRepository.saveAndFlush(announcement);
         }
+        return announcement;
+    }
 //        throw new UnAuthorizationException("Please login first.");
-
 
 
     public Page<Announcement> getAnnouncementWithPagination(int page, int size, String mode, Integer categoryId) {

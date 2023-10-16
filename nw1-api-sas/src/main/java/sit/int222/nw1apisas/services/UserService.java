@@ -53,6 +53,7 @@ public class UserService {
 
     public User updateUser(UpdateUserDto updateUserDto, Integer id) {
         User existingUser = userRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("This user not found"));
+
         if (!existingUser.getUsername().equals(updateUserDto.getUsername().trim())) {
             if (!userRepository.existsUserByUsername(updateUserDto.getUsername().trim())) {
                 existingUser.setUsername(updateUserDto.getUsername().trim());
@@ -61,6 +62,7 @@ public class UserService {
                 throw new ValidationUniqueException("username", "does not unique");
             }
         }
+
         if (!existingUser.getName().equals(updateUserDto.getName().trim())) {
             if (!userRepository.existsUserByName(updateUserDto.getName().trim())) {
                 existingUser.setName(updateUserDto.getName().trim());
@@ -83,24 +85,7 @@ public class UserService {
         userRepository.saveAndFlush(existingUser);
         userRepository.refresh(existingUser);
         return existingUser;
-//        if (existingUser.getUsername().equals(updateUserDto.getUsername().trim())) {
-//            System.out.println("test username not unique");
-//            throw new ValidationUniqueException("username", "does not unique");
-//        } else {
-//            existingUser.setUsername(updateUserDto.getUsername().trim());
-//        }
-//        if (existingUser.getName().equals(updateUserDto.getName().trim())) {
-//            System.out.println("test name not unique");
-//            throw new ValidationUniqueException("name", "does not unique");
-//        } else {
-//            existingUser.setName(updateUserDto.getName().trim());
-//        }
-//        if (existingUser.getEmail().equals(updateUserDto.getEmail().trim())) {
-//            System.out.println("test email not unique");
-//            throw new ValidationUniqueException("email", "does not unique");
-//        } else {
-//            existingUser.setEmail(updateUserDto.getEmail().trim());
-//        }
+
     }
 
     public String deleteUser(Integer id) {

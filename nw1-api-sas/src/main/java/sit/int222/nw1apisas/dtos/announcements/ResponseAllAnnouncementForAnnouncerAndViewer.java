@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sit.int222.nw1apisas.dtos.categories.CategoryDto;
-import sit.int222.nw1apisas.entities.User;
 
 import java.time.ZonedDateTime;
 
@@ -14,7 +13,7 @@ import java.time.ZonedDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseAllAnnouncementForAnnouncer {
+public class ResponseAllAnnouncementForAnnouncerAndViewer {
     private Integer id;
     private String announcementTitle;
     private String announcementDescription;

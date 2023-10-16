@@ -3,11 +3,7 @@ package sit.int222.nw1apisas.validations.users;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import sit.int222.nw1apisas.entities.User;
-import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.repositories.UserRepository;
-
-import java.util.List;
 
 
 public class NameFieldValidator implements ConstraintValidator<IsNameFieldUnique, String> {
