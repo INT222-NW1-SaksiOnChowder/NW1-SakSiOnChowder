@@ -139,35 +139,39 @@ public class AnnouncementService {
     }
 
     public Announcement getDetailsById(Integer id, Boolean count) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String currentPrincipalName = authentication.getName();
-//        if (authentication.isAuthenticated()) {
-//            if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
-//                Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
-//                if (count) {
-//                    announcement.setViewCount(announcement.getViewCount() + 1);
-//                    announcementRepository.saveAndFlush(announcement);
-//                }
-//                return announcement;
-//            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))) {
-//                Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
-//                if (announcement != null && announcement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)) {
-//                    if (count) {
-//                        announcement.setViewCount(announcement.getViewCount() + 1);
-//                        announcementRepository.saveAndFlush(announcement);
-//                    }
-//                    return announcement;
-//                }
-//            }
-//            throw new UserForbiddenException("You do not have permission to access the announcement id that you are not the owner of");
-//        } else {
-        Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
-        if (count) {
-            announcement.setViewCount(announcement.getViewCount() + 1);
-            announcementRepository.saveAndFlush(announcement);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        if (authentication.isAuthenticated()) {
+            if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))) {
+                Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
+                if (count) {
+                    announcement.setViewCount(announcement.getViewCount() + 1);
+                    announcementRepository.saveAndFlush(announcement);
+                }
+                return announcement;
+            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))) {
+                Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
+                if (announcement != null && announcement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)) {
+                    if (count) {
+                        announcement.setViewCount(announcement.getViewCount() + 1);
+                        announcementRepository.saveAndFlush(announcement);
+                    }
+                    return announcement;
+                }
+                throw new UserForbiddenException("You do not have permission to access the announcement id that you are not the owner of");
+            }
         }
-        return announcement;
-    }
+            Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
+            if(announcement.getAnnouncementDisplay().equals("N")){
+                throw new UserForbiddenException("You do not have permission to access the announcement id that you are not the owner of");
+            }
+            if (count) {
+                announcement.setViewCount(announcement.getViewCount() + 1);
+                announcementRepository.saveAndFlush(announcement);
+            }
+            return announcement;
+        }
+
 //        throw new UnAuthorizationException("Please login first.");
 
 
