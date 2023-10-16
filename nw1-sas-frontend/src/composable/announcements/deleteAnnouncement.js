@@ -12,6 +12,7 @@ const deleteAcc = async (id) => {
                 }
             })
         if (res.ok) {
+            alert(`Delete id: ${id} Successfully`)
             console.log('Delete Successfully');
         } else {
             throw new Error(`Cannot delete`)

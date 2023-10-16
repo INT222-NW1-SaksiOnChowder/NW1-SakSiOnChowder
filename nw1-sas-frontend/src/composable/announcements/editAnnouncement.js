@@ -16,9 +16,16 @@ const updateAnnouncement = async (announcement) => {
         )
         if (res.status === 200) {
             console.log('Create successfully')
-        } else if (res.status !== 200) {
-            const error = await res.json()
-            alert(error.message)
+        }else if (res.status === 403){
+            const error = await res.json();
+            for (const err of error.detail) {
+              alert(err.errorMessage);
+            } 
+        } else if (res.status === 400) {
+           const error = await res.json();
+            for (const err of error.detail) {
+              alert(err.errorMessage);
+            } 
         }
     } catch (error) {
         console.log(`ERROR cannot create data: ${error}`);
