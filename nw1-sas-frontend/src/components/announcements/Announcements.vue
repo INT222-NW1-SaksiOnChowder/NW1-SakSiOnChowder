@@ -11,6 +11,12 @@ import Menubar from "../Navbar.vue";
 const router = useRouter();
 const announcements = ref([]);
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+const userDetail = JSON.parse(localStorage.getItem("userDetail"))
+const isShowOwner = ref(false)
+
+if (userDetail.role === 'ROLE_admin') {
+  isShowOwner.value =true
+}
 
 onMounted(async () => {
   noAnnouncement();
@@ -87,7 +93,7 @@ const deleteAnnouncement = async (id) => {
               <th scope="col" class="px-6 py-3">Close Date</th>
               <th scope="col" class="px-6 py-3 text-center">Display</th>
               <!-- <th scope="col" class="px-6 py-3 text-center">Views</th> -->
-              <th scope="col" class="px-6 py-3 text-center">Owner</th>
+              <th v-if="isShowOwner" scope="col" class="px-6 py-3 text-center">Owner</th>
               <th scope="col" class="px-6 py-3 text-center">Action</th>
             </tr>
           </thead>
@@ -115,7 +121,7 @@ const deleteAnnouncement = async (id) => {
               <!-- <td class="ann-display px-6 py-4 text-center justify-items-center">
                 {{ announcement.viewCount }}
               </td> -->
-              <td class="ann-display px-6 py-4 text-center justify-items-center">
+              <td v-if="isShowOwner" class="ann-display px-6 py-4 text-center justify-items-center">
                 {{ announcement.announcementOwner }}
               </td>
               <td class="px-6 py-4 text-center">
