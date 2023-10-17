@@ -1,6 +1,5 @@
 package sit.int222.nw1apisas.dtos.users;
 
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

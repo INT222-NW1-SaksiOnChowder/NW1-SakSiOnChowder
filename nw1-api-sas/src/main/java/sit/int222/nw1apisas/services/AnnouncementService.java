@@ -161,18 +161,16 @@ public class AnnouncementService {
                 throw new UserForbiddenException("You do not have permission to access the announcement id that you are not the owner of");
             }
         }
-            Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
-            if(announcement.getAnnouncementDisplay().equals("N")){
-                throw new UserForbiddenException("You do not have permission to access the announcement id that you are not the owner of");
-            }
-            if (count) {
-                announcement.setViewCount(announcement.getViewCount() + 1);
-                announcementRepository.saveAndFlush(announcement);
-            }
-            return announcement;
+        Announcement announcement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("Announcement id: " + id + " not found"));
+        if (announcement.getAnnouncementDisplay().equals("N")) {
+            throw new UserForbiddenException("You do not have permission to access the announcement id that you are not the owner of");
         }
-
-//        throw new UnAuthorizationException("Please login first.");
+        if (count) {
+            announcement.setViewCount(announcement.getViewCount() + 1);
+            announcementRepository.saveAndFlush(announcement);
+        }
+        return announcement;
+    }
 
 
     public Page<Announcement> getAnnouncementWithPagination(int page, int size, String mode, Integer categoryId) {

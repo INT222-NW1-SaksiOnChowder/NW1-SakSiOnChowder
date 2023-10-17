@@ -27,7 +27,8 @@ public class ActiveAnnouncementDetailDto {
     public String getAnnouncementCategory() {
         return categoryId.getCategoryName();
     }
-    public String getAnnouncementOwner(){
+
+    public String getAnnouncementOwner() {
         return announcementOwner.getUsername();
     }
 

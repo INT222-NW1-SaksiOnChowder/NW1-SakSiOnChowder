@@ -11,9 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import sit.int222.nw1apisas.config.JwtTokenUtil;
-
 import sit.int222.nw1apisas.dtos.jwt.AccessTokenResponse;
 import sit.int222.nw1apisas.dtos.jwt.JwtRequest;
 import sit.int222.nw1apisas.dtos.jwt.JwtResponse;
@@ -23,7 +21,7 @@ import sit.int222.nw1apisas.repositories.UserRepository;
 import sit.int222.nw1apisas.services.JwtUserDetailsService;
 
 @RestController
-@CrossOrigin(origins = {"http://ip22nw1.sit.kmutt.ac.th","http://intproj22.sit.kmutt.ac.th","https://intproj22.sit.kmutt.ac.th","http://localhost:5173"})
+@CrossOrigin(origins = {"http://ip22nw1.sit.kmutt.ac.th", "http://intproj22.sit.kmutt.ac.th", "https://intproj22.sit.kmutt.ac.th", "http://localhost:5173"})
 @RequestMapping(value = "/api/token")
 public class JwtAuthenticationController {
 
@@ -38,7 +36,6 @@ public class JwtAuthenticationController {
 
     @Autowired
     private UserRepository userRepository;
-
 
 
     @GetMapping("")
@@ -81,14 +78,13 @@ public class JwtAuthenticationController {
     }
 
 
-
     private void authenticate(String username, String password) throws Exception {
         try {
             User user = userRepository.findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException("does not exist"));
             Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder(16, 16, 1, 4096, 3);
-            if(argon2PasswordEncoder.matches(password, user.getPassword())){
+            if (argon2PasswordEncoder.matches(password, user.getPassword())) {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-            }else{
+            } else {
                 throw new UnAuthorizationException("Password NOT Matched");
             }
         } catch (DisabledException e) {

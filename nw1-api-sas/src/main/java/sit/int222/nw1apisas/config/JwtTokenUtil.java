@@ -3,11 +3,11 @@ package sit.int222.nw1apisas.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import sit.int222.nw1apisas.properties.JwtProperties;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -52,6 +52,7 @@ public class JwtTokenUtil implements Serializable {
         System.out.println(jwtProperties.getAccessTokenExpired());
         return doGenerateToken(claims, userDetails.getUsername(), jwtProperties.getAccessTokenExpired());
     }
+
     public String generateRefreshToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("token_type", "REFRESH_TOKEN");

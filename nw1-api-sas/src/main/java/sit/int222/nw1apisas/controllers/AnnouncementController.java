@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/announcements")
-@CrossOrigin(origins = {"http://ip22nw1.sit.kmutt.ac.th","http://intproj22.sit.kmutt.ac.th","https://intproj22.sit.kmutt.ac.th","http://localhost:5173"})
+@CrossOrigin(origins = {"http://ip22nw1.sit.kmutt.ac.th", "http://intproj22.sit.kmutt.ac.th", "https://intproj22.sit.kmutt.ac.th", "http://localhost:5173"})
 public class AnnouncementController {
     @Autowired
     private AnnouncementService announcementService;
@@ -49,14 +49,12 @@ public class AnnouncementController {
     }
 
     @GetMapping("")
-    public List<?> getAllAnnouncements(@RequestParam(defaultValue = "admin",required = false) String mode) {
+    public List<?> getAllAnnouncements(@RequestParam(defaultValue = "admin", required = false) String mode) {
         List<Announcement> announcements = announcementService.getAllAnnouncements(mode);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin"))){
+        if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_admin") || role.getAuthority().equals("ROLE_announcer"))) {
             return listMapper.mapList(announcements, ResponseAllAnnouncementForAdminAndAnnouncer.class, modelMapper);
-        }else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))){
-            return listMapper.mapList(announcements, ResponseAllAnnouncementForAdminAndAnnouncer.class, modelMapper);
-        }else {
+        } else {
             return listMapper.mapList(announcements, ResponseAllAnnouncementForViewer.class, modelMapper);
         }
 //        throw new UnAuthorizationException("Please Login first");

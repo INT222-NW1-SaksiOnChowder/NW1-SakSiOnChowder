@@ -33,7 +33,7 @@ public class AddUpdateAnnouncementItemDto {
         return categoryId.getCategoryName();
     }
 
-    public String getAnnouncementOwner(){
+    public String getAnnouncementOwner() {
         return announcementOwner.getUsername();
     }
 
