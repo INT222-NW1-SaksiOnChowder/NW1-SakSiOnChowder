@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseAllAnnouncementForAdmin {
+public class ResponseAllAnnouncementForAdminAndAnnouncer {
     private Integer id;
     private String announcementTitle;
     private String announcementDescription;
