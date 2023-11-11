@@ -8,7 +8,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import sit.int222.nw1apisas.dtos.subscriptions.SubscriptionRequest;
 import sit.int222.nw1apisas.entities.Announcement;
-import sit.int222.nw1apisas.entities.Category;
 import sit.int222.nw1apisas.entities.Subscription;
 import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.repositories.SubscriptionRepository;
@@ -46,13 +45,14 @@ public class SubscriptionService {
     public String subscribeCategory(SubscriptionRequest subscriptionRequest) {
         List<Subscription> subscriptions = subscriptionRepository.findAll();
         if (subscriptions.stream().anyMatch(subscription -> subscription.getCategoryId().getCategoryId().equals(subscriptionRequest.getCategoryId())
-                && subscription.getUserId().getEmail().equals(subscriptionRequest.getEmail()))) {
+                && subscription.getEmailSubscription().equals(subscriptionRequest.getEmail()))) {
             String subject = "You have been already subscribed category named: " + categoryService.getCategoryById(subscriptionRequest.getCategoryId()).getCategoryName();
             String body = "You are subscribing category named: " + categoryService.getCategoryById(subscriptionRequest.getCategoryId()).getCategoryName();
             mailSender(subscriptionRequest.getEmail(), subject, body);
             System.out.println("Mail successfully sent");
             return "Mail successfully sent";
         }
+
         createSubscription(subscriptionRequest.getEmail(), subscriptionRequest.getCategoryId());
         String subject = "abc " + categoryService.getCategoryById(subscriptionRequest.getCategoryId()).getCategoryName();
         String body = "abc" + categoryService.getCategoryById(subscriptionRequest.getCategoryId()).getCategoryName();
