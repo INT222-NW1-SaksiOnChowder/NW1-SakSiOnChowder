@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import sit.int222.nw1apisas.dtos.subscriptions.SubscriptionRequest;
+import sit.int222.nw1apisas.entities.Announcement;
+import sit.int222.nw1apisas.entities.Category;
 import sit.int222.nw1apisas.entities.Subscription;
 import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.repositories.SubscriptionRepository;
@@ -30,7 +32,8 @@ public class SubscriptionService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Subscription subscription = new Subscription();
         Optional<User> user = userRepository.findUserByUsername(authentication.getName());
-        if(user.isPresent()){
+//        Check user object is present, then set user in the subscription
+        if (user.isPresent()) {
             subscription.setUserId(user.get());
         }
         subscription.setEmailSubscription(email);
@@ -40,28 +43,57 @@ public class SubscriptionService {
     }
 
 
-
     public String subscribeCategory(SubscriptionRequest subscriptionRequest) {
         List<Subscription> subscriptions = subscriptionRepository.findAll();
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("nw1chowder@gmail.com");
         if (subscriptions.stream().anyMatch(subscription -> subscription.getCategoryId().getCategoryId().equals(subscriptionRequest.getCategoryId())
                 && subscription.getUserId().getEmail().equals(subscriptionRequest.getEmail()))) {
-            message.setTo(subscriptionRequest.getEmail());
-            message.setSubject("You have been already subscribed category named: " + categoryService.getCategoryById(subscriptionRequest.getCategoryId()).getCategoryName());
-            message.setText("You are subscribing category named: " + categoryService.getCategoryById(subscriptionRequest.getCategoryId()).getCategoryName());
-            javaMailSender.send(message);
+            String subject = "You have been already subscribed category named: " + categoryService.getCategoryById(subscriptionRequest.getCategoryId()).getCategoryName();
+            String body = "You are subscribing category named: " + categoryService.getCategoryById(subscriptionRequest.getCategoryId()).getCategoryName();
+            mailSender(subscriptionRequest.getEmail(), subject, body);
             System.out.println("Mail successfully sent");
             return "Mail successfully sent";
-        }else {
-            createSubscription(subscriptionRequest.getEmail(), subscriptionRequest.getCategoryId());
-            message.setTo(subscriptionRequest.getEmail());
-            message.setSubject("abc " + categoryService.getCategoryById(subscriptionRequest.getCategoryId()).getCategoryName());
-            message.setText("abc" + categoryService.getCategoryById(subscriptionRequest.getCategoryId()).getCategoryName());
-            javaMailSender.send(message);
-            System.out.println("Subscription is successfully");
-            return "Subscription is successfully";
         }
+        createSubscription(subscriptionRequest.getEmail(), subscriptionRequest.getCategoryId());
+        String subject = "abc " + categoryService.getCategoryById(subscriptionRequest.getCategoryId()).getCategoryName();
+        String body = "abc" + categoryService.getCategoryById(subscriptionRequest.getCategoryId()).getCategoryName();
+        mailSender(subscriptionRequest.getEmail(), subject, body);
+        System.out.println("Subscription is successfully");
+        return "Subscription is successfully";
+
+    }
+
+    public void mailSender(String email, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("nw1chowder@gmail.com");
+        message.setTo(email);
+        message.setSubject(subject);
+        message.setText(body);
+
+        javaMailSender.send(message);
+        System.out.println("Mail successfully sent");
+    }
+
+    public void sendEmailToSubscribers(Announcement announcement) {
+        String announcementLink = "https://intproj22.sit.kmutt.ac.th/nw1/announcement/" + announcement.getId();
+        List<Subscription> subscriptions = subscriptionRepository.findAll();
+        if (subscriptions.isEmpty()) {
+            System.out.println("No subscribers for the category. Announcement not sent.");
+            return;
+        }
+        String subject = announcement.getAnnouncementTitle();
+        String body = announcement.getAnnouncementDescription() + "\n\n"
+                + "Link to Announcement: " + "\n" + announcementLink;
+        for (Subscription subscription : subscriptions) {
+            String subscriberEmail = subscription.getEmailSubscription();
+            mailSender(subscriberEmail, subject, body);
+            System.out.println("Mail successfully sent to " + subscriberEmail);
+        }
+    }
+
+    public String unsubscribeCategory(String email, Integer categoryId) {
+        Subscription subscription = subscriptionRepository.findByCategoryIdAndEmailSubscription(email, categoryId);
+        System.out.println(subscription);
+        return "Unsubscribe successfully";
     }
 
 }

@@ -31,6 +31,8 @@ public class AnnouncementService {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SubscriptionService subscriptionService;
 
     public Announcement createAnnouncement(AnnouncementItemDto announcementItemDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -44,7 +46,11 @@ public class AnnouncementService {
         announcement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
         announcement.setViewCount(0);
         announcement.setAnnouncementOwner(userService.getUserById(user.getId()));
-        return announcementRepository.saveAndFlush(announcement);
+        Announcement savedAnnouncement = announcementRepository.saveAndFlush(announcement);
+
+//        send list of announcements that latest version
+        subscriptionService.sendEmailToSubscribers(savedAnnouncement);
+        return savedAnnouncement;
 
     }
 

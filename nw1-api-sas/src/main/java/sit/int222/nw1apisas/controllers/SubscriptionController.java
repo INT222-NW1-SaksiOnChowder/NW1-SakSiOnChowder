@@ -18,6 +18,12 @@ public class SubscriptionController {
         return subscriptionService.subscribeCategory(subscriptionRequest);
     }
 
+    @DeleteMapping("/unsubscribe")
+    public String unSubscribeCategory(@RequestParam("email") String email,
+                                      @RequestParam("categoryId") Integer categoryId) {
+        return subscriptionService.unsubscribeCategory(email, categoryId);
+    }
+
 
 
 
