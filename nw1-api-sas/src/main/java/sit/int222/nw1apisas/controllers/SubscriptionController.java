@@ -3,7 +3,7 @@ package sit.int222.nw1apisas.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sit.int222.nw1apisas.dtos.subscriptions.SubscriptionRequest;
+import sit.int222.nw1apisas.dtos.subscriptions.SubAndUnSubReq;
 import sit.int222.nw1apisas.services.SubscriptionService;
 
 @RestController
@@ -14,14 +14,13 @@ public class SubscriptionController {
     private SubscriptionService subscriptionService;
 
     @PostMapping("/subscribe")
-    public String subscribeCategory(@RequestBody SubscriptionRequest subscriptionRequest) {
-        return subscriptionService.subscribeCategory(subscriptionRequest);
+    public String subscribeCategory(@RequestBody SubAndUnSubReq subAndUnSubReq) {
+        return subscriptionService.subscribeCategory(subAndUnSubReq);
     }
 
     @DeleteMapping("/unsubscribe")
-    public String unSubscribeCategory(@RequestParam("email") String email,
-                                      @RequestParam("categoryId") Integer categoryId) {
-        return subscriptionService.unsubscribeCategory(email, categoryId);
+    public String unSubscribeCategory(@RequestBody SubAndUnSubReq subAndUnSubReq) {
+        return subscriptionService.unsubscribeCategory(subAndUnSubReq);
     }
 
 

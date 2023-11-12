@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubscriptionRequest {
+public class SubAndUnSubReq {
     private String email;
     private Integer categoryId;
 }

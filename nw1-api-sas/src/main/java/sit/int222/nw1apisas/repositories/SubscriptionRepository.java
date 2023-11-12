@@ -1,10 +1,11 @@
 package sit.int222.nw1apisas.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import sit.int222.nw1apisas.entities.Category;
 import sit.int222.nw1apisas.entities.Subscription;
 
 import java.util.List;
 
 public interface SubscriptionRepository extends JpaRepository<Subscription, Integer> {
-    Subscription findByCategoryIdAndEmailSubscription(String email, Integer categoryId);
+    Subscription findByCategoryIdAndEmailSubscription(Category categoryId, String email);
 }
