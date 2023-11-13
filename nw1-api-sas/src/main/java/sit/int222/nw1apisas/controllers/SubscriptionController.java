@@ -4,6 +4,7 @@ package sit.int222.nw1apisas.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sit.int222.nw1apisas.dtos.subscriptions.SubAndUnSubReq;
+import sit.int222.nw1apisas.dtos.subscriptions.VerifyOtpReq;
 import sit.int222.nw1apisas.services.SubscriptionService;
 
 @RestController
@@ -15,29 +16,17 @@ public class SubscriptionController {
 
     @PostMapping("/subscribe")
     public String subscribeCategory(@RequestBody SubAndUnSubReq subAndUnSubReq) {
-        return subscriptionService.subscribeCategory(subAndUnSubReq);
+        return subscriptionService.subscribeCategoryAndSendOtp(subAndUnSubReq);
+    }
+
+    @PostMapping("/verify")
+    public String verifyOtp(@RequestBody VerifyOtpReq verifyOtpReq) {
+        return subscriptionService.verifyOTP(verifyOtpReq.getEmail(), verifyOtpReq.getOtp());
     }
 
     @DeleteMapping("/unsubscribe")
     public String unSubscribeCategory(@RequestBody SubAndUnSubReq subAndUnSubReq) {
         return subscriptionService.unsubscribeCategory(subAndUnSubReq);
     }
-
-
-
-
-
-//    @GetMapping("")
-//    public String helloTest() {
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setFrom("nw1chowder@gmail.com");
-//        message.setTo("31970@stw.ac.th");
-//        message.setSubject("Subject: Test Email Subject");
-//        message.setText("Body: This is body for sample mail");
-//
-//        javaMailSender.send(message);
-//        System.out.println("Mail successfully sent");
-//        return "Mail successfully sent";
-//    }
 
 }

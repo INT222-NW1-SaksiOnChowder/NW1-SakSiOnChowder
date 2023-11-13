@@ -8,4 +8,11 @@ import java.util.List;
 
 public interface SubscriptionRepository extends JpaRepository<Subscription, Integer> {
     Subscription findByCategoryIdAndEmailSubscription(Category categoryId, String email);
+
+    Subscription findByEmailSubscription(String email);
+
+    Subscription findByEmailSubscriptionAndOtp(String email, String otp);
+
+
+    List<Subscription> findAllByEmailSubscription(String email);
 }

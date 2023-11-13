@@ -14,6 +14,8 @@ public class Subscription {
     private Integer id;
     @Column(name = "emailSubscription", nullable = false)
     private String emailSubscription;
+    @Column(name = "otp", nullable = false)
+    private String otp;
     @ManyToOne
     @JoinColumn(name="userId", referencedColumnName = "id", nullable = false)
     private User userId;

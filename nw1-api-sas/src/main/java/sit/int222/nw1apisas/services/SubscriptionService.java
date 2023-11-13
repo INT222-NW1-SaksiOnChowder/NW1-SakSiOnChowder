@@ -15,6 +15,7 @@ import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.repositories.SubscriptionRepository;
 import sit.int222.nw1apisas.repositories.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,40 +29,80 @@ public class SubscriptionService {
     private CategoryService categoryService;
     @Autowired
     private JavaMailSender javaMailSender;
+    private static final int OTP_LENGTH = 6;
 
-    public void createSubscription(String email, Integer categoryId) {
+    private String generateOTP() {
+        String numbers = "0123456789";
+        StringBuilder otp = new StringBuilder();
+        for (int i = 0; i < OTP_LENGTH; i++) {
+            int index = (int) (numbers.length() * Math.random());
+            otp.append(numbers.charAt(index));
+        }
+        return otp.toString();
+    }
+
+
+    public String subscribeCategoryAndSendOtp(SubAndUnSubReq subAndUnSubReq) {
+        List<Subscription> subscriptions = subscriptionRepository.findAll();
+        if (subscriptions.stream().anyMatch(subscription -> subscription.getCategoryId().getCategoryId().equals(subAndUnSubReq.getCategoryId())
+                && subscription.getEmailSubscription().equals(subAndUnSubReq.getEmail()))) {
+            String subject = "You have been already subscribed category name: " + categoryService.getCategoryById(subAndUnSubReq.getCategoryId()).getCategoryName();
+            String body = "You are subscribing category name: " + "\n - " + categoryService.getCategoryById(subAndUnSubReq.getCategoryId()).getCategoryName();
+            mailSender(subAndUnSubReq.getEmail(), subject, body);
+            System.out.println("Mail successfully sent");
+            return "You have been already subscribed";
+        }
+        String otp = generateOTP();
+        createSubscription(subAndUnSubReq.getEmail(), subAndUnSubReq.getCategoryId(), otp);
+        String subject = "OTP";
+        String body = "OTP is: " + otp;
+        mailSender(subAndUnSubReq.getEmail(), subject, body);
+        System.out.println("OTP successfully sent");
+
+        return "Subscription is successfully";
+    }
+
+    public String verifyOTP(String email, String enteredOTP) {
+        Subscription subscription = subscriptionRepository.findByEmailSubscriptionAndOtp(email, enteredOTP);
+        // เช็ค otp ที่รับเข้ามากับที่มีอยู่
+        if (enteredOTP.equals(subscription.getOtp())) {
+            List<String> subscribedCategories = getSubscribedCategories(email);
+            String subject = "Subscription is successful";
+            String body = "You just subscribed to the following categories:\n";
+            for (String category : subscribedCategories) {
+                body += "- " + category + "\n";
+            }
+            mailSender(email, subject, body);
+            System.out.println("Subscription is successfully");
+            return "Subscription is successfully";
+        }
+        return "OTP is not valid";
+    }
+
+
+    public void createSubscription(String email, Integer categoryId, String otp) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Subscription subscription = new Subscription();
         Optional<User> user = userRepository.findUserByUsername(authentication.getName());
-//        Check user object is present, then set user in the subscription
         if (user.isPresent()) {
             subscription.setUserId(user.get());
         }
+        subscription.setOtp(otp);
         subscription.setEmailSubscription(email);
         subscription.setCategoryId(categoryService.getCategoryById(categoryId));
         subscriptionRepository.saveAndFlush(subscription);
         System.out.println("Save");
     }
 
-
-    public String subscribeCategory(SubAndUnSubReq subAndUnSubReq) {
-        List<Subscription> subscriptions = subscriptionRepository.findAll();
-        if (subscriptions.stream().anyMatch(subscription -> subscription.getCategoryId().getCategoryId().equals(subAndUnSubReq.getCategoryId())
-                && subscription.getEmailSubscription().equals(subAndUnSubReq.getEmail()))) {
-            String subject = "You have been already subscribed category name: " + categoryService.getCategoryById(subAndUnSubReq.getCategoryId()).getCategoryName();
-            String body = "You are subscribing category name " + categoryService.getCategoryById(subAndUnSubReq.getCategoryId()).getCategoryName();
-            mailSender(subAndUnSubReq.getEmail(), subject, body);
-            System.out.println("Mail successfully sent");
-            return "You have been already subscribed";
+    private List<String> getSubscribedCategories(String email) {
+        List<String> subscribedCategories = new ArrayList<>();
+        List<Subscription> subscriptions = subscriptionRepository.findAllByEmailSubscription(email);
+        for (Subscription subscription : subscriptions) {
+            if (subscription.getCategoryId() != null) {
+                subscribedCategories.add(subscription.getCategoryId().getCategoryName());
+            }
         }
-
-        createSubscription(subAndUnSubReq.getEmail(), subAndUnSubReq.getCategoryId());
-        String subject = "Subscription is successfully";
-        String body = "You just subscribed category name: " + categoryService.getCategoryById(subAndUnSubReq.getCategoryId()).getCategoryName();
-        mailSender(subAndUnSubReq.getEmail(), subject, body);
-        System.out.println("Subscription is successfully");
-        return "Subscription is successfully";
-
+        return subscribedCategories;
     }
 
     public void mailSender(String email, String subject, String body) {
@@ -73,6 +114,24 @@ public class SubscriptionService {
 
         javaMailSender.send(message);
         System.out.println("Mail successfully sent");
+    }
+
+    public String unsubscribeCategory(SubAndUnSubReq subAndUnSubReq) {
+        Category category = categoryService.getCategoryById(subAndUnSubReq.getCategoryId());
+        if (category == null) {
+            throw new ItemNotFoundException("Can't find this category");
+        }
+        Subscription subscription = subscriptionRepository.findByCategoryIdAndEmailSubscription(category,
+                subAndUnSubReq.getEmail());
+        System.out.println("Here");
+        if (subscription != null) {
+            subscriptionRepository.deleteById(subscription.getId());
+            String subject = "Unsubscribe category name: " + category.getCategoryName();
+            String body = "You unsubscribe category name: " + category.getCategoryName() + " is successfully";
+            mailSender(subAndUnSubReq.getEmail(), subject, body);
+            return "Unsubscription is successfully";
+        }
+        throw new ItemNotFoundException("Can't find this subscription");
     }
 
     public void sendEmailToSubscribers(Announcement announcement) {
@@ -90,24 +149,6 @@ public class SubscriptionService {
             mailSender(subscriberEmail, subject, body);
             System.out.println("Mail successfully sent to " + subscriberEmail);
         }
-    }
-
-    public String unsubscribeCategory(SubAndUnSubReq subAndUnSubReq) {
-        Category category = categoryService.getCategoryById(subAndUnSubReq.getCategoryId());
-        if(category ==null) {
-            throw new ItemNotFoundException("Can't find this category");
-        }
-        Subscription subscription = subscriptionRepository.findByCategoryIdAndEmailSubscription(category,
-                subAndUnSubReq.getEmail());
-        System.out.println("Here");
-        if(subscription != null) {
-            subscriptionRepository.deleteById(subscription.getId());
-            String subject = "Unsubscribe category name: " + category.getCategoryName();
-            String body = "You unsubscribe category name: " + category.getCategoryName() + " is successfully";
-            mailSender(subAndUnSubReq.getEmail(), subject, body);
-            return "Unsubscription is successfully";
-        }
-        throw new ItemNotFoundException("Can't find this subscription");
     }
 
 }
