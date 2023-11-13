@@ -1,17 +1,21 @@
 package sit.int222.nw1apisas.services;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import sit.int222.nw1apisas.config.JwtTokenUtil;
 import sit.int222.nw1apisas.dtos.subscriptions.SubAndUnSubReq;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.entities.Category;
 import sit.int222.nw1apisas.entities.Subscription;
 import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
+import sit.int222.nw1apisas.properties.JwtProperties;
 import sit.int222.nw1apisas.repositories.SubscriptionRepository;
 import sit.int222.nw1apisas.repositories.UserRepository;
 
@@ -29,6 +33,10 @@ public class SubscriptionService {
     private CategoryService categoryService;
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private JwtProperties jwtProperties;
     private static final int OTP_LENGTH = 6;
 
     private String generateOTP() {
@@ -52,20 +60,28 @@ public class SubscriptionService {
             System.out.println("Mail successfully sent");
             return "You have been already subscribed";
         }
+
         String otp = generateOTP();
-        createSubscription(subAndUnSubReq.getEmail(), subAndUnSubReq.getCategoryId(), otp);
         String subject = "OTP";
         String body = "OTP is: " + otp;
         mailSender(subAndUnSubReq.getEmail(), subject, body);
-        System.out.println("OTP successfully sent");
+        System.out.println("Sent OTP successfully");
 
-        return "Subscription is successfully";
+        return jwtTokenUtil.generateOtpToken(subAndUnSubReq.getEmail(), otp, subAndUnSubReq.getCategoryId());
     }
 
-    public String verifyOTP(String email, String enteredOTP) {
-        Subscription subscription = subscriptionRepository.findByEmailSubscriptionAndOtp(email, enteredOTP);
-        // เช็ค otp ที่รับเข้ามากับที่มีอยู่
-        if (enteredOTP.equals(subscription.getOtp())) {
+    public String verifyOTP(String otpToken, String enteredOTP) {
+        Claims claims;
+        try {
+            claims = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(otpToken).getBody();
+        } catch (Exception e) {
+            return "Invalid OtpToken";
+        }
+        String email = claims.getSubject();
+        Integer categoryId = claims.get("categoryId", Integer.class);
+        // Verify the entered OTP
+        if (enteredOTP.equals(claims.get("otp"))) {
+            createSubscription(email, categoryId);
             List<String> subscribedCategories = getSubscribedCategories(email);
             String subject = "Subscription is successful";
             String body = "You just subscribed to the following categories:\n";
@@ -74,20 +90,20 @@ public class SubscriptionService {
             }
             mailSender(email, subject, body);
             System.out.println("Subscription is successfully");
-            return "Subscription is successfully";
+            return "OTP verification successful";
+        } else {
+            return "OTP verification failed";
         }
-        return "OTP is not valid";
     }
 
 
-    public void createSubscription(String email, Integer categoryId, String otp) {
+    public void createSubscription(String email, Integer categoryId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Subscription subscription = new Subscription();
         Optional<User> user = userRepository.findUserByUsername(authentication.getName());
         if (user.isPresent()) {
             subscription.setUserId(user.get());
         }
-        subscription.setOtp(otp);
         subscription.setEmailSubscription(email);
         subscription.setCategoryId(categoryService.getCategoryById(categoryId));
         subscriptionRepository.saveAndFlush(subscription);

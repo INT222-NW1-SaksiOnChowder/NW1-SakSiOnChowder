@@ -3,6 +3,8 @@ package sit.int222.nw1apisas.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sit.int222.nw1apisas.config.JwtTokenUtil;
+import sit.int222.nw1apisas.dtos.subscriptions.OtpTokenResponse;
 import sit.int222.nw1apisas.dtos.subscriptions.SubAndUnSubReq;
 import sit.int222.nw1apisas.dtos.subscriptions.VerifyOtpReq;
 import sit.int222.nw1apisas.services.SubscriptionService;
@@ -13,15 +15,26 @@ import sit.int222.nw1apisas.services.SubscriptionService;
 public class SubscriptionController {
     @Autowired
     private SubscriptionService subscriptionService;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/subscribe")
-    public String subscribeCategory(@RequestBody SubAndUnSubReq subAndUnSubReq) {
-        return subscriptionService.subscribeCategoryAndSendOtp(subAndUnSubReq);
+    public OtpTokenResponse subscribeCategory(@RequestBody SubAndUnSubReq subAndUnSubReq) {
+        String token = subscriptionService.subscribeCategoryAndSendOtp(subAndUnSubReq);
+        OtpTokenResponse otpTokenResponse = new OtpTokenResponse();
+        otpTokenResponse.setOtpToken(token);
+        return otpTokenResponse;
     }
 
     @PostMapping("/verify")
-    public String verifyOtp(@RequestBody VerifyOtpReq verifyOtpReq) {
-        return subscriptionService.verifyOTP(verifyOtpReq.getEmail(), verifyOtpReq.getOtp());
+    public String verifyOtp(@RequestHeader(name = "OtpToken") String otpToken, @RequestBody VerifyOtpReq verifyOtpReq) {
+        if (otpToken == null) {
+            return "OTP is missing";
+        }
+        if (jwtTokenUtil.isTokenExpired(otpToken)) {
+            return "OTP has expired";
+        }
+        return subscriptionService.verifyOTP(otpToken, verifyOtpReq.getOtp());
     }
 
     @DeleteMapping("/unsubscribe")
