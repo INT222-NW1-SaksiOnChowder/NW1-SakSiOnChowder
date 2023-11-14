@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubscriptionRequest {
-    private String email;
-    private Integer categoryId;
+public class OtpTokenResponse {
+    private String otpToken;
 }

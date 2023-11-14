@@ -59,6 +59,15 @@ public class JwtTokenUtil implements Serializable {
         return doGenerateToken(claims, userDetails.getUsername(), jwtProperties.getRefreshTokenExpired());
     }
 
+    public String generateOtpToken(String email, String otp, Integer categoryId) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("token_type", "OTP_TOKEN");
+        claims.put("otp", otp);
+        claims.put("categoryId", categoryId);
+        return doGenerateToken(claims, email, jwtProperties.getOtpTokenExpired());
+    }
+
+
     private String doGenerateToken(Map<String, Object> claims, String subject, long expirationInMilliSec) {
         return Jwts.builder()
                 .setClaims(claims)

@@ -3,7 +3,10 @@ package sit.int222.nw1apisas.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sit.int222.nw1apisas.dtos.subscriptions.SubscriptionRequest;
+import sit.int222.nw1apisas.config.JwtTokenUtil;
+import sit.int222.nw1apisas.dtos.subscriptions.OtpTokenResponse;
+import sit.int222.nw1apisas.dtos.subscriptions.SubAndUnSubReq;
+import sit.int222.nw1apisas.dtos.subscriptions.VerifyOtpReq;
 import sit.int222.nw1apisas.services.SubscriptionService;
 
 @RestController
@@ -12,33 +15,31 @@ import sit.int222.nw1apisas.services.SubscriptionService;
 public class SubscriptionController {
     @Autowired
     private SubscriptionService subscriptionService;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/subscribe")
-    public String subscribeCategory(@RequestBody SubscriptionRequest subscriptionRequest) {
-        return subscriptionService.subscribeCategory(subscriptionRequest);
+    public OtpTokenResponse subscribeCategory(@RequestBody SubAndUnSubReq subAndUnSubReq) {
+        String token = subscriptionService.subscribeCategoryAndSendOtp(subAndUnSubReq);
+        OtpTokenResponse otpTokenResponse = new OtpTokenResponse();
+        otpTokenResponse.setOtpToken(token);
+        return otpTokenResponse;
+    }
+
+    @PostMapping("/verify")
+    public String verifyOtp(@RequestHeader(name = "OtpToken") String otpToken, @RequestBody VerifyOtpReq verifyOtpReq) {
+        if (otpToken == null) {
+            return "OTP is missing";
+        }
+        if (jwtTokenUtil.isTokenExpired(otpToken)) {
+            return "OTP is expired";
+        }
+        return subscriptionService.verifyOTP(otpToken, verifyOtpReq.getOtp());
     }
 
     @DeleteMapping("/unsubscribe")
-    public String unSubscribeCategory(@RequestParam("email") String email,
-                                      @RequestParam("categoryId") Integer categoryId) {
-        return subscriptionService.unsubscribeCategory(email, categoryId);
+    public String unSubscribeCategory(@RequestBody SubAndUnSubReq subAndUnSubReq) {
+        return subscriptionService.unsubscribeCategory(subAndUnSubReq);
     }
-
-
-
-
-
-//    @GetMapping("")
-//    public String helloTest() {
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setFrom("nw1chowder@gmail.com");
-//        message.setTo("31970@stw.ac.th");
-//        message.setSubject("Subject: Test Email Subject");
-//        message.setText("Body: This is body for sample mail");
-//
-//        javaMailSender.send(message);
-//        System.out.println("Mail successfully sent");
-//        return "Mail successfully sent";
-//    }
 
 }

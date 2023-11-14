@@ -17,6 +17,7 @@ import sit.int222.nw1apisas.exceptions.UserForbiddenException;
 import sit.int222.nw1apisas.repositories.AnnouncementRepository;
 import sit.int222.nw1apisas.repositories.UserRepository;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -49,7 +50,10 @@ public class AnnouncementService {
         Announcement savedAnnouncement = announcementRepository.saveAndFlush(announcement);
 
 //        send list of announcements that latest version
-        subscriptionService.sendEmailToSubscribers(savedAnnouncement);
+        ZonedDateTime now = ZonedDateTime.now();
+        if(savedAnnouncement.getPublishDate() == null || savedAnnouncement.getPublishDate().isEqual(now) || savedAnnouncement.getPublishDate().isBefore(now)){
+            subscriptionService.sendEmailToSubscribers(savedAnnouncement);
+        }
         return savedAnnouncement;
 
     }

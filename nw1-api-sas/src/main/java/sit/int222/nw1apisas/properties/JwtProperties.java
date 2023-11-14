@@ -11,4 +11,5 @@ public class JwtProperties {
     private String secretKey;
     private Integer refreshTokenExpired;
     private Integer accessTokenExpired;
+    private Integer otpTokenExpired;
 }
