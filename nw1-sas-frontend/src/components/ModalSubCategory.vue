@@ -1,21 +1,32 @@
 <script setup>
-import {ref} from "vue"
-import {subScribeCategory} from "../composable/subScribeCategory.js"
+import { ref } from "vue";
+import {
+    subScribeCategory,
+    verifyOTP,
+} from "../composable/subScribeCategory.js";
 
-const emits = defineEmits(["cancel"])
-const selectedCategory = ref("1")
-const emailInput = ref("")
+const finishSendOTP = ref(true);
+const tokenOTP = ref();
+const emits = defineEmits(["cancel"]);
+const selectedCategory = ref("1");
+const emailInput = ref("");
+const otp = ref("");
+
 const subScribeCategorySubmit = async () => {
     const data = {
-        email : emailInput.value,
-        categoryId : Number(selectedCategory.value)
-    }
-    const subscribeResult = await subScribeCategory(data)
-    if(subscribeResult === true) {
-        emits('cancel')
-    }
-}
+        email: emailInput.value,
+        categoryId: Number(selectedCategory.value),
+    };
+    finishSendOTP.value = false;
+    tokenOTP.value = await subScribeCategory(data);
+};
 
+const verifyOTPSubmit = async () => {
+    const data = {
+        otp: toString(otp.value),
+    };
+    const subscribeResult = await verifyOTP(data, tokenOTP.value);
+};
 </script>
 <template>
     <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -26,14 +37,16 @@ const subScribeCategorySubmit = async () => {
                     class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                     <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                         <div class="sm:flex sm:items-start">
-                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Please fill
-                                    your <b>email</b></h3>
+                            <div v-if="finishSendOTP" class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">
+                                    Please fill your <b>email</b>
+                                </h3>
                                 <div class="mt-2">
                                     <input v-model.trim="emailInput" class="bg-white border" />
                                     {{ emailInput }}
                                 </div>
-                                <p class="flex font-semibold">Choose Category : </p>&nbsp;
+                                <p class="flex font-semibold">Choose Category :</p>
+                                &nbsp;
                                 <select class="ann-category-filter bg-Cream rounded-md p-1"
                                     @change="changeCategory($event.target.value)" v-model="selectedCategory">
                                     <option value="1">ทั่วไป</option>
@@ -42,15 +55,34 @@ const subScribeCategorySubmit = async () => {
                                     <option value="4">ฝึกงาน</option>
                                 </select>
                             </div>
+
+                            <div v-else class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">
+                                    Please fill your <b>otp</b>
+                                </h3>
+                                <div class="mt-2">
+                                    <input v-model.trim="otp" class="bg-white border" />
+                                    {{ otp }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                        <button type="button" @click="subScribeCategorySubmit"
-                            class="inline-flex w-full justify-center rounded-md bg-DarkGreen px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto">submit</button>
+                        <button v-if="finishSendOTP" type="button" @click="subScribeCategorySubmit"
+                            class="inline-flex w-full justify-center rounded-md bg-DarkGreen px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto">
+                            submit
+                        </button>
+                        <button v-else type="button" @click="verifyOTP"
+                            class="inline-flex w-full justify-center rounded-md bg-DarkGreen px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto">
+                            submit
+                        </button>
                         <button @click="$emit('cancel')" type="button"
-                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+                            Cancel
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
-</div></template>
+</template>
