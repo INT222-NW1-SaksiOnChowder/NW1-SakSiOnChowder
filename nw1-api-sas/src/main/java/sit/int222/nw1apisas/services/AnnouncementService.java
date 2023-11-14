@@ -47,15 +47,11 @@ public class AnnouncementService {
         announcement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
         announcement.setViewCount(0);
         announcement.setAnnouncementOwner(userService.getUserById(user.getId()));
+
         Announcement savedAnnouncement = announcementRepository.saveAndFlush(announcement);
+        subscriptionService.sendNewAnnouncementToSubscribers(savedAnnouncement);
 
-//        send list of announcements that latest version
-        ZonedDateTime now = ZonedDateTime.now();
-        if(savedAnnouncement.getPublishDate() == null || savedAnnouncement.getPublishDate().isEqual(now) || savedAnnouncement.getPublishDate().isBefore(now)){
-            subscriptionService.sendEmailToSubscribers(savedAnnouncement);
-        }
         return savedAnnouncement;
-
     }
 
     public String deleteAnnouncement(Integer id) {

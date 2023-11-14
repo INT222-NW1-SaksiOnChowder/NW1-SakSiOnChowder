@@ -132,6 +132,26 @@ public class SubscriptionService {
         System.out.println("Mail successfully sent");
     }
 
+
+    public void sendNewAnnouncementToSubscribers(Announcement announcement) {
+        String announcementLink = "https://intproj22.sit.kmutt.ac.th/nw1/announcement/" + announcement.getId();
+        List<Subscription> subscriptions = subscriptionRepository.findAll();
+        if (subscriptions.isEmpty()) {
+            System.out.println("No subscribers for the category. Announcement not sent.");
+            return;
+        }
+        String subject = announcement.getAnnouncementTitle();
+        String body = announcement.getAnnouncementDescription() + "\n\n"
+                + "Link to Announcement: " + "\n" + announcementLink + "\n\n";
+
+        for (Subscription subscription : subscriptions) {
+            String subscriberEmail = subscription.getEmailSubscription();
+            mailSender(subscriberEmail, subject, body);
+            System.out.println("Mail successfully sent to " + subscriberEmail);
+        }
+    }
+
+
     public String unsubscribeCategory(SubAndUnSubReq subAndUnSubReq) {
         Category category = categoryService.getCategoryById(subAndUnSubReq.getCategoryId());
         if (category == null) {
@@ -150,21 +170,6 @@ public class SubscriptionService {
         throw new ItemNotFoundException("Can't find this subscription");
     }
 
-    public void sendEmailToSubscribers(Announcement announcement) {
-        String announcementLink = "https://intproj22.sit.kmutt.ac.th/nw1/announcement/" + announcement.getId();
-        List<Subscription> subscriptions = subscriptionRepository.findAll();
-        if (subscriptions.isEmpty()) {
-            System.out.println("No subscribers for the category. Announcement not sent.");
-            return;
-        }
-        String subject = announcement.getAnnouncementTitle();
-        String body = announcement.getAnnouncementDescription() + "\n\n"
-                + "Link to Announcement: " + "\n" + announcementLink;
-        for (Subscription subscription : subscriptions) {
-            String subscriberEmail = subscription.getEmailSubscription();
-            mailSender(subscriberEmail, subject, body);
-            System.out.println("Mail successfully sent to " + subscriberEmail);
-        }
-    }
+
 
 }
