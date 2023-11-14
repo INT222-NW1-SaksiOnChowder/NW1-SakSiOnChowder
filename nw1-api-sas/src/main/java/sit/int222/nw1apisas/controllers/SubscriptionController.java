@@ -32,7 +32,7 @@ public class SubscriptionController {
             return "OTP is missing";
         }
         if (jwtTokenUtil.isTokenExpired(otpToken)) {
-            return "OTP has expired";
+            return "OTP is expired";
         }
         return subscriptionService.verifyOTP(otpToken, verifyOtpReq.getOtp());
     }
