@@ -5,30 +5,23 @@ import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import sit.int222.nw1apisas.config.JwtTokenUtil;
 import sit.int222.nw1apisas.dtos.subscriptions.SubAndUnSubReq;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.entities.Category;
 import sit.int222.nw1apisas.entities.Subscription;
-import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.properties.JwtProperties;
 import sit.int222.nw1apisas.repositories.SubscriptionRepository;
-import sit.int222.nw1apisas.repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SubscriptionService {
     @Autowired
     private SubscriptionRepository subscriptionRepository;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -37,12 +30,11 @@ public class SubscriptionService {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private JwtProperties jwtProperties;
-    private static final int OTP_LENGTH = 6;
 
     private String generateOTP() {
         String numbers = "0123456789";
         StringBuilder otp = new StringBuilder();
-        for (int i = 0; i < OTP_LENGTH; i++) {
+        for (int i = 0; i < 6; i++) {
             int index = (int) (numbers.length() * Math.random());
             otp.append(numbers.charAt(index));
         }
@@ -51,12 +43,13 @@ public class SubscriptionService {
 
 
     public String subscribeCategoryAndSendOtp(SubAndUnSubReq subAndUnSubReq) {
+        String trimmedEmail = subAndUnSubReq.getEmail().trim();
         List<Subscription> subscriptions = subscriptionRepository.findAll();
         if (subscriptions.stream().anyMatch(subscription -> subscription.getCategoryId().getCategoryId().equals(subAndUnSubReq.getCategoryId())
-                && subscription.getEmailSubscription().equals(subAndUnSubReq.getEmail()))) {
+                && subscription.getSubscriberEmail().equals(trimmedEmail))) {
             String subject = "You have been already subscribed category name: " + categoryService.getCategoryById(subAndUnSubReq.getCategoryId()).getCategoryName();
             String body = "You are subscribing category name: " + "\n - " + categoryService.getCategoryById(subAndUnSubReq.getCategoryId()).getCategoryName();
-            mailSender(subAndUnSubReq.getEmail(), subject, body);
+            mailSender(trimmedEmail, subject, body);
             System.out.println("Mail successfully sent");
             return "You have been already subscribed";
         }
@@ -64,10 +57,10 @@ public class SubscriptionService {
         String otp = generateOTP();
         String subject = "OTP";
         String body = "OTP is: " + otp;
-        mailSender(subAndUnSubReq.getEmail(), subject, body);
+        mailSender(trimmedEmail, subject, body);
         System.out.println("Sent OTP successfully");
 
-        return jwtTokenUtil.generateOtpToken(subAndUnSubReq.getEmail(), otp, subAndUnSubReq.getCategoryId());
+        return jwtTokenUtil.generateOtpToken(trimmedEmail, otp, subAndUnSubReq.getCategoryId());
     }
 
     public String verifyOTP(String otpToken, String enteredOTP) {
@@ -77,18 +70,18 @@ public class SubscriptionService {
         } catch (Exception e) {
             return "Invalid OtpToken";
         }
-        String email = claims.getSubject();
+        String trimmedEmail = claims.getSubject();
         Integer categoryId = claims.get("categoryId", Integer.class);
         // Verify the entered OTP
         if (enteredOTP.equals(claims.get("otp"))) {
-            createSubscription(email, categoryId);
-            List<String> subscribedCategories = getSubscribedCategories(email);
+            createSubscription(trimmedEmail, categoryId);
+            List<String> subscribedCategories = getSubscribedCategories(trimmedEmail);
             String subject = "Subscription is successful";
             String body = "You just subscribed to the following categories:\n";
             for (String category : subscribedCategories) {
                 body += "- " + category + "\n";
             }
-            mailSender(email, subject, body);
+            mailSender(trimmedEmail, subject, body);
             System.out.println("Subscription is successfully");
             return "OTP verification successful";
         } else {
@@ -97,22 +90,17 @@ public class SubscriptionService {
     }
 
 
-    public void createSubscription(String email, Integer categoryId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public void createSubscription(String trimmedEmail, Integer categoryId) {
         Subscription subscription = new Subscription();
-        Optional<User> user = userRepository.findUserByUsername(authentication.getName());
-        if (user.isPresent()) {
-            subscription.setUserId(user.get());
-        }
-        subscription.setEmailSubscription(email);
+        subscription.setSubscriberEmail(trimmedEmail);
         subscription.setCategoryId(categoryService.getCategoryById(categoryId));
         subscriptionRepository.saveAndFlush(subscription);
         System.out.println("Save");
     }
 
-    private List<String> getSubscribedCategories(String email) {
+    private List<String> getSubscribedCategories(String trimmedEmail) {
         List<String> subscribedCategories = new ArrayList<>();
-        List<Subscription> subscriptions = subscriptionRepository.findAllByEmailSubscription(email);
+        List<Subscription> subscriptions = subscriptionRepository.findAllBySubscriberEmail(trimmedEmail);
         for (Subscription subscription : subscriptions) {
             if (subscription.getCategoryId() != null) {
                 subscribedCategories.add(subscription.getCategoryId().getCategoryName());
@@ -121,10 +109,10 @@ public class SubscriptionService {
         return subscribedCategories;
     }
 
-    public void mailSender(String email, String subject, String body) {
+    public void mailSender(String trimmedEmail, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("nw1chowder@gmail.com");
-        message.setTo(email);
+        message.setTo(trimmedEmail);
         message.setSubject(subject);
         message.setText(body);
 
@@ -145,7 +133,7 @@ public class SubscriptionService {
                 + "Link to Announcement: " + "\n" + announcementLink + "\n\n";
 
         for (Subscription subscription : subscriptions) {
-            String subscriberEmail = subscription.getEmailSubscription();
+            String subscriberEmail = subscription.getSubscriberEmail();
             mailSender(subscriberEmail, subject, body);
             System.out.println("Mail successfully sent to " + subscriberEmail);
         }
@@ -153,23 +141,23 @@ public class SubscriptionService {
 
 
     public String unsubscribeCategory(SubAndUnSubReq subAndUnSubReq) {
+        String trimmedEmail = subAndUnSubReq.getEmail().trim();
         Category category = categoryService.getCategoryById(subAndUnSubReq.getCategoryId());
         if (category == null) {
             throw new ItemNotFoundException("Can't find this category");
         }
-        Subscription subscription = subscriptionRepository.findByCategoryIdAndEmailSubscription(category,
-                subAndUnSubReq.getEmail());
+        Subscription subscription = subscriptionRepository.findByCategoryIdAndSubscriberEmail(category,
+                trimmedEmail);
         System.out.println("Here");
         if (subscription != null) {
             subscriptionRepository.deleteById(subscription.getId());
             String subject = "Unsubscribe category name: " + category.getCategoryName();
             String body = "You unsubscribe category name: " + category.getCategoryName() + " is successfully";
-            mailSender(subAndUnSubReq.getEmail(), subject, body);
+            mailSender(trimmedEmail, subject, body);
             return "Unsubscription is successfully";
         }
         throw new ItemNotFoundException("Can't find this subscription");
     }
-
 
 
 }
