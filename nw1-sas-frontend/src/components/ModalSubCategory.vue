@@ -17,7 +17,7 @@ const subScribeCategorySubmit = async () => {
     };
     tokenOTP.value = await subScribeCategory(data);
     console.log(tokenOTP.value);
-    
+
     if (tokenOTP.value !== 'You have been already subscribed') {
         finishSendOTP.value = false;
     } else {
@@ -37,7 +37,10 @@ const verifyOTPSubmit = async () => {
     };
     console.log(data);
     console.log(tokenOTP.value);
-    await verifyOTP(data, tokenOTP.value);
+    const resultawait = await verifyOTP(data, tokenOTP.value);
+    if (resultawait === true) {
+        emits("cancel")
+    }
 };
 </script>
 <template>
