@@ -16,7 +16,7 @@ const subScribeCategory = async (usersubscribe) => {
         if (res.status === 200) {
             const data = await res.json()
             console.log('Subscribe successfully')
-            // console.log(data);
+            console.log(data);
             return data.otpToken
         }
         else if (res.status === 400) {

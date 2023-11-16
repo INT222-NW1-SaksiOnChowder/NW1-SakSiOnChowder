@@ -1,9 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import {
-    subScribeCategory,
-    verifyOTP,
-} from "../composable/subScribeCategory.js";
+import { subScribeCategory, verifyOTP } from "../composable/subScribeCategory.js";
 
 const finishSendOTP = ref(true);
 const tokenOTP = ref();
@@ -11,15 +8,27 @@ const emits = defineEmits(["cancel"]);
 const selectedCategory = ref("1");
 const emailInput = ref("");
 const otp = ref("");
+import Swal from 'sweetalert2'
 
 const subScribeCategorySubmit = async () => {
     const data = {
         email: emailInput.value,
         categoryId: Number(selectedCategory.value),
     };
-    finishSendOTP.value = false;
     tokenOTP.value = await subScribeCategory(data);
+    console.log(tokenOTP.value);
     
+    if (tokenOTP.value !== 'You have been already subscribed') {
+        finishSendOTP.value = false;
+    } else {
+        Swal.fire({
+            title: "Can not Submit",
+            text: "You have been already subscribed",
+            icon: "error"
+        });
+        emailInput.value = ""
+        selectedCategory.value = "1"
+    }
 };
 
 const verifyOTPSubmit = async () => {
@@ -50,8 +59,7 @@ const verifyOTPSubmit = async () => {
                                 </div>
                                 <p class="flex font-semibold">Choose Category :</p>
                                 &nbsp;
-                                <select class="ann-category-filter bg-Cream rounded-md p-1"
-                                     v-model="selectedCategory">
+                                <select class="ann-category-filter bg-Cream rounded-md p-1" v-model="selectedCategory">
                                     <option value="1">ทั่วไป</option>
                                     <option value="2">ทุนการศึกษา</option>
                                     <option value="3">หางาน</option>
@@ -64,7 +72,7 @@ const verifyOTPSubmit = async () => {
                                     Please fill your <b>otp</b>
                                 </h3>
                                 <div class="mt-2">
-                                    <input v-model.trim="otp" class="bg-white border" maxlength="6"/>
+                                    <input v-model.trim="otp" class="bg-white border" maxlength="6" />
                                     {{ otp }}
                                 </div>
                             </div>
