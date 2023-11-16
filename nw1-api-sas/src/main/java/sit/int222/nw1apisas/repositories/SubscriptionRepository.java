@@ -7,10 +7,6 @@ import sit.int222.nw1apisas.entities.Subscription;
 import java.util.List;
 
 public interface SubscriptionRepository extends JpaRepository<Subscription, Integer> {
-    Subscription findByCategoryIdAndEmailSubscription(Category categoryId, String email);
-
-
-
-
-    List<Subscription> findAllByEmailSubscription(String email);
+    Subscription findByCategoryIdAndSubscriberEmail(Category categoryId, String email);
+    List<Subscription> findAllBySubscriberEmail(String email);
 }
