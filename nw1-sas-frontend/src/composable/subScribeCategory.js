@@ -9,7 +9,6 @@ const subScribeCategory = async (usersubscribe) => {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',
-                    // "Authorization": `Bearer ${accessToken}`
                 },
                 body: JSON.stringify(usersubscribe)
             }
@@ -33,6 +32,8 @@ const subScribeCategory = async (usersubscribe) => {
 }
 
 const verifyOTP = async (otpNumber ,otpToken) => {
+    console.log(otpNumber);
+    console.log(otpToken);
     try {
         const res = await fetch(`${ROOT_API}/api/subscription/verify`,
             {
@@ -45,7 +46,7 @@ const verifyOTP = async (otpNumber ,otpToken) => {
             }
         )
         if (res.status === 200) {
-            console.log('Subscribe successfully')
+            console.log('OTP successfully')
             return true
         }
         else if (res.status === 400) {

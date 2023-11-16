@@ -19,13 +19,16 @@ const subScribeCategorySubmit = async () => {
     };
     finishSendOTP.value = false;
     tokenOTP.value = await subScribeCategory(data);
+    
 };
 
 const verifyOTPSubmit = async () => {
     const data = {
-        otp: toString(otp.value),
+        otp: otp.value
     };
-    const subscribeResult = await verifyOTP(data, tokenOTP.value);
+    console.log(data);
+    console.log(tokenOTP.value);
+    await verifyOTP(data, tokenOTP.value);
 };
 </script>
 <template>
@@ -48,7 +51,7 @@ const verifyOTPSubmit = async () => {
                                 <p class="flex font-semibold">Choose Category :</p>
                                 &nbsp;
                                 <select class="ann-category-filter bg-Cream rounded-md p-1"
-                                    @change="changeCategory($event.target.value)" v-model="selectedCategory">
+                                     v-model="selectedCategory">
                                     <option value="1">ทั่วไป</option>
                                     <option value="2">ทุนการศึกษา</option>
                                     <option value="3">หางาน</option>
@@ -61,7 +64,7 @@ const verifyOTPSubmit = async () => {
                                     Please fill your <b>otp</b>
                                 </h3>
                                 <div class="mt-2">
-                                    <input v-model.trim="otp" class="bg-white border" />
+                                    <input v-model.trim="otp" class="bg-white border" maxlength="6"/>
                                     {{ otp }}
                                 </div>
                             </div>
@@ -72,7 +75,7 @@ const verifyOTPSubmit = async () => {
                             class="inline-flex w-full justify-center rounded-md bg-DarkGreen px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto">
                             submit
                         </button>
-                        <button v-else type="button" @click="verifyOTP"
+                        <button v-else type="button" @click="verifyOTPSubmit"
                             class="inline-flex w-full justify-center rounded-md bg-DarkGreen px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto">
                             submit
                         </button>
