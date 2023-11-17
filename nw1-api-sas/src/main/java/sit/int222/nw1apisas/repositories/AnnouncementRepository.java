@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.entities.User;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -42,4 +43,6 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
 
     @Query("SELECT a FROM Announcement a JOIN User u WHERE a.announcementDisplay = 'Y' AND a.closeDate IS NOT NULL AND CURRENT_TIMESTAMP >= a.closeDate AND a.announcementOwner.username = :currentPrincipleName ORDER BY a.id DESC")
     List<Announcement> findCloseAnnouncementWithRoleAnnouncer(@Param("currentPrincipleName") String currentPrincipleName);
+
+    List<Announcement> findAnnouncementsByPublishDateIsNotNullAndAnnouncementDisplay(String display);
 }

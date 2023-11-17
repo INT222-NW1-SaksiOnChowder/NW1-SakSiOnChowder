@@ -44,11 +44,12 @@ public class JwtTokenUtil implements Serializable {
         return expiration.before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails, String userEmail) {
         Map<String, Object> claims = new HashMap<>();
 //        ดึงข้อมูลบทบาทจากอ็อบเจ็กต์ GrantedAuthority ที่เป็นส่วนหนึ่งของ userDetails ซึ่งเป็นอ็อบเจ็กต์ที่มีข้อมูลเกี่ยวกับ role ของผู้ใช้ ใช้ .iterator().next() คือเรียกข้อมูล role แรกที่พบในกรณีที่ผู้ใช้มีหลาย role และจะเลือก role แรกที่เจอเท่านั้น
         claims.put("role", userDetails.getAuthorities().iterator().next().getAuthority());
         claims.put("token_type", "ACCESS_TOKEN");
+        claims.put("user_email", userEmail);
         System.out.println(jwtProperties.getAccessTokenExpired());
         return doGenerateToken(claims, userDetails.getUsername(), jwtProperties.getAccessTokenExpired());
     }

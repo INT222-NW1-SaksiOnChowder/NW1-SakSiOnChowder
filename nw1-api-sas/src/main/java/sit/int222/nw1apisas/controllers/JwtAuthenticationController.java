@@ -52,7 +52,8 @@ public class JwtAuthenticationController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtTokenUtil.getUsernameFromToken(refreshToken));
         if (jwtTokenUtil.validateToken(refreshToken, userDetails)) {
             // create new access token
-            String newAccessToken = jwtTokenUtil.generateToken(userDetails);
+            String userEmail = userRepository.findByUsername(userDetails.getUsername()).getEmail();
+            String newAccessToken = jwtTokenUtil.generateToken(userDetails,userEmail);
 
             // Return accessTokenDto response
             return ResponseEntity.ok(new AccessTokenResponse(newAccessToken));
@@ -70,8 +71,9 @@ public class JwtAuthenticationController {
 
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
+        String userEmail = userRepository.findByUsername(authenticationRequest.getUsername()).getEmail();
 
-        final String accessToken = jwtTokenUtil.generateToken(userDetails);
+        final String accessToken = jwtTokenUtil.generateToken(userDetails, userEmail);
         final String refreshToken = jwtTokenUtil.generateRefreshToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(accessToken, refreshToken));

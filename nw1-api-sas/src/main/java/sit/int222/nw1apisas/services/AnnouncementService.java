@@ -4,6 +4,7 @@ package sit.int222.nw1apisas.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +18,7 @@ import sit.int222.nw1apisas.exceptions.UserForbiddenException;
 import sit.int222.nw1apisas.repositories.AnnouncementRepository;
 import sit.int222.nw1apisas.repositories.UserRepository;
 
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -49,10 +51,33 @@ public class AnnouncementService {
         announcement.setAnnouncementOwner(userService.getUserById(user.getId()));
 
         Announcement savedAnnouncement = announcementRepository.saveAndFlush(announcement);
-        subscriptionService.sendNewAnnouncementToSubscribers(savedAnnouncement);
+        if(announcementItemDto.getPublishDate() == null && announcement.getAnnouncementDisplay().equals("Y")){
+            subscriptionService.sendNewAnnouncementToSubscribers(savedAnnouncement);
+        }
 
         return savedAnnouncement;
     }
+
+    @Scheduled(fixedRate = 60000)
+    public void scheduleToSendAnnouncement() {
+        ZonedDateTime now = ZonedDateTime.now();
+        List<Announcement> announcements = announcementRepository.findAnnouncementsByPublishDateIsNotNullAndAnnouncementDisplay("Y");
+        announcements.forEach(announcement -> {
+            long secondsSincePublish = now.toEpochSecond() - announcement.getPublishDate().toEpochSecond();
+            System.out.println(secondsSincePublish);
+            try {
+                if (secondsSincePublish >= 0 && secondsSincePublish <= 60) {
+                    subscriptionService.sendNewAnnouncementToSubscribers(announcement);
+                    System.out.println("Sent mail successful");
+                }
+            }catch (Exception ex){
+                System.out.println(ex.getMessage());
+            }
+        });
+
+    }
+
+
 
     public String deleteAnnouncement(Integer id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -88,7 +113,9 @@ public class AnnouncementService {
                 existingAnnouncement.setPublishDate(announcementItemDto.getPublishDate());
                 existingAnnouncement.setCloseDate(announcementItemDto.getCloseDate());
                 existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
-                return announcementRepository.saveAndFlush(existingAnnouncement);
+                Announcement savedAnnouncement = announcementRepository.saveAndFlush(existingAnnouncement);
+//                subscriptionService.sendNewAnnouncementToSubscribers(savedAnnouncement);
+                return savedAnnouncement;
             } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))) {
                 Announcement existingAnnouncement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement is not found."));
                 if (existingAnnouncement != null && existingAnnouncement.getAnnouncementOwner().getUsername().equals(currentPrincipalName)) {
@@ -98,7 +125,9 @@ public class AnnouncementService {
                     existingAnnouncement.setPublishDate(announcementItemDto.getPublishDate());
                     existingAnnouncement.setCloseDate(announcementItemDto.getCloseDate());
                     existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
-                    return announcementRepository.saveAndFlush(existingAnnouncement);
+                    Announcement savedAnnouncement = announcementRepository.saveAndFlush(existingAnnouncement);
+//                    subscriptionService.sendNewAnnouncementToSubscribers(savedAnnouncement);
+                    return savedAnnouncement;
                 }
             }
             throw new UserForbiddenException("You cannot update any announcement that you are not the owner of");

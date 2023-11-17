@@ -18,6 +18,8 @@ public interface UserRepository extends CustomRepository<User, Integer> {
 
     Optional<User> findUserByUsername(String username);
 
+    User findByUsername(String username);
+
 
 
 }

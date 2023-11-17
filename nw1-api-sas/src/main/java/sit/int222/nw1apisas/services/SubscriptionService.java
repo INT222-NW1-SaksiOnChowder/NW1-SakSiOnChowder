@@ -48,7 +48,7 @@ public class SubscriptionService {
         if (subscriptions.stream().anyMatch(subscription -> subscription.getCategoryId().getCategoryId().equals(subAndUnSubReq.getCategoryId())
                 && subscription.getSubscriberEmail().equals(trimmedEmail))) {
             String subject = "You have been already subscribed category name: " + categoryService.getCategoryById(subAndUnSubReq.getCategoryId()).getCategoryName();
-            String body = "You are subscribing category name: " + "\n - " + categoryService.getCategoryById(subAndUnSubReq.getCategoryId()).getCategoryName();
+            String body = "You are subscribing category name: " + "\n" + " - " + categoryService.getCategoryById(subAndUnSubReq.getCategoryId()).getCategoryName();
             mailSender(trimmedEmail, subject, body);
             System.out.println("Mail successfully sent");
             return "You have been already subscribed";
@@ -95,16 +95,14 @@ public class SubscriptionService {
         subscription.setSubscriberEmail(trimmedEmail);
         subscription.setCategoryId(categoryService.getCategoryById(categoryId));
         subscriptionRepository.saveAndFlush(subscription);
-        System.out.println("Save");
+        System.out.println("Create Subscription Successful");
     }
 
     private List<String> getSubscribedCategories(String trimmedEmail) {
         List<String> subscribedCategories = new ArrayList<>();
-        List<Subscription> subscriptions = subscriptionRepository.findAllBySubscriberEmail(trimmedEmail);
+        List<Subscription> subscriptions = subscriptionRepository.findAllBySubscriberEmailOrderByCategoryIdAsc(trimmedEmail);
         for (Subscription subscription : subscriptions) {
-            if (subscription.getCategoryId() != null) {
-                subscribedCategories.add(subscription.getCategoryId().getCategoryName());
-            }
+            subscribedCategories.add(subscription.getCategoryId().getCategoryName());
         }
         return subscribedCategories;
     }
@@ -122,6 +120,7 @@ public class SubscriptionService {
 
 
     public void sendNewAnnouncementToSubscribers(Announcement announcement) {
+        System.out.println("Send function is work " + announcement.getAnnouncementTitle());
         String announcementLink = "https://intproj22.sit.kmutt.ac.th/nw1/announcement/" + announcement.getId();
         List<Subscription> subscriptions = subscriptionRepository.findAll();
         if (subscriptions.isEmpty()) {
@@ -130,13 +129,20 @@ public class SubscriptionService {
         }
         String subject = announcement.getAnnouncementTitle();
         String body = announcement.getAnnouncementDescription() + "\n\n"
-                + "Link to Announcement: " + "\n" + announcementLink + "\n\n";
-
+                + "Announcement link : " + "\n" + announcementLink + "\n\n";
+        System.out.println(subscriptions.size());
         for (Subscription subscription : subscriptions) {
-            String subscriberEmail = subscription.getSubscriberEmail();
-            mailSender(subscriberEmail, subject, body);
-            System.out.println("Mail successfully sent to " + subscriberEmail);
+            if (subscription.getCategoryId().getCategoryId().equals(announcement.getCategoryId().getCategoryId())) {
+                System.out.println("Here");
+                String subscriberEmail = subscription.getSubscriberEmail();
+                body += "To unsubscribe: \n" +
+                        "If you no longer wish for " + subscriberEmail + " to receive any email announcement messages from SAS, please click the following link " + "unsublink";
+                mailSender(subscriberEmail, subject, body);
+                System.out.println("Mail successfully sent to " + subscriberEmail);
+            }
         }
+
+
     }
 
 
