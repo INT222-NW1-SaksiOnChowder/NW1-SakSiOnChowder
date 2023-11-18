@@ -135,8 +135,13 @@ public class SubscriptionService {
             if (subscription.getCategoryId().getCategoryId().equals(announcement.getCategoryId().getCategoryId())) {
                 System.out.println("Here");
                 String subscriberEmail = subscription.getSubscriberEmail();
+
+                String tokenSecureLink = jwtTokenUtil.generateSecureLink(subscriberEmail, subscription.getCategoryId().getCategoryId());
+                String unSubScribeLink = "https://intproj22.sit.kmutt.ac.th/nw1/announcement/unsubscription/" + tokenSecureLink;
+
                 body += "To unsubscribe: \n" +
-                        "If you no longer wish for " + subscriberEmail + " to receive any email announcement messages from SAS, please click the following link " + "unsublink";
+                        "If you no longer wish for " + subscriberEmail + " to receive any email announcement messages from SAS, please click the following link "
+                        + unSubScribeLink;
                 mailSender(subscriberEmail, subject, body);
                 System.out.println("Mail successfully sent to " + subscriberEmail);
             }
