@@ -114,7 +114,9 @@ public class AnnouncementService {
                 existingAnnouncement.setCloseDate(announcementItemDto.getCloseDate());
                 existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
                 Announcement savedAnnouncement = announcementRepository.saveAndFlush(existingAnnouncement);
-                subscriptionService.sendNewAnnouncementToSubscribers(savedAnnouncement);
+                if(existingAnnouncement.getPublishDate() == null && existingAnnouncement.getAnnouncementDisplay().equals("Y")){
+                    subscriptionService.sendNewAnnouncementToSubscribers(savedAnnouncement);
+                }
                 return savedAnnouncement;
             } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_announcer"))) {
                 Announcement existingAnnouncement = announcementRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException("The announcement is not found."));
@@ -126,7 +128,9 @@ public class AnnouncementService {
                     existingAnnouncement.setCloseDate(announcementItemDto.getCloseDate());
                     existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
                     Announcement savedAnnouncement = announcementRepository.saveAndFlush(existingAnnouncement);
-                    subscriptionService.sendNewAnnouncementToSubscribers(savedAnnouncement);
+                    if(existingAnnouncement.getPublishDate() == null && existingAnnouncement.getAnnouncementDisplay().equals("Y")){
+                        subscriptionService.sendNewAnnouncementToSubscribers(savedAnnouncement);
+                    }
                     return savedAnnouncement;
                 }
             }
