@@ -1,5 +1,5 @@
 <script setup>
-// import { ref } from "vue";
+import { ref } from "vue";
 // import { subScribeCategory, verifyOTP } from "../../composable/subScribeCategory.js";
 // import Swal from 'sweetalert2'
 // import { useRoute, useRouter } from 'vue-router';
@@ -12,15 +12,17 @@ const props = defineProps({
 })
 
 console.log(jwt_decode(props.unSubTokenParam));
-const unSubScriptionObj = jwt_decode(props.unSubTokenParam)
+const unSubScriptionObj = ref(jwt_decode(props.unSubTokenParam))
 const emits = defineEmits(["cancel"]);
 // console.log(unSubScriptionToken);
 const unSubScriptionButton = async () => {
     const data = {
-        email : unSubScriptionObj.email,
-        categoryId : Number(unSubScriptionObj.categoryId)
+        email : unSubScriptionObj.value.email,
+        categoryId : 3
+        // Number(unSubScriptionObj.value.categoryId)
     };
     console.log(data);
+    console.log(typeof data.categoryId);
     await unSubScribeCategory(data)
 }
 </script>

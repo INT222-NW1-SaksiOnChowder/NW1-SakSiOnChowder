@@ -121,7 +121,7 @@ public class SubscriptionService {
 
     public void sendNewAnnouncementToSubscribers(Announcement announcement) {
         System.out.println("Send function is work " + announcement.getAnnouncementTitle());
-        String announcementLink = "https://intproj22.sit.kmutt.ac.th/nw1/announcement/" + announcement.getId();
+        String announcementLink = "http://localhost:5173/announcement/" + announcement.getId();
         List<Subscription> subscriptions = subscriptionRepository.findAll();
         if (subscriptions.isEmpty()) {
             System.out.println("No subscribers for the category. Announcement not sent.");
@@ -137,7 +137,7 @@ public class SubscriptionService {
                 String subscriberEmail = subscription.getSubscriberEmail();
 
                 String tokenSecureLink = jwtTokenUtil.generateSecureLink(subscriberEmail, subscription.getCategoryId().getCategoryId());
-                String unSubScribeLink = "https://intproj22.sit.kmutt.ac.th/nw1/announcement/unsubscription/" + tokenSecureLink;
+                String unSubScribeLink = "http://localhost:5173/announcement/unsubscription?token=" + tokenSecureLink;
 
                 body += "To unsubscribe: \n" +
                         "If you no longer wish for " + subscriberEmail + " to receive any email announcement messages from SAS, please click the following link "

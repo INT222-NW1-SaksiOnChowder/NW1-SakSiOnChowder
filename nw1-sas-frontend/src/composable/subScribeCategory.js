@@ -64,23 +64,29 @@ const verifyOTP = async (otpNumber ,otpToken) => {
 const unSubScribeCategory = async (unSubScriptionObj) => {
     try {
         const res = await fetch(`${ROOT_API}/api/subscription/unsubscribe`,
-          {
-            method: "DELETE",
-            body: JSON.stringify(unSubScriptionObj)
-          })
-        if (res.ok) {
-          console.log("Delete Successfully");
-          alert("Delete category id: " + id + "successfully")
-          return true
-        } else if (res.status === 403) {
-          const error = await res.json();
-          for (const err of error.detail) {
-            alert(err.errorMessage);
-          }
+            {
+                method: 'DELETE',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify(unSubScriptionObj)
+            }
+        )
+        if (res.status === 200) {
+            const data = await res.json()
+            console.log('UnSubscribe successfully')
+            console.log(data);
+            return data
         }
-      } catch (err) {
-        alert(`Error: ${err}`);
+        else if (res.status === 400) {
+            const error = await res.json()
+            return error.detail
+
+        }
+    } catch (error) {
+        console.log(`ERROR cannot create data: ${error}`);
+        // await getNewAccessToken()
         return false
-      }
+    }
 }
 export { subScribeCategory, verifyOTP, unSubScribeCategory }
