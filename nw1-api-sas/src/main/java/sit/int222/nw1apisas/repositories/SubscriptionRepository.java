@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface SubscriptionRepository extends JpaRepository<Subscription, Integer> {
     Subscription findByCategoryIdAndSubscriberEmail(Category categoryId, String email);
-    List<Subscription> findAllBySubscriberEmail(String email);
+    List<Subscription> findAllBySubscriberEmailOrderByCategoryIdAsc(String email);
 }
