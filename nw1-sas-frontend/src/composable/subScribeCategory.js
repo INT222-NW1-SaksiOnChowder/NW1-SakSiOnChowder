@@ -60,4 +60,27 @@ const verifyOTP = async (otpNumber ,otpToken) => {
         return false
     }
 }
-export { subScribeCategory, verifyOTP }
+
+const unSubScribeCategory = async (unSubScriptionObj) => {
+    try {
+        const res = await fetch(`${ROOT_API}/api/subscription/unsubscribe`,
+          {
+            method: "DELETE",
+            body: JSON.stringify(unSubScriptionObj)
+          })
+        if (res.ok) {
+          console.log("Delete Successfully");
+          alert("Delete category id: " + id + "successfully")
+          return true
+        } else if (res.status === 403) {
+          const error = await res.json();
+          for (const err of error.detail) {
+            alert(err.errorMessage);
+          }
+        }
+      } catch (err) {
+        alert(`Error: ${err}`);
+        return false
+      }
+}
+export { subScribeCategory, verifyOTP, unSubScribeCategory }

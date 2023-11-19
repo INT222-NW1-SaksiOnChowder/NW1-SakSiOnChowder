@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { subScribeCategory, verifyOTP } from "../composable/subScribeCategory.js";
+import { subScribeCategory, verifyOTP } from "../../composable/subScribeCategory.js";
 
 const finishSendOTP = ref(true);
 const tokenOTP = ref();
@@ -57,7 +57,7 @@ const verifyOTPSubmit = async () => {
                                     Please fill your <b>email</b>
                                 </h3>
                                 <div class="mt-2">
-                                    <input v-model.trim="emailInput" class="bg-white border" />
+                                    <input v-model.trim="emailInput" type="email" class="bg-white border" />
                                     {{ emailInput }}
                                 </div>
                                 <p class="flex font-semibold">Choose Category :</p>

@@ -7,14 +7,20 @@ import TimeZone from '../icones/TimeZone.vue'
 import CloseIcon from "../icones/CloseIcon.vue"
 import ActiveIcon from "../icones/ActiveIcon.vue"
 import Menubar from "../Navbar.vue"
-import ModalSubCategory from "../ModalSubCategory.vue"
+import ModalSubCategory from "../subscription/ModalSubCategory.vue"
+import UnSubScription from "../subscription/UnSubScription.vue"
+import { useRoute, useRouter } from 'vue-router';
+import jwt_decode from "jwt-decode"
 
+const route = useRoute()
+// console.log(route.query.token);
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const announcementStores = annStores()
 const showMenubar = ref(false)
 const showCloseTime = ref(false)
 const isShowModal = ref(false)
+const isShowUnSubModal = ref(true)
 const setShowCloseTime = () => {
   if (announcementStores.mode === 'close') {
     showCloseTime.value = true
@@ -24,7 +30,6 @@ const setShowCloseTime = () => {
 }
 
 const selectedCategory = ref(announcementStores.category)
-
 const annoucementContent = ref()
 onMounted(async () => {
   checkUserLogin()
@@ -245,6 +250,7 @@ const togglePopUpSubscription = () => {
       </div>
     </div>
       <ModalSubCategory v-if="isShowModal" @cancel="togglePopUpSubscription"/>
+      <UnSubScription :unSubTokenParam="`${route.query.token}`" v-if="route.query.token !== undefined ? true : false"/>
   </div>
 </template>
 
