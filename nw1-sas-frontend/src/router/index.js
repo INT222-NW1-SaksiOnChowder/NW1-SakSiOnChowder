@@ -11,6 +11,7 @@ import UserEditDetail from '../components/users/UserEditDetail.vue'
 import AddUser from '../components/users/AddUser.vue'
 import MatchPassword from '../components/users/MatchPassword.vue'
 import LoginPage from '../components/users/LoginPage.vue'
+import UnsubscriptionPage from '../components/subscription/UnSubScription.vue'
 import { getAnnouncements } from "../composable/announcements/getInformation.js";
 
 const userDetail = ref(JSON.parse(localStorage.getItem("userDetail")))
@@ -223,12 +224,21 @@ const router = createRouter({
         path: `/login`,
         name: 'login',
         component: LoginPage
+      },
+      {
+        path: '/announcement/unsubscription',
+        name: 'unsubscription',
+        component: UserViewAnnouncement,
+        props:(route) => ({token: route.query.token})
       }
     ]
 })
 
 router.beforeEach((to, from, next) => {
   if (!localStorage.getItem('accessToken') && to.name === 'userViewAnnouncement') {
+    next()
+  }
+  else if (!localStorage.getItem('accessToken') && to.name === 'unsubscription') {
     next()
   }
   else if (!localStorage.getItem('accessToken') && to.name === 'userViewDetail') {

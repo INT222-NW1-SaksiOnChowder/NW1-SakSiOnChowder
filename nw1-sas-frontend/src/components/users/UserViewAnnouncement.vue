@@ -7,12 +7,20 @@ import TimeZone from '../icones/TimeZone.vue'
 import CloseIcon from "../icones/CloseIcon.vue"
 import ActiveIcon from "../icones/ActiveIcon.vue"
 import Menubar from "../Navbar.vue"
+import ModalSubCategory from "../subscription/ModalSubCategory.vue"
+import UnSubScription from "../subscription/UnSubScription.vue"
+import { useRoute, useRouter } from 'vue-router';
+import jwt_decode from "jwt-decode"
 
+const route = useRoute()
+// console.log(route.query.token);
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const announcementStores = annStores()
 const showMenubar = ref(false)
 const showCloseTime = ref(false)
+const isShowModal = ref(false)
+const isShowUnSubModal = ref(true)
 const setShowCloseTime = () => {
   if (announcementStores.mode === 'close') {
     showCloseTime.value = true
@@ -22,7 +30,6 @@ const setShowCloseTime = () => {
 }
 
 const selectedCategory = ref(announcementStores.category)
-
 const annoucementContent = ref()
 onMounted(async () => {
   checkUserLogin()
@@ -145,6 +152,10 @@ const changeCategory = async (category) => {
   noAnnouncement()
 }
 
+const togglePopUpSubscription = () => {
+   isShowModal.value = !isShowModal.value
+}
+
 </script>
 
 <template>
@@ -188,6 +199,7 @@ const changeCategory = async (category) => {
           <option value="3">หางาน</option>
           <option value="4">ฝึกงาน</option>
         </select>
+        <button @click="togglePopUpSubscription" class="ml-3 rounded-full bg-Cream p-2">Subscribe</button>
       </div>
       <div class="mx-5 mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm dark:text-gray-400">
@@ -237,7 +249,8 @@ const changeCategory = async (category) => {
           class="ann-page-next  px-5 py-2 mx-1 rounded-lg bg-DarkBlue font-bold text-BlueFonts">Next</button>
       </div>
     </div>
-
+      <ModalSubCategory v-if="isShowModal" @cancel="togglePopUpSubscription"/>
+      <UnSubScription :unSubTokenParam="`${route.query.token}`" v-if="route.query.token !== undefined ? true : false"/>
   </div>
 </template>
 

@@ -121,9 +121,13 @@ public class SubscriptionService {
 
     public void sendNewAnnouncementToSubscribers(Announcement announcement) {
         System.out.println("Send function is work " + announcement.getAnnouncementTitle());
+<<<<<<< HEAD
         String localLink = "http://localhost:5173/nw1/announcement/";
         String sasLink = "https://intproj22.sit.kmutt.ac.th/nw1/announcement/";
         String announcementLink = "https://intproj22.sit.kmutt.ac.th/nw1/announcement/" + announcement.getId();
+=======
+        String announcementLink = "http://localhost:5173/announcement/" + announcement.getId();
+>>>>>>> Eve-frontend
         List<Subscription> subscriptions = subscriptionRepository.findAll();
         if (subscriptions.isEmpty()) {
             System.out.println("No subscribers for the category. Announcement not sent.");

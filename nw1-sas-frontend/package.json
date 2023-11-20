@@ -15,6 +15,7 @@
     "json-server": "^0.17.3",
     "jwt-decode": "^3.1.2",
     "pinia": "^2.0.36",
+    "sweetalert2": "^11.10.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },

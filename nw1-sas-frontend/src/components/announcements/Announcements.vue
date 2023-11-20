@@ -60,7 +60,7 @@ const deleteAnnouncement = async (id) => {
     <div class="w-full">
       <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
         <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
-          SIT Announcement System (SAS)
+          SIT Announcement Systems (SAS)
         </h1>
       </div>
 
