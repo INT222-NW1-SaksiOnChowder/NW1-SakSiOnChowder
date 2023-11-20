@@ -139,7 +139,7 @@ public class SubscriptionService {
                 String subscriberEmail = subscription.getSubscriberEmail();
 
                 String tokenLink = jwtTokenUtil.generateSecureLink(subscriberEmail, subscription.getCategoryId().getCategoryId());
-                String unSubScribeLink = localLink + "unsubscription?token=" + tokenLink;
+                String unSubScribeLink = sasLink + "unsubscription?token=" + tokenLink;
 
                 body += "To unsubscribe: \n" +
                         "If you no longer wish for " + subscriberEmail + " to receive any email announcement messages from SAS, please click the following link "
