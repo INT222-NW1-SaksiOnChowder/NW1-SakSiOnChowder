@@ -16,14 +16,14 @@ const unSubScriptionObj = ref(jwt_decode(props.unSubTokenParam))
 const emits = defineEmits(["cancel"]);
 // console.log(unSubScriptionToken);
 const unSubScriptionButton = async () => {
-    const data = {
-        email : unSubScriptionObj.value.email,
-        categoryId : 3
-        // Number(unSubScriptionObj.value.categoryId)
-    };
-    console.log(data);
-    console.log(typeof data.categoryId);
-    await unSubScribeCategory(data)
+    // const data = {
+    //     email : unSubScriptionObj.value.email,
+    //     categoryId : 3
+    //     // Number(unSubScriptionObj.value.categoryId)
+    // };
+    // console.log(data);
+    console.log(typeof (props.unSubTokenParam));
+    await unSubScribeCategory(props.unSubTokenParam)
 }
 </script>
 <template>
@@ -43,7 +43,6 @@ const unSubScriptionButton = async () => {
                             <div class="flex justify-end">
                                 <button type="button" @click="unSubScriptionButton"
                                     class="inline-flex w-full justify-center rounded-md bg-DarkGreen px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto">
-                                    OK
                                 </button>
                             </div>
                         </div>

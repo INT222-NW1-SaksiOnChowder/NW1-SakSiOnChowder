@@ -61,32 +61,57 @@ const verifyOTP = async (otpNumber ,otpToken) => {
     }
 }
 
-const unSubScribeCategory = async (unSubScriptionObj) => {
+// const unSubScribeCategory = async (unSubScriptionObj) => {
+
+//     try {
+//         const res = await fetch(`${ROOT_API}/api/subscription/unsubscribe/`,
+//             {
+//                 method: 'DELETE',
+//                 // headers: {
+//                 //     'content-type': 'application/json',
+//                 // },
+//                 body: JSON.stringify(unSubScriptionObj)
+//             }
+//         )
+//         if (res.status === 200) {
+//             const data = await res.json()
+//             console.log('UnSubscribe successfully')
+//             console.log(data);
+//             return data
+//         }
+//         else if (res.status === 400) {
+//             const error = await res.json()
+//             return error.detail
+
+//         }
+//     } catch (error) {
+//         console.log(`ERROR cannot create data: ${error}`);
+//         return false
+//     }
+// }
+
+const unSubScribeCategory = async (unSubScriptionToken) => {
     try {
         const res = await fetch(`${ROOT_API}/api/subscription/unsubscribe`,
             {
-                method: 'DELETE',
+                method: "DELETE",
                 headers: {
                     'content-type': 'application/json',
+                    'UnsubToken': unSubScriptionToken
                 },
-                body: JSON.stringify(unSubScriptionObj)
-            }
-        )
+            })
         if (res.status === 200) {
-            const data = await res.json()
+            const announcement = await res.json()
             console.log('UnSubscribe successfully')
-            console.log(data);
-            return data
-        }
-        else if (res.status === 400) {
+            return announcement
+        } else if (res.status !== 200) {
             const error = await res.json()
-            return error.detail
-
+            alert(error.message)
         }
     } catch (error) {
-        console.log(`ERROR cannot create data: ${error}`);
-        // await getNewAccessToken()
+        console.log(`ERROR cannot read data: ${error}`);
         return false
     }
 }
+
 export { subScribeCategory, verifyOTP, unSubScribeCategory }
