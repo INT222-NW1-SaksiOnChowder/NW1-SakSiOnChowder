@@ -1,11 +1,12 @@
 package sit.int222.nw1apisas.controllers;
 
 
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sit.int222.nw1apisas.config.JwtTokenUtil;
 import sit.int222.nw1apisas.dtos.subscriptions.OtpTokenResponse;
-import sit.int222.nw1apisas.dtos.subscriptions.SubAndUnSubReq;
+import sit.int222.nw1apisas.dtos.subscriptions.SubRequest;
 import sit.int222.nw1apisas.dtos.subscriptions.VerifyOtpReq;
 import sit.int222.nw1apisas.services.SubscriptionService;
 
@@ -19,8 +20,8 @@ public class SubscriptionController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/subscribe")
-    public OtpTokenResponse subscribeCategory(@RequestBody SubAndUnSubReq subAndUnSubReq) {
-        String token = subscriptionService.subscribeCategoryAndSendOtp(subAndUnSubReq);
+    public OtpTokenResponse subscribeCategory(@RequestBody SubRequest subRequest) {
+        String token = subscriptionService.subscribeCategoryAndSendOtp(subRequest);
         OtpTokenResponse otpTokenResponse = new OtpTokenResponse();
         otpTokenResponse.setOtpToken(token);
         return otpTokenResponse;
@@ -38,8 +39,8 @@ public class SubscriptionController {
     }
 
     @DeleteMapping("/unsubscribe")
-    public String unSubscribeCategory(@RequestBody SubAndUnSubReq subAndUnSubReq) {
-        return subscriptionService.unsubscribeCategory(subAndUnSubReq);
+    public String unSubscribeCategory(@RequestHeader("UnsubToken") String unsubToken) {
+        return subscriptionService.unsubscribeCategory(unsubToken);
     }
 
 }
