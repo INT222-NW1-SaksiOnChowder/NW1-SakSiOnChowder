@@ -91,6 +91,7 @@ const verifyOTP = async (otpNumber ,otpToken) => {
 // }
 
 const unSubScribeCategory = async (unSubScriptionToken) => {
+    console.log(unSubScriptionToken);
     try {
         const res = await fetch(`${ROOT_API}/api/subscription/unsubscribe`,
             {
@@ -101,12 +102,10 @@ const unSubScribeCategory = async (unSubScriptionToken) => {
                 },
             })
         if (res.status === 200) {
-            const announcement = await res.json()
             console.log('UnSubscribe successfully')
-            return announcement
-        } else if (res.status !== 200) {
-            const error = await res.json()
-            alert(error.message)
+            alert('UnSubscribe successfully')
+        } else if (res.status === 403) {
+            alert("UnSubscribe not successful. The category is not subscribed")
         }
     } catch (error) {
         console.log(`ERROR cannot read data: ${error}`);

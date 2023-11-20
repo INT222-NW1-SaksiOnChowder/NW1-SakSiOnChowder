@@ -1,6 +1,6 @@
 <script setup>
 import { getAnnouncementsUser, getAnnouncementUser } from "../../composable/users/getAnnouncementUser.js"
-import { ref, onMounted, onUpdated, computed } from "vue"
+import { ref, onMounted, onUpdated, computed, onBeforeMount } from "vue"
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js"
 import { annStores } from '../../stores/counter.js'
 import TimeZone from '../icones/TimeZone.vue'
@@ -20,7 +20,7 @@ const announcementStores = annStores()
 const showMenubar = ref(false)
 const showCloseTime = ref(false)
 const isShowModal = ref(false)
-const isShowUnSubModal = ref(true)
+const isShowUnSubModal = ref(false)
 const setShowCloseTime = () => {
   if (announcementStores.mode === 'close') {
     showCloseTime.value = true
@@ -31,6 +31,17 @@ const setShowCloseTime = () => {
 
 const selectedCategory = ref(announcementStores.category)
 const annoucementContent = ref()
+
+onBeforeMount(()=>{
+  if (route.query.token !== undefined) {
+    isShowUnSubModal.value = true
+  }
+})
+
+const closeUnSubModal = () => {
+  isShowUnSubModal.value = false
+}
+
 onMounted(async () => {
   checkUserLogin()
   noAnnouncement()
@@ -250,7 +261,9 @@ const togglePopUpSubscription = () => {
       </div>
     </div>
       <ModalSubCategory v-if="isShowModal" @cancel="togglePopUpSubscription"/>
-      <UnSubScription :unSubTokenParam="`${route.query.token}`" v-if="route.query.token !== undefined ? true : false"/>
+      <UnSubScription :unSubTokenParam="`${route.query.token}`" 
+      v-if="isShowUnSubModal" @cancel="closeUnSubModal"
+      />
   </div>
 </template>
 

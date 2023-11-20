@@ -4,25 +4,25 @@ import { ref } from "vue";
 // import Swal from 'sweetalert2'
 // import { useRoute, useRouter } from 'vue-router';
 import jwt_decode from "jwt-decode"
-import {unSubScribeCategory} from '../../composable/subScribeCategory.js'
+import { unSubScribeCategory } from '../../composable/subScribeCategory.js'
 const props = defineProps({
     unSubTokenParam: {
         type: String
     }
 })
 
-console.log(jwt_decode(props.unSubTokenParam));
+// console.log(jwt_decode(props.unSubTokenParam));
 const unSubScriptionObj = ref(jwt_decode(props.unSubTokenParam))
+console.log(unSubScriptionObj.value);
 const emits = defineEmits(["cancel"]);
 // console.log(unSubScriptionToken);
 const unSubScriptionButton = async () => {
-    // const data = {
-    //     email : unSubScriptionObj.value.email,
-    //     categoryId : 3
-    //     // Number(unSubScriptionObj.value.categoryId)
-    // };
+    // const data = { 
+    //     email: 'nw1chowder@gmail.com', 
+    //     categoryId: 1 
+    // }
     // console.log(data);
-    console.log(typeof (props.unSubTokenParam));
+    // console.log(typeof (props.unSubTokenParam));
     await unSubScribeCategory(props.unSubTokenParam)
 }
 </script>
@@ -41,8 +41,13 @@ const unSubScriptionButton = async () => {
                                 <p>Category: {{ unSubScriptionObj.categoryId }}</p>
                             </div>
                             <div class="flex justify-end">
+                                <button type="button" @click="$emit('cancel')"
+                                    class="inline-flex w-full justify-center rounded-md bg-DarkGreen px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto">
+                                    cancel
+                                </button>
                                 <button type="button" @click="unSubScriptionButton"
                                     class="inline-flex w-full justify-center rounded-md bg-DarkGreen px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto">
+                                    Comfirm
                                 </button>
                             </div>
                         </div>
