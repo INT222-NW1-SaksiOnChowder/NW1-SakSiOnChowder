@@ -62,7 +62,7 @@ public class SubscriptionService {
 
         String otp = generateOTP();
         String subject = "OTP";
-        String body = "OTP is: " + otp;
+        String body = "OTP is: " + otp + "\n" + "Your OTP must use in 60 seconds";
         mailSender(trimmedEmail, subject, body);
         System.out.println("Sent OTP successfully");
 
@@ -91,7 +91,7 @@ public class SubscriptionService {
             System.out.println("Subscription is successfully");
             return "OTP verification successful";
         } else {
-            return "OTP verification failed";
+            throw new UnAuthorizationException("Invalid OtpToken", "otpToken");
         }
     }
 
@@ -150,7 +150,7 @@ public class SubscriptionService {
                 String subscriberEmail = subscription.getSubscriberEmail();
 
                 String tokenLink = jwtTokenUtil.generateSecureLink(subscriberEmail, subscription.getCategoryId().getCategoryId());
-                String unSubScribeLink = localLink + "unsubscription?token=" + tokenLink;
+                String unSubScribeLink = sasLink + "unsubscription?token=" + tokenLink;
 
                 body += "To unsubscribe: \n" +
                         "If you no longer wish for " + subscriberEmail + " to receive any email announcement messages from SAS, please click the following link "
