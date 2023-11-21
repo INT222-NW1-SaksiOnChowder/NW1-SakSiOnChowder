@@ -3,15 +3,18 @@ package sit.int222.nw1apisas.services;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import sit.int222.nw1apisas.config.JwtTokenUtil;
 import sit.int222.nw1apisas.dtos.subscriptions.SubRequest;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.entities.Category;
 import sit.int222.nw1apisas.entities.Subscription;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
+import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
 import sit.int222.nw1apisas.properties.JwtProperties;
 import sit.int222.nw1apisas.repositories.SubscriptionRepository;
 
@@ -139,7 +142,7 @@ public class SubscriptionService {
                 String subscriberEmail = subscription.getSubscriberEmail();
 
                 String tokenLink = jwtTokenUtil.generateSecureLink(subscriberEmail, subscription.getCategoryId().getCategoryId());
-                String unSubScribeLink = sasLink + "unsubscription?token=" + tokenLink;
+                String unSubScribeLink = localLink + "unsubscription?token=" + tokenLink;
 
                 body += "To unsubscribe: \n" +
                         "If you no longer wish for " + subscriberEmail + " to receive any email announcement messages from SAS, please click the following link "
@@ -148,8 +151,6 @@ public class SubscriptionService {
                 System.out.println("Mail successfully sent to " + subscriberEmail);
             }
         }
-
-
     }
 
     public String unsubscribeCategory(String unsubToken) {
@@ -157,9 +158,9 @@ public class SubscriptionService {
         try {
             claims = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(unsubToken).getBody();
         } catch (Exception e) {
-            return "Invalid UnsubToken";
+           throw new UnAuthorizationException(e.getMessage(), "token");
         }
-        String email = claims.get("email", String.class);
+        String email = claims.getSubject();
         Integer categoryId = claims.get("categoryId", Integer.class);
         Category category = categoryService.getCategoryById(categoryId);
         Subscription subscription = subscriptionRepository.findByCategoryIdAndSubscriberEmail(category, email);
