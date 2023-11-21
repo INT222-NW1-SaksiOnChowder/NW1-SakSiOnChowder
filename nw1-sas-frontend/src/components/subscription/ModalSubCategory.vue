@@ -66,7 +66,6 @@ watchEffect(() => {
                                 </h3>
                                 <div class="mt-2">
                                     <input v-model.trim="emailInput" type="email" class="bg-white border" />
-                                    {{ emailInput }}
                                 </div>
                                 <p class="flex font-semibold">Choose Category :</p>
                                 &nbsp;
@@ -84,7 +83,6 @@ watchEffect(() => {
                                 </h3>
                                 <div class="mt-2">
                                     <input v-model.trim="otp" class="bg-white border" maxlength="6" />
-                                    {{ otp }}
                                 </div>
                             </div>
                         </div>
