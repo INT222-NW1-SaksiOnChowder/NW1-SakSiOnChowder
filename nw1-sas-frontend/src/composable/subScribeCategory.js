@@ -104,6 +104,8 @@ const unSubScribeCategory = async (unSubScriptionToken) => {
         if (res.status === 200) {
             console.log('UnSubscribe successfully')
             alert('UnSubscribe successfully')
+        } else if (res.status === 401) {
+            alert ("UnSubscribe not successful. The link have been edited")
         } else if (res.status === 403) {
             alert("UnSubscribe not successful. The category is not subscribed")
         }

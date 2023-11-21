@@ -37,7 +37,7 @@ const unSubScriptionButton = async () => {
                         <div class="bg-gray-50 px-4 py-3 sm:px-6 mb-4">
                             <h1 class="text-xl font-semibold mb-4">Unsubscribe</h1>
                             <div>
-                                <p>Email: {{ unSubScriptionObj.email }}</p>
+                                <p>Email: {{ unSubScriptionObj.sub }}</p>
                                 <p>Category: {{ unSubScriptionObj.categoryId }}</p>
                             </div>
                             <div class="flex justify-end">

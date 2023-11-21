@@ -45,10 +45,10 @@ const verifyOTPSubmit = async () => {
 };
 
 watchEffect(() => {
-    if (userDetail.value.user_email !== undefined) {
+    if (userDetail.value !== false) {
         emailInput.value = userDetail.value.user_email
+        console.log(userDetail.value.user_email);
     }
-    console.log(userDetail.value.user_email);
 })
 </script>
 <template>
