@@ -83,7 +83,7 @@ public class SubscriptionService {
             createSubscription(trimmedEmail, categoryId);
             List<String> subscribedCategories = getSubscribedCategories(trimmedEmail);
             String subject = "Subscription is successful";
-            String body = "You just subscribed to the following categories:\n";
+            String body = "You just subscribed to the following categories: \n";
             for (String category : subscribedCategories) {
                 body += "- " + category + "\n";
             }
