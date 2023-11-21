@@ -74,7 +74,7 @@ public class SubscriptionService {
         try {
             claims = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(otpToken).getBody();
         } catch (Exception e) {
-            return "Invalid OtpToken";
+            throw new UnAuthorizationException("Invalid OtpToken", "otpToken");
         }
         String trimmedEmail = claims.getSubject();
         Integer categoryId = claims.get("categoryId", Integer.class);
