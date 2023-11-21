@@ -33,11 +33,7 @@ const getToken = async (user) => {
             localStorage.setItem("refreshToken", data.refreshToken);
             localStorage.setItem("accessToken", data.token);
             currentRole.setRole(userDetail.role)
-            console.log(currentRole.currentRole);
-
-            // console.log(data);
-            // console.log(user);
-
+            console.log(currentRole.currentRole)
             return result
         } else if (res.status === 401) { //res.status === 401
             // const error = await res.json()

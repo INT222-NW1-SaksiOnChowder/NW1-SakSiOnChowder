@@ -2,12 +2,13 @@
 import { clearToken } from '../composable/users/clearToken';
 import { role } from '../stores/role';
 import {ref} from 'vue'
-
+import { userDetailStore } from '../composable/users/userDetailStore.js';
 // const currentRole = role()
 const isShowAllNav = ref(false)
-const currentRole = role()
-
-if (currentRole.currentRole === "ROLE_admin") {
+// const currentRole = role()
+const userDetails = ref(userDetailStore())
+console.log(userDetails.value);
+if (userDetails.value.role === "ROLE_admin") {
     isShowAllNav.value = true
 }
 
