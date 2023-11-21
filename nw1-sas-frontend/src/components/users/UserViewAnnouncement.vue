@@ -21,6 +21,13 @@ const showMenubar = ref(false)
 const showCloseTime = ref(false)
 const isShowModal = ref(false)
 const isShowUnSubModal = ref(false)
+const slicePageNumberArr = ref([])
+const pageNumberArr = ref([])
+const isMoreThanFiveElements = ref(true)
+const selectedCategory = ref(announcementStores.category)
+const annoucementContent = ref()
+const wordButton = ref("Closed Announcements")
+
 const setShowCloseTime = () => {
   if (announcementStores.mode === 'close') {
     showCloseTime.value = true
@@ -28,9 +35,6 @@ const setShowCloseTime = () => {
     showCloseTime.value = false
   }
 }
-
-const selectedCategory = ref(announcementStores.category)
-const annoucementContent = ref()
 
 onBeforeMount(()=>{
   if (route.query.token !== undefined) {
@@ -67,8 +71,6 @@ onUpdated(() => {
   console.log(showMenubar.value);
 })
 
-const wordButton = ref("Closed Announcements")
-
 const getListAnnouncement = async () => {
   announcementStores.setPage(0)
   if (announcementStores.mode === 'active') {
@@ -94,9 +96,7 @@ const noAnnouncement = () => {
     isAnnouncementFound.value = false
   }
 }
-const slicePageNumberArr = ref([])
-const pageNumberArr = ref([])
-const isMoreThanFiveElements = ref(true)
+
 const checkPageButton = () => {
   pageNumberArr.value = []
   for (let i = 1; i <= announcements.value.totalPages; i++) {
@@ -136,6 +136,7 @@ const disablePrevButton = computed(() => {
     return true
   }
 })
+
 const nextOrPrevButton = (move) => {
   if (move === 'next') {
     changeToCurrentPage(announcementStores.page + 2)
@@ -210,7 +211,7 @@ const togglePopUpSubscription = () => {
           <option value="3">หางาน</option>
           <option value="4">ฝึกงาน</option>
         </select>
-        <button @click="togglePopUpSubscription" class="ml-3 rounded-full bg-Cream p-2">Subscribe</button>
+        <button @click="togglePopUpSubscription" class="ml-5 bg-DarkBlue font-bold hover:bg-LightBlue text-BlueFonts rounded-full px-5 py-2 text-sm">Subscribe</button>
       </div>
       <div class="mx-5 mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm dark:text-gray-400">
