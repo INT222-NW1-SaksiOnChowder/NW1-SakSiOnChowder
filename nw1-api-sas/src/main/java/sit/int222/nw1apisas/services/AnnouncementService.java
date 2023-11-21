@@ -1,6 +1,7 @@
 package sit.int222.nw1apisas.services;
 
 
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,7 +38,7 @@ public class AnnouncementService {
     @Autowired
     private SubscriptionService subscriptionService;
 
-    public Announcement createAnnouncement(AnnouncementItemDto announcementItemDto) {
+    public Announcement createAnnouncement(AnnouncementItemDto announcementItemDto) throws MessagingException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findUserByUsername(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         Announcement announcement = new Announcement();
@@ -101,7 +102,7 @@ public class AnnouncementService {
 
     }
 
-    public Announcement updateAnnouncement(AnnouncementItemDto announcementItemDto, Integer id) {
+    public Announcement updateAnnouncement(AnnouncementItemDto announcementItemDto, Integer id) throws MessagingException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         if (authentication.isAuthenticated()) {

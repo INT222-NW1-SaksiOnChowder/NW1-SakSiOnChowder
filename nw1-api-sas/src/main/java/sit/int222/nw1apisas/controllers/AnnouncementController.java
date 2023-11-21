@@ -1,5 +1,6 @@
 package sit.int222.nw1apisas.controllers;
 
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class AnnouncementController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public AddUpdateAnnouncementItemDto createAnnouncement(@RequestBody @Valid AnnouncementItemDto announcementItemDto) {
+    public AddUpdateAnnouncementItemDto createAnnouncement(@RequestBody @Valid AnnouncementItemDto announcementItemDto) throws MessagingException {
         Announcement createAnnouncement = announcementService.createAnnouncement(announcementItemDto);
         return modelMapper.map(createAnnouncement, AddUpdateAnnouncementItemDto.class);
 
@@ -43,7 +44,7 @@ public class AnnouncementController {
     }
 
     @PutMapping("/{id}")
-    public AddUpdateAnnouncementItemDto updateAnnouncement(@RequestBody @Valid AnnouncementItemDto newAnnouncement, @PathVariable Integer id) {
+    public AddUpdateAnnouncementItemDto updateAnnouncement(@RequestBody @Valid AnnouncementItemDto newAnnouncement, @PathVariable Integer id) throws MessagingException {
         Announcement updateAnnouncement = announcementService.updateAnnouncement(newAnnouncement, id);
         return modelMapper.map(updateAnnouncement, AddUpdateAnnouncementItemDto.class);
     }

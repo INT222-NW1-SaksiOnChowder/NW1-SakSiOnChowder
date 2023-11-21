@@ -2,6 +2,7 @@ package sit.int222.nw1apisas.controllers;
 
 
 import io.jsonwebtoken.Claims;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sit.int222.nw1apisas.config.JwtTokenUtil;
@@ -20,7 +21,7 @@ public class SubscriptionController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/subscribe")
-    public OtpTokenResponse subscribeCategory(@RequestBody SubRequest subRequest) {
+    public OtpTokenResponse subscribeCategory(@RequestBody SubRequest subRequest) throws MessagingException{
         String token = subscriptionService.subscribeCategoryAndSendOtp(subRequest);
         OtpTokenResponse otpTokenResponse = new OtpTokenResponse();
         otpTokenResponse.setOtpToken(token);
@@ -28,7 +29,7 @@ public class SubscriptionController {
     }
 
     @PostMapping("/verify")
-    public String verifyOtp(@RequestHeader(name = "OtpToken") String otpToken, @RequestBody VerifyOtpReq verifyOtpReq) {
+    public String verifyOtp(@RequestHeader(name = "OtpToken") String otpToken, @RequestBody VerifyOtpReq verifyOtpReq) throws MessagingException {
         if (otpToken == null) {
             return "OTP is missing";
         }
@@ -39,7 +40,7 @@ public class SubscriptionController {
     }
 
     @DeleteMapping("/unsubscribe")
-    public String unSubscribeCategory(@RequestHeader("UnsubToken") String unsubToken) {
+    public String unSubscribeCategory(@RequestHeader("UnsubToken") String unsubToken) throws MessagingException {
         return subscriptionService.unsubscribeCategory(unsubToken);
     }
 

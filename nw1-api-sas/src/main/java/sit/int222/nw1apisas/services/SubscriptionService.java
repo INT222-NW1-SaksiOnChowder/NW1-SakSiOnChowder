@@ -2,10 +2,13 @@ package sit.int222.nw1apisas.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import sit.int222.nw1apisas.config.JwtTokenUtil;
@@ -45,7 +48,7 @@ public class SubscriptionService {
     }
 
 
-    public String subscribeCategoryAndSendOtp(SubRequest subRequest) {
+    public String subscribeCategoryAndSendOtp(SubRequest subRequest) throws MessagingException {
         String trimmedEmail = subRequest.getEmail().trim();
         List<Subscription> subscriptions = subscriptionRepository.findAll();
         if (subscriptions.stream().anyMatch(subscription -> subscription.getCategoryId().getCategoryId().equals(subRequest.getCategoryId())
@@ -66,7 +69,7 @@ public class SubscriptionService {
         return jwtTokenUtil.generateOtpToken(trimmedEmail, otp, subRequest.getCategoryId());
     }
 
-    public String verifyOTP(String otpToken, String enteredOTP) {
+    public String verifyOTP(String otpToken, String enteredOTP) throws MessagingException {
         Claims claims;
         try {
             claims = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(otpToken).getBody();
@@ -110,19 +113,24 @@ public class SubscriptionService {
         return subscribedCategories;
     }
 
-    public void mailSender(String trimmedEmail, String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("nw1chowder@gmail.com");
-        message.setTo(trimmedEmail);
-        message.setSubject(subject);
-        message.setText(body);
+    public void mailSender(String trimmedEmail, String subject, String body) throws MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
-        javaMailSender.send(message);
+        mimeMessageHelper.setFrom("nw1chowder@gmail.com");
+        mimeMessageHelper.setTo(trimmedEmail);
+        mimeMessageHelper.setSubject(subject);
+
+        // Set HTML content directly without additional tags
+        mimeMessageHelper.setText(body, true);
+
+        // Send the email
+        javaMailSender.send(mimeMessage);
         System.out.println("Mail successfully sent");
     }
 
 
-    public void sendNewAnnouncementToSubscribers(Announcement announcement) {
+    public void sendNewAnnouncementToSubscribers(Announcement announcement) throws MessagingException {
         System.out.println("Send function is work " + announcement.getAnnouncementTitle());
         String localLink = "http://localhost:5173/announcement/";
         String sasLink = "https://intproj22.sit.kmutt.ac.th/nw1/announcement/";
@@ -153,7 +161,7 @@ public class SubscriptionService {
         }
     }
 
-    public String unsubscribeCategory(String unsubToken) {
+    public String unsubscribeCategory(String unsubToken) throws MessagingException {
         Claims claims;
         try {
             claims = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(unsubToken).getBody();
