@@ -13,8 +13,9 @@ import MatchPassword from '../components/users/MatchPassword.vue'
 import LoginPage from '../components/users/LoginPage.vue'
 import UnsubscriptionPage from '../components/subscription/UnSubScription.vue'
 import { getAnnouncements } from "../composable/announcements/getInformation.js";
+import {userDetailStore} from "../composable/users/userDetailStore.js"
 
-const userDetail = ref(JSON.parse(localStorage.getItem("userDetail")))
+// const userDetail = ref(JSON.parse(localStorage.getItem("userDetail")))
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes:
@@ -40,8 +41,8 @@ const router = createRouter({
         name: 'announcementDetail',
         component: AnnouncementDetail,
         beforeEnter: async (to, from, next) => {
-          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
-          if (userDetail.value.role !== 'ROLE_admin') {
+          const userDetail = userDetailStore()
+          if (userDetail.role !== 'ROLE_admin') {
             const announcement = ref(await getAnnouncements())
             const announcementId = ref([])
             const announcementExits = ref(true)
@@ -78,8 +79,8 @@ const router = createRouter({
         name: 'deleteAnnouncement',
         component: Announcements,
         beforeEnter: async (to, from, next) => {
-          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
-          if (userDetail.value.role !== 'ROLE_admin') {
+          const userDetail = userDetailStore()
+          if (userDetail.role !== 'ROLE_admin') {
             const announcement = ref(await getAnnouncements())
             const announcementId = ref([])
             const announcementExits = ref(true)
@@ -111,8 +112,8 @@ const router = createRouter({
         name: 'editAnnouncement',
         component: EditAnnouncement,
         beforeEnter: async (to, from, next) => {
-          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
-          if (userDetail.value.role !== 'ROLE_admin') {
+          const userDetail = userDetailStore()
+          if (userDetail.role !== 'ROLE_admin') {
             const announcement = ref(await getAnnouncements())
             const announcementId = ref([])
             const announcementExits = ref(true)
@@ -154,9 +155,8 @@ const router = createRouter({
         name: 'userManagement',
         component: UserManagement,
         beforeEnter: (to, from, next) => {
-          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
-          if (userDetail.value.role !== 'ROLE_admin') {
-            console.log(userDetail.value.role);
+          const userDetail = userDetailStore()
+          if (userDetail.role !== 'ROLE_admin') {
             alert(`You don't have permission to access this page.`)
             next('/announcement');
           } else {
@@ -169,8 +169,8 @@ const router = createRouter({
         name: 'userEditDetail',
         component: UserEditDetail,
         beforeEnter: (to, from, next) => {
-          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
-          if (userDetail.value.role !== 'ROLE_admin') {
+          const userDetail = userDetailStore()
+          if (userDetail.role !== 'ROLE_admin') {
             alert(`You don't have permission to access this page.`)
             next('/announcement');
           } else {
@@ -183,8 +183,8 @@ const router = createRouter({
         name: 'addUser',
         component: AddUser,
         beforeEnter: (to, from, next) => {
-          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
-          if (userDetail.value.role !== 'ROLE_admin') {
+          const userDetail = userDetailStore()
+          if (userDetail.role !== 'ROLE_admin') {
             alert(`You don't have permission to access this page.`)
             next('/announcement');
           } else {
@@ -197,8 +197,8 @@ const router = createRouter({
         name: 'deleteUser',
         component: UserManagement,
         beforeEnter: (to, from, next) => {
-          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
-          if (userDetail.value.role !== 'ROLE_admin') {
+          const userDetail = userDetailStore()
+          if (userDetail.role  !== 'ROLE_admin') {
             alert(`You don't have permission to access this page.`)
             next('/announcement');
           } else {
@@ -211,8 +211,8 @@ const router = createRouter({
         name: 'matchPassword',
         component: MatchPassword,
         beforeEnter: (to, from, next) => {
-          userDetail.value = JSON.parse(localStorage.getItem("userDetail"))
-          if (userDetail.value.role !== 'ROLE_admin') {
+          const userDetail = userDetailStore()
+          if (userDetail.role  !== 'ROLE_admin') {
             alert(`You don't have permission to access this page.`)
             next('/announcement');
           } else {
