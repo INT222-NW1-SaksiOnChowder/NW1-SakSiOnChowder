@@ -1,14 +1,15 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { subScribeCategory, verifyOTP } from "../../composable/subScribeCategory.js";
-
+import { userDetailStore } from "../../composable/users/userDetailStore";
+import Swal from 'sweetalert2'
 const finishSendOTP = ref(true);
 const tokenOTP = ref();
 const emits = defineEmits(["cancel"]);
 const selectedCategory = ref("1");
 const emailInput = ref("");
 const otp = ref("");
-import Swal from 'sweetalert2'
+const userDetail = ref(userDetailStore())
 
 const subScribeCategorySubmit = async () => {
     const data = {
@@ -42,6 +43,13 @@ const verifyOTPSubmit = async () => {
         emits("cancel")
     }
 };
+
+watchEffect(() => {
+    if (userDetail.value.user_email !== undefined) {
+        emailInput.value = userDetail.value.user_email
+    }
+    console.log(userDetail.value.user_email);
+})
 </script>
 <template>
     <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
