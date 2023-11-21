@@ -46,14 +46,16 @@ const verifyOTP = async (otpNumber ,otpToken) => {
         )
         if (res.status === 200) {
             console.log('OTP successfully')
+            alert("Your subscription is successful.")
+            return true
+        } else if (res.status === 401) {
+            alert("OTP is invalid. Check your mail and please try again.")
+            return false
+
+        } else if (res.status === 403) {
+            alert("OTP is expired. Please try again.")
             return true
         }
-        // else if (res.status === 400) {
-        //     const error = await res.json()
-        //     alert("Subscribe is not successful")
-        //     return true
-
-        // }
     } catch (error) {
         console.log(`ERROR cannot create data: ${error}`);
         alert("Error verify otp")

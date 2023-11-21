@@ -42,6 +42,9 @@ const verifyOTPSubmit = async () => {
     if (resultawait === true) {
         emits("cancel")
     }
+    if (resultawait === false) {
+        otp.value = ''
+    }
 };
 
 watchEffect(() => {
@@ -82,7 +85,7 @@ watchEffect(() => {
                                     Please fill your <b>otp</b>
                                 </h3>
                                 <div class="mt-2">
-                                    <input v-model.trim="otp" class="bg-white border" maxlength="6" />
+                                    <input type="number" v-model.trim="otp" class="bg-white border" maxlength="6" />
                                 </div>
                             </div>
                         </div>
