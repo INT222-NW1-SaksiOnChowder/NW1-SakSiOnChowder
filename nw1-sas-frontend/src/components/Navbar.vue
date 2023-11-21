@@ -1,13 +1,13 @@
 <script setup>
 import { clearToken } from '../composable/users/clearToken';
-// import { role } from '../stores/role';
+import { role } from '../stores/role';
 import {ref} from 'vue'
 
 // const currentRole = role()
 const isShowAllNav = ref(false)
-const userDetail = JSON.parse(localStorage.getItem("userDetail"))
+const currentRole = role()
 
-if (userDetail.role === "ROLE_admin") {
+if (currentRole.currentRole === "ROLE_admin") {
     isShowAllNav.value = true
 }
 
