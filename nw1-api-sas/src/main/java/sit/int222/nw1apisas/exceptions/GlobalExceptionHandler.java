@@ -74,7 +74,8 @@ public class GlobalExceptionHandler {
         String title = "Unauthenticated";
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), title, request.getDescription(false));
         String errMsg = ex.getMessage();
-        errorResponse.addValidationError("password", errMsg);
+        String fieldName = ex.getFieldName();
+        errorResponse.addValidationError(fieldName, errMsg);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 

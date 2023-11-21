@@ -118,7 +118,7 @@ public class UserService {
         if (argon2PasswordEncoder.matches(usernamePasswordDto.getPassword(), storedPassword)) {
             return "Password Matched";
         } else {
-            throw new UnAuthorizationException("Password NOT Matched");
+            throw new UnAuthorizationException("Password NOT Matched", "password");
         }
     }
 }

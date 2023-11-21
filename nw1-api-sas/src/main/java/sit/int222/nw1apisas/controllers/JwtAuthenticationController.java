@@ -87,7 +87,7 @@ public class JwtAuthenticationController {
             if (argon2PasswordEncoder.matches(password, user.getPassword())) {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             } else {
-                throw new UnAuthorizationException("Password NOT Matched");
+                throw new UnAuthorizationException("Password NOT Matched", "password");
             }
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);

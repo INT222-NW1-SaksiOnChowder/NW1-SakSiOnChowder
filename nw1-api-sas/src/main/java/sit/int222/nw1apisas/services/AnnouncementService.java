@@ -97,7 +97,7 @@ public class AnnouncementService {
             }
             throw new UserForbiddenException("You cannot delete any announcement that you are not the owner of");
         }
-        throw new UnAuthorizationException("Please login first.");
+        throw new UnAuthorizationException("Please login first.", "login");
 
     }
 
@@ -136,7 +136,7 @@ public class AnnouncementService {
             }
             throw new UserForbiddenException("You cannot update any announcement that you are not the owner of");
         }
-        throw new UnAuthorizationException("Please login first.");
+        throw new UnAuthorizationException("Please login first.", "login");
     }
 
     public List<Announcement> getAllAnnouncements(String mode) {
