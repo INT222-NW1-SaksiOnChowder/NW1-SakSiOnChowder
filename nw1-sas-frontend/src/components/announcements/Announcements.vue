@@ -4,6 +4,7 @@ import { ref, onMounted, onUpdated } from "vue";
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js";
 import { deleteAcc } from "../../composable/announcements/deleteAnnouncement.js";
 import { useRouter } from "vue-router";
+import {role} from '../../stores/role.js'
 import TimeZone from "../icones/TimeZone.vue";
 import AddIcon from "../icones/AddIcon.vue";
 import Menubar from "../Navbar.vue";
@@ -11,10 +12,11 @@ import Menubar from "../Navbar.vue";
 const router = useRouter();
 const announcements = ref([]);
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-const userDetail = JSON.parse(localStorage.getItem("userDetail"))
+// const userDetail = JSON.parse(localStorage.getItem("userDetail"))
 const isShowOwner = ref(false)
+const currenRole = role()
 
-if (userDetail.role === 'ROLE_admin') {
+if (currenRole.currentRole === 'ROLE_admin') {
   isShowOwner.value =true
 }
 
