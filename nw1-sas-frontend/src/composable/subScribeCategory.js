@@ -22,7 +22,6 @@ const subScribeCategory = async (usersubscribe) => {
         else if (res.status === 400) {
             const error = await res.json()
             return error.detail
-
         }
     } catch (error) {
         console.log(`ERROR cannot create data: ${error}`);
@@ -49,46 +48,20 @@ const verifyOTP = async (otpNumber ,otpToken) => {
             console.log('OTP successfully')
             return true
         }
-        else if (res.status === 400) {
-            const error = await res.json()
-            return error.detail
+        // else if (res.status === 400) {
+        //     const error = await res.json()
+        //     alert("Subscribe is not successful")
+        //     return true
 
-        }
+        // }
     } catch (error) {
         console.log(`ERROR cannot create data: ${error}`);
+        alert("Error verify otp")
         // await getNewAccessToken()
-        return false
+        return true
     }
 }
 
-// const unSubScribeCategory = async (unSubScriptionObj) => {
-
-//     try {
-//         const res = await fetch(`${ROOT_API}/api/subscription/unsubscribe/`,
-//             {
-//                 method: 'DELETE',
-//                 // headers: {
-//                 //     'content-type': 'application/json',
-//                 // },
-//                 body: JSON.stringify(unSubScriptionObj)
-//             }
-//         )
-//         if (res.status === 200) {
-//             const data = await res.json()
-//             console.log('UnSubscribe successfully')
-//             console.log(data);
-//             return data
-//         }
-//         else if (res.status === 400) {
-//             const error = await res.json()
-//             return error.detail
-
-//         }
-//     } catch (error) {
-//         console.log(`ERROR cannot create data: ${error}`);
-//         return false
-//     }
-// }
 
 const unSubScribeCategory = async (unSubScriptionToken) => {
     console.log(unSubScriptionToken);
@@ -104,10 +77,13 @@ const unSubScribeCategory = async (unSubScriptionToken) => {
         if (res.status === 200) {
             console.log('UnSubscribe successfully')
             alert('UnSubscribe successfully')
+            return true
         } else if (res.status === 401) {
-            alert ("UnSubscribe not successful. The link have been edited")
+            alert ("UnSubscribe is not successful. You don't have permission to edit unsubscribtion link.")
+            return true
         } else if (res.status === 403) {
-            alert("UnSubscribe not successful. The category is not subscribed")
+            alert("UnSubscribe is not successful. The category is not subscribed")
+            return true
         }
     } catch (error) {
         console.log(`ERROR cannot read data: ${error}`);

@@ -17,13 +17,10 @@ console.log(unSubScriptionObj.value);
 const emits = defineEmits(["cancel"]);
 // console.log(unSubScriptionToken);
 const unSubScriptionButton = async () => {
-    // const data = { 
-    //     email: 'nw1chowder@gmail.com', 
-    //     categoryId: 1 
-    // }
-    // console.log(data);
-    // console.log(typeof (props.unSubTokenParam));
-    await unSubScribeCategory(props.unSubTokenParam)
+   const result =  await unSubScribeCategory(props.unSubTokenParam)
+   if (result === true) {
+    emits('cancel')
+   }
 }
 </script>
 <template>
