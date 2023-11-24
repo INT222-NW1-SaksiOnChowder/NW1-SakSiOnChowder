@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watchEffect } from "vue";
+import { ref, watchEffect, onMounted } from "vue";
 import { subScribeCategory, verifyOTP } from "../../composable/subScribeCategory.js";
 import { userDetailStore } from "../../composable/users/userDetailStore";
 import Swal from 'sweetalert2'
@@ -61,11 +61,15 @@ watchEffect(() => {
     mailName.value = emailInput.value.substring(0, 2)
     const atIndex = emailInput.value.indexOf('@')
     atSign.value = emailInput.value.substring(atIndex + 1)
+})
+
+onMounted(async () => {
     if (userDetail.value !== false) {
         emailInput.value = userDetail.value.user_email
         console.log(userDetail.value.user_email);
     }
-})
+});
+
 </script>
 <template>
     <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
