@@ -1,6 +1,6 @@
 <script setup>
 import { getAnnouncementsUser, getAnnouncementUser } from "../../composable/users/getAnnouncementUser.js"
-import { ref, onMounted, onUpdated, computed, onBeforeMount } from "vue"
+import { ref, onMounted, onUpdated, computed, onBeforeMount, watchEffect } from "vue"
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js"
 import { annStores } from '../../stores/counter.js'
 import TimeZone from '../icones/TimeZone.vue'
@@ -36,7 +36,7 @@ const setShowCloseTime = () => {
   }
 }
 
-onBeforeMount(()=>{
+onBeforeMount(() => {
   if (route.query.token !== undefined) {
     isShowUnSubModal.value = true
   }
@@ -165,19 +165,17 @@ const changeCategory = async (category) => {
 }
 
 const togglePopUpSubscription = () => {
-   isShowModal.value = !isShowModal.value
+  isShowModal.value = !isShowModal.value
 }
 
 </script>
 
 <template>
   <div class="flex w-full min-h-screen max-h-full bg-Background">
-    <Menubar v-if="showMenubar" @click="checkUserLogin" />
     <div class="w-full">
-      <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
-        <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
-          SIT Announcement System (SAS)
-        </h1>
+      <div class="flex font-bold py-7 items-center justify-center bg-LightBlue text-BlueFonts">
+        <h1 class="drop-shadow-lg text-4xl">SIT Announcement Systems (SAS)</h1>
+        <Menubar v-if="showMenubar" @click="checkUserLogin" />
       </div>
       <div class="flex mt-5 w-full">
         <p class="w-full mx-5 items-center flex">
@@ -211,9 +209,10 @@ const togglePopUpSubscription = () => {
           <option value="3">หางาน</option>
           <option value="4">ฝึกงาน</option>
         </select>
-        <button @click="togglePopUpSubscription" class="ml-5 bg-DarkBlue font-bold hover:bg-LightBlue text-BlueFonts rounded-full px-5 py-2 text-sm">Subscribe</button>
+        <button @click="togglePopUpSubscription"
+          class="ml-5 bg-DarkBlue font-bold hover:bg-LightBlue text-BlueFonts rounded-full px-5 py-2 text-sm">Subscribe</button>
       </div>
-      <div class="mx-5 mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div class="mx-5 mt-2 overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm dark:text-gray-400">
           <thead class="bg-DarkBlue text-base text-BlueFonts uppercase dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -261,10 +260,8 @@ const togglePopUpSubscription = () => {
           class="ann-page-next  px-5 py-2 mx-1 rounded-lg bg-DarkBlue font-bold text-BlueFonts">Next</button>
       </div>
     </div>
-      <ModalSubCategory v-if="isShowModal" @cancel="togglePopUpSubscription"/>
-      <UnSubScription :unSubTokenParam="`${route.query.token}`" 
-      v-if="isShowUnSubModal" @cancel="closeUnSubModal"
-      />
+    <ModalSubCategory v-if="isShowModal" @cancel="togglePopUpSubscription" />
+    <UnSubScription :unSubTokenParam="`${route.query.token}`" v-if="isShowUnSubModal" @cancel="closeUnSubModal" />
   </div>
 </template>
 

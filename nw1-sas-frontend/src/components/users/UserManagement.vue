@@ -44,12 +44,12 @@ const deleteUserById = async (id, username) => {
                 console.log(deleteResult);
             }
         }
-    } else{
+    } else {
         let deleteResult = await deleteUser(id);
-            if (!deleteResult) {
-                deleteResult = await deleteUser(id);
-                console.log(deleteResult);
-            }
+        if (!deleteResult) {
+            deleteResult = await deleteUser(id);
+            console.log(deleteResult);
+        }
     }
 
 
@@ -63,12 +63,12 @@ const deleteUserById = async (id, username) => {
  
 <template>
     <div class="flex w-full min-h-screen max-h-full bg-Background">
-        <Menubar />
         <div class="w-full">
             <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
-                <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
-                    User Management
-                </h1>
+                <div class="flex font-bold py-7 items-center justify-center bg-LightBlue text-BlueFonts">
+                    <h1 class="drop-shadow-lg text-4xl">User Management</h1>
+                    <Menubar />
+                </div>
             </div>
             <div class="flex my-8 w-full justify-between">
                 <p class="mx-5 items-center flex">
@@ -88,7 +88,7 @@ const deleteUserById = async (id, username) => {
                     </router-link>
                 </div>
             </div>
-            <div class="mx-5 mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div class="mx-5 mt-2 overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm h-full text-left">
                     <thead class="text-base bg-DarkBlue uppercase text-BlueFonts">
                         <tr>

@@ -1,5 +1,5 @@
 // import {role} from "../../stores/role"
-const clearToken = () =>{
+const clearToken = () => {
     // const currentRole = role()
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -7,4 +7,4 @@ const clearToken = () =>{
     // currentRole.setRole(undefined)
 }
 
-export {clearToken}
+export { clearToken }
