@@ -4,7 +4,7 @@ import { ref, onMounted, onUpdated } from "vue";
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js";
 import { deleteAcc } from "../../composable/announcements/deleteAnnouncement.js";
 import { useRouter } from "vue-router";
-import {role} from '../../stores/role.js'
+import { role } from '../../stores/role.js'
 import TimeZone from "../icones/TimeZone.vue";
 import AddIcon from "../icones/AddIcon.vue";
 import Menubar from "../Navbar.vue";
@@ -17,7 +17,7 @@ const isShowOwner = ref(false)
 const currenRole = role()
 
 if (currenRole.currentRole === 'ROLE_admin') {
-  isShowOwner.value =true
+  isShowOwner.value = true
 }
 
 onMounted(async () => {
@@ -58,14 +58,11 @@ const deleteAnnouncement = async (id) => {
 
 <template>
   <div class="flex w-full min-h-screen max-h-full bg-Background">
-    <Menubar />
     <div class="w-full">
-      <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
-        <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
-          SIT Announcement Systems (SAS)
-        </h1>
+      <div class="flex font-bold py-7 items-center justify-center bg-LightBlue text-BlueFonts">
+        <h1 class="drop-shadow-lg text-4xl">SIT Announcement Systems (SAS)</h1>
+        <Menubar />
       </div>
-
       <div class="flex my-8 w-full justify-between">
         <p class="mx-5 items-center flex">
           <TimeZone></TimeZone>&nbsp; Date/Time shown in Timezone : &nbsp;
@@ -84,7 +81,7 @@ const deleteAnnouncement = async (id) => {
           </router-link>
         </div>
       </div>
-      <div class="mx-5 mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div class="mx-5 mt-2 overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm h-full text-left">
           <thead class="text-base bg-DarkBlue uppercase text-BlueFonts">
             <tr>
