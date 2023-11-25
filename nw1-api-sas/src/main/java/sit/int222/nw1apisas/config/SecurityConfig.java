@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .requestMatchers(OPTIONS).permitAll() // allow CORS option calls for Swagger UI
 //                        permitAll ยอมให้เรียกผ่านได้โดยไม่ต้อง authenticate
                         .requestMatchers("/api/users/**").hasRole("admin")
-                        .requestMatchers("/api/token", "/api/categories/**", "/api/subscription/**").permitAll()
+                        .requestMatchers("/api/token", "/api/categories/**", "/api/subscription/**", "/api/files/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/announcements/**").permitAll()
                         .anyRequest().authenticated()
                         .and()

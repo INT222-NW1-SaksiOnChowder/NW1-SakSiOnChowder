@@ -6,12 +6,13 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import sit.int222.nw1apisas.imp.CustomRepositoryImpl;
+import sit.int222.nw1apisas.properties.FileStorageProperties;
 import sit.int222.nw1apisas.properties.JwtProperties;
 
 
 @SpringBootApplication
 @EnableJpaRepositories(repositoryBaseClass = CustomRepositoryImpl.class)
-@EnableConfigurationProperties(JwtProperties.class)
+@EnableConfigurationProperties({JwtProperties.class, FileStorageProperties.class})
 @EnableScheduling
 public class Nw1ApiSasApplication {
 
