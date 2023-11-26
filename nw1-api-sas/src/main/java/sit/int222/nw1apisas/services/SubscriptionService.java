@@ -5,19 +5,16 @@ import io.jsonwebtoken.Jwts;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import sit.int222.nw1apisas.config.JwtTokenUtil;
 import sit.int222.nw1apisas.dtos.subscriptions.SubRequest;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.entities.Category;
 import sit.int222.nw1apisas.entities.Subscription;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
-import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
+import sit.int222.nw1apisas.exceptions.BadRequestException;
 import sit.int222.nw1apisas.properties.JwtProperties;
 import sit.int222.nw1apisas.repositories.SubscriptionRepository;
 
@@ -74,7 +71,7 @@ public class SubscriptionService {
         try {
             claims = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(otpToken).getBody();
         } catch (Exception e) {
-            throw new UnAuthorizationException("Invalid OtpToken", "otpToken");
+            throw new BadRequestException("Invalid OtpToken", "otpToken");
         }
         String trimmedEmail = claims.getSubject();
         Integer categoryId = claims.get("categoryId", Integer.class);
@@ -91,7 +88,7 @@ public class SubscriptionService {
             System.out.println("Subscription is successfully");
             return "OTP verification successful";
         } else {
-            throw new UnAuthorizationException("Invalid OtpToken", "otpToken");
+            throw new BadRequestException("Invalid OtpToken", "otpToken");
         }
     }
 
@@ -166,7 +163,7 @@ public class SubscriptionService {
         try {
             claims = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(unsubToken).getBody();
         } catch (Exception e) {
-           throw new UnAuthorizationException(e.getMessage(), "token");
+           throw new BadRequestException(e.getMessage(), "token");
         }
         String email = claims.getSubject();
         Integer categoryId = claims.get("categoryId", Integer.class);

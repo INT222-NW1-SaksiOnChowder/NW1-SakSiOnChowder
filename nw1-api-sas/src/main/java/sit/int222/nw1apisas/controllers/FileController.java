@@ -6,7 +6,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import sit.int222.nw1apisas.exceptions.BadRequestException;
 import sit.int222.nw1apisas.services.FileService;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/files")
@@ -16,31 +20,35 @@ public class FileController {
     public FileController(FileService fileService) {
         this.fileService = fileService;
     }
+
     @GetMapping("/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
         Resource file = fileService.loadFileAsResource(filename);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(file);
     }
+
     @PostMapping("")
     public String fileUpload(@RequestParam("file") MultipartFile[] files) {
         if (files.length > 5) {
-            return "Each upload is limited to a maximum of 5 files.";
+            throw new BadRequestException("Each upload is limited to a maximum of 5 files.", "file");
         }
 
+        Set<String> fileNames = new HashSet<>();
         for (MultipartFile file : files) {
             String originalFileName = file.getOriginalFilename();
-            // Check if the file already exists
-            if (fileService.fileExists(originalFileName)) {
-                return "File with name " + originalFileName + " already exists!";
+
+            // Check if the file already exists in the set
+            if (!fileNames.add(originalFileName)) {
+                throw new BadRequestException("You have already selected the file name: " + originalFileName, "file");
             }
         }
-
-        // If no file with duplicate names found and the number of files is within the limit, proceed to store all files
+//        store file
         for (MultipartFile file : files) {
             fileService.store(file);
+            System.out.println(file);
         }
-
         return "All files uploaded successfully!";
     }
+
 }

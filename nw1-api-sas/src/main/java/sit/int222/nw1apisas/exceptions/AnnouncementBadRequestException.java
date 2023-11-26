@@ -7,5 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class AnnouncementBadRequestException extends RuntimeException {
     public AnnouncementBadRequestException(String message) {
         super(message);
+
     }
 }

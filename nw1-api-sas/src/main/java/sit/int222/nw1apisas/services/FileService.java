@@ -62,8 +62,6 @@ public class FileService {
         }
     }
 
-    public boolean fileExists(String fileName) {
-        return Files.exists(fileStorageLocation.resolve(fileName));
-    }
+
 
 }

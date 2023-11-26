@@ -14,12 +14,11 @@ import sit.int222.nw1apisas.dtos.announcements.AnnouncementItemDto;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.exceptions.AnnouncementNotFoundException;
-import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
+import sit.int222.nw1apisas.exceptions.BadRequestException;
 import sit.int222.nw1apisas.exceptions.UserForbiddenException;
 import sit.int222.nw1apisas.repositories.AnnouncementRepository;
 import sit.int222.nw1apisas.repositories.UserRepository;
 
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -98,7 +97,7 @@ public class AnnouncementService {
             }
             throw new UserForbiddenException("You cannot delete any announcement that you are not the owner of");
         }
-        throw new UnAuthorizationException("Please login first.", "login");
+        throw new BadRequestException("Please login first.", "login");
 
     }
 
@@ -137,7 +136,7 @@ public class AnnouncementService {
             }
             throw new UserForbiddenException("You cannot update any announcement that you are not the owner of");
         }
-        throw new UnAuthorizationException("Please login first.", "login");
+        throw new BadRequestException("Please login first.", "login");
     }
 
     public List<Announcement> getAllAnnouncements(String mode) {

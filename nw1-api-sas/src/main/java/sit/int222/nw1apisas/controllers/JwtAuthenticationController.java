@@ -16,7 +16,7 @@ import sit.int222.nw1apisas.dtos.jwt.AccessTokenResponse;
 import sit.int222.nw1apisas.dtos.jwt.JwtRequest;
 import sit.int222.nw1apisas.dtos.jwt.JwtResponse;
 import sit.int222.nw1apisas.entities.User;
-import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
+import sit.int222.nw1apisas.exceptions.BadRequestException;
 import sit.int222.nw1apisas.repositories.UserRepository;
 import sit.int222.nw1apisas.services.JwtUserDetailsService;
 
@@ -87,7 +87,7 @@ public class JwtAuthenticationController {
             if (argon2PasswordEncoder.matches(password, user.getPassword())) {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             } else {
-                throw new UnAuthorizationException("Password NOT Matched", "password");
+                throw new BadRequestException("Password NOT Matched", "password");
             }
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);

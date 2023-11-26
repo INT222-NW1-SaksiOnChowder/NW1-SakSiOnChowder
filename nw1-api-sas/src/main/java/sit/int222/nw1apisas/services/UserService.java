@@ -15,7 +15,7 @@ import sit.int222.nw1apisas.dtos.users.UsernamePasswordDto;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.entities.User;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
-import sit.int222.nw1apisas.exceptions.UnAuthorizationException;
+import sit.int222.nw1apisas.exceptions.BadRequestException;
 import sit.int222.nw1apisas.exceptions.UserForbiddenException;
 import sit.int222.nw1apisas.exceptions.ValidationUniqueException;
 import sit.int222.nw1apisas.repositories.AnnouncementRepository;
@@ -118,7 +118,7 @@ public class UserService {
         if (argon2PasswordEncoder.matches(usernamePasswordDto.getPassword(), storedPassword)) {
             return "Password Matched";
         } else {
-            throw new UnAuthorizationException("Password NOT Matched", "password");
+            throw new BadRequestException("Password NOT Matched", "password");
         }
     }
 }
