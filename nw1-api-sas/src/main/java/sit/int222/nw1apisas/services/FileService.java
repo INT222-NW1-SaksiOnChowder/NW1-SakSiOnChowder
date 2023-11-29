@@ -62,6 +62,15 @@ public class FileService {
         }
     }
 
+    public void deleteFile(String fileName) {
+        try {
+            Path file = this.fileStorageLocation.resolve(fileName);
+            Files.delete(file);
+        } catch (IOException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
+
 
 
 }

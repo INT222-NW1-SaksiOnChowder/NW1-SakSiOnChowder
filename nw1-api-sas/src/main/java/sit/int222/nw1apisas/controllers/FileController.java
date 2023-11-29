@@ -51,4 +51,13 @@ public class FileController {
         return "All files uploaded successfully!";
     }
 
+    @DeleteMapping("/{filename:.+}")
+    public void deleteFile(@PathVariable("filename") String fileName) {
+        try {
+            fileService.deleteFile(fileName);
+        } catch (Exception e) {
+            throw new RuntimeException("Error deleting the file: " + e.getMessage());
+        }
+    }
+
 }
