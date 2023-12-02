@@ -10,7 +10,10 @@ import sit.int222.nw1apisas.exceptions.BadRequestException;
 import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.services.FileService;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -22,10 +25,10 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @GetMapping("/{filename:.+}")
+    @GetMapping("/{id}/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-        Resource file = fileService.loadFileAsResource(filename);
+    public ResponseEntity<Resource> serveFile(@PathVariable Integer id,@PathVariable String filename) {
+        Resource file = fileService.loadFile(id,filename);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(file);
     }
 
@@ -34,7 +37,6 @@ public class FileController {
         if (files.length > 5) {
             throw new BadRequestException("Each upload is limited to a maximum of 5 files.", "file");
         }
-
         Set<String> fileNames = new HashSet<>();
         for (MultipartFile file : files) {
             String originalFileName = file.getOriginalFilename();
@@ -83,9 +85,9 @@ public class FileController {
                 .body(updatedFile);
     }
 
-    @GetMapping("/{id}")
-    public String getAllFilesWhenViewAnnouncement(@PathVariable Integer id){
-
+    @GetMapping("/view/{id}")
+    public ResponseEntity<List<String>> sendAllFileNameForViewAnnouncement(@PathVariable Integer id){
+         return fileService.sendAllFileNameForViewAnnouncement(id);
     }
 
 

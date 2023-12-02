@@ -1,8 +1,10 @@
 package sit.int222.nw1apisas.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FileService {
@@ -56,6 +61,21 @@ public class FileService {
     public Resource loadFileAsResource(String fileName) {
         try {
             Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if (resource.exists()) {
+                return resource;
+            } else {
+                throw new RuntimeException("File not found " + fileName);
+            }
+        } catch (MalformedURLException ex) {
+            throw new RuntimeException("File operation error: " + fileName, ex);
+        }
+    }
+
+    public Resource loadFile(Integer id, String fileName) {
+        try {
+            Path directoryPath = this.fileStorageLocation.resolve(id.toString());
+            Path filePath = directoryPath.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
             if (resource.exists()) {
                 return resource;
@@ -129,6 +149,23 @@ public class FileService {
         }
     }
 
+    public ResponseEntity<List<String>> sendAllFileNameForViewAnnouncement(Integer id) {
+        Path existsPath = this.fileStorageLocation.resolve(id.toString());
 
+        if (Files.exists(existsPath) && Files.isDirectory(existsPath)) {
+            try {
+                List<String> fileNames = Files.list(existsPath)
+                        .map(filePath -> filePath.getFileName().toString())
+                        .collect(Collectors.toList());
 
+                return ResponseEntity.ok(fileNames);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(500).body(Collections.emptyList());
+            }
+        } else {
+            System.out.println("Directory does not exist");
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
