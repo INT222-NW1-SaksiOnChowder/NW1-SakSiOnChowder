@@ -179,24 +179,5 @@ public class SubscriptionService {
         throw new ItemNotFoundException("Can't find this subscription");
     }
 
-//    public String unsubscribeCategory(SubRequest subRequest) {
-//        String trimmedEmail = subRequest.getEmail().trim();
-//        Category category = categoryService.getCategoryById(subRequest.getCategoryId());
-//        if (category == null) {
-//            throw new ItemNotFoundException("Can't find this category");
-//        }
-//        Subscription subscription = subscriptionRepository.findByCategoryIdAndSubscriberEmail(category,
-//                trimmedEmail);
-//        System.out.println("Here");
-//        if (subscription != null) {
-//            subscriptionRepository.deleteById(subscription.getId());
-//            String subject = "Unsubscribe category name: " + category.getCategoryName();
-//            String body = "You unsubscribe category name: " + category.getCategoryName() + " is successfully";
-//            mailSender(trimmedEmail, subject, body);
-//            return "Unsubscription is successfully";
-//        }
-//        throw new ItemNotFoundException("Can't find this subscription");
-//    }
-
 
 }
