@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sit.int222.nw1apisas.exceptions.BadRequestException;
+import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.services.FileService;
 
 import java.util.HashSet;
@@ -59,5 +60,27 @@ public class FileController {
             throw new RuntimeException("Error deleting the file: " + e.getMessage());
         }
     }
+
+    @DeleteMapping("/")
+    public void deleteAllFiles() {
+        fileService.deleteAllFiles();
+    }
+
+
+    @PutMapping("/{filename:.+}")
+    public ResponseEntity<Resource> updateFile(@PathVariable(required = false) String filename, @RequestParam("file") MultipartFile newFile) {
+        Resource existingFile = fileService.loadFileAsResource(filename);
+        if (existingFile == null) {
+            throw new ItemNotFoundException("File not found with name: " + filename);
+        }
+        // Update the file
+        String updatedFileName = fileService.updateFile(filename, newFile);
+        // Return the updated file as response
+        Resource updatedFile = fileService.loadFileAsResource(updatedFileName);
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG) // Set the appropriate content type based on the file type
+                .body(updatedFile);
+    }
+
 
 }
