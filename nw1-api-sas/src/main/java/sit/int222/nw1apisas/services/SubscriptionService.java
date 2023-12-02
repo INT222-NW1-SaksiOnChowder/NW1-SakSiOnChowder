@@ -51,7 +51,7 @@ public class SubscriptionService {
         if (subscriptions.stream().anyMatch(subscription -> subscription.getCategoryId().getCategoryId().equals(subRequest.getCategoryId())
                 && subscription.getSubscriberEmail().equals(trimmedEmail))) {
             String subject = "You have been already subscribed category name: " + categoryService.getCategoryById(subRequest.getCategoryId()).getCategoryName();
-            String body = "You are subscribing category name: " + "\n" + " - " + categoryService.getCategoryById(subRequest.getCategoryId()).getCategoryName();
+            String body = "You are subscribing category name: <br> - " + categoryService.getCategoryById(subRequest.getCategoryId()).getCategoryName();
             mailSender(trimmedEmail, subject, body);
             System.out.println("Mail successfully sent");
             return "You have been already subscribed";
@@ -59,7 +59,7 @@ public class SubscriptionService {
 
         String otp = generateOTP();
         String subject = "OTP";
-        String body = "OTP is: " + otp + "\n" + "Your OTP must use in 60 seconds";
+        String body = "OTP is: " + otp + "<br>" + "Your OTP must use in 60 seconds";
         mailSender(trimmedEmail, subject, body);
         System.out.println("Sent OTP successfully");
 
@@ -80,9 +80,9 @@ public class SubscriptionService {
             createSubscription(trimmedEmail, categoryId);
             List<String> subscribedCategories = getSubscribedCategories(trimmedEmail);
             String subject = "Subscription is successful";
-            String body = "You just subscribed to the following categories: \n";
+            String body = "You just subscribed to the following categories: <br>";
             for (String category : subscribedCategories) {
-                body += "- " + category + "\n";
+                body += "- " + category + "<br>";
             }
             mailSender(trimmedEmail, subject, body);
             System.out.println("Subscription is successfully");
@@ -138,8 +138,8 @@ public class SubscriptionService {
             return;
         }
         String subject = announcement.getAnnouncementTitle();
-        String body = announcement.getAnnouncementDescription() + "\n\n"
-                + "Announcement link : " + "\n" + announcementLink + "\n\n";
+        String body = announcement.getAnnouncementDescription() + "<br><br>"
+                + "Announcement link : " + "<br>" + announcementLink + "<br><br>";
         System.out.println(subscriptions.size());
         for (Subscription subscription : subscriptions) {
             if (subscription.getCategoryId().getCategoryId().equals(announcement.getCategoryId().getCategoryId())) {
@@ -149,8 +149,8 @@ public class SubscriptionService {
                 String tokenLink = jwtTokenUtil.generateSecureLink(subscriberEmail, subscription.getCategoryId().getCategoryId());
                 String unSubScribeLink = sasLink + "unsubscription?token=" + tokenLink;
 
-                body += "To unsubscribe: \n" +
-                        "If you no longer wish for " + subscriberEmail + " to receive any email announcement messages from SAS, please click the following link "
+                body += "To unsubscribe: <br>" +
+                        "If you no longer wish for " + subscriberEmail + " to receive any email announcement messages from SAS, please click the following link <br>"
                         + unSubScribeLink;
                 mailSender(subscriberEmail, subject, body);
                 System.out.println("Mail successfully sent to " + subscriberEmail);
