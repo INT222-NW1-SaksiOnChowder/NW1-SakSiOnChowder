@@ -62,10 +62,10 @@ public class FileController {
         }
     }
 
-//    @DeleteMapping("/")
-//    public void deleteAllFiles() {
-//        fileService.deleteAllFiles();
-//    }
+    @DeleteMapping("")
+    public void deleteAllFiles() {
+        fileService.deleteAllFiles();
+    }
 
 
     @PutMapping("/{filename:.+}")
@@ -82,11 +82,5 @@ public class FileController {
                 .contentType(MediaType.IMAGE_JPEG) // Set the appropriate content type based on the file type
                 .body(updatedFile);
     }
-
-    @GetMapping("/{id}")
-    public String getAllFilesWhenViewAnnouncement(@PathVariable Integer id){
-
-    }
-
 
 }
