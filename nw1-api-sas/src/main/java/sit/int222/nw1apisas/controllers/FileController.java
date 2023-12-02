@@ -30,7 +30,7 @@ public class FileController {
     }
 
     @PostMapping("")
-    public String fileUpload(@RequestParam("file") MultipartFile[] files) {
+    public String fileUpload(@RequestParam("file") MultipartFile[] files, @RequestParam("announcementId") Integer announcementId) {
         if (files.length > 5) {
             throw new BadRequestException("Each upload is limited to a maximum of 5 files.", "file");
         }
@@ -46,11 +46,12 @@ public class FileController {
         }
 //        store file
         for (MultipartFile file : files) {
-            fileService.store(file);
+            fileService.store(file,announcementId);
             System.out.println(file);
         }
         return "All files uploaded successfully!";
     }
+
 
     @DeleteMapping("/{filename:.+}")
     public void deleteFile(@PathVariable("filename") String fileName) {
