@@ -27,6 +27,7 @@ announcementObj.value = {
 
 const addNewFiles = (files) => {
   filesValue.value = files
+  console.log(filesValue.value);
 }
 
 const submit = async (addAnnouncement) => {
@@ -67,7 +68,7 @@ const submit = async (addAnnouncement) => {
   console.log(result.id);
   console.log(announcementId.value);
   if (result !== undefined && result !== false) {
-    const addFilesResult = await addFiles(announcementId, filesValue)
+    const addFilesResult = await addFiles(announcementId.value, filesValue.value)
     if (addFilesResult) {
       router.push({ name: 'announcements' })
     }
