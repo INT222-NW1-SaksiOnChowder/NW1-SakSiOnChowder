@@ -64,10 +64,10 @@ public class FileController {
         }
     }
 
-//    @DeleteMapping("/")
-//    public void deleteAllFiles() {
-//        fileService.deleteAllFiles();
-//    }
+    @DeleteMapping("")
+    public void deleteAllFiles() {
+        fileService.deleteAllFiles();
+    }
 
 
     @PutMapping("/{filename:.+}")

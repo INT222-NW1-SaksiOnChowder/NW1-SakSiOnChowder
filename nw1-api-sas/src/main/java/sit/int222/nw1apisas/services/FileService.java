@@ -19,6 +19,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 @Service
 public class FileService {
@@ -96,16 +97,20 @@ public class FileService {
         }
     }
 
-//    public void deleteAllFiles() {
-//        try {
-//            Files.walk(this.fileStorageLocation)
-//                    .filter(path -> !path.equals(this.fileStorageLocation))
-//                    .map(Path::toFile)
-//                    .forEach(File::delete);
-//        } catch (IOException e) {
-//            throw new RuntimeException("Error deleting files: " + e.getMessage());
-//        }
-//    }
+    public void deleteAllFiles() {
+        try {
+            Files.walk(this.fileStorageLocation)
+                    .sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(file -> {
+                        if (file.isFile()) {
+                            file.delete();
+                        }
+                    });
+        } catch (IOException e) {
+            throw new RuntimeException("Error deleting files: " + e.getMessage());
+        }
+    }
 
 
 //    public String updateFile(String oldFileName, MultipartFile newFile) {
