@@ -28,9 +28,31 @@ public class FileController {
 
     @GetMapping("/{id}/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable Integer id,@PathVariable String filename) {
-        Resource file = fileService.loadFile(id,filename);
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(file);
+    public ResponseEntity<Resource> serveFile(@PathVariable Integer id, @PathVariable String filename) {
+        Resource file = fileService.loadFile(id, filename);
+
+        // Determine the MediaType based on the file extension
+        MediaType mediaType = determineMediaType(filename);
+
+        return ResponseEntity.ok().contentType(mediaType).body(file);
+    }
+
+    private MediaType determineMediaType(String filename) {
+        String extension = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
+
+        switch (extension) {
+            case "jpg":
+                return MediaType.IMAGE_JPEG;
+            case "jpeg":
+                return MediaType.IMAGE_JPEG;
+            case "png":
+                return MediaType.IMAGE_PNG;
+            case "pdf":
+                return MediaType.APPLICATION_PDF;
+            default:
+                // Return a default media type for unrecognized types
+                return MediaType.APPLICATION_OCTET_STREAM;
+        }
     }
 
     @GetMapping("/view/{id}")
