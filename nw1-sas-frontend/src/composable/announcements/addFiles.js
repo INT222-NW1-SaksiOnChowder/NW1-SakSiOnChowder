@@ -77,17 +77,26 @@ const ROOT_API = import.meta.env.VITE_ROOT_API
 
 const addFiles = async (id, files) => {
     const accessToken = localStorage.getItem("accessToken");
-    
+    console.log(files)
     // const arrFiles = Array.from(files)
 
     // Create a new FormData object
     const formData = new FormData();
-
+    
     // Append files to the FormData object
-    formData.append("file",files)
+    for(const file of files)
+    {
+        console.log(files,"file");
+        formData.append("file",file)
+    }
 
     // Append announcementId to the FormData object
     formData.append("announcementId", id);
+    // Log the value of the "file" key
+    console.log(formData.get("file"));
+
+// Log the value of the "announcementId" key
+    console.log(formData.get("announcementId"));
 
     try {
         const res = await fetch(`${ROOT_API}/api/files`, {
@@ -101,8 +110,9 @@ const addFiles = async (id, files) => {
         if (!res.ok) {
             console.error(`Error: ${res.status} - ${res.statusText}`);
         } else {
-            const data = await res.json();
-            console.log(data);
+            // const data = await res
+            // console.log(data);
+            console.log(res)
         }
     } catch (error) {
         console.error("Error uploading files:", error);
