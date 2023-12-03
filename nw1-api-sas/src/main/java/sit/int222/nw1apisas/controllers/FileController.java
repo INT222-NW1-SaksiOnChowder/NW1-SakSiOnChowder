@@ -18,6 +18,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/files")
+@CrossOrigin(origins = {"http://ip22nw1.sit.kmutt.ac.th", "http://intproj22.sit.kmutt.ac.th", "https://intproj22.sit.kmutt.ac.th", "http://localhost:5173"})
 public class FileController {
     private final FileService fileService;
     @Autowired
@@ -73,22 +74,6 @@ public class FileController {
     public void deleteAllFiles() {
         fileService.deleteAllFiles();
     }
-
-
-//    @PutMapping("/{filename:.+}")
-//    public ResponseEntity<Resource> updateFile(@PathVariable(required = false) String filename, @RequestParam("file") MultipartFile newFile) {
-//        Resource existingFile = fileService.loadFileAsResource(filename);
-//        if (existingFile == null) {
-//            throw new ItemNotFoundException("File not found with name: " + filename);
-//        }
-//        // Update the file
-//        String updatedFileName = fileService.updateFile(filename, newFile);
-//        // Return the updated file as response
-//        Resource updatedFile = fileService.loadFileAsResource(updatedFileName);
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.IMAGE_JPEG) // Set the appropriate content type based on the file type
-//                .body(updatedFile);
-//    }
 
 
     @PutMapping("/{id}/{filename:.+}")

@@ -128,47 +128,6 @@ public class FileService {
     }
 
 
-//    public String updateFile(String oldFileName, MultipartFile newFile) {
-//        // Normalize file name
-//        String fileName = StringUtils.cleanPath(newFile.getOriginalFilename());
-//        try {
-//            // Check if the file's name contains invalid characters
-//            if (fileName.contains("..")) {
-//                throw new RuntimeException("Sorry! Filename contains invalid path sequence " + fileName);
-//            }
-//            // Get the path of the old file
-//            Path oldFilePath = this.fileStorageLocation.resolve(oldFileName).normalize();
-//
-//            // Delete the old file
-//            Files.delete(oldFilePath);
-//
-//            // Store the new file
-//            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-//            Files.copy(newFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-//            return fileName;
-//        } catch (IOException ex) {
-//            throw new RuntimeException("Could not update file " + fileName + ". Please try again!", ex);
-//        }
-//    }
-
-//    public String updateFile(String filename, MultipartFile newFile) {
-//        // Normalize file name for the new file
-//        String newFileName = StringUtils.cleanPath(newFile.getOriginalFilename());
-//        try {
-//            // Check if the file's name contains invalid characters
-//            if (newFileName.contains("..")) {
-//                throw new RuntimeException("Sorry! Filename contains invalid path sequence " + newFileName);
-//            }
-//
-//            // Store the new file (using the provided filename as it's meant to be an update)
-//            Path targetLocation = this.fileStorageLocation.resolve(filename);
-//            Files.copy(newFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-//            return filename;
-//        } catch (IOException ex) {
-//            throw new RuntimeException("Could not update file " + filename + ". Please try again!", ex);
-//        }
-//    }
-
     public List<String> updateFile(Integer id, String filename) {
         Path folderAnn = this.fileStorageLocation.resolve(id.toString());
         List<String> filenames = new ArrayList<>();
