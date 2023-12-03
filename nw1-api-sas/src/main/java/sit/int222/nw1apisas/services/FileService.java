@@ -12,14 +12,9 @@ import sit.int222.nw1apisas.properties.FileStorageProperties;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Collections;
-import java.util.List;
+import java.nio.file.*;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.Comparator;
 
 @Service
 public class FileService {
@@ -55,6 +50,26 @@ public class FileService {
             return fileName;
         } catch (IOException ex) {
             throw new RuntimeException("Could not store file " + fileName + ". Please try again!", ex);
+        }
+    }
+
+    public ResponseEntity<List<String>> sendAllFileNameForViewAnnouncement(Integer id) {
+        Path existsPath = this.fileStorageLocation.resolve(id.toString());
+
+        if (Files.exists(existsPath) && Files.isDirectory(existsPath)) {
+            try {
+                List<String> fileNames = Files.list(existsPath)
+                        .map(filePath -> filePath.getFileName().toString())
+                        .collect(Collectors.toList());
+
+                return ResponseEntity.ok(fileNames);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(500).body(Collections.emptyList());
+            }
+        } else {
+            System.out.println("Directory does not exist");
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -134,64 +149,26 @@ public class FileService {
     }
 
 
-//    public String updateFile(String oldFileName, MultipartFile newFile) {
-//        // Normalize file name
-//        String fileName = StringUtils.cleanPath(newFile.getOriginalFilename());
-//        try {
-//            // Check if the file's name contains invalid characters
-//            if (fileName.contains("..")) {
-//                throw new RuntimeException("Sorry! Filename contains invalid path sequence " + fileName);
-//            }
-//            // Get the path of the old file
-//            Path oldFilePath = this.fileStorageLocation.resolve(oldFileName).normalize();
-//
-//            // Delete the old file
-//            Files.delete(oldFilePath);
-//
-//            // Store the new file
-//            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-//            Files.copy(newFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-//            return fileName;
-//        } catch (IOException ex) {
-//            throw new RuntimeException("Could not update file " + fileName + ". Please try again!", ex);
-//        }
-//    }
+    public List<String> updateFile(Integer id, String filename) {
+        Path folderAnn = this.fileStorageLocation.resolve(id.toString());
+        List<String> filenames = new ArrayList<>();
 
-    public String updateFile(String filename, MultipartFile newFile) {
-        // Normalize file name for the new file
-        String newFileName = StringUtils.cleanPath(newFile.getOriginalFilename());
-        try {
-            // Check if the file's name contains invalid characters
-            if (newFileName.contains("..")) {
-                throw new RuntimeException("Sorry! Filename contains invalid path sequence " + newFileName);
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(folderAnn)) {
+            for (Path filePath : directoryStream) {
+                String currentFileName = filePath.getFileName().toString();
+                System.out.println("Processing file: " + currentFileName);
+
+                // Add the file name to the list
+                filenames.add(currentFileName);
+
+                System.out.println("File added: " + currentFileName);
             }
-
-            // Store the new file (using the provided filename as it's meant to be an update)
-            Path targetLocation = this.fileStorageLocation.resolve(filename);
-            Files.copy(newFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            return filename;
-        } catch (IOException ex) {
-            throw new RuntimeException("Could not update file " + filename + ". Please try again!", ex);
+        } catch (IOException e) {
+            e.printStackTrace(); // Handle the exception according to your application's needs
         }
+
+        return filenames;
     }
 
-    public ResponseEntity<List<String>> sendAllFileNameForViewAnnouncement(Integer id) {
-        Path existsPath = this.fileStorageLocation.resolve(id.toString());
 
-        if (Files.exists(existsPath) && Files.isDirectory(existsPath)) {
-            try {
-                List<String> fileNames = Files.list(existsPath)
-                        .map(filePath -> filePath.getFileName().toString())
-                        .collect(Collectors.toList());
-
-                return ResponseEntity.ok(fileNames);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return ResponseEntity.status(500).body(Collections.emptyList());
-            }
-        } else {
-            System.out.println("Directory does not exist");
-            return ResponseEntity.notFound().build();
-        }
-    }
 }

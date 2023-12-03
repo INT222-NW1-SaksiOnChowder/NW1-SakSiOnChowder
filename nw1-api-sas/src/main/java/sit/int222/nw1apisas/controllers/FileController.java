@@ -18,6 +18,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/files")
+@CrossOrigin(origins = {"http://ip22nw1.sit.kmutt.ac.th", "http://intproj22.sit.kmutt.ac.th", "https://intproj22.sit.kmutt.ac.th", "http://localhost:5173"})
 public class FileController {
     private final FileService fileService;
     @Autowired
@@ -30,6 +31,11 @@ public class FileController {
     public ResponseEntity<Resource> serveFile(@PathVariable Integer id,@PathVariable String filename) {
         Resource file = fileService.loadFile(id,filename);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(file);
+    }
+
+    @GetMapping("/view/{id}")
+    public ResponseEntity<List<String>> sendAllFileNameForViewAnnouncement(@PathVariable Integer id){
+        return fileService.sendAllFileNameForViewAnnouncement(id);
     }
 
     @PostMapping("")
@@ -70,25 +76,11 @@ public class FileController {
     }
 
 
-    @PutMapping("/{filename:.+}")
-    public ResponseEntity<Resource> updateFile(@PathVariable(required = false) String filename, @RequestParam("file") MultipartFile newFile) {
-        Resource existingFile = fileService.loadFileAsResource(filename);
-        if (existingFile == null) {
-            throw new ItemNotFoundException("File not found with name: " + filename);
-        }
-        // Update the file
-        String updatedFileName = fileService.updateFile(filename, newFile);
-        // Return the updated file as response
-        Resource updatedFile = fileService.loadFileAsResource(updatedFileName);
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG) // Set the appropriate content type based on the file type
-                .body(updatedFile);
+    @PutMapping("/{id}/{filename:.+}")
+    public List<String> updateFile(@PathVariable(required = false) Integer id, @RequestParam("file") String filename){
+        return fileService.updateFile(id , filename);
     }
 
-    @GetMapping("/view/{id}")
-    public ResponseEntity<List<String>> sendAllFileNameForViewAnnouncement(@PathVariable Integer id){
-         return fileService.sendAllFileNameForViewAnnouncement(id);
-    }
 
 
 }
