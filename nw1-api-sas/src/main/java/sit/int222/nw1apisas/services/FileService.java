@@ -88,25 +88,46 @@ public class FileService {
         }
     }
 
-    public void deleteFile(String fileName) {
+    public void deleteFile(String fileName, Integer id) {
         try {
-            Path file = this.fileStorageLocation.resolve(fileName);
-            Files.delete(file);
+            // สร้าง Path ที่ชี้ไปที่โฟลเดอร์ด้วย ID
+            Path folderPath = this.fileStorageLocation.resolve(id.toString());
+            // ตรวจสอบว่าโฟลเดอร์ด้วย ID ที่ระบุมีอยู่หรือไม่
+            if (!Files.exists(folderPath) || !Files.isDirectory(folderPath)) {
+                throw new RuntimeException("Directory not found for ID: " + id);
+            }
+            // สร้าง Path ที่ชี้ไปยังไฟล์ที่ต้องการลบในโฟลเดอร์นี้
+            Path filePath = folderPath.resolve(fileName);
+            // ตรวจสอบว่าไฟล์ที่ต้องการลบอยู่ในโฟลเดอร์หรือไม่ และลบไฟล์
+            if (Files.exists(filePath) && !Files.isDirectory(filePath)) {
+                Files.delete(filePath);
+            } else {
+                throw new RuntimeException("File not found in directory for ID: " + id);
+            }
         } catch (IOException e) {
-            throw new RuntimeException("Error: " + e.getMessage());
+            throw new RuntimeException("Error deleting file: " + e.getMessage());
         }
     }
 
-    public void deleteAllFiles() {
+
+    public void deleteAllFiles(Integer id) {
         try {
-            Files.walk(this.fileStorageLocation)
-                    .sorted(Comparator.reverseOrder())
-                    .map(Path::toFile)
-                    .forEach(file -> {
-                        if (file.isFile()) {
-                            file.delete();
-                        }
-                    });
+            Path folderToDelete = Paths.get(this.fileStorageLocation.toString(), id.toString());
+
+            if (Files.exists(folderToDelete) && Files.isDirectory(folderToDelete)) {
+                Files.walk(folderToDelete)
+                        .sorted(Comparator.reverseOrder())
+                        .map(Path::toFile)
+                        .forEach(file -> {
+                            if (file.isFile()) {
+                                file.delete();
+                            }
+                        });
+                // ลบโฟลเดอร์หลังจากลบไฟล์ทั้งหมด
+                Files.delete(folderToDelete);
+            } else {
+                throw new IllegalArgumentException("Folder with ID " + id + " does not exist or is not a directory");
+            }
         } catch (IOException e) {
             throw new RuntimeException("Error deleting files: " + e.getMessage());
         }

@@ -55,18 +55,18 @@ public class FileController {
     }
 
 
-    @DeleteMapping("/{filename:.+}")
-    public void deleteFile(@PathVariable("filename") String fileName) {
+    @DeleteMapping("/{id}/{filename:.+}")
+    public void deleteFile(@PathVariable("id") Integer id, @PathVariable("filename") String fileName) {
         try {
-            fileService.deleteFile(fileName);
+            fileService.deleteFile(fileName, id);
         } catch (Exception e) {
             throw new RuntimeException("Error deleting the file: " + e.getMessage());
         }
     }
 
-    @DeleteMapping("")
-    public void deleteAllFiles() {
-        fileService.deleteAllFiles();
+    @DeleteMapping("/{id}")
+    public void deleteAllFiles(@PathVariable("id") Integer id) {
+        fileService.deleteAllFiles(id);
     }
 
 
