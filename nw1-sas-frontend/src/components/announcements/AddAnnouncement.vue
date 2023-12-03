@@ -3,12 +3,13 @@ import { computed, ref } from "vue";
 import { createAnnouncement } from "../../composable/announcements/addAnnouncement.js";
 import { useRouter } from "vue-router";
 import PreviewFile from "./PreviewFile.vue";
+import { addFiles } from "../../composable/announcements/addFiles.js";
 
 const router = useRouter();
-
 const announcementObj = ref();
 const displayShow = ref(false);
-
+const announcementId = ref()
+const filesValue = ref()
 const selectedPublishDate = ref();
 const selectedPublishTime = ref();
 const selectedCloseDate = ref();
@@ -23,6 +24,11 @@ announcementObj.value = {
   announcementDisplay: displayShow.value,
   categoryId: 1
 };
+
+const addNewFiles = (files) => {
+  filesValue.value = files
+  console.log(filesValue.value);
+}
 
 const submit = async (addAnnouncement) => {
   addAnnouncement.categoryId = Number(addAnnouncement.categoryId);
@@ -58,8 +64,14 @@ const submit = async (addAnnouncement) => {
   //   }
 
   const result = await createAnnouncement(addAnnouncement)
-  if (result) {
-    router.push({ name: 'announcements' })
+  announcementId.value = result.id
+  console.log(result.id);
+  console.log(announcementId.value);
+  if (result !== undefined && result !== false) {
+    const addFilesResult = await addFiles(announcementId.value, filesValue.value)
+    if (addFilesResult) {
+      router.push({ name: 'announcements' })
+    }
   }
 };
 
@@ -138,7 +150,7 @@ const isDisabledCloseTime = computed(() => {
           <input class="bg-InputColor" type="checkbox" id="displayShow" v-model="announcementObj.announcementDisplay" />
           <label for="displayShow" class="ml-2">Check to show this announcement</label>
         </div>
-        <PreviewFile/>
+        <PreviewFile @filesSubmit="addNewFiles"/>
         <div class="mt-10 text-center">
           <button class="ann-button shadow-md hover:bg-ButtonViewHover mr-2 rounded-full bg-DarkGreen px-5 py-2 font-bold"
             @click="submit(announcementObj)">

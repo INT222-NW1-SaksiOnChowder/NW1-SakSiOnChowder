@@ -15,8 +15,9 @@ const createAnnouncement = async (announcement) => {
             }
         )
         if (res.status === 200) {
+            const result = await res.json()
             console.log('Create successfully')
-            return true
+            return result
         } else if (res.status !== 200) {
             const error = await res.json()
             for (const err of error.detail) {

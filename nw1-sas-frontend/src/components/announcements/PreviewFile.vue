@@ -1,6 +1,8 @@
 <script setup>
 import { computed, ref } from "vue";
 
+const emits = defineEmits(["filesSubmit"])
+
 const files = ref([])
 
 const chooseBinaryFiles = (event) => {
@@ -18,6 +20,7 @@ const chooseBinaryFiles = (event) => {
         newFilesArray.forEach(file => dataTransfer.items.add(file))
 
         files.value = dataTransfer.files
+        emits('filesSubmit', files.value)
     }
     console.log(files.value);
 }
@@ -39,6 +42,7 @@ const handleDrop = (event) => {
         newFilesArray.forEach(file => dataTransfer.items.add(file))
 
         files.value = dataTransfer.files
+        emits('filesSubmit', files.value)
     }
 
 }
@@ -55,6 +59,7 @@ const removeFile = (index) => {
     filesArray.forEach(file => dataTransfer.items.add(file));
 
     files.value = dataTransfer.files;
+    emits('filesSubmit', files.value)
 }
 
 const createObjectURL = (file) => {
