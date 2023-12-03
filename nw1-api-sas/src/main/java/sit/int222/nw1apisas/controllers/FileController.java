@@ -76,9 +76,9 @@ public class FileController {
     }
 
 
-    @PutMapping("/{id}/{filename:.+}")
-    public List<String> updateFile(@PathVariable(required = false) Integer id, @RequestParam("file") String filename){
-        return fileService.updateFile(id , filename);
+    @PutMapping("/{id}")
+    public String updateFile(@RequestParam("file") MultipartFile[] files, @PathVariable Integer id){
+        return fileService.updateFile(files, id);
     }
 
 

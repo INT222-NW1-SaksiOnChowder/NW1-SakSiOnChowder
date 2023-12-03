@@ -1,18 +1,21 @@
 package sit.int222.nw1apisas.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import sit.int222.nw1apisas.exceptions.BadRequestException;
 import sit.int222.nw1apisas.properties.FileStorageProperties;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -149,27 +152,33 @@ public class FileService {
     }
 
 
-    public List<String> updateFile(Integer id, String filename) {
-//        find annId folder
-        Path folderAnn = this.fileStorageLocation.resolve(id.toString());
-        List<String> filenames = new ArrayList<>();
+    public String updateFile(MultipartFile[] files, Integer announcementId) {
+        Path annFolder = this.fileStorageLocation.resolve(announcementId.toString());
+        try {
+            List<String> fileNames = Files.list(annFolder)
+                    .filter(Files::isRegularFile)
+                    .map(Path::getFileName)
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
 
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(folderAnn)) {
-            for (Path filePath : directoryStream) {
-                String currentFileName = filePath.getFileName().toString();
-                System.out.println("Processing file: " + currentFileName);
 
-                // Add the file name to the list
-                filenames.add(currentFileName);
+//            check file ที่มีอยู่กับ file ที่กำลังจะเพิ่มว่าเกิน 5 ไหม
+            Set<String> uniqueFileNames = new HashSet<>();
+            for (MultipartFile file : files) {
+                if (fileNames.size() + files.length > 5 && fileNames.stream().noneMatch(existsFile -> existsFile.equals(file.getOriginalFilename()))) {
+                    throw new BadRequestException("Each upload is limited to a maximum of 5 files.", "file");
+                }
 
-                System.out.println("File added: " + currentFileName);
+                if (!uniqueFileNames.add(file.getOriginalFilename())) {
+                    throw new BadRequestException("You have already selected the file name: " + file.getOriginalFilename(), "file");
+                }
+
+                store(file, announcementId);
             }
+            return "Update File Successful";
         } catch (IOException e) {
-            e.printStackTrace(); // Handle the exception according to your application's needs
+            return e.getMessage();
         }
-
-        return filenames;
     }
-
 
 }
