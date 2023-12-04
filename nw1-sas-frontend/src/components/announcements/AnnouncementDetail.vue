@@ -1,5 +1,6 @@
 <script setup>
 import { getAnnouncement } from '../../composable/announcements/getInformation.js'
+import { getFiles, getFile } from '../../composable/announcements/getFiles';
 import { ref, onMounted } from "vue"
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js"
 import { useRoute, useRouter } from 'vue-router';
@@ -7,6 +8,8 @@ import Calendar from '../icones/Calendar.vue';
 import EditIcon from '../icones/EditIcon.vue';
 
 const announcement = ref({})
+const files = ref([])
+const fileStatus = ref("")
 const router = useRouter()
 const route = useRoute()
 
@@ -21,7 +24,19 @@ onMounted(async () => {
         router.push({ name: "announcements" })
         announcement.value = ""
     }
+    files.value = await getFiles(route.params.id)
+    if (files.value === false) {
+        fileStatus.value = "No files available"
+    }
+    console.log(files.value);
 })
+
+const previewFile = async (id, fileName) => {
+    const file = await getFile(id, fileName)
+    console.log(file);
+    const url = file.url;
+    window.open(url);
+}
 </script>
 
 <template>
@@ -72,6 +87,21 @@ onMounted(async () => {
                     Display
                 </h1>
                 <p class="ann-display mr-5 break-all">{{ announcement.announcementDisplay }}</p>
+            </div>
+            <div class="flex justify-start">
+                <h1 class="mx-5 font-bold">
+                    Files
+                </h1>
+                <div v-if="files !== false" class="flex flex-col items-start">
+                    <div v-for="file in files" :key="file" class="ann-display mx-5 my-2 break-all">
+                        <button @click="previewFile(route.params.id, file)"
+                            class="p-2 mb-2 text-sm bg-white hover:bg-neutral-400 hover:text-white rounded-md pr-10  w-max">{{
+                                file }}</button>
+                    </div>
+                </div>
+                <div class="mx-5" v-else>
+                    <p>{{ fileStatus }}</p>
+                </div>
             </div>
         </div>
         <div class="mt-5">
