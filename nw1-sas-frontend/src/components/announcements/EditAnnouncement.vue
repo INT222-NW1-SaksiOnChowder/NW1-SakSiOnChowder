@@ -1,12 +1,23 @@
 <script setup>
-import { ref, onMounted, computed } from "vue"
+import { ref, onMounted, computed, watchEffect } from "vue"
 import { getAnnouncement } from '../../composable/announcements/getInformation.js'
 import { useRoute, useRouter } from 'vue-router'
 import { updateAnnouncement } from '../../composable/announcements/editAnnouncement'
+import PreviewFile from "./PreviewFile.vue";
+import { getFiles, getFile } from '../../composable/announcements/getFiles';
+import { editFiles } from "../../composable/announcements/editFiles.js";
+import { deleteFile } from "../../composable/announcements/deleteFiles.js"
+import Swal from 'sweetalert2'
 
 const announcement = ref({})
 const announcementObj = ref({})
 const beforeAnnouncement = ref({})
+
+const files = ref()
+const newFiles = ref()
+const fileStatus = ref("")
+const router = useRouter()
+const route = useRoute()
 
 onMounted(async () => {
     const route = useRoute()
@@ -19,10 +30,22 @@ onMounted(async () => {
     beforeAnnouncementSetTime(beforeAnnouncement.value)
     showAnnouncementCategory(announcementObj.value)
     showAnnouncementCategory(beforeAnnouncement.value)
+
+    files.value = await getFiles(route.params.id)
+    if (files.value === false) {
+        fileStatus.value = "No files available"
+    }
+    console.log(files.value);
 })
 
+watchEffect(async () => {
+    files.value = await getFiles(route.params.id)
+    if (files.value === false) {
+        fileStatus.value = "No files available"
+    }
+    console.log(files.value);
+})
 
-const router = useRouter()
 
 const selectedPublishDate = ref('')
 const selectedPublishTime = ref('')
@@ -36,7 +59,13 @@ const beforeAnnouncementCloseTime = ref('')
 
 
 const checkAnnouncement = computed(() => {
-    if (announcementObj.value.announcementTitle === beforeAnnouncement.value.announcementTitle &&
+    console.log('call checkAnnouncement');
+    if (newFiles.value !== null && newFiles.value !== undefined && newFiles.value.length !== 0  ) {
+        console.log('add new file');
+        console.log(newFiles.value);
+        return false
+    }
+    else if (announcementObj.value.announcementTitle === beforeAnnouncement.value.announcementTitle &&
         announcementObj.value.announcementDescription === beforeAnnouncement.value.announcementDescription &&
         announcementObj.value.publishDate === beforeAnnouncement.value.publishDate &&
         announcementObj.value.closeDate === beforeAnnouncement.value.closeDate &&
@@ -136,7 +165,7 @@ const setTime = (announcement) => {
         const closeDateTime = new Date(announcement.closeDate)
 
         // selectedCloseDate
-        const closeDay = `${closeDateTime.getDate()< 10 ? "0" : ""}${closeDateTime.getDate()}`
+        const closeDay = `${closeDateTime.getDate() < 10 ? "0" : ""}${closeDateTime.getDate()}`
         const closeMonth = `${closeDateTime.getMonth() + 1 < 10 ? "0" : ""}${closeDateTime.getMonth() + 1}`
         const closeYear = closeDateTime.getFullYear()
         selectedCloseDate.value = `${closeYear}-${closeMonth}-${closeDay}`
@@ -146,7 +175,52 @@ const setTime = (announcement) => {
     }
 }
 
+const addNewFiles = (files) => {
+    newFiles.value = files
+    console.log(newFiles.value);
+}
 
+const previewFile = async (id, fileName) => {
+    const file = await getFile(id, fileName)
+    console.log(file);
+    const url = file.url;
+    window.open(url);
+}
+
+const removeFile = async (id, file) => {
+
+    Swal.fire({
+        title: `Are you sure you want to delete`,
+        text: `${file}`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#999B86",
+        cancelButtonColor: "#BD6666",
+        confirmButtonText: "Yes, Delete"
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "Deleted",
+                text: `${file}`,
+                icon: "success"
+            });
+            await deleteFile(id, file)
+            files.value = await getFiles(id)
+            if (files.value === false) {
+                fileStatus.value = "No files available"
+            }
+            console.log(files.value);
+        }
+    });
+
+    // await deleteFile(id, file)
+    // files.value = await getFiles(id)
+    // console.log('aaa');
+    // if (files.value === false) {
+    //     fileStatus.value = "No files available"
+    // }
+    // console.log(files.value);
+}
 
 const submitEdit = async (announcement) => {
 
@@ -178,10 +252,9 @@ const submitEdit = async (announcement) => {
         editAnnouncement.closeDate = null
     }
 
+    await editFiles(route.params.id, newFiles.value)
     await updateAnnouncement(editAnnouncement)
     router.push({ name: 'announcements' })
-
-
 }
 
 </script>
@@ -198,12 +271,12 @@ const submitEdit = async (announcement) => {
                 <div class="my-5">
                     <label class="font-bold">Title</label><br>
                     <input maxlength="200" class="ann-title bg-InputColor drop-shadow-md h-8 w-full rounded-lg" type="text"
-                         v-model.trim="announcementObj.announcementTitle">
+                        v-model.trim="announcementObj.announcementTitle">
                 </div>
                 <div class="my-5">
                     <label class="font-bold">Catagory</label><br>
                     <select class="ann-category drop-shadow-md bg-InputColor h-8  w-2/5 rounded-lg"
-                        v-model="announcementObj.announcementCategory" >
+                        v-model="announcementObj.announcementCategory">
                         <option value="1">ทั่วไป</option>
                         <option value="2">ทุนการศึกษา</option>
                         <option value="3">หางาน</option>
@@ -212,30 +285,48 @@ const submitEdit = async (announcement) => {
                 </div>
                 <div class="my-5">
                     <label class="font-bold">Description</label><br>
-                        <QuillEditor maxlength="10000" cols="100" rows="5" 
-                         class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg" 
-                         theme="snow" toolbar="full" v-model:content="announcementObj.announcementDescription" contentType="html"/>
+                    <QuillEditor maxlength="10000" cols="100" rows="5"
+                        class="ann-description drop-shadow-md bg-InputColor w-full rounded-lg" theme="snow" toolbar="full"
+                        v-model:content="announcementObj.announcementDescription" contentType="html" />
                 </div>
                 <div class="my-5">
                     <label class="font-bold">Publish Date</label><br>
                     <input class="ann-publish-date drop-shadow-md bg-InputColor w-1/5 mr-5 rounded-lg px-5 py-1" type="date"
-                        v-model="selectedPublishDate" >
+                        v-model="selectedPublishDate">
                     <input class="ann-publish-time w-1/5 bg-InputColor drop-shadow-md rounded-lg px-5 py-1" type="time"
-                        v-model="selectedPublishTime" >
+                        v-model="selectedPublishTime">
                 </div>
                 <div class="my-5">
                     <label class="font-bold">Close Date</label><br>
-                    <input class="ann-close-date bg-InputColor drop-shadow-md sm:w-1/5 mr-5 rounded-lg px-5 py-1" type="date"
-                        v-model="selectedCloseDate">
+                    <input class="ann-close-date bg-InputColor drop-shadow-md sm:w-1/5 mr-5 rounded-lg px-5 py-1"
+                        type="date" v-model="selectedCloseDate">
                     <input class="ann-close-time w-1/5 bg-InputColor drop-shadow-md rounded-lg px-5 py-1" type="time"
                         v-model="selectedCloseTime">
                 </div>
                 <div class="my-5">
                     <label class="font-bold">Display</label><br>
                     <input type="checkbox" id="displayShow" class="ann-display"
-                        v-model="announcementObj.announcementDisplay"/>
+                        v-model="announcementObj.announcementDisplay" />
                     <label for="displayShow" class="ml-2">Check to show this announcement</label>
                 </div>
+                <div class="flex justify-start">
+                    <h1 class="font-bold">
+                        Files
+                    </h1>
+                    <div v-if="files !== false" class="flex flex-col items-start">
+                        <div v-for="file in files" :key="file" class="flex ann-display mx-5 my-2 break-all">
+                            <button @click="previewFile(route.params.id, file)"
+                                class="p-2  mb-2 text-sm bg-white hover:bg-neutral-400 hover:text-white rounded-l-md pr-10  w-max">{{
+                                    file }}</button>
+                            <button @click="removeFile(route.params.id, file)"
+                                class="p-2 flex justify-between bg-DarkRed mb-2 text-sm rounded-r-md hover:bg-ButtonDeleteHover ">Delete</button>
+                        </div>
+                    </div>
+                    <div class="mx-5" v-else>
+                        <p>{{ fileStatus }}</p>
+                    </div>
+                </div>
+                <PreviewFile @filesSubmit="addNewFiles" />
                 <div class="my-5 text-center">
                     <router-link :to="{ name: 'announcementDetail' }">
                         <button

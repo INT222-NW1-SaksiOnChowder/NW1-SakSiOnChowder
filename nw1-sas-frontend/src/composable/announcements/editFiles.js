@@ -2,7 +2,7 @@ import { getNewAccessToken } from "../users/getToken.js"
 
 const ROOT_API = import.meta.env.VITE_ROOT_API
 
-const addFiles = async (id, files) => {
+const editFiles = async (id, files) => {
     const accessToken = localStorage.getItem("accessToken");
     console.log(files)
     // const arrFiles = Array.from(files)
@@ -18,16 +18,19 @@ const addFiles = async (id, files) => {
     }
 
     // Append announcementId to the FormData object
-    formData.append("announcementId", id);
+
+    // formData.append("announcementId", id);
+
     // Log the value of the "file" key
     console.log(formData.get("file"));
 
 // Log the value of the "announcementId" key
-    console.log(formData.get("announcementId"));
+
+    // console.log(formData.get("announcementId"));
 
     try {
-        const res = await fetch(`${ROOT_API}/api/files`, {
-            method: "POST",
+        const res = await fetch(`${ROOT_API}/api/files/${id}`, {
+            method: "PUT",
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -39,7 +42,7 @@ const addFiles = async (id, files) => {
             return false
         }
          else if (res.ok) {
-            console.log("Create file Successfully");
+            console.log('Edit file Successfully');
             return true
         } else {
             // const data = await res
@@ -48,12 +51,10 @@ const addFiles = async (id, files) => {
             return false
         }
     } catch (error) {
-        console.error("Error uploading files:", error);
+        console.error("Error edit files:", error);
         await getNewAccessToken()
         return false
     }
 };
 
-
-
-export { addFiles }
+export { editFiles }

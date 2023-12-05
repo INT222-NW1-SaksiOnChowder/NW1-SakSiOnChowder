@@ -3,10 +3,18 @@ import { computed, ref } from "vue";
 
 const emits = defineEmits(["filesSubmit"])
 
+const props = defineProps({
+    maxlength: {
+        type: Number,
+        default: 5
+    }
+})
+
 const files = ref([])
 
 const chooseBinaryFiles = (event) => {
     const selectedFiles = event.target.files
+    console.log(selectedFiles);
     if (files.value.length + selectedFiles.length > 5) {
         console.log("You can only attach up to 5 files.")
         alert("You can only attach up to 5 files.")
@@ -16,8 +24,18 @@ const chooseBinaryFiles = (event) => {
         const newFilesArray = Array.from(event.target.files)
 
         const dataTransfer = new DataTransfer();
-        filesArray.forEach(file => dataTransfer.items.add(file))
-        newFilesArray.forEach(file => dataTransfer.items.add(file))
+        filesArray.forEach(file => {
+            const fileChecked = checkFiles(file)
+            if (fileChecked !== undefined && fileChecked !== null) {
+                dataTransfer.items.add(fileChecked)
+            }
+        })
+        newFilesArray.forEach(file => {
+            const fileChecked = checkFiles(file)
+            if (fileChecked !== undefined && fileChecked !== null) {
+                dataTransfer.items.add(fileChecked)
+            }
+        })
 
         files.value = dataTransfer.files
         emits('filesSubmit', files.value)
@@ -37,9 +55,19 @@ const handleDrop = (event) => {
         const filesArray = Array.from(files.value)
         const newFilesArray = Array.from(event.dataTransfer.files)
 
-        const dataTransfer = new DataTransfer();
-        filesArray.forEach(file => dataTransfer.items.add(file))
-        newFilesArray.forEach(file => dataTransfer.items.add(file))
+        let dataTransfer = new DataTransfer();
+        filesArray.forEach(file => {
+            const fileChecked = checkFiles(file)
+            if (fileChecked !== undefined && fileChecked !== null) {
+                dataTransfer.items.add(fileChecked)
+            }
+        })
+        newFilesArray.forEach(file => {
+            const fileChecked = checkFiles(file)
+            if (fileChecked !== undefined && fileChecked !== null) {
+                dataTransfer.items.add(fileChecked)
+            }
+        })
 
         files.value = dataTransfer.files
         emits('filesSubmit', files.value)
@@ -56,7 +84,7 @@ const removeFile = (index) => {
     filesArray.splice(index, 1);
 
     const dataTransfer = new DataTransfer();
-    filesArray.forEach(file => dataTransfer.items.add(file));
+    filesArray.forEach(file => dataTransfer.items.add(file))
 
     files.value = dataTransfer.files;
     emits('filesSubmit', files.value)
@@ -65,6 +93,17 @@ const removeFile = (index) => {
 const createObjectURL = (file) => {
     return URL.createObjectURL(file);
 }
+
+const checkFiles = (file) => {
+    if (file.size <= (20 * 1024 * 1024)) {
+        // Add the file to your files array or process it as needed
+        return file
+    } else {
+        // Display an error message or take appropriate action for oversized files
+        alert(`File ${files.name} size exceeds the limit (20 MB).`);
+    }
+}
+
 </script>
 
 <template>
@@ -84,8 +123,8 @@ const createObjectURL = (file) => {
                             upload</span> or drag and drop</p>
                     <p class="text-xs text-gray-500 dark:text-gray-400">Format : SVG, PNG, JPG or PDF ( MAX. 500 MB )</p>
                 </div>
-                <input @change="chooseBinaryFiles" id="dropzone-file" type="file" multiple class="hidden"
-                    :disabled="files.length >= 5" />
+                <input @change="chooseBinaryFiles" id="dropzone-file" type="file" max="100" multiple class="hidden"
+                    :disabled="files.length >= props.maxlength" />
             </label>
         </div>
         <!-- <hr class="my-5 border-2 rounded-xl border-gray-100"> -->
