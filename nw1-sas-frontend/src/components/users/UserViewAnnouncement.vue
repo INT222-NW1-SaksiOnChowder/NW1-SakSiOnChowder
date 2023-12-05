@@ -165,17 +165,18 @@ const changeCategory = async (category) => {
 }
 
 const togglePopUpSubscription = () => {
-  isShowModal.value = !isShowModal.value
+   isShowModal.value = !isShowModal.value
 }
 
 </script>
 
 <template>
   <div class="flex w-full min-h-screen max-h-full bg-Background">
-    <div class="w-full">
-      <div class="flex font-bold py-7 items-center justify-center bg-LightBlue text-BlueFonts">
-        <h1 class="drop-shadow-lg text-4xl">SIT Announcement Systems (SAS)</h1>
-        <Menubar v-if="showMenubar" @click="checkUserLogin" />
+        <div class="w-full">
+      <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
+        <h1 class="h-24 flex justify-center items-center drop-shadow-lg text-4xl font-bold">
+          SIT Announcement System (SAS)
+        </h1>
       </div>
       <div class="flex mt-5 w-full">
         <p class="w-full mx-5 items-center flex">
@@ -260,8 +261,8 @@ const togglePopUpSubscription = () => {
           class="ann-page-next  px-5 py-2 mx-1 rounded-lg bg-DarkBlue font-bold text-BlueFonts">Next</button>
       </div>
     </div>
-    <ModalSubCategory v-if="isShowModal" @cancel="togglePopUpSubscription" />
-    <UnSubScription :unSubTokenParam="`${route.query.token}`" v-if="isShowUnSubModal" @cancel="closeUnSubModal" />
+      <ModalSubCategory v-if="isShowModal" @cancel="togglePopUpSubscription" />
+      <UnSubScription :unSubTokenParam="`${route.query.token}`" v-if="isShowUnSubModal" @cancel="closeUnSubModal" />
   </div>
 </template>
 
