@@ -1,6 +1,7 @@
 <script setup>
 import { getAnnouncementUser } from '../../composable/users/getAnnouncementUser.js'
 import { ref, onMounted} from "vue"
+import { getFiles, getFile } from '../../composable/announcements/getFiles.js';
 import { useRoute , useRouter } from 'vue-router';
 import { changeDateTimeFormat } from '../../composable/changeFormatDate';
 import { annStores } from '../../stores/counter.js'
@@ -17,6 +18,10 @@ const setShowCloseTime = () => {
 const announcement = ref({})
 const router = useRouter()
 const route = useRoute();
+
+const files = ref([])
+const fileStatus = ref("")
+
 console.log(route.params.id);
 
 onMounted(async() => {
@@ -31,8 +36,20 @@ onMounted(async() => {
         router.push({name: "userViewAnnouncement"})
         announcement.value = ""
     }
+
+    files.value = await getFiles(route.params.id)
+    if (files.value === false) {
+        fileStatus.value = "No files available"
+    }
+    console.log(files.value);
 })
 
+const previewFile = async (id, fileName) => {
+    const file = await getFile(id, fileName)
+    console.log(file);
+    const url = file.url;
+    window.open(url);
+}
 
 </script>
 
@@ -68,6 +85,21 @@ onMounted(async() => {
                     Description
                 </h1>
                 <p class="ann-description break-all text-left mr-5 ql-editor" v-html="announcement.announcementDescription"></p>
+            </div>
+            <div class="flex justify-start">
+                <h1 class="mx-5 font-bold">
+                    Files
+                </h1>
+                <div v-if="files !== false" class="flex flex-col items-start">
+                    <div v-for="file in files" :key="file" class="ann-display mx-5 my-2 break-all">
+                        <button @click="previewFile(route.params.id, file)"
+                            class="p-2 mb-2 text-sm bg-white hover:bg-neutral-400 hover:text-white rounded-md pr-10  w-max">{{
+                                file }}</button>
+                    </div>
+                </div>
+                <div class="mx-5" v-else>
+                    <p>{{ fileStatus }}</p>
+                </div>
             </div>
         </div>
         <router-link :to="{ name: 'userViewAnnouncement' }"><button

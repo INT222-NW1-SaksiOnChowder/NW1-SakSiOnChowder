@@ -1,6 +1,7 @@
 <script setup>
 import { getAnnouncements } from "../../composable/announcements/getInformation.js";
 import { ref, onMounted, onUpdated } from "vue";
+import { deleteAllFiles } from "../../composable/announcements/deleteFiles";
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js";
 import { deleteAcc } from "../../composable/announcements/deleteAnnouncement.js";
 import { useRouter } from "vue-router";
@@ -49,6 +50,7 @@ const deleteAnnouncement = async (id) => {
   const confirmed = confirm(`Do you want to delete`);
   if (confirmed) {
     await deleteAcc(id);
+    await deleteAllFiles(id);
   }
   announcements.value = await getAnnouncements();
   announcements.value.sort((a, b) => b.id - a.id);

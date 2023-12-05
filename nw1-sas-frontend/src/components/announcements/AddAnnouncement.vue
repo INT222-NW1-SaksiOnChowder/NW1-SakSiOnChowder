@@ -69,7 +69,9 @@ const submit = async (addAnnouncement) => {
   console.log(announcementId.value);
   if (result !== undefined && result !== false) {
     const addFilesResult = await addFiles(announcementId.value, filesValue.value)
+    console.log(addFilesResult);
     if (addFilesResult) {
+      alert('Create successfully')
       router.push({ name: 'announcements' })
     }
   }

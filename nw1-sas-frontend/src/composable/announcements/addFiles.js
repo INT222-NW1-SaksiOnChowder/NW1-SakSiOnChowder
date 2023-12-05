@@ -109,13 +109,19 @@ const addFiles = async (id, files) => {
 
         if (!res.ok) {
             console.error(`Error: ${res.status} - ${res.statusText}`);
+            return false
+        }
+         else if (res.ok) {
+            return true
         } else {
             // const data = await res
             // console.log(data);
             console.log(res)
+            return false
         }
     } catch (error) {
         console.error("Error uploading files:", error);
+        return false
     }
 };
 
