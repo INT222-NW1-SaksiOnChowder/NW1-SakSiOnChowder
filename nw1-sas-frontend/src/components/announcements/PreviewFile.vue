@@ -7,12 +7,29 @@ const props = defineProps({
     maxlength: {
         type: Number,
         default: 5
+    },
+    filesName: {
+        type: Array,
+        default: []
     }
 })
 
 const files = ref([])
 
+// const checkDuplicateFlieName = (newfileName) => {
+//     props.filesName.forEach(fileName => {
+//         if (fileName === newfileName) {
+//             alert('You can not add duplicate file name.')
+//             return false
+//         } else {
+//             return true
+//         }
+//     })
+
+// }
+
 const chooseBinaryFiles = (event) => {
+    console.log(props.maxlength);
     const selectedFiles = event.target.files
     console.log(selectedFiles);
     if (files.value.length + selectedFiles.length > 5) {
@@ -95,9 +112,18 @@ const createObjectURL = (file) => {
 }
 
 const checkFiles = (file) => {
+    let duplicateFileName = false
     if (file.size <= (20 * 1024 * 1024)) {
         // Add the file to your files array or process it as needed
-        return file
+        props.filesName.forEach(fileName => {
+            if (fileName === file.name) {
+                alert('You can not add duplicate file name.')
+                duplicateFileName = true
+            }
+        })
+        if (!duplicateFileName) {
+            return file
+        }
     } else {
         // Display an error message or take appropriate action for oversized files
         alert(`File ${files.name} size exceeds the limit (20 MB).`);

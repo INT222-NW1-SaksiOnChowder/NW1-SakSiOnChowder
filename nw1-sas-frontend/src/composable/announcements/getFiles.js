@@ -10,14 +10,14 @@ const getFiles = async (id) => {
             console.log('All Successfully')
             return files
         } else if (res.status === 404) {
-            return false
+            return []
         } else if (res.status !== 200) {
             const error = await res.json()
             alert(error.message)
         }
     } catch (error) {
         console.log(`ERROR cannot read data: ${error}`);
-        return false
+        return []
     }
 }
 

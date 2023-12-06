@@ -19,6 +19,8 @@ const fileStatus = ref("")
 const router = useRouter()
 const route = useRoute()
 
+const fileSize = ref(5)
+
 onMounted(async () => {
     const route = useRoute()
     announcement.value = await getAnnouncement(route.params.id)
@@ -32,7 +34,10 @@ onMounted(async () => {
     showAnnouncementCategory(beforeAnnouncement.value)
 
     files.value = await getFiles(route.params.id)
-    if (files.value === false) {
+    fileSize.value = files.value.length
+    console.log(fileSize.value);
+    console.log(files.value);
+    if (files.value.length === 0) {
         fileStatus.value = "No files available"
     }
     console.log(files.value);
@@ -40,6 +45,9 @@ onMounted(async () => {
 
 watchEffect(async () => {
     files.value = await getFiles(route.params.id)
+    fileSize.value = files.value.length
+    console.log(fileSize.value);
+    console.log(files.value);
     if (files.value === false) {
         fileStatus.value = "No files available"
     }
@@ -313,7 +321,7 @@ const submitEdit = async (announcement) => {
                     <h1 class="font-bold">
                         Files
                     </h1>
-                    <div v-if="files !== false" class="flex flex-col items-start">
+                    <div v-if="fileSize !== 0" class="flex flex-col items-start">
                         <div v-for="file in files" :key="file" class="flex ann-display mx-5 my-2 break-all">
                             <button @click="previewFile(route.params.id, file)"
                                 class="p-2  mb-2 text-sm bg-white hover:bg-neutral-400 hover:text-white rounded-l-md pr-10  w-max">{{
@@ -326,7 +334,7 @@ const submitEdit = async (announcement) => {
                         <p>{{ fileStatus }}</p>
                     </div>
                 </div>
-                <PreviewFile @filesSubmit="addNewFiles" />
+                <PreviewFile @filesSubmit="addNewFiles" :filesName="files" :maxlength="5-fileSize"/>
                 <div class="my-5 text-center">
                     <router-link :to="{ name: 'announcementDetail' }">
                         <button
