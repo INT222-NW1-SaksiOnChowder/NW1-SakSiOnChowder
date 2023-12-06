@@ -68,12 +68,16 @@ const submit = async (addAnnouncement) => {
   console.log(result.id);
   console.log(announcementId.value);
   if (result !== undefined && result !== false) {
-    const addFilesResult = await addFiles(announcementId.value, filesValue.value)
-    console.log(addFilesResult);
-    if (addFilesResult) {
-      alert('Create successfully')
-      router.push({ name: 'announcements' })
+    console.log(filesValue.value);
+    if (filesValue.value !== undefined) {
+      const addFilesResult = await addFiles(announcementId.value, filesValue.value)
+      console.log(addFilesResult);
+      if (addFilesResult) {
+        alert('Create successfully')
+        router.push({ name: 'announcements' })
+      }
     }
+    router.push({ name: 'announcements' })
   }
 };
 
@@ -152,7 +156,7 @@ const isDisabledCloseTime = computed(() => {
           <input class="bg-InputColor" type="checkbox" id="displayShow" v-model="announcementObj.announcementDisplay" />
           <label for="displayShow" class="ml-2">Check to show this announcement</label>
         </div>
-        <PreviewFile @filesSubmit="addNewFiles"/>
+        <PreviewFile @filesSubmit="addNewFiles" />
         <div class="mt-10 text-center">
           <button class="ann-button shadow-md hover:bg-ButtonViewHover mr-2 rounded-full bg-DarkGreen px-5 py-2 font-bold"
             @click="submit(announcementObj)">
