@@ -38,7 +38,7 @@ onMounted(async() => {
     }
 
     files.value = await getFiles(route.params.id)
-    if (files.value === false) {
+    if (files.value.length === 0) {
         fileStatus.value = "No files available"
     }
     console.log(files.value);
@@ -90,7 +90,7 @@ const previewFile = async (id, fileName) => {
                 <h1 class="mx-5 font-bold">
                     Files
                 </h1>
-                <div v-if="files !== false" class="flex flex-col items-start">
+                <div v-if="files.length !== 0" class="flex flex-col items-start">
                     <div v-for="file in files" :key="file" class="ann-display mx-5 my-2 break-all">
                         <button @click="previewFile(route.params.id, file)"
                             class="p-2 mb-2 text-sm bg-white hover:bg-neutral-400 hover:text-white rounded-md pr-10  w-max">{{
