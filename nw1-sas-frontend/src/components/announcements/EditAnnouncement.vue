@@ -260,7 +260,9 @@ const submitEdit = async (announcement) => {
         editAnnouncement.closeDate = null
     }
 
-    await editFiles(route.params.id, newFiles.value)
+    if (newFiles.value !== undefined) {
+        await editFiles(route.params.id, newFiles.value)
+    }
     await updateAnnouncement(editAnnouncement)
     router.push({ name: 'announcements' })
 }
