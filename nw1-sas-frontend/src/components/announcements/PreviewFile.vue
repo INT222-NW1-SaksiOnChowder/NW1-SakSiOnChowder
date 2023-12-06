@@ -147,7 +147,7 @@ const checkFiles = (file) => {
                     </svg>
                     <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to
                             upload</span> or drag and drop</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Format : SVG, PNG, JPG or PDF ( MAX. 20 MB )</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Format : SVG, PNG, JPG or PDF or ETC. ( MAX. 20 MB )</p>
                 </div>
                 <input @change="chooseBinaryFiles" id="dropzone-file" type="file" max="100" multiple class="hidden"
                     :disabled="files.length >= props.maxlength" />
