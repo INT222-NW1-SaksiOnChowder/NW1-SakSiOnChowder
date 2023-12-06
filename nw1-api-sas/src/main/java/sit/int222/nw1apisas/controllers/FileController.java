@@ -2,6 +2,8 @@ package sit.int222.nw1apisas.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +36,12 @@ public class FileController {
         // Determine the MediaType based on the file extension
         MediaType mediaType = determineMediaType(filename);
 
-        return ResponseEntity.ok().contentType(mediaType).body(file);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .contentType(mediaType)  // Use the determined MediaType directly
+                .body(file);
+
+//        return ResponseEntity.ok().contentType(mediaType).body(file);
     }
 
     private MediaType determineMediaType(String filename) {
@@ -49,6 +56,8 @@ public class FileController {
                 return MediaType.IMAGE_PNG;
             case "pdf":
                 return MediaType.APPLICATION_PDF;
+            case "docx":
+                return MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
             default:
                 // Return a default media type for unrecognized types
                 return MediaType.APPLICATION_OCTET_STREAM;
