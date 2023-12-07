@@ -35,13 +35,13 @@ public class FileController {
 
         // Determine the MediaType based on the file extension
         MediaType mediaType = determineMediaType(filename);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-                .contentType(mediaType)  // Use the determined MediaType directly
-                .body(file);
-
-//        return ResponseEntity.ok().contentType(mediaType).body(file);
+        if(mediaType.equals(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.wordprocessingml.document"))){
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                    .contentType(mediaType)  // Use the determined MediaType directly
+                    .body(file);
+        }
+        return ResponseEntity.ok().contentType(mediaType).body(file);
     }
 
     private MediaType determineMediaType(String filename) {
