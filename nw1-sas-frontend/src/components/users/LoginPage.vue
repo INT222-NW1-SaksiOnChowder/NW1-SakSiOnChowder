@@ -5,7 +5,6 @@ import { matchPassword } from "../../composable/users/matchPassword.js";
 import { getToken } from "../../composable/users/getToken.js";
 import { role } from '../../stores/role';
 import { getUser, getUsers } from "../../composable/users/getUser";
-
 const userObj = ref({
     username: "",
     password: ""
