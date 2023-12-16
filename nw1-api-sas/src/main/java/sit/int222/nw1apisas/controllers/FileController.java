@@ -23,6 +23,7 @@ import java.util.Set;
 @CrossOrigin(origins = {"http://ip22nw1.sit.kmutt.ac.th", "http://intproj22.sit.kmutt.ac.th", "https://intproj22.sit.kmutt.ac.th", "http://localhost:5173"})
 public class FileController {
     private final FileService fileService;
+
     @Autowired
     public FileController(FileService fileService) {
         this.fileService = fileService;
@@ -35,7 +36,7 @@ public class FileController {
 
         // Determine the MediaType based on the file extension
         MediaType mediaType = determineMediaType(filename);
-        if(mediaType.equals(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.wordprocessingml.document"))){
+        if (mediaType.equals(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.wordprocessingml.document"))) {
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                     .contentType(mediaType)  // Use the determined MediaType directly
@@ -65,7 +66,7 @@ public class FileController {
     }
 
     @GetMapping("/view/{id}")
-    public ResponseEntity<List<String>> sendAllFileNameForViewAnnouncement(@PathVariable Integer id){
+    public ResponseEntity<List<String>> sendAllFileNameForViewAnnouncement(@PathVariable Integer id) {
         return fileService.sendAllFileNameForViewAnnouncement(id);
     }
 
@@ -85,21 +86,32 @@ public class FileController {
         }
 //        store file
         for (MultipartFile file : files) {
-            fileService.store(file,announcementId);
+            fileService.store(file, announcementId);
             System.out.println(file);
         }
         return "All files uploaded successfully!";
     }
 
 
-    @DeleteMapping("/{id}/{filename:.+}")
-    public void deleteFile(@PathVariable("id") Integer id, @PathVariable("filename") String fileName) {
-        try {
-            fileService.deleteFile(fileName, id);
-        } catch (Exception e) {
-            throw new RuntimeException("Error deleting the file: " + e.getMessage());
+    //    @DeleteMapping("/{id}/{filename:.+}")
+//    public void deleteFile(@PathVariable("id") Integer id, @PathVariable("filename") String fileName) {
+//        try {
+//            fileService.deleteFile(fileName, id);
+//        } catch (Exception e) {
+//            throw new RuntimeException("Error deleting the file: " + e.getMessage());
+//        }
+//    }
+    @DeleteMapping("/delete/{id}")
+    public void deleteFiles(@PathVariable("id") Integer id, @RequestParam("files") String[] filenames) {
+        for (String fileName : filenames) {
+            try {
+                fileService.deleteFile(fileName, id);
+            } catch (Exception e) {
+                throw new RuntimeException("Error deleting the file '" + fileName + "' for ID " + id + ": " + e.getMessage());
+            }
         }
     }
+
 
     @DeleteMapping("/{id}")
     public void deleteAllFiles(@PathVariable("id") Integer id) {
@@ -108,10 +120,9 @@ public class FileController {
 
 
     @PutMapping("/{id}")
-    public String updateFile(@RequestParam("file") MultipartFile[] files, @PathVariable Integer id){
+    public String updateFile(@RequestParam("file") MultipartFile[] files, @PathVariable Integer id) {
         return fileService.updateFile(files, id);
     }
-
 
 
 }
