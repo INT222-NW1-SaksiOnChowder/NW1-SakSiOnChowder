@@ -29,7 +29,7 @@ const deleteAllFiles = async (id) => {
 const deleteFile = async (id, fileName) => {
   const accessToken = localStorage.getItem("accessToken")
   try {
-    const res = await fetch(`${ROOT_API}/api/files/${id}/${fileName}`,
+    const res = await fetch(`${ROOT_API}/api/files/delete/${id}?files=${fileName}`,
       {
         method: "DELETE",
         headers: {

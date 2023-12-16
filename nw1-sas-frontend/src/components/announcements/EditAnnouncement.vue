@@ -18,7 +18,7 @@ const newFiles = ref()
 const fileStatus = ref("")
 const router = useRouter()
 const route = useRoute()
-
+const fileForDelete = ref([])
 const fileSize = ref(5)
 
 onMounted(async () => {
@@ -68,9 +68,11 @@ const beforeAnnouncementCloseTime = ref('')
 
 const checkAnnouncement = computed(() => {
     console.log('call checkAnnouncement');
-    if (newFiles.value !== null && newFiles.value !== undefined && newFiles.value.length !== 0  ) {
+    if (newFiles.value !== null && newFiles.value !== undefined && newFiles.value.length !== 0) {
         console.log('add new file');
         console.log(newFiles.value);
+        return false
+    } else if (fileForDelete.value.length !== 0) {
         return false
     }
     else if (announcementObj.value.announcementTitle === beforeAnnouncement.value.announcementTitle &&
@@ -195,40 +197,46 @@ const previewFile = async (id, fileName) => {
     window.open(url);
 }
 
-const removeFile = async (id, file) => {
+// const realDeleteFile = async (id, file) => {
+//     Swal.fire({
+//         title: `Are you sure you want to delete`,
+//         text: `${file}`,
+//         icon: "warning",
+//         showCancelButton: true,
+//         confirmButtonColor: "#999B86",
+//         cancelButtonColor: "#BD6666",
+//         confirmButtonText: "Yes, Delete"
+//     }).then(async (result) => {
+//         if (result.isConfirmed) {
+//             Swal.fire({
+//                 title: "Deleted",
+//                 text: `${file}`,
+//                 icon: "success"
+//             });
+//             await deleteFile(id, file)
+//             files.value = await getFiles(id)
+//             if (files.value === false) {
+//                 fileStatus.value = "No files available"
+//             }
+//             console.log(files.value);
+//         }
+//     });
 
-    Swal.fire({
-        title: `Are you sure you want to delete`,
-        text: `${file}`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#999B86",
-        cancelButtonColor: "#BD6666",
-        confirmButtonText: "Yes, Delete"
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            Swal.fire({
-                title: "Deleted",
-                text: `${file}`,
-                icon: "success"
-            });
-            await deleteFile(id, file)
-            files.value = await getFiles(id)
-            if (files.value === false) {
-                fileStatus.value = "No files available"
-            }
-            console.log(files.value);
-        }
-    });
+//     await deleteFile(id, file)
+//     files.value = await getFiles(id)
+//     console.log('aaa');
+//     if (files.value === false) {
+//         fileStatus.value = "No files available"
+//     }
+//     console.log(files.value);
+// }
 
-    // await deleteFile(id, file)
-    // files.value = await getFiles(id)
-    // console.log('aaa');
-    // if (files.value === false) {
-    //     fileStatus.value = "No files available"
-    // }
-    // console.log(files.value);
+const removeFile = (index) => {
+    const fileDelete = files.value.find((file, i) => index === i)
+    fileForDelete.value.push(fileDelete);
+    files.value.splice(index, 1);
 }
+
 
 const submitEdit = async (announcement) => {
 
@@ -263,6 +271,7 @@ const submitEdit = async (announcement) => {
     if (newFiles.value !== undefined) {
         await editFiles(route.params.id, newFiles.value)
     }
+    await deleteFile(route.params.id, fileForDelete.value)
     await updateAnnouncement(editAnnouncement)
     router.push({ name: 'announcements' })
 }
@@ -324,11 +333,11 @@ const submitEdit = async (announcement) => {
                         Files
                     </h1>
                     <div v-if="fileSize !== 0" class="flex flex-col items-start">
-                        <div v-for="file in files" :key="file" class="flex ann-display mx-5 my-2 break-all">
+                        <div v-for="(file, index) in files" :key="file" class="flex ann-display mx-5 my-2 break-all">
                             <button @click="previewFile(route.params.id, file)"
                                 class="p-2  mb-2 text-sm bg-white hover:bg-neutral-400 hover:text-white rounded-l-md pr-10  w-max">{{
                                     file }}</button>
-                            <button @click="removeFile(route.params.id, file)"
+                            <button @click="removeFile(index)"
                                 class="p-2 flex justify-between bg-DarkRed mb-2 text-sm rounded-r-md hover:bg-ButtonDeleteHover ">Delete</button>
                         </div>
                     </div>
@@ -336,7 +345,7 @@ const submitEdit = async (announcement) => {
                         <p>{{ fileStatus }}</p>
                     </div>
                 </div>
-                <PreviewFile @filesSubmit="addNewFiles" :filesName="files" :maxlength="5-fileSize"/>
+                <PreviewFile @filesSubmit="addNewFiles" :filesName="files" :maxlength="5 - fileSize" />
                 <div class="my-5 text-center">
                     <router-link :to="{ name: 'announcementDetail' }">
                         <button
