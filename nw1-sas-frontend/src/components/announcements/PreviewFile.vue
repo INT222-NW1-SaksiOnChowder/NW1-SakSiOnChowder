@@ -31,8 +31,10 @@ const files = ref([])
 const chooseBinaryFiles = (event) => {
     console.log(props.maxlength);
     const selectedFiles = event.target.files
-    console.log(selectedFiles);
-    if (files.value.length + selectedFiles.length > 5) {
+    console.log(files.value.length);
+    console.log(selectedFiles.length);
+    console.log(props.filesName.length);
+    if (selectedFiles.length > props.maxlength || files.value.length >= props.maxlength) {
         console.log("You can only attach up to 5 files.")
         alert("You can only attach up to 5 files.")
 
@@ -40,31 +42,16 @@ const chooseBinaryFiles = (event) => {
         const filesArray = Array.from(files.value)
         const newFilesArray = Array.from(event.target.files)
 
-        const dataTransfer = new DataTransfer();
-        filesArray.forEach(file => {
-            const fileChecked = checkFiles(file)
-            if (fileChecked !== undefined && fileChecked !== null) {
-                dataTransfer.items.add(fileChecked)
-            }
-        })
-        newFilesArray.forEach(file => {
-            const fileChecked = checkFiles(file)
-            if (fileChecked !== undefined && fileChecked !== null) {
-                dataTransfer.items.add(fileChecked)
-            }
-        })
-
-        files.value = dataTransfer.files
-        emits('filesSubmit', files.value)
+        checkAllFile(filesArray, newFilesArray)
     }
-    console.log(files.value);
+    // console.log(files.value);
 }
 
 const handleDrop = (event) => {
     event.preventDefault();
     // files.value = event.dataTransfer.files;
     const selectedFiles = event.dataTransfer.files
-    if (files.value.length + selectedFiles.length > 5) {
+    if (selectedFiles.length > props.maxlength || files.value.length >= props.maxlength) {
         console.log("You can only attach up to 5 files.")
         alert("You can only attach up to 5 files.")
 
@@ -72,22 +59,7 @@ const handleDrop = (event) => {
         const filesArray = Array.from(files.value)
         const newFilesArray = Array.from(event.dataTransfer.files)
 
-        let dataTransfer = new DataTransfer();
-        filesArray.forEach(file => {
-            const fileChecked = checkFiles(file)
-            if (fileChecked !== undefined && fileChecked !== null) {
-                dataTransfer.items.add(fileChecked)
-            }
-        })
-        newFilesArray.forEach(file => {
-            const fileChecked = checkFiles(file)
-            if (fileChecked !== undefined && fileChecked !== null) {
-                dataTransfer.items.add(fileChecked)
-            }
-        })
-
-        files.value = dataTransfer.files
-        emits('filesSubmit', files.value)
+        checkAllFile(filesArray, newFilesArray)
     }
 
 }
@@ -108,10 +80,45 @@ const removeFile = (index) => {
 }
 
 const createObjectURL = (file) => {
-    return URL.createObjectURL(file);
+    if (file.type === "text/plain") {
+        const resultFile = new Blob([file], { type: 'text/plain; charset=utf-8' });
+        return URL.createObjectURL(resultFile);
+    } else {
+        return URL.createObjectURL(file);
+    }
+}
+
+const checkAllFile = (filesArray, newFilesArray) => {
+
+    const dataTransfer = new DataTransfer();
+    filesArray.forEach(file => {
+        const fileChecked = checkFiles(file)
+        if (fileChecked !== undefined && fileChecked !== null) {
+            dataTransfer.items.add(fileChecked)
+        }
+    })
+    newFilesArray.forEach(file => {
+        const fileChecked = checkFiles(file)
+        if (fileChecked !== undefined && fileChecked !== null) {
+            let checkFileName = true
+            filesArray.forEach(fileName => {
+                if (fileName.name === file.name) {
+                    alert('You can not add duplicate file name.')
+                    checkFileName = false
+                }
+            })
+            if (checkFileName) {
+                dataTransfer.items.add(fileChecked)
+            }
+        }
+    })
+
+    files.value = dataTransfer.files
+    emits('filesSubmit', files.value)
 }
 
 const checkFiles = (file) => {
+    const fileArr = files.value
     let duplicateFileName = false
     if (file.size <= (20 * 1024 * 1024)) {
         // Add the file to your files array or process it as needed
@@ -147,7 +154,8 @@ const checkFiles = (file) => {
                     </svg>
                     <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to
                             upload</span> or drag and drop</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Format : SVG, PNG, JPG or PDF or ETC. ( MAX. 20 MB )</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Format : SVG, PNG, JPG or PDF or ETC. ( MAX. 20 MB )
+                    </p>
                 </div>
                 <input @change="chooseBinaryFiles" id="dropzone-file" type="file" max="100" multiple class="hidden"
                     :disabled="files.length >= props.maxlength" />

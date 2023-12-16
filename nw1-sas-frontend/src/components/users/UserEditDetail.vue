@@ -110,10 +110,10 @@ const save = async (event) => {
     console.log(currentUsername.currentUsername);
     console.log(oldUserData.value.username);
     if (userNameMessage.value === '' && nameMessage.value === '' && emailMessage.value === '') {
-        console.log(userDetail.value.sub);
+        console.log(currentUsername.currentUsername);
         console.log(oldUserData.value.username);
-        if (userDetail.value.sub === oldUserData.value.username) {
-            if (userDetail.value.sub !== userObj.value.username || userDetail.value.role !== `ROLE_${userObj.value.role}`) {
+        if (currentUsername.currentUsername === oldUserData.value.username) {
+            if (currentUsername.currentUsername !== userObj.value.username || userDetail.value.role !== `ROLE_${userObj.value.role}`) {
             alert("Your username or roke has been updated, requiring you to login again.")
             clearToken()
             console.log("log");

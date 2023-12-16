@@ -235,6 +235,8 @@ const removeFile = (index) => {
     const fileDelete = files.value.find((file, i) => index === i)
     fileForDelete.value.push(fileDelete);
     files.value.splice(index, 1);
+    console.log(files.value);
+    fileSize.value = files.value.length
 }
 
 
