@@ -7,6 +7,7 @@ import PreviewFile from "./PreviewFile.vue";
 import { getFiles, getFile } from '../../composable/announcements/getFiles';
 import { editFiles } from "../../composable/announcements/editFiles.js";
 import { deleteFile } from "../../composable/announcements/deleteFiles.js"
+import AlertLoadingVue from "../AlertLoading.vue";
 import Swal from 'sweetalert2'
 
 const announcement = ref({})
@@ -20,6 +21,7 @@ const router = useRouter()
 const route = useRoute()
 const fileForDelete = ref([])
 const fileSize = ref(5)
+const waitingIcon = ref(false)
 
 onMounted(async () => {
     const route = useRoute()
@@ -241,6 +243,7 @@ const removeFile = (index) => {
 
 
 const submitEdit = async (announcement) => {
+    waitingIcon.value = true
 
     const editAnnouncement = {
         announcementTitle: announcement.announcementTitle,
@@ -275,6 +278,7 @@ const submitEdit = async (announcement) => {
     }
     await deleteFile(route.params.id, fileForDelete.value)
     await updateAnnouncement(editAnnouncement)
+    waitingIcon.value = false
     router.push({ name: 'announcements' })
 }
 
@@ -361,6 +365,7 @@ const submitEdit = async (announcement) => {
             </div>
         </div>
     </div>
+    <AlertLoadingVue v-if="waitingIcon" message="Currently updating an announcement, please wait a moment."/>
 </template>
  
 <style scoped></style>

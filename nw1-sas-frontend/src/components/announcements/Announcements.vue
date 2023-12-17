@@ -62,7 +62,7 @@ const deleteAnnouncement = async (id) => {
   <div class="flex w-full min-h-screen max-h-full bg-Background">
     <div class="w-full">
       <div class="flex font-bold py-7 items-center justify-center bg-LightBlue text-BlueFonts">
-        <h1 class="drop-shadow-lg text-4xl">SIT Announcement Systems (SAS)</h1>
+        <h1 class="drop-shadow-lg xs:text-3xl sm:text-3xl  md:text-4xl text-sm">SIT Announcement Systems (SAS)</h1>
         <Menubar />
       </div>
       <div class="flex my-8 w-full justify-between">

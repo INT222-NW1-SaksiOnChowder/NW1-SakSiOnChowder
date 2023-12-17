@@ -4,6 +4,7 @@ import { createAnnouncement } from "../../composable/announcements/addAnnounceme
 import { useRouter } from "vue-router";
 import PreviewFile from "./PreviewFile.vue";
 import { addFiles } from "../../composable/announcements/addFiles.js";
+import AlertLoadingVue from "../AlertLoading.vue";
 
 const router = useRouter();
 const announcementObj = ref();
@@ -15,6 +16,7 @@ const selectedPublishTime = ref();
 const selectedCloseDate = ref();
 const selectedCloseTime = ref();
 const nowDate = ref(new Date())
+const waitingIcon = ref(false)
 
 announcementObj.value = {
   announcementTitle: "",
@@ -31,6 +33,7 @@ const addNewFiles = (files) => {
 }
 
 const submit = async (addAnnouncement) => {
+  waitingIcon.value = true
   addAnnouncement.categoryId = Number(addAnnouncement.categoryId);
   if (addAnnouncement.announcementDisplay === true) {
     addAnnouncement.announcementDisplay = "Y";
@@ -75,10 +78,14 @@ const submit = async (addAnnouncement) => {
       if (addFilesResult) {
         alert('Create successfully')
         router.push({ name: 'announcements' })
+        waitingIcon.value = false
       }
+      waitingIcon.value = false
     }
+    waitingIcon.value = false
     router.push({ name: 'announcements' })
   }
+  waitingIcon.value = false
 };
 
 const isDisabledPublishTime = computed(() => {
@@ -171,6 +178,7 @@ const isDisabledCloseTime = computed(() => {
       </div>
     </div>
   </div>
+  <AlertLoadingVue v-if="waitingIcon" message="Creating an announcement, please wait a moment."/>
 </template>
 
 <style scoped></style>
