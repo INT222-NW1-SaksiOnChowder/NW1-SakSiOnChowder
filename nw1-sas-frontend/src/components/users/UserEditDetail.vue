@@ -8,11 +8,7 @@ import { updateUser } from "../../composable/users/editUser.js";
 import { getToken, getNewAccessToken } from "../../composable/users/getToken.js";
 import { username } from "../../stores/username";
 import { clearToken } from "../../composable/users/clearToken";
-// import { validateUserInput } from "../../composable/users/validateUser.js";
-import Menubar from "../Navbar.vue";
-
 const router = useRouter();
-// const listUser = ref()
 const userObj = ref({
     id: "",
     username: "",
@@ -133,8 +129,7 @@ const save = async (event) => {
 </script>
 
 <template>
-    <div class="flex w-full min-h-screen max-h-full bg-Background">
-        <Menubar />
+    <div class="flex justify-center w-full min-h-screen max-h-full bg-Background">
         <div class="w-4/5">
             <div class="mx-32">
                 <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3 mb-8">

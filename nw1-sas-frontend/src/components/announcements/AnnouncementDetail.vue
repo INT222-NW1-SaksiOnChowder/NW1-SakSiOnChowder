@@ -41,13 +41,13 @@ const previewFile = async (id, fileName) => {
 
 <template>
     <div class="text-center bg-Background min-h-screen max-h-full">
-        <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3">
+        <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3 mb-10">
             <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
                 Announcement Detail:
             </h1>
         </div>
-        <div class="text-right mr-20 text-xl font-bold mt-10 text-BlueFonts drop-shadow-lg">#VIEWS : {{
-            announcement.viewCount }}</div>
+        <!-- <div class="text-right mr-20 text-xl font-bold mt-10 text-BlueFonts drop-shadow-lg">#VIEWS : {{
+            announcement.viewCount }}</div> -->
         <div class="rounded-3xl bg-LightBlue mx-10 py-3">
             <div class="flex my-5 justify-center">
                 <h1 class="mx-5 font-bold">
