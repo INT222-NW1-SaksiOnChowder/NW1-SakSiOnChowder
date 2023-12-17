@@ -47,7 +47,7 @@ const clearTokenButton = () => {
             });
             clearToken()
             router.push({name: 'userViewAnnouncement'})
-            window.location.reload()
+            // window.location.reload()
         }
     });
 }

@@ -23,19 +23,18 @@ const matchPassword = async (user) => {
             return resultMsg
         } else if (res.status === 401) {
             const error = await res.json()
-            // for(const err of error.detail){
-            //     alert(err.errorMessage)
-            // }
             resultMsg.status = false
             resultMsg.message = 'Password NOT Matched'
             return resultMsg
         } else if (res.status === 404) {
             const error = await res.json()
-            // for(const err of error.detail){
-            //     alert(err.errorMessage)
-            // }
             resultMsg.status = false
             resultMsg.message = 'The specified username DOES NOT exist'
+            return resultMsg
+        } else {
+            const error = await res.json()
+            resultMsg.status = false
+            resultMsg.message = 'Password NOT Matched'
             return resultMsg
         }
     } catch (error) {

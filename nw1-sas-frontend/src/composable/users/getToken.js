@@ -35,21 +35,18 @@ const getToken = async (user) => {
             currentRole.setRole(userDetail.role)
             console.log(currentRole.currentRole)
             return result
-        } else if (res.status === 401) { //res.status === 401
-            // const error = await res.json()
-            // for(const err of error.detail){
-            //     alert(err.errorMessage)
-            // }
+        } else if (res.status === 401) { //res.status === 403
             result.status = false
             result.message = 'Password NOT Matched'
             return result
         } else if (res.status === 404) {
-            // const error = await res.json()
-            // for(const err of error.detail){
-            //     alert(err.errorMessage)
-            // }
             result.status = false
             result.message = 'The specified username DOES NOT exist'
+            return result
+        } else {
+            const error = await res.json()
+            result.status = false
+            result.message = 'Password NOT Matched'
             return result
         }
     } catch (error) {
