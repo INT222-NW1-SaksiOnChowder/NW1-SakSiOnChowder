@@ -157,7 +157,6 @@ const checkFiles = (file) => {
                     :disabled="files.length >= props.maxlength" />
             </label>
         </div>
-        <!-- <hr class="my-5 border-2 rounded-xl border-gray-100"> -->
 
         <div v-for="(file, index) in files" :key="index" class="flex items-center">
             <a :href="createObjectURL(file)" target="_blank"
@@ -166,10 +165,6 @@ const checkFiles = (file) => {
                 }}</a><button @click="removeFile(index)"
                 class="p-2 flex justify-between bg-DarkRed mb-2 text-sm rounded-r-md hover:bg-ButtonDeleteHover ">Delete</button>
         </div>
-
-        <!-- <div >
-            <img :src="previewSrc" alt="" v-if="canPreview">
-        </div> -->
     </div>
 </template>
 

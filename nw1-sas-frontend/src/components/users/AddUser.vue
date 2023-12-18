@@ -1,10 +1,8 @@
 <script setup>
 import { getUsers } from "../../composable/users/getUser.js";
-import { ref, computed, onMounted, watchEffect, onUpdated } from "vue";
+import { ref, onMounted, watchEffect } from "vue";
 import { createUser } from "../../composable/users/addUser.js";
 import { useRouter } from "vue-router";
-// import { validateUserInput } from "../../composable/users/validateUser.js";
-import Menubar from "../Navbar.vue";
 
 const router = useRouter();
 const listUser = ref()
@@ -22,10 +20,6 @@ const nameMessage = ref('')
 const emailMessage = ref('')
 const passwordMessage = ref('')
 const confirmPasswordMessage = ref('')
-// const checkUsernameLengthAndUnique = ref()
-// const checkNameLengthAndUnique = ref()
-// const checkEmailLengthAndUnique = ref()
-// const checkPasswordPattern = ref()
 const checkConfirmPassword = ref()
 const confirmPassword = ref('')
 
@@ -51,7 +45,6 @@ const save = async (event) => {
     passwordMessage.value = ''
     emailMessage.value = ''
     const res = ref(true)
-    // if (checkPasswordPattern.value) {
         res.value = await createUser(userObj.value)
         if (!res.value) {
             res.value = await createUser(userObj.value)
@@ -78,15 +71,10 @@ const save = async (event) => {
                 }
             }
         }
-        // if(res.value === true){
-        //     router.push({ name: 'userManagement' })
-        // }
         if (userNameMessage.value === '' && passwordMessage.value === ''
             && nameMessage.value === '' && emailMessage.value === '') {
             router.push({ name: 'userManagement' })
         }
-    // }
-
 }
 
 </script>

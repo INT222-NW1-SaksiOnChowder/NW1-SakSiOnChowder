@@ -1,11 +1,9 @@
 <script setup>
 import { getUser } from "../../composable/users/getUser.js";
-import { getUsers } from "../../composable/users/getUser.js";
-import { ref, onMounted, computed, watchEffect } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js";
 import { useRouter, useRoute } from "vue-router";
 import { updateUser } from "../../composable/users/editUser.js";
-import { getToken, getNewAccessToken } from "../../composable/users/getToken.js";
 import { username } from "../../stores/username";
 import { clearToken } from "../../composable/users/clearToken";
 const router = useRouter();
@@ -29,7 +27,6 @@ const checkEmailLengthAndUnique = ref(false)
 
 onMounted(async () => {
     const route = useRoute();
-    // listUser.value = await getUsers();
     userObj.value = await getUser(route.params.id);
     if (!userObj.value) {
         userObj.value = await getUser(route.params.id);

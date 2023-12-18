@@ -15,7 +15,6 @@ const selectedPublishDate = ref();
 const selectedPublishTime = ref();
 const selectedCloseDate = ref();
 const selectedCloseTime = ref();
-const nowDate = ref(new Date())
 const waitingIcon = ref(false)
 
 announcementObj.value = {

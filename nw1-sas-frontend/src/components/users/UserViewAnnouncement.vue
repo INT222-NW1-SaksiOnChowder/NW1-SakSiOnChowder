@@ -1,6 +1,6 @@
 <script setup>
 import { getAnnouncementsUser, getAnnouncementUser } from "../../composable/users/getAnnouncementUser.js"
-import { ref, onMounted, onUpdated, computed, onBeforeMount, watchEffect } from "vue"
+import { ref, onMounted, onUpdated, computed, onBeforeMount } from "vue"
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js"
 import { annStores } from '../../stores/counter.js'
 import TimeZone from '../icones/TimeZone.vue'
@@ -9,8 +9,7 @@ import ActiveIcon from "../icones/ActiveIcon.vue"
 import Menubar from "../Navbar.vue"
 import ModalSubCategory from "../subscription/ModalSubCategory.vue"
 import UnSubScription from "../subscription/UnSubScription.vue"
-import { useRoute, useRouter } from 'vue-router';
-import jwt_decode from "jwt-decode"
+import { useRoute } from 'vue-router';
 
 const route = useRoute()
 const announcements = ref([])
@@ -66,10 +65,6 @@ onUpdated(() => {
   } else {
     wordButton.value = "Closed Announcements"
   }
-})
-
-watchEffect(() => {
-  // checkUserLogin()
 })
 
 const getListAnnouncement = async () => {
@@ -183,7 +178,6 @@ const togglePopUpSubscription = () => {
       <div class="flex my-8 w-full text-xs  lg:text-base items-center justify-between">
         <p class="mx-5 items-center justify-center text-center flex flex-col sm:flex-row">
           <TimeZone></TimeZone>&nbsp; Date/Time shown in Timezone : &nbsp;
-          <!-- responsive -->
           <span class="font-bold text-BlueFonts">{{
             timezone
           }}</span>
@@ -198,9 +192,7 @@ const togglePopUpSubscription = () => {
           </div>
           <router-link :to="{ name: 'login' }" v-if="!showMenubar"
             class="ann-button px-5 py-2 md:text-lg mt-2 sm:mt-0 font-bold ml-5 ann-button bg-DarkBlue  hover:bg-LightBlue text-BlueFonts rounded-full ">
-            <!-- <router-link :to="{ name: 'login' }" class="ann-button px-5 py-2 text-lg"> -->
             Login
-            <!-- </router-link> -->
           </router-link>
         </div>
       </div>

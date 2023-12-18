@@ -15,7 +15,6 @@ const updateUser = async (user) => {
       });
     if (res.status === 200) {
       console.log("Edit successfully");
-      // await getUsers()
       return true
     } else if (res.status === 400) {
       const error = await res.json();

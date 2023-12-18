@@ -1,6 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watchEffect, onUpdated } from "vue";
-import { useRouter } from "vue-router";
+import { ref } from "vue";
 import Menubar from "../Navbar.vue";
 import { matchPassword } from "../../composable/users/matchPassword.js";
 
@@ -35,7 +34,6 @@ const matchOrNotButton = async () => {
             </div>
             <div class="mx-0 my-10 flex justify-center w-full">
                 <div class="bg-LightBlue w-96 h-64 rounded-2xl py-9 px-9">
-                    <!-- <h1 class="md:text-xl text-sm font-bold mb-4">Match Password</h1> -->
                     <div class="mb-3">
                         <label class="font-medium md:text-sm text-xs">Username</label><br />
                         <input v-model.trim="userObj.username"

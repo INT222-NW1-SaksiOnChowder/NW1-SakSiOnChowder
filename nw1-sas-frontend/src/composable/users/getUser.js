@@ -1,10 +1,10 @@
 const ROOT_API = import.meta.env.VITE_ROOT_API;
 import { getNewAccessToken } from "./getToken.js";
 import {role} from "../../stores/role.js"
-import { username } from "../../stores/username.js"
+// import { username } from "../../stores/username.js"
 const getUsers = async () => {
   const currentRole = role()
-  const currentUsername = username()
+  // const currentUsername = username()
   const accessToken = localStorage.getItem("accessToken");
   currentRole.currentRole = undefined
   try {

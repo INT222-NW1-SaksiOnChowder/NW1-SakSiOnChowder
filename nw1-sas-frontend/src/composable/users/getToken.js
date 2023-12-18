@@ -1,11 +1,9 @@
 const ROOT_API = import.meta.env.VITE_ROOT_API
-// import { username } from "../../stores/username.js"
 import jwt_decode from "jwt-decode"
 import {role} from "../../stores/role.js"
 import { useRouter } from "vue-router";
 
 const getToken = async (user) => {
-    // const currentUsername = username()
     const currentRole = role()
     const result = {
         status: false,
