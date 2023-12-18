@@ -77,20 +77,6 @@ public class FileService {
     }
 
 
-    public Resource loadFileAsResource(String fileName) {
-        try {
-            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
-            Resource resource = new UrlResource(filePath.toUri());
-            if (resource.exists()) {
-                return resource;
-            } else {
-                throw new RuntimeException("File not found " + fileName);
-            }
-        } catch (MalformedURLException ex) {
-            throw new RuntimeException("File operation error: " + fileName, ex);
-        }
-    }
-
     public Resource loadFile(Integer id, String fileName) {
         try {
             Path directoryPath = this.fileStorageLocation.resolve(id.toString());
