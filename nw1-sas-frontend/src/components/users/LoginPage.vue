@@ -1,10 +1,8 @@
 <script setup>
 import { ref, computed, onMounted, watchEffect, onUpdated } from "vue";
 import { useRouter } from "vue-router";
-import { matchPassword } from "../../composable/users/matchPassword.js";
 import { getToken } from "../../composable/users/getToken.js";
 import { role } from '../../stores/role';
-import { getUser, getUsers } from "../../composable/users/getUser";
 import Swal from 'sweetalert2'
 const userObj = ref({
     username: "",
@@ -24,7 +22,6 @@ const matchOrNotButton = async () => {
     result.value = await getToken(userObj.value)
     divShowMassage.value = true
     resultMsg.value = result.value.message
-    console.log(result.value.status);
     if (result.value.status === true) {
         Swal.fire({
             position: "center",

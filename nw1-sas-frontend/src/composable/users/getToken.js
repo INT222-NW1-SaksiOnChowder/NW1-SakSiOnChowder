@@ -1,11 +1,9 @@
 const ROOT_API = import.meta.env.VITE_ROOT_API
-// import { username } from "../../stores/username.js"
 import jwt_decode from "jwt-decode"
 import {role} from "../../stores/role.js"
 import { useRouter } from "vue-router";
 
 const getToken = async (user) => {
-    // const currentUsername = username()
     const currentRole = role()
     const result = {
         status: false,
@@ -21,7 +19,6 @@ const getToken = async (user) => {
                 body: JSON.stringify(user)
             }
         )
-        console.log(res.status);
         if (res.status === 200) {
 
             const data = await res.json()
@@ -33,7 +30,6 @@ const getToken = async (user) => {
             localStorage.setItem("refreshToken", data.refreshToken);
             localStorage.setItem("accessToken", data.token);
             currentRole.setRole(userDetail.role)
-            console.log(currentRole.currentRole)
             return result
         } else if (res.status === 401) { //res.status === 403
             result.status = false
@@ -56,9 +52,7 @@ const getToken = async (user) => {
 }
 
 const getNewAccessToken = async () => {
-    console.log('getNewAccessToken');
     const refreshToken = localStorage.getItem("refreshToken");
-    console.log('refreshToken'+refreshToken);
     try {
         const res = await fetch(`${ROOT_API}/api/token`,
             {

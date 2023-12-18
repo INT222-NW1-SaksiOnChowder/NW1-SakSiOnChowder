@@ -14,7 +14,6 @@ const deleteAllFiles = async (id) => {
       })
     if (res.ok) {
       console.log("Delete file Successfully");
-      // alert("Delete Files in announcement id: " + id + " successfully")
       return true
     } else if (!res.ok) {
         console.error(`Error: ${res.status} - ${res.statusText}`);
@@ -38,7 +37,6 @@ const deleteFile = async (id, fileName) => {
       })
     if (res.ok) {
       console.log(`Delete file : ${fileName} Successfully`);
-      // alert("Delete Files in announcement id: " + id + " successfully")
       return true
     } else if (!res.ok) {
         console.error(`Error: ${res.status} - ${res.statusText}`);

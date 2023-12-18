@@ -22,8 +22,6 @@ const getFiles = async (id) => {
 }
 
 const getFile = async (id,fileName) => {
-    console.log(id);
-    console.log(fileName);
     try {
         const res = await fetch(`${ROOT_API}/api/files/${id}/${fileName}`,
             {
@@ -31,7 +29,6 @@ const getFile = async (id,fileName) => {
             })
         if (res.status === 200) {
             console.log('All Successfully')
-            console.log(res);
             return res
         } else if (res.status !== 200) {
             const error = await res.json()

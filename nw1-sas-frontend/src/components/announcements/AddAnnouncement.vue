@@ -15,7 +15,6 @@ const selectedPublishDate = ref();
 const selectedPublishTime = ref();
 const selectedCloseDate = ref();
 const selectedCloseTime = ref();
-const nowDate = ref(new Date())
 const waitingIcon = ref(false)
 
 announcementObj.value = {
@@ -29,7 +28,6 @@ announcementObj.value = {
 
 const addNewFiles = (files) => {
   filesValue.value = files
-  console.log(filesValue.value);
 }
 
 const submit = async (addAnnouncement) => {
@@ -56,25 +54,11 @@ const submit = async (addAnnouncement) => {
     addAnnouncement.closeDate = null;
   }
 
-  // if (addAnnouncement.announcementTitle === '' || addAnnouncement.announcementDescription === ''  
-  //   || addAnnouncement.publishDate < addAnnouncement.closeDate || addAnnouncement.publishDate < nowDate.value || addAnnouncement.closeDate < nowDate.value
-  //   ) 
-  //   {
-  //       await createAnnouncement(addAnnouncement) 
-  //   }   else {
-  //       await createAnnouncement(addAnnouncement)  
-  //       router.push({ name: 'announcements' })
-  //   }
-
   const result = await createAnnouncement(addAnnouncement)
   announcementId.value = result.id
-  console.log(result.id);
-  console.log(announcementId.value);
   if (result !== undefined && result !== false) {
-    console.log(filesValue.value);
     if (filesValue.value !== undefined) {
       const addFilesResult = await addFiles(announcementId.value, filesValue.value)
-      console.log(addFilesResult);
       if (addFilesResult) {
         alert('Create successfully')
         router.push({ name: 'announcements' })
@@ -110,13 +94,13 @@ const isDisabledCloseTime = computed(() => {
 
 <template>
   <div class="w-full min-h-screen max-h-full bg-Background">
-    <div class="mx-32">
+    <div class="lg:mx-32 mx-5">
       <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3 mb-8">
-        <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
+        <h1 class="text-BlueFonts py-1 px-2 lg:text-2xl text-lg lg:px-5 lg:py-5 font-bold">
           Announcement Detail:
         </h1>
       </div>
-      <div class="bg-LightBlue rounded-2xl py-9 px-28">
+      <div class="bg-LightBlue rounded-2xl text-sm lg:text-base lg:py-9 py-2 px-5 lg:px-28">
         <div class="my-5">
           <label class="font-bold">Title</label><br />
           <input class="ann-title mt-2 bg-InputColor drop-shadow-md h-8 w-full rounded-lg" type="text"
@@ -140,12 +124,12 @@ const isDisabledCloseTime = computed(() => {
         </div>
         <div class="my-5">
           <label class="font-bold">Publish Date</label><br />
-          <input class="ann-publish-date drop-shadow-md mt-2 bg-InputColor w-1/5 mr-5 rounded-lg px-5 py-1" type="date"
+          <input class="ann-publish-date drop-shadow-md mt-2 bg-InputColor sm:w-1/5 mr-5 rounded-lg px-5 py-1" type="date"
             v-model="selectedPublishDate" />
           <input :disabled="isDisabledPublishTime" :style="isDisabledPublishTime
             ? 'opacity: 0.5; background-color:darkgray; cursor: not-allowed;'
             : 'opacity: 1;'
-            " class="w-1/5 bg-InputColor drop-shadow-md rounded-lg px-5 py-1" type="time"
+            " class="sm:w-1/5 bg-InputColor drop-shadow-md mt-2 rounded-lg px-5 py-1" type="time"
             v-model="selectedPublishTime" />
         </div>
         <div class="my-5">
@@ -155,7 +139,7 @@ const isDisabledCloseTime = computed(() => {
           <input :disabled="isDisabledCloseTime" :style="isDisabledCloseTime
             ? 'opacity: 0.5; background-color:darkgray; cursor: not-allowed;'
             : 'opacity: 1; background-color:InputColor;'
-            " class="w-1/5 bg-InputColor drop-shadow-md rounded-lg px-5 py-1" type="time"
+            " class="sm:w-1/5 mt-2 bg-InputColor drop-shadow-md rounded-lg px-5 py-1" type="time"
             v-model="selectedCloseTime" />
         </div>
         <div>
@@ -164,7 +148,7 @@ const isDisabledCloseTime = computed(() => {
           <label for="displayShow" class="ml-2">Check to show this announcement</label>
         </div>
         <PreviewFile @filesSubmit="addNewFiles" />
-        <div class="mt-10 text-center">
+        <div class="mb-5 text-center">
           <button class="ann-button shadow-md hover:bg-ButtonViewHover mr-2 rounded-full bg-DarkGreen px-5 py-2 font-bold"
             @click="submit(announcementObj)">
             Submit

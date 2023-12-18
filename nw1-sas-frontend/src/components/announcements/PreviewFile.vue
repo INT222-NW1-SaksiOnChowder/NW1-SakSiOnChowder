@@ -29,11 +29,7 @@ const files = ref([])
 // }
 
 const chooseBinaryFiles = (event) => {
-    console.log(props.maxlength);
     const selectedFiles = event.target.files
-    console.log(files.value.length);
-    console.log(selectedFiles.length);
-    console.log(props.filesName.length);
     if (selectedFiles.length > props.maxlength || files.value.length >= props.maxlength) {
         console.log("You can only attach up to 5 files.")
         alert("You can only attach up to 5 files.")
@@ -161,7 +157,6 @@ const checkFiles = (file) => {
                     :disabled="files.length >= props.maxlength" />
             </label>
         </div>
-        <!-- <hr class="my-5 border-2 rounded-xl border-gray-100"> -->
 
         <div v-for="(file, index) in files" :key="index" class="flex items-center">
             <a :href="createObjectURL(file)" target="_blank"
@@ -170,10 +165,6 @@ const checkFiles = (file) => {
                 }}</a><button @click="removeFile(index)"
                 class="p-2 flex justify-between bg-DarkRed mb-2 text-sm rounded-r-md hover:bg-ButtonDeleteHover ">Delete</button>
         </div>
-
-        <!-- <div >
-            <img :src="previewSrc" alt="" v-if="canPreview">
-        </div> -->
     </div>
 </template>
 

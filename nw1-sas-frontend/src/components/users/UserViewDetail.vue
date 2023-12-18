@@ -22,15 +22,10 @@ const route = useRoute();
 const files = ref([])
 const fileStatus = ref("")
 
-console.log(route.params.id);
-
 onMounted(async() => {
     const route = useRoute()
     setShowCloseTime()
     announcement.value = await getAnnouncementUser(route.params.id, announcementStores.mode)
-    console.log(announcementStores.mode);
-    console.log(announcement.value);
-    console.log(route.params.id);
     if (!announcement.value) {
         alert('The request page is not available')
         router.push({name: "userViewAnnouncement"})
@@ -41,12 +36,10 @@ onMounted(async() => {
     if (files.value.length === 0) {
         fileStatus.value = "No files available"
     }
-    console.log(files.value);
 })
 
 const previewFile = async (id, fileName) => {
     const file = await getFile(id, fileName)
-    console.log(file);
     const url = file.url;
     window.open(url);
 }

@@ -1,6 +1,6 @@
 const ROOT_API = import.meta.env.VITE_ROOT_API
 const getAnnouncementsUser = async (mode, id, category) => {
-    const accessToken = localStorage.getItem("accessToken");
+    // const accessToken = localStorage.getItem("accessToken");
     let pagesId = ''
     let pagesMode = ''
     let categoryType = ''
@@ -40,9 +40,6 @@ const getAnnouncementUser = async (id, mode) => {
         const res = await fetch(`${ROOT_API}/api/announcements/${id}?mode=${mode}&count=true`,
             {
                 method: "GET",
-                // headers: {
-                //     "Authorization": `Bearer ${accessToken}`,
-                // },
             })
         if (res.status === 200) {
             announcement = await res.json()
@@ -59,9 +56,6 @@ const getAnnouncementUser = async (id, mode) => {
                 alert(err.errorMessage);
             }
         }
-        // else {
-        //     throw new Error(`Announcement id ${id} doesn't exist`)
-        // }
     } catch (error) {
         console.log(`ERROR cannot read data: ${error}`);
     }

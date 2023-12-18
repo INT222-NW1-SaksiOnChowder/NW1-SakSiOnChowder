@@ -7,7 +7,6 @@ import TimeZone from "../icones/TimeZone.vue";
 import AddIcon from "../icones/AddIcon.vue";
 import { deleteUser } from "../../composable/users/deleteUser.js"
 import Menubar from "../Navbar.vue"
-import { getToken, getNewAccessToken } from "../../composable/users/getToken.js";
 import { username } from "../../stores/username";
 const router = useRouter();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -36,21 +35,17 @@ const noUser = () => {
 
 const deleteUserById = async (id, username) => {
     router.push({ name: "deleteUser", params: { id: id } })
-    // const confirmed = confirm(`The announcements owned by this user will be transfered to you. Do you still want to delete this user`)
-    // const userDetail = JSON.parse(localStorage.getItem("userDetail"))
     if (currentUsername.currentUsername !== username) {
         if (confirm(`The announcements owned by this user will be transfered to you. Do you still want to delete this user`)) {
             let deleteResult = await deleteUser(id);
             if (!deleteResult) {
                 deleteResult = await deleteUser(id);
-                console.log(deleteResult);
             }
         }
     } else {
         let deleteResult = await deleteUser(id);
         if (!deleteResult) {
             deleteResult = await deleteUser(id);
-            console.log(deleteResult);
         }
     }
 

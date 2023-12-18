@@ -1,6 +1,6 @@
 <script setup>
 import { getAnnouncementsUser, getAnnouncementUser } from "../../composable/users/getAnnouncementUser.js"
-import { ref, onMounted, onUpdated, computed, onBeforeMount, watchEffect } from "vue"
+import { ref, onMounted, onUpdated, computed, onBeforeMount } from "vue"
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js"
 import { annStores } from '../../stores/counter.js'
 import TimeZone from '../icones/TimeZone.vue'
@@ -9,11 +9,9 @@ import ActiveIcon from "../icones/ActiveIcon.vue"
 import Menubar from "../Navbar.vue"
 import ModalSubCategory from "../subscription/ModalSubCategory.vue"
 import UnSubScription from "../subscription/UnSubScription.vue"
-import { useRoute, useRouter } from 'vue-router';
-import jwt_decode from "jwt-decode"
+import { useRoute } from 'vue-router';
 
 const route = useRoute()
-// console.log(route.query.token);
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const announcementStores = annStores()
@@ -51,16 +49,11 @@ onMounted(async () => {
   checkUserLogin()
   noAnnouncement()
   announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, announcementStores.category)
-  // console.log(annoucementContent.value);
   annoucementContent.value = announcements.value.content
-  console.log(annoucementContent.value);
   selectedCategory.value = announcementStores.category
   setShowCloseTime()
   checkPageButton()
   noAnnouncement()
-  if (localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== undefined) {
-    activeMenubar.value = true
-  }
 })
 
 onUpdated(() => {
@@ -71,15 +64,6 @@ onUpdated(() => {
     wordButton.value = 'Active Announcements'
   } else {
     wordButton.value = "Closed Announcements"
-  }
-  console.log(showMenubar.value);
-})
-
-watchEffect(() => {
-  if (localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== undefined) {
-    activeMenubar.value = true
-  } else {
-    activeMenubar.value = false
   }
 })
 
@@ -188,13 +172,12 @@ const togglePopUpSubscription = () => {
       <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
         <div class="flex font-bold py-7 items-center justify-center bg-LightBlue text-BlueFonts">
           <h1 class="drop-shadow-lg xs:text-3xl sm:text-3xl md:text-4xl text-sm">SIT Announcement System (SAS)</h1>
-          <Menubar v-if="activeMenubar" class="items-center justify-center md:text-lg text-xs" />
+          <Menubar v-if="showMenubar" class="items-center justify-center md:text-lg text-xs" />
         </div>
       </div>
       <div class="flex my-8 w-full text-xs  lg:text-base items-center justify-between">
         <p class="mx-5 items-center justify-center text-center flex flex-col sm:flex-row">
           <TimeZone></TimeZone>&nbsp; Date/Time shown in Timezone : &nbsp;
-          <!-- responsive -->
           <span class="font-bold text-BlueFonts">{{
             timezone
           }}</span>
@@ -209,9 +192,7 @@ const togglePopUpSubscription = () => {
           </div>
           <router-link :to="{ name: 'login' }" v-if="!showMenubar"
             class="ann-button px-5 py-2 md:text-lg mt-2 sm:mt-0 font-bold ml-5 ann-button bg-DarkBlue  hover:bg-LightBlue text-BlueFonts rounded-full ">
-            <!-- <router-link :to="{ name: 'login' }" class="ann-button px-5 py-2 text-lg"> -->
             Login
-            <!-- </router-link> -->
           </router-link>
         </div>
       </div>
@@ -233,9 +214,9 @@ const togglePopUpSubscription = () => {
           <thead class="md:text-base text-xs bg-DarkBlue uppercase text-BlueFonts">
             <tr>
               <th scope="col" class="px-6 py-3 ">No.</th>
-              <th scope="col" class="px-6 py-3 text-left">Title</th>
-              <th v-show="showCloseTime" scope="col" class="px-6 py-3 text-left">Close Time</th>
-              <th scope="col" class="px-6 py-3 text-left">Category</th>
+              <th scope="col" class="px-28 xl:px-6 text-left py-3">Title</th>
+              <th v-show="showCloseTime" scope="col" class="lg:px-6 px-16 py-3 text-left">Close Time</th>
+              <th scope="col" class="lg:px-6 px-8 py-3 text-left">Category</th>
             </tr>
           </thead>
 

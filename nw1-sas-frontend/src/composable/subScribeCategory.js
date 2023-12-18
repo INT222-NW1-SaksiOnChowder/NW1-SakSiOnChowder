@@ -16,7 +16,6 @@ const subScribeCategory = async (usersubscribe) => {
         if (res.status === 200) {
             const data = await res.json()
             console.log('Subscribe successfully')
-            console.log(data);
             return data.otpToken
         }
         else if (res.status === 400) {
@@ -31,8 +30,6 @@ const subScribeCategory = async (usersubscribe) => {
 }
 
 const verifyOTP = async (otpNumber ,otpToken) => {
-    console.log(otpNumber);
-    console.log(otpToken);
     try {
         const res = await fetch(`${ROOT_API}/api/subscription/verify`,
             {
@@ -55,6 +52,9 @@ const verifyOTP = async (otpNumber ,otpToken) => {
         } else if (res.status === 403) {
             alert("OTP is expired. Please try again.")
             return true
+        } else if (res.status === 400) {
+            alert("OTP is invalid. Check your mail and please try again.")
+            return false
         }
     } catch (error) {
         console.log(`ERROR cannot create data: ${error}`);
@@ -66,7 +66,6 @@ const verifyOTP = async (otpNumber ,otpToken) => {
 
 
 const unSubScribeCategory = async (unSubScriptionToken) => {
-    console.log(unSubScriptionToken);
     try {
         const res = await fetch(`${ROOT_API}/api/subscription/unsubscribe`,
             {

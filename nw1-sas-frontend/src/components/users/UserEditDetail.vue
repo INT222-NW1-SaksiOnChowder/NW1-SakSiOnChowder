@@ -1,11 +1,9 @@
 <script setup>
 import { getUser } from "../../composable/users/getUser.js";
-import { getUsers } from "../../composable/users/getUser.js";
-import { ref, onMounted, computed, watchEffect } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { changeDateTimeFormat } from "../../composable/changeFormatDate.js";
 import { useRouter, useRoute } from "vue-router";
 import { updateUser } from "../../composable/users/editUser.js";
-import { getToken, getNewAccessToken } from "../../composable/users/getToken.js";
 import { username } from "../../stores/username";
 import { clearToken } from "../../composable/users/clearToken";
 const router = useRouter();
@@ -29,8 +27,6 @@ const checkEmailLengthAndUnique = ref(false)
 
 onMounted(async () => {
     const route = useRoute();
-    console.log(route.params.id);
-    // listUser.value = await getUsers();
     userObj.value = await getUser(route.params.id);
     if (!userObj.value) {
         userObj.value = await getUser(route.params.id);
@@ -39,7 +35,6 @@ onMounted(async () => {
     if (!oldUserData.value) {
         oldUserData.value = await getUser(route.params.id);
     }
-    console.log(userObj.value);
 });
 
 // watchEffect(() => {
@@ -88,7 +83,6 @@ const save = async (event) => {
     }
     if (res.value !== true) {
         for (const err of res.value) {
-            console.log(res.value)
             switch (err.field) {
                 case "username":
                     userNameMessage.value = err.errorMessage
@@ -103,16 +97,11 @@ const save = async (event) => {
         }
     }
 
-    console.log(currentUsername.currentUsername);
-    console.log(oldUserData.value.username);
     if (userNameMessage.value === '' && nameMessage.value === '' && emailMessage.value === '') {
-        console.log(currentUsername.currentUsername);
-        console.log(oldUserData.value.username);
         if (currentUsername.currentUsername === oldUserData.value.username) {
             if (currentUsername.currentUsername !== userObj.value.username || userDetail.value.role !== `ROLE_${userObj.value.role}`) {
             alert("Your username or roke has been updated, requiring you to login again.")
             clearToken()
-            console.log("log");
             router.push({ name: 'login' })
         }
         }
@@ -131,14 +120,14 @@ const save = async (event) => {
 <template>
     <div class="flex justify-center w-full min-h-screen max-h-full bg-Background">
         <div class="w-4/5">
-            <div class="mx-32">
+            <div class="lg:mx-32">
                 <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3 mb-8">
-                    <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
+                    <h1 class="text-BlueFonts py-1 px-2 lg:text-2xl text-lg lg:px-5 lg:py-5 font-bold">
                         User Detail:
                     </h1>
                 </div>
                 <form @submit="save">
-                    <div class="bg-LightBlue rounded-2xl py-9 px-28">
+                    <div class="bg-LightBlue rounded-2xl text-sm lg:text-base lg:py-9 py-2 px-5 lg:px-28">
                         <!-- username -->
                         <div class="my-5">
                             <div class="flex justify-between">
@@ -203,8 +192,8 @@ const save = async (event) => {
                                 <option value="announcer">announcer</option>
                             </select>
                         </div>
-                        <div class="my-5 flex w-3/4 justify-between">
-                            <p class="font-bold">
+                        <div class="mt-5 my-10 flex w-full md:justify-between xl:flex-row flex-col">
+                            <p class="font-bold xl:mb-auto mb-3">
                                 Created On:
                                 <span class="font-normal ann-created-on">{{
                                     changeDateTimeFormat(userObj.createdOn)
