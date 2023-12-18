@@ -48,7 +48,7 @@ const deleteAnnouncement = async (id) => {
   const confirmed = confirm(`Do you want to delete`);
   if (confirmed) {
     await deleteAcc(id);
-    // await deleteAllFiles(id);
+    await deleteAllFiles(id);
   }
   announcements.value = await getAnnouncements();
   announcements.value.sort((a, b) => b.id - a.id);
