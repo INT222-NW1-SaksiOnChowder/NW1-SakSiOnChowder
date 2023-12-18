@@ -75,7 +75,7 @@ onMounted(async () => {
     <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
         <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
                 <div
                     class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                     <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
@@ -101,7 +101,7 @@ onMounted(async () => {
                             <div v-if="finishSendOTP" class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full">
                                 <label class="block mb-2 text-xl text-center font-semibold text-gray-900 dark:text-white">Subscription</label>
                                 <label for="helper-text"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                                    class="block mb-2 text-sm font-medium text-left text-gray-900 dark:text-white">Your
                                     email</label>
                                 <input v-model.trim="emailInput" type="email" id="helper-text"
                                     aria-describedby="helper-text-explanation"
@@ -109,7 +109,7 @@ onMounted(async () => {
                                     placeholder="name@gmail.com">
 
                                 <label for="countries"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose
+                                    class="block mb-2 text-sm font-medium text-left text-gray-900 dark:text-white">Choose
                                     Category</label>
                                 <select v-model="selectedCategory" id="countries"
                                     class="mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -137,7 +137,7 @@ onMounted(async () => {
                         </div>
 
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    <div class="bg-gray-50 px-4 pt-3 pb-5 sm:flex sm:flex-row-reverse sm:px-6">
                         <button v-if="finishSendOTP" type="button" @click="subScribeCategorySubmit"
                             class="inline-flex w-full justify-center rounded-md bg-DarkGreen px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 hover:bg-ButtonViewHover sm:w-auto">
                             Subscribe
