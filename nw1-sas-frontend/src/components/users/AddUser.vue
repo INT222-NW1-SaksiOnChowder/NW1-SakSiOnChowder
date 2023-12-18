@@ -103,7 +103,7 @@ const save = async (event) => {
                 </div>
                 <form @submit="save">
                     <!-- Username -->
-                    <div class="bg-LightBlue rounded-2xl lg:py-9 py-2 px-5 lg:px-28">
+                    <div class="bg-LightBlue rounded-2xl text-sm lg:text-base lg:py-9 py-2 px-5 lg:px-28">
 
                         <div class="my-5">
                             <div class="flex justify-between">

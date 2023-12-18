@@ -46,7 +46,7 @@ const previewFile = async (id, fileName) => {
                 Announcement Detail:
             </h1>
         </div>
-        <div class="rounded-3xl mx-5 bg-LightBlue lg:mx-10 py-3">
+        <div class="rounded-3xl mx-5 text-sm lg:text-base bg-LightBlue lg:mx-10 py-3">
             <div class="flex my-5 lg:justify-center items-center">
                 <h1 class="text-left mx-5 font-bold">
                     Title
@@ -102,7 +102,7 @@ const previewFile = async (id, fileName) => {
                 </div>
             </div>
         </div>
-        <div class="mt-5">
+        <div class="mt-5 ">
             <router-link :to="{ name: 'announcements' }"><button
                     class="ann-button bg-DarkRed rounded-full shadow-md py-2 px-7 ml-5 hover:bg-ButtonDeleteHover font-bold"
                     @click="idDetail">Back</button>
