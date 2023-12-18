@@ -203,8 +203,8 @@ const save = async (event) => {
                                 <option value="announcer">announcer</option>
                             </select>
                         </div>
-                        <div class="my-5 flex w-3/4 justify-between">
-                            <p class="font-bold">
+                        <div class="mt-5 my-10 flex w-full md:justify-between xl:flex-row flex-col">
+                            <p class="font-bold xl:mb-auto mb-3">
                                 Created On:
                                 <span class="font-normal ann-created-on">{{
                                     changeDateTimeFormat(userObj.createdOn)

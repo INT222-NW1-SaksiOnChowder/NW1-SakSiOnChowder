@@ -276,7 +276,7 @@ const submitEdit = async (announcement) => {
     if (newFiles.value !== undefined) {
         await editFiles(route.params.id, newFiles.value)
     }
-    await deleteFile(route.params.id, fileForDelete.value)
+    // await deleteFile(route.params.id, fileForDelete.value)
     await updateAnnouncement(editAnnouncement)
     waitingIcon.value = false
     router.push({ name: 'announcements' })

@@ -233,9 +233,9 @@ const togglePopUpSubscription = () => {
           <thead class="md:text-base text-xs bg-DarkBlue uppercase text-BlueFonts">
             <tr>
               <th scope="col" class="px-6 py-3 ">No.</th>
-              <th scope="col" class="px-6 py-3 text-left">Title</th>
-              <th v-show="showCloseTime" scope="col" class="px-6 py-3 text-left">Close Time</th>
-              <th scope="col" class="px-6 py-3 text-left">Category</th>
+              <th scope="col" class="px-28 xl:px-6 text-left py-3">Title</th>
+              <th v-show="showCloseTime" scope="col" class="lg:px-6 px-16 py-3 text-left">Close Time</th>
+              <th scope="col" class="lg:px-6 px-8 py-3 text-left">Category</th>
             </tr>
           </thead>
 

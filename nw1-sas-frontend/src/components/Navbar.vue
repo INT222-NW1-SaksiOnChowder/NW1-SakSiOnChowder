@@ -30,6 +30,10 @@ const toggleMenuBar = () => {
 // }
 // )
 
+const closeMenuBar = () => {
+    isShowMenuBar.value = false
+}
+
 const clearTokenButton = () => {
     Swal.fire({
         title: "Are you sure you want to sign out?",
@@ -46,6 +50,7 @@ const clearTokenButton = () => {
                 icon: "success"
             });
             clearToken()
+            isShowMenuBar.value = false
             router.push({name: 'userViewAnnouncement'})
             // window.location.reload()
         }
@@ -87,16 +92,16 @@ const clearTokenButton = () => {
         <div id="dropdownNavbar" v-show="isShowMenuBar"
             class="z-13 text-sm right-12 absolute font-normal rounded-xl bg-white divide-y divide-gray-100 shadow w-44">
             <div class="flex flex-col items-center w-full">
-                <router-link :to="{ name: 'userViewAnnouncement' }"
+                <router-link :to="{ name: 'userViewAnnouncement' }" @click="closeMenuBar"
                     class="py-2 w-full text-center hover:bg-gray-200/60">Announcement(Viewer)
                 </router-link>
-                <router-link :to="{ name: 'announcements' }"
+                <router-link :to="{ name: 'announcements' }" @click="closeMenuBar"
                     class="py-2 w-full text-center hover:bg-gray-200/60">Announcement
                 </router-link>
-                <router-link :to="{ name: 'userManagement' }" v-if="isShowAllNav"
+                <router-link :to="{ name: 'userManagement' }" @click="closeMenuBar" v-if="isShowAllNav"
                     class="py-2 w-full text-center hover:bg-gray-200/60">User
                 </router-link>
-                <router-link :to="{ name: 'matchPassword' }" v-if="isShowAllNav"
+                <router-link :to="{ name: 'matchPassword' }" @click="closeMenuBar" v-if="isShowAllNav"
                     class="py-2 w-full text-center hover:bg-gray-200/60">Match
                     Password
                 </router-link>
