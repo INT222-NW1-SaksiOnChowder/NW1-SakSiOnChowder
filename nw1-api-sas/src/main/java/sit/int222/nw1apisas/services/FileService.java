@@ -155,6 +155,10 @@ public class FileService {
     public String updateFile(MultipartFile[] files, Integer announcementId) {
         Path annFolder = this.fileStorageLocation.resolve(announcementId.toString());
         try {
+            if (!Files.exists(annFolder)) {
+                Files.createDirectories(annFolder);
+            }
+
             List<String> fileNames = Files.list(annFolder)
                     .filter(Files::isRegularFile)
                     .map(Path::getFileName)
@@ -166,16 +170,14 @@ public class FileService {
                 if (!uniqueFileNames.add(file.getOriginalFilename())) {
                     throw new BadRequestException("You have already selected the file name: " + file.getOriginalFilename(), "file");
                 }
+
                 // Check if the file count exceeds the limit
                 if (fileNames.size() + uniqueFileNames.size() > 5 && fileNames.stream().noneMatch(existsFile -> existsFile.equals(file.getOriginalFilename()))) {
                     throw new BadRequestException("Each upload is limited to a maximum of 5 files.", "file");
                 }
-            }
 
-            for (MultipartFile file : files) {
                 store(file, announcementId);
             }
-
             return "Update File Successful";
         } catch (IOException e) {
             return e.getMessage();
