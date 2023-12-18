@@ -9,14 +9,15 @@ import { role } from '../../stores/role.js'
 import TimeZone from "../icones/TimeZone.vue";
 import AddIcon from "../icones/AddIcon.vue";
 import Menubar from "../Navbar.vue";
+import { userDetailStore } from "../../composable/users/userDetailStore";
 
 const router = useRouter();
 const announcements = ref([]);
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const isShowOwner = ref(false)
-const currenRole = role()
+const userDetail = userDetailStore()
 
-if (currenRole.currentRole === 'ROLE_admin') {
+if (userDetail.role === 'ROLE_admin') {
   isShowOwner.value = true
 }
 
@@ -48,7 +49,7 @@ const deleteAnnouncement = async (id) => {
   const confirmed = confirm(`Do you want to delete`);
   if (confirmed) {
     await deleteAcc(id);
-    // await deleteAllFiles(id);
+    await deleteAllFiles(id);
   }
   announcements.value = await getAnnouncements();
   announcements.value.sort((a, b) => b.id - a.id);
