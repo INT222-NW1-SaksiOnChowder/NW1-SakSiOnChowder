@@ -80,7 +80,7 @@ const deleteUserById = async (id, username) => {
                     </span>
                 </p>
                 <div
-                    class="bg-DarkBlue shadow-md mr-5 font-semibold text-BlueFonts hover:bg-LightBlue rounded-full items-center justify-center">
+                    class="bg-DarkBlue mr-5 font-semibold text-BlueFonts hover:bg-LightBlue rounded-full items-center justify-center">
                     <router-link :to="{
                         name: 'addUser',
                     }">
