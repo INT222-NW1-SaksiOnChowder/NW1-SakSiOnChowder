@@ -26,7 +26,7 @@ const matchOrNotButton = async () => {
             <h1 class="drop-shadow-lg xs:text-3xl sm:text-3xl md:text-4xl text-sm">Match Password</h1>
             <Menubar class="items-center z-50 justify-center md:text-lg text-xs" />
         </div>
-        <div class="justify-center">
+        <div class="justify-center mx-5">
             <div v-if="divShowMassage" class="mx-0 my-10 flex justify-center w-full">
                 <div class="ann-message border w-96  text-center border-DarkGreen"
                     :class="showMessage.status ? 'text-DarkGreen border-DarkGreen' : 'text-DarkRed border-DarkRed'">

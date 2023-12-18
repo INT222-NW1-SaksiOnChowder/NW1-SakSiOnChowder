@@ -34,28 +34,7 @@ onMounted(async () => {
     listUser.value = await getUsers();
 });
 
-watchEffect(() => {
-    // if (userObj.value.username.length >= 0) {
-    //     // userNameMessage.value = validateUserInput(userObj.value, 'username', listUser.value).message
-    //     checkUsernameLengthAndUnique.value = validateUserInput(userObj.value, 'username', listUser.value).boolean
-    // }
-
-    // if (userObj.value.name.length >= 0) {
-    //     // nameMessage.value = validateUserInput(userObj.value, 'name', listUser.value).message
-    //     checkNameLengthAndUnique.value = validateUserInput(userObj.value, 'name', listUser.value).boolean
-    // }
-
-    // if (userObj.value.email.length >= 0) {
-    //     // emailMessage.value = validateUserInput(userObj.value, 'email', listUser.value).message
-    //     checkEmailLengthAndUnique.value = validateUserInput(userObj.value, 'email', listUser.value).boolean
-    // }
-    // if (userObj.value.password.length >= 0) {
-    //     passwordMessage.value = validateUserInput(userObj.value, 'password', listUser.value).message
-    //     checkPasswordPattern.value = validateUserInput(userObj.value, 'password', listUser.value).boolean
-    // }
-    // if (userObj.value.password.length < 8 || userObj.value.password.length  > 14) {
-    //     passwordMessage.value = "Password size must be between 8 and 14"
-    // }   
+watchEffect(() => { 
     if (confirmPassword.value === userObj.value.password && confirmPassword.value.length > 0) {
         confirmPasswordMessage.value = 'Password match'
         checkConfirmPassword.value = true
@@ -114,18 +93,17 @@ const save = async (event) => {
 </script>
  
 <template>
-    <div class="flex w-full min-h-screen max-h-full bg-Background">
-        <Menubar />
+    <div class="flex justify-center w-full min-h-screen max-h-full bg-Background">
         <div class="w-4/5">
-            <div class="mx-32">
+            <div class="lg:mx-32">
                 <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3 mb-8">
-                    <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
+                    <h1 class="text-BlueFonts py-1 px-2 lg:text-2xl text-lg lg:px-5 lg:py-5 font-bold">
                         User Detail:
                     </h1>
                 </div>
                 <form @submit="save">
                     <!-- Username -->
-                    <div class="bg-LightBlue rounded-2xl py-9 px-28">
+                    <div class="bg-LightBlue rounded-2xl lg:py-9 py-2 px-5 lg:px-28">
 
                         <div class="my-5">
                             <div class="flex justify-between">

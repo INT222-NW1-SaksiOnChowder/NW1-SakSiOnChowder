@@ -131,14 +131,14 @@ const save = async (event) => {
 <template>
     <div class="flex justify-center w-full min-h-screen max-h-full bg-Background">
         <div class="w-4/5">
-            <div class="mx-32">
+            <div class="lg:mx-32">
                 <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3 mb-8">
-                    <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
+                    <h1 class="text-BlueFonts py-1 px-2 lg:text-2xl text-lg lg:px-5 lg:py-5 font-bold">
                         User Detail:
                     </h1>
                 </div>
                 <form @submit="save">
-                    <div class="bg-LightBlue rounded-2xl py-9 px-28">
+                    <div class="bg-LightBlue rounded-2xl lg:py-9 py-2 px-5 lg:px-28">
                         <!-- username -->
                         <div class="my-5">
                             <div class="flex justify-between">

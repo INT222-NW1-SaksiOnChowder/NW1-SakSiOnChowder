@@ -83,14 +83,14 @@ const clearTokenButton = () => {
             Sign Out
         </router-link>
     </div> -->
-    <div class="absolute right-12">
+    <div class="absolute lg:right-12 right-5">
         <button @click="toggleMenuBar" id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"
             class="flex items-center justify-between w-full py-2 px-3 ">
             <Burger />
         </button>
         <!-- Dropdown menu -->
         <div id="dropdownNavbar" v-show="isShowMenuBar"
-            class="z-13 text-sm right-12 absolute font-normal rounded-xl bg-white divide-y divide-gray-100 shadow w-44">
+            class="z-13 text-sm lg:right-12 right-5 absolute font-normal rounded-xl bg-white divide-y divide-gray-100 shadow w-44">
             <div class="flex flex-col items-center w-full">
                 <router-link :to="{ name: 'userViewAnnouncement' }" @click="closeMenuBar"
                     class="py-2 w-full text-center hover:bg-gray-200/60">Announcement(Viewer)

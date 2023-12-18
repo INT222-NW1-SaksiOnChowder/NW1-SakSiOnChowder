@@ -286,13 +286,13 @@ const submitEdit = async (announcement) => {
  
 <template>
     <div class="w-full min-h-screen max-h-full bg-Background">
-        <div class="mx-32">
+        <div class="lg:mx-32 mx-5">
             <div class="rounded-full shadow-md bg-DarkBlue inline-block mt-3 mb-8">
-                <h1 class="text-BlueFonts text-2xl px-5 py-5 font-bold">
+                <h1 class="text-BlueFonts py-1 px-2 lg:text-2xl text-lg lg:px-5 lg:py-5 font-bold">
                     Announcement Detail:
                 </h1>
             </div>
-            <div class="bg-LightBlue rounded-2xl py-9 px-28">
+            <div class="bg-LightBlue rounded-2xl lg:py-9 py-2 px-5 lg:px-28">
                 <div class="my-5">
                     <label class="font-bold">Title</label><br>
                     <input maxlength="200" class="ann-title bg-InputColor drop-shadow-md h-8 w-full rounded-lg" type="text"
@@ -316,16 +316,16 @@ const submitEdit = async (announcement) => {
                 </div>
                 <div class="my-5">
                     <label class="font-bold">Publish Date</label><br>
-                    <input class="ann-publish-date drop-shadow-md bg-InputColor w-1/5 mr-5 rounded-lg px-5 py-1" type="date"
+                    <input class="ann-publish-date drop-shadow-md mt-2 bg-InputColor sm:w-1/5 mr-5 rounded-lg px-5 py-1" type="date"
                         v-model="selectedPublishDate">
-                    <input class="ann-publish-time w-1/5 bg-InputColor drop-shadow-md rounded-lg px-5 py-1" type="time"
+                    <input class="ann-publish-time sm:w-1/5 mt-2 bg-InputColor drop-shadow-md rounded-lg px-5 py-1" type="time"
                         v-model="selectedPublishTime">
                 </div>
                 <div class="my-5">
                     <label class="font-bold">Close Date</label><br>
-                    <input class="ann-close-date bg-InputColor drop-shadow-md sm:w-1/5 mr-5 rounded-lg px-5 py-1"
+                    <input class="ann-close-date bg-InputColor mt-2 drop-shadow-md sm:w-1/5 mr-5 rounded-lg px-5 py-1"
                         type="date" v-model="selectedCloseDate">
-                    <input class="ann-close-time w-1/5 bg-InputColor drop-shadow-md rounded-lg px-5 py-1" type="time"
+                    <input class="ann-close-time sm:w-1/5 mt-2 bg-InputColor drop-shadow-md rounded-lg px-5 py-1" type="time"
                         v-model="selectedCloseTime">
                 </div>
                 <div class="my-5">
