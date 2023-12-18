@@ -11,7 +11,7 @@ const deleteUser = async (id) => {
         }
       })
     if (res.ok) {
-      console.log("Delete Successfully");
+      console.log("Delete User Successfully");
       alert("Delete user id: " + id + " successfully")
       return true
     } else if (res.status === 403) {

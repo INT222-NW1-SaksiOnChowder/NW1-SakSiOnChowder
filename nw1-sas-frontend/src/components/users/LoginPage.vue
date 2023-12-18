@@ -24,7 +24,6 @@ const matchOrNotButton = async () => {
     result.value = await getToken(userObj.value)
     divShowMassage.value = true
     resultMsg.value = result.value.message
-    console.log(result.value.status);
     if (result.value.status === true) {
         Swal.fire({
             position: "center",

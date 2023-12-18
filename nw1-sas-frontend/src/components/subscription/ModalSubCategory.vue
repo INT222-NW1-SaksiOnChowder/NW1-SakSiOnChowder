@@ -22,7 +22,6 @@ const subScribeCategorySubmit = async () => {
         categoryId: Number(selectedCategory.value),
     };
     tokenOTP.value = await subScribeCategory(data);
-    console.log(tokenOTP.value);
 
     if (tokenOTP.value !== 'You have been already subscribed') {
         finishSendOTP.value = false;
@@ -44,8 +43,6 @@ const verifyOTPSubmit = async () => {
     const data = {
         otp: otp.value
     };
-    console.log(data);
-    console.log(tokenOTP.value);
     const resultawait = await verifyOTP(data, tokenOTP.value);
     if (resultawait === true) {
         emits("cancel")
@@ -66,7 +63,6 @@ watchEffect(() => {
 onMounted(async () => {
     if (userDetail.value !== false) {
         emailInput.value = userDetail.value.user_email
-        console.log(userDetail.value.user_email);
     }
 });
 
@@ -78,7 +74,7 @@ onMounted(async () => {
             <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
                 <div
                     class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                    <div class="bg-white px-4 w-80 sm:w-auto pb-4 pt-5 sm:p-6 sm:pb-4">
 
                         <div class="sm:flex sm:items-start w-full mb-5">
 

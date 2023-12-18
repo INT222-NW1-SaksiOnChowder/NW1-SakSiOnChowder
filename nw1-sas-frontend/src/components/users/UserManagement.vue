@@ -43,14 +43,12 @@ const deleteUserById = async (id, username) => {
             let deleteResult = await deleteUser(id);
             if (!deleteResult) {
                 deleteResult = await deleteUser(id);
-                console.log(deleteResult);
             }
         }
     } else {
         let deleteResult = await deleteUser(id);
         if (!deleteResult) {
             deleteResult = await deleteUser(id);
-            console.log(deleteResult);
         }
     }
 

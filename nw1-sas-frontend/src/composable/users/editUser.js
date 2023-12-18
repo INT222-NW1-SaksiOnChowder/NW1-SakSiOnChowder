@@ -26,7 +26,6 @@ const updateUser = async (user) => {
           alert(err.field + " " + err.errorMessage);
         }
       }
-      console.log(error.detail);
       return error.detail
     }
   } catch (error) {

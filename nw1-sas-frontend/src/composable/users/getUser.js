@@ -3,12 +3,10 @@ import { getNewAccessToken } from "./getToken.js";
 import {role} from "../../stores/role.js"
 import { username } from "../../stores/username.js"
 const getUsers = async () => {
-  console.log('EEE');
   const currentRole = role()
   const currentUsername = username()
   const accessToken = localStorage.getItem("accessToken");
   currentRole.currentRole = undefined
-  console.log(accessToken);
   try {
     const res = await fetch(`${ROOT_API}/api/users`,
       {
@@ -19,20 +17,11 @@ const getUsers = async () => {
       });
     if (res.status === 200) {
       const user = await res.json();
-      console.log("Alls Successfully");
-      console.log(user);
-      // for (const u of user) {
-      //   if (u.username=== currentUsername.currentUsername) {
-      //     currentRole.setRole(u.role);
-      //     localStorage.setItem("role", u.role);
-      //     console.log(currentRole.currentRole);
-      //   }
-      // }
+      console.log("All Successfully");
       return user;
     } else if (res.status !== 200) {
       const error = await res.json();
       alert(error.message);
-      console.log('else');
     }
   } catch (error) {
     console.log(`ERROR cannot read data: ${error}`);
@@ -54,7 +43,7 @@ const getUser = async (id) => {
 
     if (res.status === 200) {
       user = await res.json();
-      console.log("Detail Successfully");
+      console.log("All Detail Successfully");
       return user;
     } else if (res.status !== 200) {
       const error = await res.json();

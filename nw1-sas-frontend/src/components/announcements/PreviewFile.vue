@@ -29,11 +29,7 @@ const files = ref([])
 // }
 
 const chooseBinaryFiles = (event) => {
-    console.log(props.maxlength);
     const selectedFiles = event.target.files
-    console.log(files.value.length);
-    console.log(selectedFiles.length);
-    console.log(props.filesName.length);
     if (selectedFiles.length > props.maxlength || files.value.length >= props.maxlength) {
         console.log("You can only attach up to 5 files.")
         alert("You can only attach up to 5 files.")

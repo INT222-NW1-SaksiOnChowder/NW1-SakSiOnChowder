@@ -13,7 +13,6 @@ import { useRoute, useRouter } from 'vue-router';
 import jwt_decode from "jwt-decode"
 
 const route = useRoute()
-// console.log(route.query.token);
 const announcements = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const announcementStores = annStores()
@@ -51,16 +50,11 @@ onMounted(async () => {
   checkUserLogin()
   noAnnouncement()
   announcements.value = await getAnnouncementsUser(announcementStores.mode, announcementStores.page, announcementStores.category)
-  // console.log(annoucementContent.value);
   annoucementContent.value = announcements.value.content
-  console.log(annoucementContent.value);
   selectedCategory.value = announcementStores.category
   setShowCloseTime()
   checkPageButton()
   noAnnouncement()
-  if (localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== undefined) {
-    activeMenubar.value = true
-  }
 })
 
 onUpdated(() => {
@@ -72,15 +66,10 @@ onUpdated(() => {
   } else {
     wordButton.value = "Closed Announcements"
   }
-  console.log(showMenubar.value);
 })
 
 watchEffect(() => {
-  if (localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== undefined) {
-    activeMenubar.value = true
-  } else {
-    activeMenubar.value = false
-  }
+  // checkUserLogin()
 })
 
 const getListAnnouncement = async () => {
@@ -188,7 +177,7 @@ const togglePopUpSubscription = () => {
       <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
         <div class="flex font-bold py-7 items-center justify-center bg-LightBlue text-BlueFonts">
           <h1 class="drop-shadow-lg xs:text-3xl sm:text-3xl md:text-4xl text-sm">SIT Announcement System (SAS)</h1>
-          <Menubar v-if="activeMenubar" class="items-center justify-center md:text-lg text-xs" />
+          <Menubar v-if="showMenubar" class="items-center justify-center md:text-lg text-xs" />
         </div>
       </div>
       <div class="flex my-8 w-full text-xs  lg:text-base items-center justify-between">

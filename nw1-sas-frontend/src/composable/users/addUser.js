@@ -15,7 +15,7 @@ const createUser = async (user) => {
             }
         )
         if (res.status === 200) {
-            console.log('Create successfully')
+            console.log('Create User Successfully')
             return true
         }
         else if (res.status === 400) {

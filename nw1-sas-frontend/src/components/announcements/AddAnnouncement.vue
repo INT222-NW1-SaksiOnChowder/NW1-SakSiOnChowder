@@ -29,7 +29,6 @@ announcementObj.value = {
 
 const addNewFiles = (files) => {
   filesValue.value = files
-  console.log(filesValue.value);
 }
 
 const submit = async (addAnnouncement) => {
@@ -58,13 +57,9 @@ const submit = async (addAnnouncement) => {
 
   const result = await createAnnouncement(addAnnouncement)
   announcementId.value = result.id
-  console.log(result.id);
-  console.log(announcementId.value);
   if (result !== undefined && result !== false) {
-    console.log(filesValue.value);
     if (filesValue.value !== undefined) {
       const addFilesResult = await addFiles(announcementId.value, filesValue.value)
-      console.log(addFilesResult);
       if (addFilesResult) {
         alert('Create successfully')
         router.push({ name: 'announcements' })

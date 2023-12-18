@@ -27,7 +27,6 @@ onMounted(async () => {
   if (announcements.value === false) {
     announcements.value = await getAnnouncements();
   }
-  console.log(announcements.value);
   announcements.value.sort((a, b) => b.id - a.id);
   noAnnouncement();
 });

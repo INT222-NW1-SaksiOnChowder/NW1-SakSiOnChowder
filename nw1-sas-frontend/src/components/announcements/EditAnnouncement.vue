@@ -37,23 +37,17 @@ onMounted(async () => {
 
     files.value = await getFiles(route.params.id)
     fileSize.value = files.value.length
-    console.log(fileSize.value);
-    console.log(files.value);
     if (files.value.length === 0) {
         fileStatus.value = "No files available"
     }
-    console.log(files.value);
 })
 
 watchEffect(async () => {
     files.value = await getFiles(route.params.id)
     fileSize.value = files.value.length
-    console.log(fileSize.value);
-    console.log(files.value);
     if (files.value === false) {
         fileStatus.value = "No files available"
     }
-    console.log(files.value);
 })
 
 
@@ -69,10 +63,7 @@ const beforeAnnouncementCloseTime = ref('')
 
 
 const checkAnnouncement = computed(() => {
-    console.log('call checkAnnouncement');
     if (newFiles.value !== null && newFiles.value !== undefined && newFiles.value.length !== 0) {
-        console.log('add new file');
-        console.log(newFiles.value);
         return false
     } else if (fileForDelete.value.length !== 0) {
         return false
@@ -189,55 +180,18 @@ const setTime = (announcement) => {
 
 const addNewFiles = (files) => {
     newFiles.value = files
-    console.log(newFiles.value);
 }
 
 const previewFile = async (id, fileName) => {
     const file = await getFile(id, fileName)
-    console.log(file);
     const url = file.url;
     window.open(url);
 }
-
-// const realDeleteFile = async (id, file) => {
-//     Swal.fire({
-//         title: `Are you sure you want to delete`,
-//         text: `${file}`,
-//         icon: "warning",
-//         showCancelButton: true,
-//         confirmButtonColor: "#999B86",
-//         cancelButtonColor: "#BD6666",
-//         confirmButtonText: "Yes, Delete"
-//     }).then(async (result) => {
-//         if (result.isConfirmed) {
-//             Swal.fire({
-//                 title: "Deleted",
-//                 text: `${file}`,
-//                 icon: "success"
-//             });
-//             await deleteFile(id, file)
-//             files.value = await getFiles(id)
-//             if (files.value === false) {
-//                 fileStatus.value = "No files available"
-//             }
-//             console.log(files.value);
-//         }
-//     });
-
-//     await deleteFile(id, file)
-//     files.value = await getFiles(id)
-//     console.log('aaa');
-//     if (files.value === false) {
-//         fileStatus.value = "No files available"
-//     }
-//     console.log(files.value);
-// }
 
 const removeFile = (index) => {
     const fileDelete = files.value.find((file, i) => index === i)
     fileForDelete.value.push(fileDelete);
     files.value.splice(index, 1);
-    console.log(files.value);
     fileSize.value = files.value.length
 }
 

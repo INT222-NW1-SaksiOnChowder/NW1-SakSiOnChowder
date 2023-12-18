@@ -11,7 +11,6 @@ const isShowAllNav = ref(false)
 // const currentRole = role()
 const router = useRouter()
 const userDetails = ref(userDetailStore())
-console.log(userDetails.value);
 if (userDetails.value.role === "ROLE_admin") {
     isShowAllNav.value = true
 }
@@ -51,8 +50,9 @@ const clearTokenButton = () => {
             });
             clearToken()
             isShowMenuBar.value = false
-            router.push({name: 'userViewAnnouncement'})
-            // window.location.reload()
+            router.push({ name: 'userViewAnnouncement' }).then(() => {
+                router.go(0)
+            })
         }
     });
 }

@@ -28,12 +28,10 @@ onMounted(async () => {
     if (files.value.length === 0) {
         fileStatus.value = "No files available"
     }
-    console.log(files.value);
 })
 
 const previewFile = async (id, fileName) => {
     const file = await getFile(id, fileName)
-    console.log(file);
     const url = file.url;
     window.open(url);
 }

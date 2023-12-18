@@ -29,7 +29,6 @@ const checkEmailLengthAndUnique = ref(false)
 
 onMounted(async () => {
     const route = useRoute();
-    console.log(route.params.id);
     // listUser.value = await getUsers();
     userObj.value = await getUser(route.params.id);
     if (!userObj.value) {
@@ -39,7 +38,6 @@ onMounted(async () => {
     if (!oldUserData.value) {
         oldUserData.value = await getUser(route.params.id);
     }
-    console.log(userObj.value);
 });
 
 // watchEffect(() => {
@@ -88,7 +86,6 @@ const save = async (event) => {
     }
     if (res.value !== true) {
         for (const err of res.value) {
-            console.log(res.value)
             switch (err.field) {
                 case "username":
                     userNameMessage.value = err.errorMessage
@@ -103,16 +100,11 @@ const save = async (event) => {
         }
     }
 
-    console.log(currentUsername.currentUsername);
-    console.log(oldUserData.value.username);
     if (userNameMessage.value === '' && nameMessage.value === '' && emailMessage.value === '') {
-        console.log(currentUsername.currentUsername);
-        console.log(oldUserData.value.username);
         if (currentUsername.currentUsername === oldUserData.value.username) {
             if (currentUsername.currentUsername !== userObj.value.username || userDetail.value.role !== `ROLE_${userObj.value.role}`) {
             alert("Your username or roke has been updated, requiring you to login again.")
             clearToken()
-            console.log("log");
             router.push({ name: 'login' })
         }
         }

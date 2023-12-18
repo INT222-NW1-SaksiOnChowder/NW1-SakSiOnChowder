@@ -58,7 +58,6 @@ const save = async (event) => {
         }
         if (res.value !== true) {
             for (const err of res.value) {
-                console.log(res.value)
                 switch (err.field) {
                     case "username":
                         userNameMessage.value = err.errorMessage
