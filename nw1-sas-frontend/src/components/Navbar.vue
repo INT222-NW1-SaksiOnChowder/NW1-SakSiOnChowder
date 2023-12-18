@@ -6,6 +6,7 @@ import { userDetailStore } from '../composable/users/userDetailStore.js';
 import Burger from "./icones/Burger.vue"
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2'
+import AccountIcon from './icones/AccountIcon.vue'
 
 const isShowAllNav = ref(false)
 const router = useRouter()
@@ -60,6 +61,10 @@ const clearTokenButton = () => {
         <div id="dropdownNavbar" v-show="isShowMenuBar"
             class="z-13 text-sm lg:right-12 right-5 absolute font-normal rounded-xl bg-white divide-y divide-gray-100 shadow w-44">
             <div class="flex flex-col items-center w-full">
+                <div class="py-2 flex items-center justify-center rounded-t-xl bg-gray-200 w-full">
+                    <AccountIcon class="mr-2"/>
+                    <p class="text-lg font-semibold">{{ userDetails.sub }}</p>
+                </div>
                 <router-link :to="{ name: 'userViewAnnouncement' }" @click="closeMenuBar"
                     class="py-2 w-full text-center hover:bg-gray-200/60">Announcement(Viewer)
                 </router-link>
