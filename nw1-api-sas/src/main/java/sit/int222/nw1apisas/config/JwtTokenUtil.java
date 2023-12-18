@@ -68,7 +68,7 @@ public class JwtTokenUtil implements Serializable {
         return doGenerateToken(claims, email, jwtProperties.getOtpTokenExpired());
     }
 
-    public String generateSecureLink (String email, Integer categoryId) {
+    public String generateSecureLink(String email, Integer categoryId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("categoryId", categoryId);
         return Jwts.builder()

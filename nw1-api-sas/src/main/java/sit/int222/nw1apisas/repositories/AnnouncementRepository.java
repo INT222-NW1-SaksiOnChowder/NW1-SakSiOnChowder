@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.entities.User;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
 
