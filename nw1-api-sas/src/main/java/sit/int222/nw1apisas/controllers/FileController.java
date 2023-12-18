@@ -79,9 +79,7 @@ public class FileController {
             if (!fileNames.add(originalFileName)) {
                 throw new BadRequestException("You have already selected the file name: " + originalFileName, "file");
             }
-        }
-//        store file
-        for (MultipartFile file : files) {
+//            store file
             fileService.store(file, announcementId);
             System.out.println(file);
         }
