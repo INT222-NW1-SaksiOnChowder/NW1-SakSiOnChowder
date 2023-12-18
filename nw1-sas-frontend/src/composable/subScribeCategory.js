@@ -52,6 +52,9 @@ const verifyOTP = async (otpNumber ,otpToken) => {
         } else if (res.status === 403) {
             alert("OTP is expired. Please try again.")
             return true
+        } else if (res.status === 400) {
+            alert("OTP is invalid. Check your mail and please try again.")
+            return false
         }
     } catch (error) {
         console.log(`ERROR cannot create data: ${error}`);
