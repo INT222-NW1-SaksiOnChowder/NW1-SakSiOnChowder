@@ -186,27 +186,29 @@ const togglePopUpSubscription = () => {
   <div class="flex w-full min-h-screen max-h-full bg-Background">
     <div class="w-full">
       <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
-                <div class="flex font-bold py-7 items-center justify-center bg-LightBlue text-BlueFonts">
-                    <h1 class="drop-shadow-lg text-4xl">SIT Announcement System (SAS)</h1>
-                    <Menubar v-if="activeMenubar" />
-                </div>
-            </div>
-      <div class="flex mt-5 w-full">
-        <p class="w-full mx-5 items-center flex">
-          <TimeZone></TimeZone>&nbsp;
-          Date/Time shown in Timezone : &nbsp;
-          <span class="font-bold text-BlueFonts drop-shadow-sm">{{ timezone }}</span>
+        <div class="flex font-bold py-7 items-center justify-center bg-LightBlue text-BlueFonts">
+          <h1 class="drop-shadow-lg xs:text-3xl sm:text-3xl md:text-4xl text-sm">SIT Announcement System (SAS)</h1>
+          <Menubar v-if="activeMenubar" class="items-center justify-center md:text-lg text-xs" />
+        </div>
+      </div>
+      <div class="flex my-8 w-full text-xs  lg:text-base items-center justify-between">
+        <p class="mx-5 items-center justify-center text-center flex flex-col sm:flex-row">
+          <TimeZone></TimeZone>&nbsp; Date/Time shown in Timezone : &nbsp;
+          <!-- responsive -->
+          <span class="font-bold text-BlueFonts">{{
+            timezone
+          }}</span>
         </p>
-        <div class="w-full mr-5 flex justify-end">
-          <div class=" bg-DarkBlue font-bold hover:bg-LightBlue text-BlueFonts rounded-full">
-            <button @click="getListAnnouncement" class="ann-button px-5 py-2 text-lg ">
+        <div class="flex sm:flex-row flex-col mr-5 font-semibold rounded-full items-center justify-center">
+          <div class=" bg-DarkBlue h-full md:mb-auto font-bold hover:bg-LightBlue text-BlueFonts rounded-full">
+            <button @click="getListAnnouncement" class="ann-button md:px-5 px-2  py-2 md:text-lg text-xs font-bold">
               <ActiveIcon v-if="showCloseTime" class="inline mr-2 mb-1"></ActiveIcon>
               <CloseIcon v-else="showCloseTime" class="inline mr-2 mb-1"></CloseIcon>
               {{ wordButton }}
             </button>
           </div>
           <router-link :to="{ name: 'login' }" v-if="!showMenubar"
-            class="ml-5 ann-button px-5 py-2 text-lg bg-DarkBlue font-bold hover:bg-LightBlue text-BlueFonts rounded-full ">
+            class="ann-button px-5 py-2 md:text-lg mt-2 sm:mt-0 font-bold ml-5 ann-button bg-DarkBlue  hover:bg-LightBlue text-BlueFonts rounded-full ">
             <!-- <router-link :to="{ name: 'login' }" class="ann-button px-5 py-2 text-lg"> -->
             Login
             <!-- </router-link> -->
@@ -214,8 +216,8 @@ const togglePopUpSubscription = () => {
         </div>
       </div>
       <div class="ml-5 my-5 flex items-center">
-        <p class="flex font-semibold">Choose Category : </p>&nbsp;
-        <select class="ann-category-filter bg-Cream rounded-md p-1" @change="changeCategory($event.target.value)"
+        <p class="flex font-semibold md:text-base text-xs">Choose Category : </p>&nbsp;
+        <select class="ann-category-filter bg-Cream rounded-md p-1 md:text-base text-xs" @change="changeCategory($event.target.value)"
           v-model="selectedCategory">
           <option value="">ทั้งหมด</option>
           <option value="1">ทั่วไป</option>
@@ -224,20 +226,20 @@ const togglePopUpSubscription = () => {
           <option value="4">ฝึกงาน</option>
         </select>
         <button @click="togglePopUpSubscription"
-          class="ml-5 bg-DarkBlue font-bold hover:bg-LightBlue text-BlueFonts rounded-full px-5 py-2 text-sm">Subscribe</button>
+          class="ml-5 bg-DarkBlue font-bold hover:bg-LightBlue text-BlueFonts rounded-full px-5 py-2 text-xs md:text-sm">Subscribe</button>
       </div>
       <div class="mx-5 mt-2 overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm dark:text-gray-400">
-          <thead class="bg-DarkBlue text-base text-BlueFonts uppercase dark:bg-gray-700 dark:text-gray-400">
+          <thead class="md:text-base text-xs bg-DarkBlue uppercase text-BlueFonts">
             <tr>
-              <th scope="col" class="px-6 py-3 ${}">No.</th>
+              <th scope="col" class="px-6 py-3 ">No.</th>
               <th scope="col" class="px-6 py-3 text-left">Title</th>
               <th v-show="showCloseTime" scope="col" class="px-6 py-3 text-left">Close Time</th>
               <th scope="col" class="px-6 py-3 text-left">Category</th>
             </tr>
           </thead>
 
-          <tbody class="bg-Cream" v-if="!isAnnouncementFound">
+          <tbody class="bg-Cream md:text-base text-xs" v-if="!isAnnouncementFound">
             <tr v-for="(announcement, index) in annoucementContent" :key="index" class="ann-item">
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {{ ++index + (announcements.size * announcements.page) }}

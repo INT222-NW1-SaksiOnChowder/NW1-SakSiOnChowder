@@ -68,14 +68,14 @@ const deleteUserById = async (id, username) => {
         <div class="w-full">
             <div class="bg-LightBlue text-BlueFonts drop-shadow-lg">
                 <div class="flex font-bold py-7 items-center justify-center bg-LightBlue text-BlueFonts">
-                    <h1 class="drop-shadow-lg text-4xl">User Management</h1>
-                    <Menubar />
+                    <h1 class="drop-shadow-lg xs:text-3xl sm:text-3xl md:text-4xl text-sm">User Management</h1>
+                    <Menubar class="items-center justify-center md:text-lg text-xs"/>
                 </div>
             </div>
-            <div class="flex my-8 w-full justify-between">
-                <p class="mx-5 items-center flex">
+            <div class="flex my-8 w-full text-xs  md:text-base items-center justify-between">
+                <p class="mx-5 items-center justify-center text-center flex flex-col sm:flex-row">
                     <TimeZone></TimeZone>&nbsp; Date/Time shown in Timezone : &nbsp;
-                    <span class="font-bold text-BlueFonts drop-shadow-sm">
+                    <span class="font-bold text-BlueFonts">
                         {{ timezone }}
                     </span>
                 </p>
@@ -84,7 +84,7 @@ const deleteUserById = async (id, username) => {
                     <router-link :to="{
                         name: 'addUser',
                     }">
-                        <button class="ann-button px-5 py-2 text-lg font-bold">
+                        <button class="ann-button px-5 py-2 md:text-lg font-bold">
                             <AddIcon class="inline mr-2 mb-1"></AddIcon>Add User
                         </button>
                     </router-link>
@@ -92,7 +92,7 @@ const deleteUserById = async (id, username) => {
             </div>
             <div class="mx-5 mt-2 overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm h-full text-left">
-                    <thead class="text-base bg-DarkBlue uppercase text-BlueFonts">
+                    <thead class="md:text-base text-xs bg-DarkBlue uppercase text-BlueFonts">
                         <tr>
                             <th scope="col" class="px-6 py-3">No.</th>
                             <th scope="col" class="px-6 py-3">Username</th>
@@ -105,7 +105,7 @@ const deleteUserById = async (id, username) => {
                         </tr>
                     </thead>
 
-                    <tbody v-if="!isUserFound" class="bg-Cream">
+                    <tbody v-if="!isUserFound" class="bg-Cream md:text-base text-xs">
                         <tr v-for="(user, index) in users" :key="index" class="ann-item">
                             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
                                 {{ ++index }}
@@ -128,7 +128,7 @@ const deleteUserById = async (id, username) => {
                             <td class="ann-updated-on px-6 py-4 text-center justify-items-center">
                                 {{ changeDateTimeFormat(user.updatedOn) }}
                             </td>
-                            <td class="px-6 py-4 text-center">
+                            <td class="px-6 py-4 text-center flex">
                                 <router-link :to="{
                                     name: 'userEditDetail',
                                     params: { id: user.id },

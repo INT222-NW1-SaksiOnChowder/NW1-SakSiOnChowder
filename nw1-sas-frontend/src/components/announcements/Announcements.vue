@@ -59,16 +59,19 @@ const deleteAnnouncement = async (id) => {
 </script>
 
 <template>
-  <div class="flex w-full min-h-screen max-h-full bg-Background">
+  <div class="flex w-full min-h-screen max-h-full bg-Background"> 
     <div class="w-full">
-      <div class="flex font-bold py-7 items-center justify-center bg-LightBlue text-BlueFonts">
-        <h1 class="drop-shadow-lg xs:text-3xl sm:text-3xl  md:text-4xl text-sm">SIT Announcement Systems (SAS)</h1>
-        <Menubar />
+      <div class="flex font-bold py-7 items-center justify-center bg-LightBlue text-BlueFonts drop-shadow-lg">
+        <!-- responsive -->
+        <h1 class="drop-shadow-lg xs:text-3xl sm:text-3xl md:text-4xl text-sm">SIT Announcement System (SAS)</h1>
+        <Menubar class="items-center justify-center md:text-lg text-xs"/>
       </div>
       <div class="flex my-8 w-full text-xs  md:text-base items-center justify-between">
+        <!-- responsive -->
         <p class="mx-5 items-center justify-center text-center flex flex-col sm:flex-row">
-          <TimeZone class="my-2"></TimeZone>&nbsp; Date/Time shown in Timezone : &nbsp;
-          <span class="font-bold text-BlueFonts drop-shadow-sm">{{
+          <TimeZone></TimeZone>&nbsp; Date/Time shown in Timezone : &nbsp;
+          <!-- responsive -->
+          <span class="font-bold text-BlueFonts">{{
             timezone
           }}</span>
         </p>
@@ -77,6 +80,7 @@ const deleteAnnouncement = async (id) => {
           <router-link :to="{
                 name: 'addAnnouncement',
               }">
+              <!-- responsive -->
             <button class="ann-button px-5 py-2 md:text-lg font-bold">
               <AddIcon class="inline mr-2 mb-1"></AddIcon>Add Announcement
             </button>
@@ -87,11 +91,12 @@ const deleteAnnouncement = async (id) => {
         <table class="w-full text-sm h-full text-left">
           <thead class="md:text-base text-xs bg-DarkBlue uppercase text-BlueFonts">
             <tr>
+              <!-- responsive -->
               <th scope="col" class="px-6 py-3">No.</th>
-              <th scope="col" class="px-20 text-center py-3">Title</th>
+              <th scope="col" class="px-28 xl:px-6 text-left py-3">Title</th>
               <th scope="col" class="px-6 text-center py-3">Category</th>
-              <th scope="col" class="px-6 text-center py-3">Publish Date</th>
-              <th scope="col" class="px-6 text-center py-3">Close Date</th>
+              <th scope="col" class="md:px-6 px-16 text-center py-3">Publish Date</th>
+              <th scope="col" class="md:px-6 px-16 text-center py-3">Close Date</th>
               <th scope="col" class="px-6  py-3 text-center">Display</th>
               <!-- <th scope="col" class="px-6 py-3 text-center">Views</th> -->
               <th v-if="isShowOwner" scope="col" class="px-6 py-3 text-center">Owner</th>
@@ -99,8 +104,9 @@ const deleteAnnouncement = async (id) => {
             </tr>
           </thead>
 
-          <tbody v-if="!isAnnouncementFound" class="bg-Cream">
+          <tbody v-if="!isAnnouncementFound" class="bg-Cream md:text-base text-xs">
             <tr v-for="(announcement, index) in announcements" :key="index" class="ann-item">
+              <!-- responsive -->
               <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
                 {{ ++index }}
               </th>
