@@ -15,7 +15,6 @@ import UnsubscriptionPage from '../components/subscription/UnSubScription.vue'
 import { getAnnouncements } from "../composable/announcements/getInformation.js";
 import {userDetailStore} from "../composable/users/userDetailStore.js"
 
-// const userDetail = ref(JSON.parse(localStorage.getItem("userDetail")))
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes:
@@ -27,13 +26,6 @@ const router = createRouter({
       {
         path: `/admin/announcement`,
         name: 'announcements',
-        // beforeEnter: (to, from, next) => {
-        //   if (!localStorage.getItem('accessToken')) {
-        //     next('/login')
-        //   } else {
-        //     next()
-        //   }
-        // },
         component: Announcements
       },
       {
@@ -49,19 +41,16 @@ const router = createRouter({
             announcement.value.forEach(element => {
               announcementId.value.push(element.id)
             });
-            console.log(announcementId.value);
 
             announcementId.value.forEach(element => {
-              console.log(element);
               if (Number(to.params.id) === element) {
-                next();
                 announcementExits.value = false
+                next();
               } 
 
             });
             if (announcementExits.value === true) {
               alert(`You don't have permission to access this page.`)
-              console.log(to.params.id);
               next('/announcement');
             }
           } else {
@@ -87,19 +76,16 @@ const router = createRouter({
             announcement.value.forEach(element => {
               announcementId.value.push(element.id)
             });
-            console.log(announcementId.value);
 
             announcementId.value.forEach(element => {
-              console.log(element);
               if (Number(to.params.id) === element) {
-                next();
                 announcementExits.value = false
+                next();
               } 
 
             });
             if (announcementExits.value === true) {
               alert(`You don't have permission to access this page.`)
-              console.log(to.params.id);
               next('/announcement');
             }
           } else {
@@ -120,19 +106,16 @@ const router = createRouter({
             announcement.value.forEach(element => {
               announcementId.value.push(element.id)
             });
-            console.log(announcementId.value);
 
             announcementId.value.forEach(element => {
-              console.log(element);
               if (Number(to.params.id) === element) {
-                next();
                 announcementExits.value = false
+                next();
               } 
 
             });
             if (announcementExits.value === true) {
               alert(`You don't have permission to access this page.`)
-              console.log(to.params.id);
               next('/announcement');
             }
           } else {
