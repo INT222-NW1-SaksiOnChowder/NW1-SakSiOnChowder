@@ -99,8 +99,8 @@ const deleteUserById = async (id, username) => {
                             <th scope="col" class="px-6 py-3">Name</th>
                             <th scope="col" class="px-6 py-3">Email</th>
                             <th scope="col" class="px-6 py-3">Role</th>
-                            <th scope="col" class="px-6 py-3 text-center">Created On</th>
-                            <th scope="col" class="px-6 py-3 text-center">Updated On</th>
+                            <th scope="col" class="md:px-6 px-16 text-center py-3">Created On</th>
+                            <th scope="col" class="md:px-6 px-16 text-center py-3">Updated On</th>
                             <th scope="col" class="px-6 py-3 text-center">Action</th>
                         </tr>
                     </thead>
