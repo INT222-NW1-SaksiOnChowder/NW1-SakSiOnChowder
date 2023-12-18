@@ -128,7 +128,7 @@ const deleteUserById = async (id, username) => {
                             <td class="ann-updated-on px-6 py-4 text-center justify-items-center">
                                 {{ changeDateTimeFormat(user.updatedOn) }}
                             </td>
-                            <td class="px-6 py-4 text-center flex">
+                            <td class="px-6 py-4 text-center flex items-center justify-center">
                                 <router-link :to="{
                                     name: 'userEditDetail',
                                     params: { id: user.id },

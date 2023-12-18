@@ -131,7 +131,7 @@ const deleteAnnouncement = async (id) => {
               <td v-if="isShowOwner" class="ann-display px-6 py-4 text-center justify-items-center">
                 {{ announcement.announcementOwner }}
               </td>
-              <td class="px-6 py-4 text-center flex">
+              <td class="px-6 py-4 text-center flex items-center justify-center">
                 <router-link :to="{
                   name: 'announcementDetail',
                   params: { id: announcement.id },
