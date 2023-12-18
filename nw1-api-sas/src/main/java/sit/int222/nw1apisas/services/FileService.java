@@ -77,20 +77,6 @@ public class FileService {
     }
 
 
-    public Resource loadFileAsResource(String fileName) {
-        try {
-            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
-            Resource resource = new UrlResource(filePath.toUri());
-            if (resource.exists()) {
-                return resource;
-            } else {
-                throw new RuntimeException("File not found " + fileName);
-            }
-        } catch (MalformedURLException ex) {
-            throw new RuntimeException("File operation error: " + fileName, ex);
-        }
-    }
-
     public Resource loadFile(Integer id, String fileName) {
         try {
             Path directoryPath = this.fileStorageLocation.resolve(id.toString());
@@ -155,6 +141,10 @@ public class FileService {
     public String updateFile(MultipartFile[] files, Integer announcementId) {
         Path annFolder = this.fileStorageLocation.resolve(announcementId.toString());
         try {
+            if (!Files.exists(annFolder)) {
+                Files.createDirectories(annFolder);
+            }
+
             List<String> fileNames = Files.list(annFolder)
                     .filter(Files::isRegularFile)
                     .map(Path::getFileName)
@@ -166,7 +156,8 @@ public class FileService {
                 if (!uniqueFileNames.add(file.getOriginalFilename())) {
                     throw new BadRequestException("You have already selected the file name: " + file.getOriginalFilename(), "file");
                 }
-//            check file ที่มีอยู่กับ file ที่กำลังจะเพิ่มว่าเกิน 5 ไหม
+
+                // Check if the file count exceeds the limit
                 if (fileNames.size() + uniqueFileNames.size() > 5 && fileNames.stream().noneMatch(existsFile -> existsFile.equals(file.getOriginalFilename()))) {
                     throw new BadRequestException("Each upload is limited to a maximum of 5 files.", "file");
                 }

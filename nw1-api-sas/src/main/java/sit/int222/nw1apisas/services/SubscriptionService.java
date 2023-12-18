@@ -13,8 +13,8 @@ import sit.int222.nw1apisas.dtos.subscriptions.SubRequest;
 import sit.int222.nw1apisas.entities.Announcement;
 import sit.int222.nw1apisas.entities.Category;
 import sit.int222.nw1apisas.entities.Subscription;
-import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.exceptions.BadRequestException;
+import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.properties.JwtProperties;
 import sit.int222.nw1apisas.repositories.SubscriptionRepository;
 
@@ -163,7 +163,7 @@ public class SubscriptionService {
         try {
             claims = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(unsubToken).getBody();
         } catch (Exception e) {
-           throw new BadRequestException(e.getMessage(), "token");
+            throw new BadRequestException(e.getMessage(), "token");
         }
         String email = claims.getSubject();
         Integer categoryId = claims.get("categoryId", Integer.class);

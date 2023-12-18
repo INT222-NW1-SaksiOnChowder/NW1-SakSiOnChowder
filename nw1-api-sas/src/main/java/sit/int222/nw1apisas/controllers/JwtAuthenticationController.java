@@ -53,7 +53,7 @@ public class JwtAuthenticationController {
         if (jwtTokenUtil.validateToken(refreshToken, userDetails)) {
             // create new access token
             String userEmail = userRepository.findByUsername(userDetails.getUsername()).getEmail();
-            String newAccessToken = jwtTokenUtil.generateToken(userDetails,userEmail);
+            String newAccessToken = jwtTokenUtil.generateToken(userDetails, userEmail);
 
             // Return accessTokenDto response
             return ResponseEntity.ok(new AccessTokenResponse(newAccessToken));

@@ -51,7 +51,7 @@ public class AnnouncementService {
         announcement.setAnnouncementOwner(userService.getUserById(user.getId()));
 
         Announcement savedAnnouncement = announcementRepository.saveAndFlush(announcement);
-        if(announcementItemDto.getPublishDate() == null && announcement.getAnnouncementDisplay().equals("Y")){
+        if (announcementItemDto.getPublishDate() == null && announcement.getAnnouncementDisplay().equals("Y")) {
             subscriptionService.sendNewAnnouncementToSubscribers(savedAnnouncement);
         }
 
@@ -70,13 +70,12 @@ public class AnnouncementService {
                     subscriptionService.sendNewAnnouncementToSubscribers(announcement);
                     System.out.println("Sent mail successful");
                 }
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
         });
 
     }
-
 
 
     public String deleteAnnouncement(Integer id) {
@@ -114,7 +113,7 @@ public class AnnouncementService {
                 existingAnnouncement.setCloseDate(announcementItemDto.getCloseDate());
                 existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
                 Announcement savedAnnouncement = announcementRepository.saveAndFlush(existingAnnouncement);
-                if(existingAnnouncement.getPublishDate() == null && existingAnnouncement.getAnnouncementDisplay().equals("Y")){
+                if (existingAnnouncement.getPublishDate() == null && existingAnnouncement.getAnnouncementDisplay().equals("Y")) {
                     subscriptionService.sendNewAnnouncementToSubscribers(savedAnnouncement);
                 }
                 return savedAnnouncement;
@@ -128,7 +127,7 @@ public class AnnouncementService {
                     existingAnnouncement.setCloseDate(announcementItemDto.getCloseDate());
                     existingAnnouncement.setAnnouncementDisplay(announcementItemDto.getAnnouncementDisplay());
                     Announcement savedAnnouncement = announcementRepository.saveAndFlush(existingAnnouncement);
-                    if(existingAnnouncement.getPublishDate() == null && existingAnnouncement.getAnnouncementDisplay().equals("Y")){
+                    if (existingAnnouncement.getPublishDate() == null && existingAnnouncement.getAnnouncementDisplay().equals("Y")) {
                         subscriptionService.sendNewAnnouncementToSubscribers(savedAnnouncement);
                     }
                     return savedAnnouncement;

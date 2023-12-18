@@ -1,7 +1,6 @@
 package sit.int222.nw1apisas.controllers;
 
 
-import io.jsonwebtoken.Claims;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +20,7 @@ public class SubscriptionController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/subscribe")
-    public OtpTokenResponse subscribeCategory(@RequestBody SubRequest subRequest) throws MessagingException{
+    public OtpTokenResponse subscribeCategory(@RequestBody SubRequest subRequest) throws MessagingException {
         String token = subscriptionService.subscribeCategoryAndSendOtp(subRequest);
         OtpTokenResponse otpTokenResponse = new OtpTokenResponse();
         otpTokenResponse.setOtpToken(token);

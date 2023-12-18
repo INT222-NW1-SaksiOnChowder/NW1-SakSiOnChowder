@@ -2,18 +2,14 @@ package sit.int222.nw1apisas.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sit.int222.nw1apisas.exceptions.BadRequestException;
-import sit.int222.nw1apisas.exceptions.ItemNotFoundException;
 import sit.int222.nw1apisas.services.FileService;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -83,9 +79,7 @@ public class FileController {
             if (!fileNames.add(originalFileName)) {
                 throw new BadRequestException("You have already selected the file name: " + originalFileName, "file");
             }
-        }
-//        store file
-        for (MultipartFile file : files) {
+//            store file
             fileService.store(file, announcementId);
             System.out.println(file);
         }
