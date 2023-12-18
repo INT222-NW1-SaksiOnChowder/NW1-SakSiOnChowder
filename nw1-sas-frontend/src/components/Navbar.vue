@@ -61,8 +61,8 @@ const clearTokenButton = () => {
         <div id="dropdownNavbar" v-show="isShowMenuBar"
             class="z-13 text-sm lg:right-12 right-5 absolute font-normal rounded-xl bg-white divide-y divide-gray-100 shadow w-44">
             <div class="flex flex-col items-center w-full">
-                <div class="py-2 flex items-center justify-center rounded-t-xl bg-gray-200 w-full">
-                    <AccountIcon class="mr-2"/>
+                <div class="py-2 flex space-x-1 items-center justify-center rounded-t-xl bg-gray-200 w-full">
+                    <AccountIcon />
                     <p class="text-lg font-semibold">{{ userDetails.sub }}</p>
                 </div>
                 <router-link :to="{ name: 'userViewAnnouncement' }" @click="closeMenuBar"
