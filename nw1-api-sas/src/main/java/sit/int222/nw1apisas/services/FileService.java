@@ -166,13 +166,16 @@ public class FileService {
                 if (!uniqueFileNames.add(file.getOriginalFilename())) {
                     throw new BadRequestException("You have already selected the file name: " + file.getOriginalFilename(), "file");
                 }
-//            check file ที่มีอยู่กับ file ที่กำลังจะเพิ่มว่าเกิน 5 ไหม
+                // Check if the file count exceeds the limit
                 if (fileNames.size() + uniqueFileNames.size() > 5 && fileNames.stream().noneMatch(existsFile -> existsFile.equals(file.getOriginalFilename()))) {
                     throw new BadRequestException("Each upload is limited to a maximum of 5 files.", "file");
                 }
+            }
 
+            for (MultipartFile file : files) {
                 store(file, announcementId);
             }
+
             return "Update File Successful";
         } catch (IOException e) {
             return e.getMessage();
