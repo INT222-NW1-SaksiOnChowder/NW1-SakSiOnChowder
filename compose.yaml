@@ -35,6 +35,7 @@ services:
       - dbserver
     volumes:
       - ./nw1-api-sas/target:/app
+      - /home/three/sas/INT222-NW1-Release2/file:/public/sas/uploads/
     environment:
       - mysql_user=chowder1
       - mysql_password=nw1@chowder
